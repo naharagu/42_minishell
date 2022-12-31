@@ -43,9 +43,6 @@ SRCS    = 	ft_atoi.c \
 			ft_lstdelone.c \
 			ft_lstclear.c \
 			ft_lstiter.c \
-			ft_printf.c \
-			ft_printf_utils.c \
-			ft_printf_utils2.c
 
 NAME		= libft.a
 
