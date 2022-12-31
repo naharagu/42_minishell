@@ -10,6 +10,7 @@ LIB			=	./libft/libft.a
 
 $(NAME): $(OBJS)
 	make -C $(LIB_DIR)
+	$(CC) $(C_FLAGS) $(OBJS) -o $(NAME)
 	$(CC) $(C_FLAGS) $(OBJS) -o $(NAME) $(LIB)
 
 $(OBJS_DIR)%.o: %.c
@@ -19,8 +20,8 @@ $(OBJS_DIR)%.o: %.c
 all: $(NAME)
 
 clean:
-	make -C $(LIB_DIR) clean
 	rm -f $(OBJS)
+	make -C $(LIB_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
