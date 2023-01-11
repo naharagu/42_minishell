@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 22:47:25 by naharagu          #+#    #+#             */
-/*   Updated: 2022/12/31 15:39:14 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/01/03 15:18:08 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,25 @@
 void	init_struct_ms(t_minishell *ms)
 {
 	ms = malloc(sizeof(t_minishell));
+	if (!ms)
+		exit(0);
 	ms->exit_status = 0;
 	return ;
+}
+
+void	minishell(t_minishell *ms)
+{
+	char	*input;
+
+	while (1)
+	{
+		input = readline("minishell$>");
+		add_history(input);
+		printf("%s\n", input);
+
+		free(input);
+	}
+	exit(ms->exit_status);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -24,5 +41,6 @@ int	main(int argc, char **argv, char **env)
 	t_minishell	*ms;
 
 	init_struct_ms(ms);
+	minishell(ms);
 	return (0);
 }
