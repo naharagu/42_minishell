@@ -6,22 +6,13 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/12 11:48:05 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/12 13:19:10 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //static int	check_arg(int argc, char **argv);
-
-void	init_struct_ms(t_minishell *ms)
-{
-	ms = malloc(sizeof(t_minishell));
-	if (!ms)
-		exit(EXIT_FAILURE);
-	ms->exit_status = 0;
-	return ;
-}
 
 void	minishell(t_minishell *ms)
 {
