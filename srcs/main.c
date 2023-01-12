@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/12 11:15:40 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/12 11:48:05 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	init_struct_ms(t_minishell *ms)
 {
 	ms = malloc(sizeof(t_minishell));
 	if (!ms)
-		exit(0);
+		exit(EXIT_FAILURE);
 	ms->exit_status = 0;
 	return ;
 }
@@ -45,12 +45,6 @@ int	main(int argc, char **argv, char **env)
 	minishell(ms);
 	return (0);
 }
-
-// int	main(int argc, char **argv)
-// {
-// 	if (check_arg(argc, argv))
-// 		return (1);
-// }
 
 // static int	check_arg(int argc, char **argv)
 // {
