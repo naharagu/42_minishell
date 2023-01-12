@@ -6,7 +6,7 @@
 #    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/01/12 11:13:11 by shimakaori       ###   ########.fr        #
+#    Updated: 2023/01/12 13:17:35 by shimakaori       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ C_FLAGS 	=	-Wall -Werror -Wextra -g -fsanitize=address
 RL_FLAGS 	=	-I $(shell brew --prefix readline)/include -lreadline -lhistory -L$(shell brew --prefix readline)/lib
 INCLUDE		=   -I include -I $(LIB_DIR)
 VPATH 		=   srcs
-SRCS		= 	main.c
+SRCS		= 	main.c \
+				init.c
 OBJS_DIR	=	./obj/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
 LIB_DIR		= 	./libft
