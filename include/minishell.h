@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/12 11:03:25 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/12 12:37:01 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,33 @@ typedef struct s_minishell
 {
 	int	exit_status;
 }	t_minishell;
+
+typedef enum e_quote
+{
+	S_QUOTE,
+	D_QUOTE,
+	END_S_QUOTE,
+	END_D_QUOTE,
+}	t_quote;
+
+typedef enum e_redirection
+{
+	INPUT,
+	OUTPUT,
+	HERE_DOC,
+	APPEND
+}	t_redirection;
+
+typedef enum e_cmd
+{
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT
+}	t_cmd;
 
 // main.c
 
