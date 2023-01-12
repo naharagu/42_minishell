@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/12 14:47:44 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/12 15:31:21 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # include <termcap.h> 
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "libft.h"
 
 // # define 
 
@@ -81,7 +82,7 @@ typedef enum e_cmd
 
 typedef struct s_mslist
 {
-	char			*str;
+	char			**str;
 	int				quote;
 	int				redirect;
 	int				cmd;
@@ -93,7 +94,8 @@ typedef struct s_token
 {
 	int				pipe;
 	size_t			num;
-	t_mslist		list;
+	char			**split;
+	t_mslist		*list;
 }	t_token;
 
 // main.c

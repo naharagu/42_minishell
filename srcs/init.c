@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/12 14:49:15 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/12 15:17:35 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ t_token	*init_token(t_token *token)
 		exit(EXIT_FAILURE);
 	token->pipe = NO_PIPE;
 	token->num = 1;
+	token->split = NULL;
 	// printf("%zu\n", token->num);
 	// printf("%p\n", &token->num);
-	init_mslist(&token->list);
+	init_mslist(token->list);
 	return (token);
 }
