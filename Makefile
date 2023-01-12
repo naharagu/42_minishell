@@ -1,20 +1,35 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
+#    Updated: 2023/01/12 11:13:11 by shimakaori       ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME		=	minishell
 CC			=	gcc
 C_FLAGS 	=	-Wall -Werror -Wextra -g -fsanitize=address
 # C_FLAGS 	=	-Wall -Werror -Wextra
-LIB_DIR		= 	./libft
+RL_FLAGS 	=	-I $(shell brew --prefix readline)/include -lreadline -lhistory -L$(shell brew --prefix readline)/lib
+INCLUDE		=   -I include -I $(LIB_DIR)
+VPATH 		=   srcs
 SRCS		= 	main.c
-NAME		=	minishell
 OBJS_DIR	=	./obj/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
+LIB_DIR		= 	./libft
 LIB			=	./libft/libft.a
 
 $(NAME): $(OBJS)
 	make -C $(LIB_DIR)
-	$(CC) $(C_FLAGS) $(OBJS) -o $(NAME) $(LIB)
+	$(CC) $(C_FLAGS) $(RL_FLAGS) $(OBJS) -o $(NAME) $(LIB)
 
 $(OBJS_DIR)%.o: %.c
 		mkdir -p $(OBJS_DIR)
-		$(CC) $(CFLAGS) -o $@ -c $<
+		$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 all: $(NAME)
 
