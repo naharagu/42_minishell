@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/12 12:37:01 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/12 13:27:33 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,33 @@ typedef struct s_minishell
 
 typedef enum e_quote
 {
+	NO_QUOTE,
 	S_QUOTE,
 	D_QUOTE,
 	END_S_QUOTE,
 	END_D_QUOTE,
 }	t_quote;
 
-typedef enum e_redirection
+typedef enum e_redirect
 {
+	NO_REDIRECT,
 	INPUT,
 	OUTPUT,
 	HERE_DOC,
 	APPEND
-}	t_redirection;
+}	t_redirect;
+
+typedef enum e_pipe
+{
+	NO_PIPE,
+	READ,
+	WRITE,
+	READ_WRITE
+}	t_pipe;
 
 typedef enum e_cmd
 {
+	NO_CMD,
 	ECHO,
 	CD,
 	PWD,
@@ -68,6 +79,26 @@ typedef enum e_cmd
 	EXIT
 }	t_cmd;
 
+typedef struct s_mslist
+{
+	char			*str;
+	t_quote			quote;
+	t_redirect		*redirect;
+	t_cmd			cmd;
+	struct s_mslist	*next;
+	struct s_mslist	*prev;
+}	t_mslist;
+
+typedef struct s_token
+{
+	t_pipe			pipe;
+	size_t			num;
+	t_mslist		list;
+}	t_token;
+
 // main.c
+
+//init.c
+void	init_struct_ms(t_minishell *ms);
 
 #endif
