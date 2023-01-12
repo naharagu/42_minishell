@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/12 13:19:10 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/12 14:49:10 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,35 @@
 
 //static int	check_arg(int argc, char **argv);
 
+void	check_input(char *input, t_token *token)
+{
+	size_t	i;
+
+	i = 0;
+	while (input[i] != '\0')
+	{
+		//printf("%c", input[i]);
+		if (input[i] == '|')
+			token->num++;
+		i++;
+	}
+	printf("%zu\n", token->num);
+}
+
 void	minishell(t_minishell *ms)
 {
 	char	*input;
+	t_token	*token;
 
+	token = init_token(token);
+	// printf("%zu\n", token->num);
+	// printf("%p\n", &token->num);
 	while (1)
 	{
 		input = readline("minishell$>");
 		add_history(input);
 		printf("%s\n", input);
+		check_input(input, token);
 		free(input);
 	}
 	exit(ms->exit_status);

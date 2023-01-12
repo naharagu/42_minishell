@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/12 13:27:33 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/12 14:47:44 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,28 +70,28 @@ typedef enum e_pipe
 typedef enum e_cmd
 {
 	NO_CMD,
-	ECHO,
-	CD,
-	PWD,
-	EXPORT,
-	UNSET,
-	ENV,
-	EXIT
+	ECHO_CMD,
+	CD_CMD,
+	PWD_CMD,
+	EXPORT_CMD,
+	UNSET_CMD,
+	ENV_CMD,
+	EXIT_CMD
 }	t_cmd;
 
 typedef struct s_mslist
 {
 	char			*str;
-	t_quote			quote;
-	t_redirect		*redirect;
-	t_cmd			cmd;
+	int				quote;
+	int				redirect;
+	int				cmd;
 	struct s_mslist	*next;
 	struct s_mslist	*prev;
 }	t_mslist;
 
 typedef struct s_token
 {
-	t_pipe			pipe;
+	int				pipe;
 	size_t			num;
 	t_mslist		list;
 }	t_token;
@@ -100,5 +100,6 @@ typedef struct s_token
 
 //init.c
 void	init_struct_ms(t_minishell *ms);
+t_token	*init_token(t_token *token);
 
 #endif

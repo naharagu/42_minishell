@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/12 13:39:11 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/12 14:49:15 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,17 @@ void	init_mslist(t_mslist *list)
 	list->quote = NO_QUOTE;
 	list->redirect = NO_REDIRECT;
 	list->cmd = NO_CMD;
-	init_mslist(list->next);
-	init_mslist(list->prev);
 }
 
-void	init_token(t_token *token)
+t_token	*init_token(t_token *token)
 {
 	token = malloc(sizeof(t_token));
 	if (!token)
 		exit(EXIT_FAILURE);
 	token->pipe = NO_PIPE;
-	token->num = 0;
-	init_mslist(token->list);
+	token->num = 1;
+	// printf("%zu\n", token->num);
+	// printf("%p\n", &token->num);
+	init_mslist(&token->list);
+	return (token);
 }
