@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/12 15:49:59 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/13 14:15:28 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,67 @@
 
 //static int	check_arg(int argc, char **argv);
 
+bool	is_quoted(char c, t_mslist *list)
+{
+	printf("%c\n", c);//
+	printf("%d\n", list->quote);//
+	if (list->quote == S_QUOTE && c == '\'')
+	{
+		list->quote = END_S_QUOTE;
+		return (true);
+	}
+	else if (c == '\'')
+	{
+		list->quote = S_QUOTE;
+		return (true);
+	}
+	else if (list->quote == D_QUOTE && c == '\"')
+	{
+		list->quote = END_D_QUOTE;
+		return (true);
+	}
+	else if (c == '\"')
+	{
+		list->quote = D_QUOTE;
+		return (true);
+	}
+	return (false);
+}
+
+bool	is_delimiter(char c)
+{
+	if (c == ' ' || c == '|' || c == '<' || c == '>')
+		return (true);
+	else
+		return (false);
+}
+
 void	check_input(char *input, t_token *token)
 {
-	size_t	i;
+	t_mslist	*list;
+	size_t		i;
+	size_t		j;
 
+	list = init_mslist(list);
 	i = 0;
-	token->split = ft_split(input, '|');
-	while (token->split[i])
-	{
-		printf("%s\n", token->split[i]);
-		// token->list->str = ft_split(token->split[i], ' ');
-		// printf("%s\n", token->list->str[i]);
-		i++;
-	}
-	i = 0;
+	j = 0;
 	while (input[i] != '\0')
 	{
-		if (input[i] == '|')
-			token->num++;
-		i++;
+		while (!(is_quoted(input[i], list)) && !(is_delimiter(input[i])))
+			i++;
+		printf("%zu\n", i);//
+		list->str = ft_calloc(sizeof(char), (i + 1));
+		if (!(list->str))
+			return ;
+		while (j < i)
+		{
+			list->str[j] = input[j];
+			j++;
+		}
+		printf("%s\n", list->str);//
+		list->prev = list;
+		list = list->next;
 	}
-	//printf("%zu\n", token->num);
 }
 
 void	minishell(t_minishell *ms)
@@ -49,7 +89,7 @@ void	minishell(t_minishell *ms)
 	{
 		input = readline("minishell$>");
 		add_history(input);
-		printf("%s\n", input);
+		//printf("%s\n", input);
 		check_input(input, token);
 		free(input);
 	}

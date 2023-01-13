@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/12 15:31:21 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/13 13:57:16 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,8 @@ typedef enum e_cmd
 
 typedef struct s_mslist
 {
-	char			**str;
+	char			*str;
+	int				pipe;
 	int				quote;
 	int				redirect;
 	int				cmd;
@@ -92,16 +93,16 @@ typedef struct s_mslist
 
 typedef struct s_token
 {
-	int				pipe;
 	size_t			num;
 	char			**split;
-	t_mslist		*list;
+	//t_mslist		*list;
 }	t_token;
 
 // main.c
 
 //init.c
-void	init_struct_ms(t_minishell *ms);
-t_token	*init_token(t_token *token);
+void		init_struct_ms(t_minishell *ms);
+t_mslist	*init_mslist(t_mslist *list);
+t_token		*init_token(t_token *token);
 
 #endif
