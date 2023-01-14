@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/14 16:55:37 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/14 22:20:43 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ bool	is_quoted(char c, t_mslist *list)
 
 bool	is_delimiter(char c)
 {
-	if (c == ' ' || c == '|' || c == '<' || c == '>' || c == '\n' || c == '\0')
+	if (c == ' ' || c == '|' || c == '<' || c == '>')
 		return (true);
 	else
 		return (false);
@@ -56,7 +56,7 @@ void	check_input(char *input, t_token *token)
 	size_t		len;
 	char		*str;
 
-	list = ms_lstnew(0, NULL);
+	list = NULL;
 	while (*input)
 	{
 		printf("input= %s\n", input);//
@@ -68,13 +68,12 @@ void	check_input(char *input, t_token *token)
 			input++;
 			len++;
 		}
-		printf("input= %c\n", *input);//
 		printf("len= %zu\n", len);//
 		tmp = ms_lstnew(len, str);
 		ms_lstadd_back(&list, tmp);
 		printf("list->str= %s\n", list->str);//
-		printf("list->next->str= %s\n", list->next->str);//
-		input++;
+		while ((is_quoted(*input, list)) || (is_delimiter(*input)))
+			input++;
 		list = list->next;
 	}
 }
