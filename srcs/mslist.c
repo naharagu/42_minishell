@@ -6,20 +6,29 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:01:38 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/14 15:11:26 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/14 16:14:25 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_mslist	*ms_lstnew(long value)
+t_mslist	*ms_lstnew(size_t len, char *str)
 {
 	t_mslist	*new;
+	size_t		j;
 
 	new = (t_mslist *)malloc(sizeof(t_mslist));
 	if (!new)
 		return (NULL);
-	new->str = NULL;
+	new->str = ft_calloc(sizeof(char), (len + 1));
+	if (!(new->str))
+		return (NULL);
+	j = 0;
+	while (j < len)
+	{
+		new->str[j] = str[j];
+		j++;
+	}
 	new->pipe = NO_PIPE;
 	new->quote = NO_QUOTE;
 	new->redirect = NO_REDIRECT;
@@ -59,7 +68,7 @@ void	ms_lstadd_front(t_mslist **lst, t_mslist *new)
 	*lst = new;
 }
 
-void	ms_lstadd_back(t_pslist **lst, t_pslist *new)
+void	ms_lstadd_back(t_mslist **lst, t_mslist *new)
 {
 	t_mslist	*last;
 

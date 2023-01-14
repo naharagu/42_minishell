@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/13 13:57:16 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/14 15:54:26 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,12 @@ typedef struct s_token
 void		init_struct_ms(t_minishell *ms);
 t_mslist	*init_mslist(t_mslist *list);
 t_token		*init_token(t_token *token);
+
+//mslist.c
+t_mslist	*ms_lstnew(size_t len, char *str);
+t_mslist	*ms_lstlast(t_mslist *lst);
+void		ms_lstadd_front(t_mslist **lst, t_mslist *new);
+void		ms_lstadd_back(t_mslist **lst, t_mslist *new);
+int			ms_lstsize(t_mslist *lst);
 
 #endif

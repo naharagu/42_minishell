@@ -6,7 +6,7 @@
 #    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/01/12 15:30:45 by shimakaori       ###   ########.fr        #
+#    Updated: 2023/01/14 15:52:26 by shimakaori       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ RL_FLAGS 	=	-I $(shell brew --prefix readline)/include -lreadline -lhistory -L$(
 INCLUDE		=   -I include -I $(LIB_DIR)
 VPATH 		=   srcs
 SRCS		= 	main.c \
-				init.c
+				init.c \
+				mslist.c
 OBJS_DIR	=	./obj/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
 LIB_DIR		= 	./libft

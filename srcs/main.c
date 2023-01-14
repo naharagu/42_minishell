@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/13 14:15:28 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/14 16:55:37 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,34 @@
 
 bool	is_quoted(char c, t_mslist *list)
 {
-	printf("%c\n", c);//
-	printf("%d\n", list->quote);//
-	if (list->quote == S_QUOTE && c == '\'')
-	{
-		list->quote = END_S_QUOTE;
-		return (true);
-	}
-	else if (c == '\'')
-	{
-		list->quote = S_QUOTE;
-		return (true);
-	}
-	else if (list->quote == D_QUOTE && c == '\"')
-	{
-		list->quote = END_D_QUOTE;
-		return (true);
-	}
-	else if (c == '\"')
-	{
-		list->quote = D_QUOTE;
-		return (true);
-	}
+	//printf("c= %c\n", c);//
+	//printf("quote= %d\n", list->quote);//
+	// if (list->quote == S_QUOTE && c == '\'')
+	// {
+	// 	list->quote = END_S_QUOTE;
+	// 	return (true);
+	// }
+	// else if (c == '\'')
+	// {
+	// 	list->quote = S_QUOTE;
+	// 	return (true);
+	// }
+	// else if (list->quote == D_QUOTE && c == '\"')
+	// {
+	// 	list->quote = END_D_QUOTE;
+	// 	return (true);
+	// }
+	// else if (c == '\"')
+	// {
+	// 	list->quote = D_QUOTE;
+	// 	return (true);
+	// }
 	return (false);
 }
 
 bool	is_delimiter(char c)
 {
-	if (c == ' ' || c == '|' || c == '<' || c == '>')
+	if (c == ' ' || c == '|' || c == '<' || c == '>' || c == '\n' || c == '\0')
 		return (true);
 	else
 		return (false);
@@ -52,27 +52,29 @@ bool	is_delimiter(char c)
 void	check_input(char *input, t_token *token)
 {
 	t_mslist	*list;
-	size_t		i;
-	size_t		j;
+	t_mslist	*tmp;
+	size_t		len;
+	char		*str;
 
-	list = init_mslist(list);
-	i = 0;
-	j = 0;
-	while (input[i] != '\0')
+	list = ms_lstnew(0, NULL);
+	while (*input)
 	{
-		while (!(is_quoted(input[i], list)) && !(is_delimiter(input[i])))
-			i++;
-		printf("%zu\n", i);//
-		list->str = ft_calloc(sizeof(char), (i + 1));
-		if (!(list->str))
-			return ;
-		while (j < i)
+		printf("input= %s\n", input);//
+		len = 0;
+		str = ft_strdup(input);
+		printf("str= %s\n", str);//
+		while (*input && !(is_quoted(*input, list)) && !(is_delimiter(*input)))
 		{
-			list->str[j] = input[j];
-			j++;
+			input++;
+			len++;
 		}
-		printf("%s\n", list->str);//
-		list->prev = list;
+		printf("input= %c\n", *input);//
+		printf("len= %zu\n", len);//
+		tmp = ms_lstnew(len, str);
+		ms_lstadd_back(&list, tmp);
+		printf("list->str= %s\n", list->str);//
+		printf("list->next->str= %s\n", list->next->str);//
+		input++;
 		list = list->next;
 	}
 }
@@ -89,7 +91,7 @@ void	minishell(t_minishell *ms)
 	{
 		input = readline("minishell$>");
 		add_history(input);
-		//printf("%s\n", input);
+		//printf("%s\n", input);//
 		check_input(input, token);
 		free(input);
 	}
