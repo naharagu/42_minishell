@@ -6,13 +6,11 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/14 22:27:25 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/14 22:36:53 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//static int	check_arg(int argc, char **argv);
 
 bool	is_quoted(char c, t_mslist *list)
 {
@@ -43,7 +41,7 @@ bool	is_quoted(char c, t_mslist *list)
 
 bool	is_delimiter(char c)
 {
-	if (c == ' ' || c == '|' || c == '<' || c == '>')
+	if (c == ' ')
 		return (true);
 	else
 		return (false);
@@ -59,16 +57,13 @@ void	split_input(char *input)
 	list = NULL;
 	while (*input)
 	{
-		printf("input= %s\n", input);//
 		len = 0;
 		str = ft_strdup(input);
-		printf("str= %s\n", str);//
 		while (*input && !(is_quoted(*input, list)) && !(is_delimiter(*input)))
 		{
 			input++;
 			len++;
 		}
-		printf("len= %zu\n", len);//
 		tmp = ms_lstnew(len, str);
 		ms_lstadd_back(&list, tmp);
 		printf("list->str= %s\n", list->str);//
@@ -81,11 +76,7 @@ void	split_input(char *input)
 void	minishell(t_minishell *ms)
 {
 	char	*input;
-	//t_token	*token;
 
-	//token = init_token(token);
-	// printf("%zu\n", token->num);
-	// printf("%p\n", &token->num);
 	while (1)
 	{
 		input = readline("minishell$>");
@@ -105,31 +96,3 @@ int	main(int argc, char **argv, char **env)
 	minishell(ms);
 	return (0);
 }
-
-// static int	check_arg(int argc, char **argv)
-// {
-// 	size_t	i;
-// 	size_t	j;
-
-// 	if (argc < 5 || argc > 6)
-// 	{
-// 		printf("Invalid Argument\n");
-// 		return (1);
-// 	}
-// 	i = 1;
-// 	while (i < argc)
-// 	{
-// 		j = 0;
-// 		while (argv[i][j] != '\0')
-// 		{
-// 			if (ft_isdigit(argv[i][j]) == 0)
-// 			{
-// 				printf("Error: Invalid Argument\n");
-// 				return (1);
-// 			}
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }
