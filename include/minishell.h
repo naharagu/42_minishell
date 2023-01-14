@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/14 15:54:26 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/14 22:26:56 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,19 +91,18 @@ typedef struct s_mslist
 	struct s_mslist	*prev;
 }	t_mslist;
 
-typedef struct s_token
-{
-	size_t			num;
-	char			**split;
-	//t_mslist		*list;
-}	t_token;
+// typedef struct s_token
+// {
+// 	size_t			num;
+// 	char			**split;
+// }	t_token;
 
 // main.c
 
 //init.c
 void		init_struct_ms(t_minishell *ms);
 t_mslist	*init_mslist(t_mslist *list);
-t_token		*init_token(t_token *token);
+//t_token		*init_token(t_token *token);
 
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);

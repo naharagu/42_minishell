@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/14 22:20:43 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/14 22:27:25 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool	is_delimiter(char c)
 		return (false);
 }
 
-void	check_input(char *input, t_token *token)
+void	split_input(char *input)
 {
 	t_mslist	*list;
 	t_mslist	*tmp;
@@ -81,9 +81,9 @@ void	check_input(char *input, t_token *token)
 void	minishell(t_minishell *ms)
 {
 	char	*input;
-	t_token	*token;
+	//t_token	*token;
 
-	token = init_token(token);
+	//token = init_token(token);
 	// printf("%zu\n", token->num);
 	// printf("%p\n", &token->num);
 	while (1)
@@ -91,7 +91,7 @@ void	minishell(t_minishell *ms)
 		input = readline("minishell$>");
 		add_history(input);
 		//printf("%s\n", input);//
-		check_input(input, token);
+		split_input(input);
 		free(input);
 	}
 	exit(ms->exit_status);
