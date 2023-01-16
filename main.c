@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 22:47:25 by naharagu          #+#    #+#             */
-/*   Updated: 2023/01/03 15:18:08 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/01/16 20:57:57 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ void	minishell(t_minishell *ms)
 	while (1)
 	{
 		input = readline("minishell$>");
+		if (!input)
+			break ;
 		add_history(input);
 		printf("%s\n", input);
-
 		free(input);
 	}
 	exit(ms->exit_status);
