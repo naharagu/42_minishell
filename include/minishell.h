@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/14 22:36:31 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/16 12:46:46 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,6 @@
 # include "libft.h"
 
 // # define 
-
-typedef struct s_minishell
-{
-	int	exit_status;
-}	t_minishell;
 
 typedef enum e_quote
 {
@@ -80,11 +75,17 @@ typedef enum e_cmd
 	EXIT_CMD
 }	t_cmd;
 
+typedef struct s_minishell
+{
+	int		exit_status;
+	char	*input;
+	int		quote;
+}	t_minishell;
+
 typedef struct s_mslist
 {
 	char			*str;
 	int				pipe;
-	int				quote;
 	int				redirect;
 	int				cmd;
 	struct s_mslist	*next;
@@ -94,7 +95,7 @@ typedef struct s_mslist
 // main.c
 
 //init.c
-void		init_struct_ms(t_minishell *ms);
+t_minishell	*init_struct_ms(t_minishell *ms);
 t_mslist	*init_mslist(t_mslist *list);
 
 //mslist.c
