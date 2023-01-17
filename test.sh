@@ -1,3 +1,9 @@
+# !/bin/bash
+
+cleanup() {
+	rm -f cmp out
+}
+
 assert() {
 	printf '%-30s:' "\"$1\""
 	# exit status
@@ -15,6 +21,10 @@ assert() {
 	fi
 	echo
 }
-
 # Empty line (EOF)
+
 assert ''
+assert '/bin/pwd'
+assert '/bin/echo'
+cleanup
+echo 'all OK'
