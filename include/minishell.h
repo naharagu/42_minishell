@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/16 12:46:46 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/18 13:44:44 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ typedef enum e_quote
 {
 	NO_QUOTE,
 	S_QUOTE,
-	D_QUOTE,
 	END_S_QUOTE,
+	D_QUOTE,
 	END_D_QUOTE,
 }	t_quote;
 
@@ -104,5 +104,10 @@ t_mslist	*ms_lstlast(t_mslist *lst);
 void		ms_lstadd_front(t_mslist **lst, t_mslist *new);
 void		ms_lstadd_back(t_mslist **lst, t_mslist *new);
 int			ms_lstsize(t_mslist *lst);
+
+//bool.c
+bool		is_quoted(char c, t_minishell *ms);
+bool		is_delimiter(char c);
+bool		is_space(char c);
 
 #endif

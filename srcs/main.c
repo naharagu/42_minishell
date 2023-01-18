@@ -6,85 +6,22 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/18 12:46:35 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/18 13:47:29 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_quoted(char c, t_minishell *ms)
-{
-	if (c == '\'' && ms->quote == S_QUOTE)
-		ms->quote = END_S_QUOTE;
-	else if (c == '\'' && ms->quote == NO_QUOTE)
-		ms->quote = S_QUOTE;
-	else if (c == '\"' && ms->quote == D_QUOTE)
-		ms->quote = END_D_QUOTE;
-	else if (c == '\"' && ms->quote == NO_QUOTE)
-		ms->quote = D_QUOTE;
-	printf("c= %c\n", c);//
-	printf("quote= %d\n", ms->quote);//
-	if (ms->quote == S_QUOTE || ms->quote == D_QUOTE || \
-		ms->quote == END_S_QUOTE || ms->quote == END_D_QUOTE)
-		return (true);
-	return (false);
-}
+void	minishell(t_minishell *ms);
+void	split_token(t_minishell *ms);
 
-bool	is_delimiter(char c, t_minishell *ms)
+int	main(int argc, char **argv, char **env)
 {
-	if (c == '|' || c == '>' || c == '<' || c == ';')
-		return (true);
-	else
-		return (false);
-}
+	t_minishell	*ms;
 
-//quote分割未対応
-void	split_token(t_minishell *ms)
-{
-	t_mslist	*list;
-	t_mslist	*tmp;
-	size_t		len;
-	char		*str;
-	size_t		i;
-
-	list = NULL;
-	while (*ms->input)
-	{
-		len = 0;
-		str = ft_strdup(ms->input);
-		while (*ms->input && *ms->input != ' ' \
-			&& !(is_delimiter(*ms->input, ms)))
-		{
-			ms->input++;
-			len++;
-		}
-		printf("c= %c\n", *ms->input);//
-		printf("len= %zu\n", len);//
-		// while (*ms->input && is_quoted(*ms->input, ms))
-		// {
-		// 	ms->input++;
-		// 	len++;
-		// }
-		if (len > 0)
-		{
-			tmp = ms_lstnew(len, str);
-			ms_lstadd_back(&list, tmp);
-		}
-		if (is_delimiter(*ms->input, ms))
-		{
-			tmp = ms_lstnew(1, ms->input);
-			ms_lstadd_back(&list, tmp);
-		}
-		ms->input++;
-		free(str);
-	}
-	i = 0;
-	while (i < ms_lstsize(list))
-	{
-		printf("str= %s\n", list->str);//
-		list = list->next;//
-		i++;
-	}
+	ms = init_struct_ms(ms);
+	minishell(ms);
+	return (0);
 }
 
 void	minishell(t_minishell *ms)
@@ -100,11 +37,50 @@ void	minishell(t_minishell *ms)
 	exit(ms->exit_status);
 }
 
-int	main(int argc, char **argv, char **env)
+void	split_token(t_minishell *ms)
 {
-	t_minishell	*ms;
+	t_mslist	*list;
+	t_mslist	*tmp;
+	size_t		len;
+	char		*str;
+	size_t		i;
 
-	ms = init_struct_ms(ms);
-	minishell(ms);
-	return (0);
+	list = NULL;
+	while (*ms->input)
+	{
+		len = 0;
+		str = ft_strdup(ms->input);
+		while (*ms->input && is_quoted(*ms->input, ms))
+		{
+			ms->input++;
+			len++;
+		}
+		while (*ms->input && !(is_space(*ms->input)) \
+			&& !(is_delimiter(*ms->input)))
+		{
+			ms->input++;
+			len++;
+		}
+		//printf("c= %c\n", *ms->input);//
+		//printf("len= %zu\n", len);//
+		if (len > 0)
+		{
+			tmp = ms_lstnew(len, str);
+			ms_lstadd_back(&list, tmp);
+		}
+		if (is_delimiter(*ms->input))
+		{
+			tmp = ms_lstnew(1, ms->input);
+			ms_lstadd_back(&list, tmp);
+		}
+		ms->input++;
+		free(str);
+	}
+	i = 0;//
+	while (i < ms_lstsize(list))//
+	{//
+		printf("str= %s\n", list->str);//
+		list = list->next;//
+		i++;//
+	}//
 }
