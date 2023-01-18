@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/18 13:47:29 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/18 14:39:39 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,14 @@ void	minishell(t_minishell *ms)
 	exit(ms->exit_status);
 }
 
-void	split_token(t_minishell *ms)
+t_mslist	*add_list(t_minishell *ms, t_mslist	*list)
 {
-	t_mslist	*list;
 	t_mslist	*tmp;
 	size_t		len;
-	char		*str;
-	size_t		i;
 
-	list = NULL;
 	while (*ms->input)
 	{
 		len = 0;
-		str = ft_strdup(ms->input);
 		while (*ms->input && is_quoted(*ms->input, ms))
 		{
 			ms->input++;
@@ -61,21 +56,35 @@ void	split_token(t_minishell *ms)
 			ms->input++;
 			len++;
 		}
-		//printf("c= %c\n", *ms->input);//
-		//printf("len= %zu\n", len);//
 		if (len > 0)
 		{
-			tmp = ms_lstnew(len, str);
+			tmp = ms_lstnew(len, ms->input - len);
 			ms_lstadd_back(&list, tmp);
 		}
 		if (is_delimiter(*ms->input))
 		{
-			tmp = ms_lstnew(1, ms->input);
+			len = 0;
+			while (is_delimiter(*ms->input))
+			{
+				ms->input++;
+				len++;
+			}
+			tmp = ms_lstnew(len, ms->input - len);
 			ms_lstadd_back(&list, tmp);
+			ms->input--;
 		}
 		ms->input++;
-		free(str);
 	}
+	return (list);
+}
+
+void	split_token(t_minishell *ms)
+{
+	t_mslist	*list;
+	size_t		i;//
+
+	list = NULL;
+	list = add_list(ms, list);
 	i = 0;//
 	while (i < ms_lstsize(list))//
 	{//
