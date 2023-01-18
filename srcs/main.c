@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/17 11:56:33 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/18 12:46:35 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool	is_quoted(char c, t_minishell *ms)
 
 bool	is_delimiter(char c, t_minishell *ms)
 {
-	if (c == ' ' || c == '|' || c == '>' || c == '<')
+	if (c == '|' || c == '>' || c == '<' || c == ';')
 		return (true);
 	else
 		return (false);
@@ -45,31 +45,45 @@ void	split_token(t_minishell *ms)
 	t_mslist	*tmp;
 	size_t		len;
 	char		*str;
+	size_t		i;
 
 	list = NULL;
 	while (*ms->input)
 	{
 		len = 0;
 		str = ft_strdup(ms->input);
-		while (*ms->input && !(is_quoted(*ms->input, ms)) \
+		while (*ms->input && *ms->input != ' ' \
 			&& !(is_delimiter(*ms->input, ms)))
 		{
-			// printf("c= %c\n", *ms->input);//
-			// printf("quote= %d\n", ms->quote);//
 			ms->input++;
 			len++;
 		}
-		while (*ms->input && is_quoted(*ms->input, ms))
+		printf("c= %c\n", *ms->input);//
+		printf("len= %zu\n", len);//
+		// while (*ms->input && is_quoted(*ms->input, ms))
+		// {
+		// 	ms->input++;
+		// 	len++;
+		// }
+		if (len > 0)
 		{
-			ms->input++;
-			len++;
+			tmp = ms_lstnew(len, str);
+			ms_lstadd_back(&list, tmp);
 		}
-		tmp = ms_lstnew(len, str);
-		ms_lstadd_back(&list, tmp);
+		if (is_delimiter(*ms->input, ms))
+		{
+			tmp = ms_lstnew(1, ms->input);
+			ms_lstadd_back(&list, tmp);
+		}
+		ms->input++;
+		free(str);
+	}
+	i = 0;
+	while (i < ms_lstsize(list))
+	{
 		printf("str= %s\n", list->str);//
-		while (*ms->input == ' ')
-			ms->input++;
-		list = list->next;
+		list = list->next;//
+		i++;
 	}
 }
 
