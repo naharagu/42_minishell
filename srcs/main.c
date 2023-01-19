@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/18 23:08:34 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/19 10:51:38 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	minishell(t_minishell *ms);
 void	split_token(t_minishell *ms);
+char	*add_list(char *input, t_mslist	**list);
 
 int	main(int argc, char **argv, char **env)
 {
@@ -30,57 +31,17 @@ void	minishell(t_minishell *ms)
 	{
 		ms->input = readline("minishell$>");
 		add_history(ms->input);
-		//printf("%s\n", ms->input);//
 		split_token(ms);
 		//free(ms->input);
 	}
 	exit(ms->exit_status);
 }
 
-// void	*add_list(t_minishell *ms, t_mslist	**list)
-// {
-// 	t_mslist	*tmp;
-// 	size_t		len;
-
-// 	while (*ms->input)
-// 	{
-// 		len = 0;
-// 		while (*ms->input && is_quoted(*ms->input, ms))
-// 		{
-// 			ms->input++;
-// 			len++;
-// 		}
-// 		while (*ms->input && !(is_space(*ms->input)) \
-// 			&& !(is_delimiter(*ms->input)))
-// 		{
-// 			ms->input++;
-// 			len++;
-// 		}
-// 		if (len > 0)
-// 		{
-// 			tmp = ms_lstnew(len, ms->input - len);
-// 			ms_lstadd_back(list, tmp);
-// 		}
-// 		if (is_delimiter(*ms->input))
-// 		{
-// 			len = 0;
-// 			while (is_delimiter(*ms->input))
-// 			{
-// 				ms->input++;
-// 				len++;
-// 			}
-// 			tmp = ms_lstnew(len, ms->input - len);
-// 			ms_lstadd_back(list, tmp);
-// 			ms->input--;
-// 		}
-// 		ms->input++;
-// 	}
-// }
-
 void	split_token(t_minishell *ms)
 {
 	t_mslist	*list;
 	t_mslist	*tmp;
+	char		*start;
 	size_t		len;
 	size_t		i;//
 
@@ -88,34 +49,20 @@ void	split_token(t_minishell *ms)
 	while (*ms->input)
 	{
 		len = 0;
+		start = ms->input;
 		while (*ms->input && is_quoted(*ms->input, ms))
-		{
 			ms->input++;
-			len++;
-		}
 		while (*ms->input && !(is_space(*ms->input)) \
 			&& !(is_delimiter(*ms->input)))
-		{
 			ms->input++;
-			len++;
-		}
+		len = ms->input - start;
 		if (len > 0)
 		{
-			tmp = ms_lstnew(len, ms->input - len);
+			tmp = ms_lstnew(len, start);
 			ms_lstadd_back(&list, tmp);
 		}
 		if (is_delimiter(*ms->input))
-		{
-			len = 0;
-			while (is_delimiter(*ms->input))
-			{
-				ms->input++;
-				len++;
-			}
-			tmp = ms_lstnew(len, ms->input - len);
-			ms_lstadd_back(&list, tmp);
-			ms->input--;
-		}
+			ms->input = add_list(ms->input, &list);
 		ms->input++;
 	}
 	i = 0;//
@@ -125,4 +72,21 @@ void	split_token(t_minishell *ms)
 		list = list->next;//
 		i++;//
 	}//
+}
+
+char	*add_list(char *input, t_mslist	**list)
+{
+	t_mslist	*tmp;
+	char		*start;
+	size_t		len;
+
+	len = 0;
+	start = input;
+	while (is_delimiter(*input))
+		input++;
+	len = input - start;
+	tmp = ms_lstnew(len, start);
+	ms_lstadd_back(list, tmp);
+	input--;
+	return (input);
 }
