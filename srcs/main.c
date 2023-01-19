@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/19 10:51:38 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/19 13:45:52 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	minishell(t_minishell *ms)
 	while (1)
 	{
 		ms->input = readline("minishell$>");
+		printf("input= %s\n", ms->input);//
 		add_history(ms->input);
 		split_token(ms);
 		//free(ms->input);

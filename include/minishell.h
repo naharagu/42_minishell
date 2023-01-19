@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/18 23:01:05 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/19 13:51:36 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,22 @@ typedef struct s_minishell
 {
 	int		exit_status;
 	char	*input;
-	int		quote;
+	t_quote	quote;
 }	t_minishell;
 
 typedef struct s_mslist
 {
 	char			*str;
-	int				pipe;
-	int				redirect;
-	int				cmd;
+	t_pipe			pipe;
+	t_redirect		redirect;
+	t_cmd			cmd;
 	struct s_mslist	*next;
 	struct s_mslist	*prev;
 }	t_mslist;
 
 // main.c
 
-//init.c
+//utils.c
 t_minishell	*init_struct_ms(t_minishell *ms);
 t_mslist	*init_mslist(t_mslist *list);
 

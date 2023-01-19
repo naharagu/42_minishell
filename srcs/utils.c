@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/18 23:01:01 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/19 13:50:58 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,4 @@ t_minishell	*init_struct_ms(t_minishell *ms)
 	ms->input = NULL;
 	ms->quote = NO_QUOTE;
 	return (ms);
-}
-
-t_mslist	*init_mslist(t_mslist *list)
-{
-	list = malloc(sizeof(t_mslist));
-	if (!list)
-		exit(EXIT_FAILURE);
-	list->str = NULL;
-	list->pipe = NO_PIPE;
-	list->redirect = NO_REDIRECT;
-	list->cmd = NO_CMD;
-	list->next = NULL;
-	list->prev = NULL;
-	return (list);
 }
