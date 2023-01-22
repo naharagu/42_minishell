@@ -6,17 +6,17 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 22:47:25 by naharagu          #+#    #+#             */
-/*   Updated: 2023/01/17 23:34:57 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/01/21 19:12:40 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <readline/history.h>
+#include <readline/readline.h>
+#include <unistd.h>
 
 void	init_struct_ms(t_minishell *ms)
 {
-	ms = malloc(sizeof(t_minishell));
-	if (!ms)
-		exit(0);
 	ms->exit_status = 0;
 	return ;
 }
@@ -92,13 +92,15 @@ int	minishell(t_minishell *ms, char **argv, char **env)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_minishell	*ms;
+	t_minishell	ms;
 
 	if (argc != 1)
 		return (1);
-	ms = malloc(sizeof(t_minishell));
-	if (!ms)
-		return (1);
-	init_struct_ms(ms);
-	exit(minishell(ms, argv, env));
+	init_struct_ms(&ms);
+	exit(minishell(&ms, argv, env));
 }
+
+/* __attribute__((destructor)) static void destructor()
+{
+	system("leaks -q minishell");
+} */

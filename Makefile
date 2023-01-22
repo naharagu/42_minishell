@@ -1,9 +1,10 @@
 CC			=	gcc
-CFLAGS 	=	-Wall -Werror -Wextra -g -fsanitize=address
-# CFLAGS 	=	-Wall -Werror -Wextra
+# CFLAGS 		=	-Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS 	=	-Wall -Werror -Wextra
 RL_FLAGS 	=	-I $(shell brew --prefix readline)/include -lreadline -lhistory -L$(shell brew --prefix readline)/lib
 NAME		=	minishell
-SRCS		= 	main.c
+SRCS		= 	main.c \
+				tokenizer.c
 OBJS_DIR	=	./obj/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
 LIB_DIR		= 	./libft
@@ -28,5 +29,8 @@ fclean: clean
 	rm -f $(LIB_DIR)/libft.a
 
 re: fclean all
+
+norm: $(SRCS)
+	norminette $(SRCS)
 
 .PHONY: all clean fclean re
