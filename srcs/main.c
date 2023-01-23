@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/19 13:45:52 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/23 17:10:16 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,55 @@ void	minishell(t_minishell *ms);
 void	split_token(t_minishell *ms);
 char	*add_list(char *input, t_mslist	**list);
 
+void	signal_handler(int signum)
+{
+	ft_putchar_fd('\n', STDOUT_FILENO);
+	//rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+// void	set_signal_handler(void)
+// {
+// 	struct sigaction	act;
+
+// 	if (sigemptyset(&act.sa_mask) == -1)
+// 		exit (EXIT_FAILURE);
+// 	act.sa_flags = 0;
+// 	act.sa_handler = signal_handler;
+// 	if (sigaction(SIGINT, &act, NULL) == -1)
+// 		exit (EXIT_FAILURE);
+// 	exit (EXIT_SUCCESS);
+// }
+
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*ms;
 
 	ms = init_struct_ms(ms);
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 	minishell(ms);
 	return (0);
 }
 
 void	minishell(t_minishell *ms)
 {
+	char	*line;
+
+	rl_outstream = stderr;
 	while (1)
 	{
-		ms->input = readline("minishell$>");
-		printf("input= %s\n", ms->input);//
-		add_history(ms->input);
+		line = readline("minishell$ ");
+		if (!line)
+			break ;
+		//printf("line= %s\n", line);//
+		if (*line)
+			add_history(line);
+		ms->input = line;
+		//ms->exit_status = interpret(line);
 		split_token(ms);
-		//free(ms->input);
+		free(line);
 	}
 	exit(ms->exit_status);
 }

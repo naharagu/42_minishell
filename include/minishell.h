@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/19 13:51:36 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/19 14:09:05 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct s_mslist
 
 //utils.c
 t_minishell	*init_struct_ms(t_minishell *ms);
-t_mslist	*init_mslist(t_mslist *list);
+void		get_pathname(void);
 
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);
