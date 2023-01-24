@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/19 14:09:05 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/24 09:53:26 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,6 @@ typedef enum e_cmd
 	EXIT_CMD
 }	t_cmd;
 
-typedef struct s_minishell
-{
-	int		exit_status;
-	char	*input;
-	t_quote	quote;
-}	t_minishell;
-
 typedef struct s_mslist
 {
 	char			*str;
@@ -91,6 +84,14 @@ typedef struct s_mslist
 	struct s_mslist	*next;
 	struct s_mslist	*prev;
 }	t_mslist;
+
+typedef struct s_minishell
+{
+	int			exit_status;
+	char		*input;
+	t_quote		quote;
+	t_mslist	*list;
+}	t_minishell;
 
 // main.c
 

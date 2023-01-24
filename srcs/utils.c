@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/19 14:08:37 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/24 09:50:30 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_minishell	*init_struct_ms(t_minishell *ms)
 	ms->exit_status = 0;
 	ms->input = NULL;
 	ms->quote = NO_QUOTE;
+	ms->list = NULL;
 	return (ms);
 }
 
