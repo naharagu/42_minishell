@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/24 10:02:19 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/24 10:08:18 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,5 @@ t_mslist	*ms_lstlast(t_mslist *lst);
 void		ms_lstadd_front(t_mslist **lst, t_mslist *new);
 void		ms_lstadd_back(t_mslist **lst, t_mslist *new);
 int			ms_lstsize(t_mslist *lst);
-
-//bool.c
-bool		is_quoted(char c, t_minishell *ms);
-bool		is_delimiter(char c);
-bool		is_space(char c);
 
 #endif

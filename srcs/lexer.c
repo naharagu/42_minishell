@@ -6,11 +6,16 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/24 09:59:44 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/24 10:07:42 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*add_list(char *input, t_mslist	**list);
+bool	is_quoted(char c, t_minishell *ms);
+bool	is_delimiter(char c);
+bool	is_space(char c);
 
 void	lexer(t_minishell *ms)
 {
@@ -54,4 +59,45 @@ char	*add_list(char *input, t_mslist	**list)
 	ms_lstadd_back(list, tmp);
 	input--;
 	return (input);
+}
+
+bool	is_quoted(char c, t_minishell *ms)
+{
+	if (c == '\'' && ms->quote == S_QUOTE)
+		ms->quote = END_S_QUOTE;
+	else if (c == '\"' && ms->quote == D_QUOTE)
+		ms->quote = END_D_QUOTE;
+	else if (c == '\'' && (ms->quote == NO_QUOTE || \
+		ms->quote == END_S_QUOTE || ms->quote == END_D_QUOTE))
+		ms->quote = S_QUOTE;
+	else if (c == '\"' && (ms->quote == NO_QUOTE || \
+		ms->quote == END_S_QUOTE || ms->quote == END_D_QUOTE))
+		ms->quote = D_QUOTE;
+	else if (c != '\'' && c != '\"' && \
+		(ms->quote == END_S_QUOTE || ms->quote == END_D_QUOTE))
+		ms->quote = NO_QUOTE;
+	//printf("c= %c\n", c);//
+	//printf("quote= %d\n", ms->quote);//
+	if (ms->quote == S_QUOTE || ms->quote == D_QUOTE || \
+		ms->quote == END_S_QUOTE || ms->quote == END_D_QUOTE)
+		return (true);
+	else
+		return (false);
+}
+
+bool	is_delimiter(char c)
+{
+	if (c == '|' || c == '>' || c == '<' || c == ';')
+		return (true);
+	else
+		return (false);
+}
+
+bool	is_space(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\r'
+		|| c == '\n' || c == '\v' || c == '\f')
+		return (true);
+	else
+		return (false);
 }
