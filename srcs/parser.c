@@ -1,37 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/24 09:55:30 by shimakaori       ###   ########.fr       */
+/*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
+/*   Updated: 2023/01/24 10:03:23 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_minishell	*init_struct_ms(t_minishell *ms)
+void	parser(t_minishell *ms)
 {
-	ms = malloc(sizeof(t_minishell));
-	if (!ms)
-		exit(EXIT_FAILURE);
-	ms->exit_status = 0;
-	ms->input = NULL;
-	ms->quote = NO_QUOTE;
-	ms->list = NULL;
-	return (ms);
-}
+	size_t		i;
 
-void	get_pathname(void)
-{
-	char	*pathname;
-
-	pathname = getcwd(NULL, 0);
-	if (!pathname)
-		return ;
-	else
-		printf("%s\n", pathname);
-	free(pathname);
+	i = 0;
+	while (i < ms_lstsize(ms->list))
+	{
+		printf("str= %s\n", ms->list->str);
+		ms->list = ms->list->next;
+		i++;
+	}
 }

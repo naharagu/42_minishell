@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/24 09:53:26 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/24 10:02:19 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,13 @@ typedef struct s_minishell
 }	t_minishell;
 
 // main.c
+
+//lexer.c
+void		lexer(t_minishell *ms);
+char		*add_list(char *input, t_mslist	**list);
+
+//parser.c
+void		parser(t_minishell *ms);
 
 //utils.c
 t_minishell	*init_struct_ms(t_minishell *ms);

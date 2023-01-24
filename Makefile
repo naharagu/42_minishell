@@ -6,7 +6,7 @@
 #    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/01/19 13:51:27 by shimakaori       ###   ########.fr        #
+#    Updated: 2023/01/24 10:01:36 by shimakaori       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,8 @@ RL_FLAGS 	=	-I $(shell brew --prefix readline)/include -lreadline -lhistory -L$(
 INCLUDE		=   -I include -I $(LIB_DIR)
 VPATH 		=   srcs
 SRCS		= 	main.c   \
+				lexer.c  \
+				parser.c \
 				utils.c  \
 				mslist.c \
 				bool.c
