@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/24 10:08:18 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/24 10:58:40 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,13 @@ typedef enum e_cmd
 	EXIT_CMD
 }	t_cmd;
 
+typedef struct s_envlist
+{
+	char				*key;
+	char				*value;
+	struct s_envlist	*next;
+}	t_envlist;
+
 typedef struct s_mslist
 {
 	char			*str;
@@ -97,7 +104,6 @@ typedef struct s_minishell
 
 //lexer.c
 void		lexer(t_minishell *ms);
-char		*add_list(char *input, t_mslist	**list);
 
 //parser.c
 void		parser(t_minishell *ms);

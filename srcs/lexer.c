@@ -6,16 +6,16 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/24 10:07:42 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/24 10:34:21 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*add_list(char *input, t_mslist	**list);
-bool	is_quoted(char c, t_minishell *ms);
-bool	is_delimiter(char c);
-bool	is_space(char c);
+static char	*add_list(char *input, t_mslist	**list);
+bool		is_quoted(char c, t_minishell *ms);
+bool		is_delimiter(char c);
+bool		is_space(char c);
 
 void	lexer(t_minishell *ms)
 {

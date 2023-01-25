@@ -6,14 +6,14 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/24 10:03:04 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/24 10:35:31 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell(t_minishell *ms);
-void	signal_handler(int signum);
+static void	minishell(t_minishell *ms);
+static void	signal_handler(int signum);
 
 int	main(int argc, char **argv, char **env)
 {
@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **env)
 	return (0);
 }
 
-void	minishell(t_minishell *ms)
+static void	minishell(t_minishell *ms)
 {
 	char	*line;
 
@@ -46,7 +46,7 @@ void	minishell(t_minishell *ms)
 	exit(ms->exit_status);
 }
 
-void	signal_handler(int signum)
+static void	signal_handler(int signum)
 {
 	ft_putchar_fd('\n', STDOUT_FILENO);
 	rl_on_new_line();
