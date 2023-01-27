@@ -6,25 +6,33 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/25 15:52:37 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/27 14:50:20 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*toupper_char(char *str)
-{
-	char	*tmp;
-	char	*start;
+void	check_cmd(t_minishell *ms, char *str);
+char	*toupper_char(char *str);
+void	check_metachara(t_minishell *ms, char *str);
 
-	tmp = ft_strdup(str);
-	start = tmp;
-	while (*tmp != '\0')
+void	parser(t_minishell *ms)
+{
+	size_t		i;
+
+	i = 0;
+	printf("size= %d\n", ms_lstsize(ms->list));//
+	while (i < ms_lstsize(ms->list))
 	{
-		*tmp = ft_toupper(*tmp);
-		tmp++;
+		check_cmd(ms, ms->list->str);
+		check_metachara(ms, ms->list->str);
+		printf("str= %s\n", ms->list->str);//
+		//printf("cmd= %d\n", ms->list->cmd);//
+		//printf("redirect= %d\n", ms->list->redirect);//
+		//printf("pipe= %d\n", ms->list->pipe);//
+		ms->list = ms->list->next;
+		i++;
 	}
-	return (start);
 }
 
 void	check_cmd(t_minishell *ms, char *str)
@@ -32,7 +40,6 @@ void	check_cmd(t_minishell *ms, char *str)
 	char	*upstr;
 
 	upstr = toupper_char(str);
-	//printf("upstr= %s\n", upstr);//
 	if (!(ft_strncmp("ECHO", upstr, ft_strlen(str))))
 		ms->list->cmd = ECHO_CMD;
 	else if (!(ft_strncmp("CD", upstr, ft_strlen(str))))
@@ -50,7 +57,22 @@ void	check_cmd(t_minishell *ms, char *str)
 	free(upstr);
 }
 
-void	check_redirect(t_minishell *ms, char *str)
+char	*toupper_char(char *str)
+{
+	char	*tmp;
+	char	*start;
+
+	tmp = ft_strdup(str);
+	start = tmp;
+	while (*tmp != '\0')
+	{
+		*tmp = ft_toupper(*tmp);
+		tmp++;
+	}
+	return (start);
+}
+
+void	check_metachara(t_minishell *ms, char *str)
 {
 	if (!(ft_strncmp("<", str, ft_strlen(str))))
 		ms->list->redirect = INPUT;
@@ -62,22 +84,6 @@ void	check_redirect(t_minishell *ms, char *str)
 		ms->list->redirect = APPEND;
 	else if (!(ft_strncmp("|", str, ft_strlen(str))))
 		ms->list->pipe = PIPE;
-}
-
-void	parser(t_minishell *ms)
-{
-	size_t		i;
-
-	i = 0;
-	while (i < ms_lstsize(ms->list))
-	{
-		check_cmd(ms, ms->list->str);
-		check_redirect(ms, ms->list->str);
-		printf("str= %s\n", ms->list->str);//
-		printf("cmd= %d\n", ms->list->cmd);//
-		printf("redirect= %d\n", ms->list->redirect);//
-		printf("pipe= %d\n", ms->list->pipe);//
-		ms->list = ms->list->next;
-		i++;
-	}
+	else if (!(ft_strncmp("|", str, ft_strlen(str))))
+		ms->list->pipe = SEMICOLON;
 }

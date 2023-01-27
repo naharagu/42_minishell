@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:01:38 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/16 12:03:00 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/27 15:17:59 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,6 @@ t_mslist	*ms_lstlast(t_mslist *lst)
 	return (lst);
 }
 
-void	ms_lstadd_front(t_mslist **lst, t_mslist *new)
-{
-	t_mslist	*last;
-
-	if (!lst || !new)
-		return ;
-	if (!(*lst))
-	{
-		new->prev = NULL;
-		new->next = NULL;
-		*lst = new;
-		return ;
-	}
-	last = ms_lstlast(*lst);
-	new->prev = last;
-	new->next = *lst;
-	(*lst)->prev = new;
-	last->next = new;
-	*lst = new;
-}
-
 void	ms_lstadd_back(t_mslist **lst, t_mslist *new)
 {
 	t_mslist	*last;
@@ -104,4 +83,23 @@ int	ms_lstsize(t_mslist *lst)
 		lst = lst->next;
 	}
 	return (size);
+}
+
+void	ms_lstclear(t_mslist **lst)
+{
+	t_mslist	*tmp;
+	size_t		i;
+
+	if (!lst)
+		return ;
+	i = 0;
+	while (i < ms_lstsize(*lst))
+	{
+		tmp = *lst;
+		*lst = (*lst)->next;
+		free(tmp->str);
+		free(tmp);
+		i++;
+	}
+	*lst = (NULL);
 }

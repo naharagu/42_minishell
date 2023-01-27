@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/25 15:50:57 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/27 15:02:32 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef enum e_pipe
 {
 	NO_PIPE,
 	PIPE,
+	SEMICOLON,
 	READ,
 	WRITE,
 	READ_WRITE
@@ -116,8 +117,8 @@ void		get_pathname(void);
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);
 t_mslist	*ms_lstlast(t_mslist *lst);
-void		ms_lstadd_front(t_mslist **lst, t_mslist *new);
 void		ms_lstadd_back(t_mslist **lst, t_mslist *new);
 int			ms_lstsize(t_mslist *lst);
+void		ms_lstclear(t_mslist **lst);
 
 #endif

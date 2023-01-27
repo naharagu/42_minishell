@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/24 10:35:31 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/27 14:54:14 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static void	minishell(t_minishell *ms)
 		lexer(ms);
 		parser(ms);
 		free(line);
+		ms_lstclear(&ms->list);
 	}
 	exit(ms->exit_status);
 }
