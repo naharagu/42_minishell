@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/27 15:02:32 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/28 12:52:46 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,6 @@ typedef enum e_cmd
 	EXIT_CMD
 }	t_cmd;
 
-typedef struct s_envlist
-{
-	char				*key;
-	char				*value;
-	struct s_envlist	*next;
-}	t_envlist;
-
 typedef struct s_mslist
 {
 	char			*str;
@@ -94,12 +87,46 @@ typedef struct s_mslist
 	struct s_mslist	*prev;
 }	t_mslist;
 
+typedef struct s_cmdlist
+{
+	t_cmd				cmdtype;
+	char				*str;
+	//char				*quote;
+	struct s_cmdlist	*next;
+}	t_cmdlist;
+
+typedef struct s_redlist
+{
+	t_redirect			redtype;
+	char				*str;
+	//char				*quot;
+	int					fd;
+	struct s_redlist	*next;
+}	t_redlist;
+
+typedef struct s_envlist
+{
+	char				*key;
+	char				*value;
+	struct s_envlist	*next;
+}	t_envlist;
+
+typedef struct s_execlist
+{
+	char				**cmdline;
+	t_cmdlist			*cmd;
+	t_redlist			*red;
+	t_envlist			*env;
+	struct s_execlist	*next;
+}	t_execlist;
+
 typedef struct s_minishell
 {
 	int			exit_status;
 	char		*input;
 	t_quote		quote;
 	t_mslist	*list;
+	t_execlist	*exec;
 }	t_minishell;
 
 // main.c
@@ -120,5 +147,8 @@ t_mslist	*ms_lstlast(t_mslist *lst);
 void		ms_lstadd_back(t_mslist **lst, t_mslist *new);
 int			ms_lstsize(t_mslist *lst);
 void		ms_lstclear(t_mslist **lst);
+
+//execlist.c
+t_execlist	*exec_lstnew(t_minishell *ms, size_t num);
 
 #endif
