@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/27 14:50:20 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/28 22:04:01 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,42 @@ void	check_metachara(t_minishell *ms, char *str);
 
 void	parser(t_minishell *ms)
 {
+	t_mslist	*start;
 	size_t		i;
+	size_t		num;
+	size_t		j;
 
+	start = ms->list;
 	i = 0;
+	num = 0;
 	printf("size= %d\n", ms_lstsize(ms->list));//
 	while (i < ms_lstsize(ms->list))
 	{
 		check_cmd(ms, ms->list->str);
 		check_metachara(ms, ms->list->str);
 		printf("str= %s\n", ms->list->str);//
-		//printf("cmd= %d\n", ms->list->cmd);//
-		//printf("redirect= %d\n", ms->list->redirect);//
-		//printf("pipe= %d\n", ms->list->pipe);//
-		ms->list = ms->list->next;
+		// printf("cmd= %d\n", ms->list->cmd);//
+		// printf("redirect= %d\n", ms->list->redirect);//
+		printf("pipe= %d\n", ms->list->pipe);//
+		if (ms->list->pipe != NO_PIPE)
+		{
+			printf("start= %s\n", start->str);//
+			printf("num= %zu\n", num);//
+			ms->exec = exec_lstnew(ms, start, num);
+			ms->list = ms->list->next;
+			start = ms->list;
+			ms->exec = ms->exec->next;
+			num = 0;
+			j = 0;
+		}
+		else
+		{
+			ms->list = ms->list->next;
+			num++;
+		}
 		i++;
 	}
+	ms->exec = exec_lstnew(ms, start, num);
 }
 
 void	check_cmd(t_minishell *ms, char *str)
@@ -84,6 +105,6 @@ void	check_metachara(t_minishell *ms, char *str)
 		ms->list->redirect = APPEND;
 	else if (!(ft_strncmp("|", str, ft_strlen(str))))
 		ms->list->pipe = PIPE;
-	else if (!(ft_strncmp("|", str, ft_strlen(str))))
+	else if (!(ft_strncmp(";", str, ft_strlen(str))))
 		ms->list->pipe = SEMICOLON;
 }

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/28 12:52:46 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/28 13:30:02 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,6 @@ int			ms_lstsize(t_mslist *lst);
 void		ms_lstclear(t_mslist **lst);
 
 //execlist.c
-t_execlist	*exec_lstnew(t_minishell *ms, size_t num);
+t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num);
 
 #endif

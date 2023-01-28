@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/28 13:10:20 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/01/28 21:48:11 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_lists(t_execlist *new, t_minishell *ms);
 
-t_execlist	*exec_lstnew(t_minishell *ms, size_t num)
+t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 {
 	t_execlist	*new;
 	size_t		j;
@@ -22,14 +22,15 @@ t_execlist	*exec_lstnew(t_minishell *ms, size_t num)
 	new = (t_execlist *)malloc(sizeof(t_execlist));
 	if (!new)
 		return (NULL);
-	new->cmdline = (char **)ft_calloc(sizeof (char *), num + 1);
+	new->cmdline = (char **)ft_calloc(sizeof (char *), num);
 	if (!new->cmdline)
 		return (NULL);
 	j = 0;
 	while (j < num)
 	{
-		new->cmdline[j] = ms->list->str;
-		ms->list = ms->list->next;
+		new->cmdline[j] = list->str;
+		printf("cmdline= %s\n", new->cmdline[j]);//
+		list = list->next;
 		j++;
 	}
 	init_lists(new, ms);
