@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/24 10:34:21 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/07 15:03:19 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ bool	is_quoted(char c, t_minishell *ms)
 	else if (c != '\'' && c != '\"' && \
 		(ms->quote == END_S_QUOTE || ms->quote == END_D_QUOTE))
 		ms->quote = NO_QUOTE;
-	//printf("c= %c\n", c);//
-	//printf("quote= %d\n", ms->quote);//
 	if (ms->quote == S_QUOTE || ms->quote == D_QUOTE || \
 		ms->quote == END_S_QUOTE || ms->quote == END_D_QUOTE)
 		return (true);

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/28 22:04:01 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/07 15:29:31 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,41 +19,34 @@ void	check_metachara(t_minishell *ms, char *str);
 void	parser(t_minishell *ms)
 {
 	t_mslist	*start;
-	size_t		i;
+	t_execlist	*tmp;
 	size_t		num;
-	size_t		j;
 
 	start = ms->list;
-	i = 0;
 	num = 0;
-	printf("size= %d\n", ms_lstsize(ms->list));//
-	while (i < ms_lstsize(ms->list))
+	//printf("size= %d\n", ms_lstsize(ms->list));//
+	while (ms->list)
 	{
 		check_cmd(ms, ms->list->str);
 		check_metachara(ms, ms->list->str);
-		printf("str= %s\n", ms->list->str);//
-		// printf("cmd= %d\n", ms->list->cmd);//
-		// printf("redirect= %d\n", ms->list->redirect);//
-		printf("pipe= %d\n", ms->list->pipe);//
+		//printf("str= %s\n", ms->list->str);//
 		if (ms->list->pipe != NO_PIPE)
 		{
-			printf("start= %s\n", start->str);//
-			printf("num= %zu\n", num);//
-			ms->exec = exec_lstnew(ms, start, num);
-			ms->list = ms->list->next;
-			start = ms->list;
-			ms->exec = ms->exec->next;
+			//printf("start= %s\n", start->str);//
+			//printf("num= %zu\n", num);//
+			tmp = exec_lstnew(ms, start, num);
+			exec_lstadd_back(&ms->exec, tmp);
+			start = ms->list->next;
 			num = 0;
-			j = 0;
 		}
 		else
-		{
-			ms->list = ms->list->next;
 			num++;
-		}
-		i++;
+		ms->list = ms->list->next;
 	}
-	ms->exec = exec_lstnew(ms, start, num);
+	//printf("start= %s\n", start->str);//
+	//printf("num= %zu\n", num);//
+	tmp = exec_lstnew(ms, start, num);
+	exec_lstadd_back(&ms->exec, tmp);
 }
 
 void	check_cmd(t_minishell *ms, char *str)

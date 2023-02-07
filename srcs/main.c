@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/27 14:54:14 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/07 15:56:08 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,26 @@ int	main(int argc, char **argv, char **env)
 	return (0);
 }
 
+static void	print_execlist(t_minishell *ms)
+{
+	size_t		i;
+	size_t		j;
+
+	i = 0;
+	//printf("execsize= %d\n", exec_lstsize(ms->exec));//
+	while (ms->exec)
+	{
+		j = 0;
+		while (ms->exec->cmdline[j] != 0)
+		{
+			printf("[exec:%ld]cmdline[%ld]= %s\n", i, j, ms->exec->cmdline[j]);
+			j++;
+		}
+		ms->exec = ms->exec->next;
+		i++;
+	}
+}
+
 static void	minishell(t_minishell *ms)
 {
 	char	*line;
@@ -41,6 +61,7 @@ static void	minishell(t_minishell *ms)
 		ms->input = line;
 		lexer(ms);
 		parser(ms);
+		print_execlist(ms);//
 		free(line);
 		ms_lstclear(&ms->list);
 	}

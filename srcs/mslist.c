@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:01:38 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/27 15:17:59 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/07 15:10:21 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,37 +33,29 @@ t_mslist	*ms_lstnew(size_t len, char *str)
 	new->redirect = NO_REDIRECT;
 	new->cmd = NO_CMD;
 	new->next = NULL;
-	new->prev = NULL;
 	return (new);
 }
 
 t_mslist	*ms_lstlast(t_mslist *lst)
 {
-	if (!lst)
-		return (NULL);
-	if (lst->prev)
-		return (lst->prev);
+	while (lst && lst->next)
+		lst = lst->next;
 	return (lst);
 }
 
 void	ms_lstadd_back(t_mslist **lst, t_mslist *new)
 {
-	t_mslist	*last;
+	t_mslist	*tmp;
 
 	if (!lst || !new)
 		return ;
 	if (!(*lst))
-	{
-		new->prev = NULL;
-		new->next = NULL;
 		*lst = new;
-		return ;
+	else
+	{
+		tmp = ms_lstlast(*lst);
+		tmp->next = new;
 	}
-	last = ms_lstlast(*lst);
-	last->next = new;
-	new->prev = last;
-	new->next = (*lst);
-	(*lst)->prev = new;
 }
 
 int	ms_lstsize(t_mslist *lst)
@@ -77,8 +69,6 @@ int	ms_lstsize(t_mslist *lst)
 	first = lst;
 	while (lst)
 	{
-		if (size > 0 && first == lst)
-			break ;
 		size++;
 		lst = lst->next;
 	}

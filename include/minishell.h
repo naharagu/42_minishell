@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/28 13:30:02 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/07 14:44:25 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ typedef struct s_mslist
 	t_redirect		redirect;
 	t_cmd			cmd;
 	struct s_mslist	*next;
-	struct s_mslist	*prev;
 }	t_mslist;
 
 typedef struct s_cmdlist
@@ -99,7 +98,7 @@ typedef struct s_redlist
 {
 	t_redirect			redtype;
 	char				*str;
-	//char				*quot;
+	//char				*quote;
 	int					fd;
 	struct s_redlist	*next;
 }	t_redlist;
@@ -150,5 +149,7 @@ void		ms_lstclear(t_mslist **lst);
 
 //execlist.c
 t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num);
+void		exec_lstadd_back(t_execlist **lst, t_execlist *new);
+int			exec_lstsize(t_execlist *lst);
 
 #endif
