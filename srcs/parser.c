@@ -6,16 +6,16 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/08 13:07:33 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/08 16:04:12 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		check_pipe(t_minishell *ms, char *str);
-void		check_execlist(t_minishell *ms);
-t_cmdlist	*check_cmd(t_cmdlist *cmd, char *str);
-void		check_red(t_minishell *ms, char *str);
+void	check_pipe(t_minishell *ms, char *str);
+void	check_execlist(t_minishell *ms);
+void	check_cmd(t_minishell *ms, char *str);
+void	check_red(t_minishell *ms, char *str);
 
 void	parser(t_minishell *ms)
 {
@@ -58,68 +58,69 @@ void	check_execlist(t_minishell *ms)
 	size_t		i;
 	size_t		j;
 
-	i = 0;
+	j = 0;
 	//printf("execsize= %d\n", exec_lstsize(ms->exec));//
 	while (ms->exec)
 	{
-		j = 0;
-		while (ms->exec->cmdline[j] != 0)
+		i = 0;
+		while (ms->exec->cmdline[i] != 0)
 		{
-			printf("[exec:%ld]cmdline[%ld]= %s\n", i, j, ms->exec->cmdline[j]);//
-			ms->exec->cmd = check_cmd(ms->exec->cmd, ms->exec->cmdline[j]);
-			//check_red(ms, ms->exec->cmdline[j]);
-			printf("cmdtype= %d\n", ms->exec->cmd->cmdtype);//
-			//printf("redtype= %d\n", ms->exec->red->redtype);//
-			j++;
+			printf("[exec:%ld]cmdline[%ld]= %s\n", j, i, ms->exec->cmdline[j]);//
+			check_cmd(ms, ms->exec->cmdline[i]);
+			check_red(ms, ms->exec->cmdline[i]);
+			if (ms->exec->redtype == NO_REDIRECT)
+			{
+				ms->exec->cmd->str = ms->exec->cmdline[i];
+				printf("cmdstr= %s\n", ms->exec->cmd->str);//
+				ms->exec->cmd->next = cmd_lstnew(ms->exec->cmd->next);
+				ms->exec->cmd = ms->exec->cmd->next;
+			}
+			else if (ms->exec->redtype != NO_REDIRECT)
+			{
+				ms->exec->red->str = ms->exec->cmdline[i];
+				printf("redstr= %s\n", ms->exec->red->str);//
+				ms->exec->red->next = red_lstnew(ms->exec->red->next);
+				ms->exec->red = ms->exec->red->next;
+			}
+			i++;
 		}
 		ms->exec = ms->exec->next;
-		i++;
+		j++;
 	}
 }
 
-t_cmdlist	*check_cmd(t_cmdlist *cmd, char *str)
+void	check_cmd(t_minishell *ms, char *str)
 {
 	char	*upstr;
 
 	upstr = toupper_char(str);
 	if (!(ft_strncmp("ECHO", upstr, ft_strlen("ECHO"))))
-		cmd->cmdtype = ECHO_CMD;
+		ms->exec->cmdtype = ECHO_CMD;
 	else if (!(ft_strncmp("CD", upstr, ft_strlen("CD"))))
-		cmd->cmdtype = CD_CMD;
+		ms->exec->cmdtype = CD_CMD;
 	else if (!(ft_strncmp("PWD", upstr, ft_strlen("PWD"))))
-		cmd->cmdtype = PWD_CMD;
+		ms->exec->cmdtype = PWD_CMD;
 	else if (!(ft_strncmp("EXPORT", upstr, ft_strlen("EXPORT"))))
-		cmd->cmdtype = EXPORT_CMD;
+		ms->exec->cmdtype = EXPORT_CMD;
 	else if (!(ft_strncmp("UNSET", upstr, ft_strlen("UNSET"))))
-		cmd->cmdtype = UNSET_CMD;
+		ms->exec->cmdtype = UNSET_CMD;
 	else if (!(ft_strncmp("ENV", upstr, ft_strlen("ENV"))))
-		cmd->cmdtype = ENV_CMD;
+		ms->exec->cmdtype = ENV_CMD;
 	else if (!(ft_strncmp("EXIT", upstr, ft_strlen("EXIT"))))
-		cmd->cmdtype = EXIT_CMD;
+		ms->exec->cmdtype = EXIT_CMD;
 	free(upstr);
-	if (cmd->cmdtype != NO_CMD)
-	{
-		cmd->str = str;
-		printf("cmdstr= %s\n", cmd->str);//
-		//cmd = cmd->next;
-	}
-	return (cmd);
+	printf("cmdtype= %d\n", ms->exec->cmdtype);//
 }
 
 void	check_red(t_minishell *ms, char *str)
 {
 	if (!(ft_strncmp("<", str, ft_strlen("<"))))
-		ms->exec->red->redtype = INPUT;
+		ms->exec->redtype = INPUT;
 	else if (!(ft_strncmp(">", str, ft_strlen(">"))))
-		ms->exec->red->redtype = OUTPUT;
+		ms->exec->redtype = OUTPUT;
 	else if (!(ft_strncmp("<<", str, ft_strlen("<<"))))
-		ms->exec->red->redtype = HERE_DOC;
+		ms->exec->redtype = HERE_DOC;
 	else if (!(ft_strncmp(">>", str, ft_strlen(">>"))))
-		ms->exec->red->redtype = APPEND;
-	// if (ms->exec->red->redtype != NO_REDIRECT)
-	// {
-	// 	ms->exec->red->str = str;
-	// 	printf("redstr= %s\n", ms->exec->red->str);//
-	// 	ms->exec->red = ms->exec->red->next;
-	// }	
+		ms->exec->redtype = APPEND;
+	printf("redtype= %d\n", ms->exec->redtype);//
 }

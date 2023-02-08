@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/08 12:04:28 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/08 15:58:59 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ typedef struct s_mslist
 
 typedef struct s_cmdlist
 {
-	t_cmd				cmdtype;
 	char				*str;
 	//char				*quote;
 	struct s_cmdlist	*next;
@@ -96,7 +95,6 @@ typedef struct s_cmdlist
 
 typedef struct s_redlist
 {
-	t_redirect			redtype;
 	char				*str;
 	//char				*quote;
 	int					fd;
@@ -113,6 +111,8 @@ typedef struct s_envlist
 typedef struct s_execlist
 {
 	char				**cmdline;
+	t_cmd				cmdtype;
+	t_redirect			redtype;
 	t_cmdlist			*cmd;
 	t_redlist			*red;
 	t_envlist			*env;
@@ -148,8 +148,14 @@ void		ms_lstadd_back(t_mslist **lst, t_mslist *new);
 int			ms_lstsize(t_mslist *lst);
 void		ms_lstclear(t_mslist **lst);
 
-//execlist.c
+//execlist_1.c
 t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num);
+t_cmdlist	*cmd_lstnew(t_cmdlist *cmd);
+t_redlist	*red_lstnew(t_redlist *red);
+t_envlist	*env_lstnew(t_envlist *env);
+
+//execlist_2.c
+t_execlist	*exec_lstlast(t_execlist *lst);
 void		exec_lstadd_back(t_execlist **lst, t_execlist *new);
 int			exec_lstsize(t_execlist *lst);
 void		exec_lstclear(t_execlist **lst);
