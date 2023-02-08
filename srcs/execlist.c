@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/07 15:54:03 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/08 12:02:10 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,21 +101,25 @@ int	exec_lstsize(t_execlist *lst)
 	return (size);
 }
 
-// void	exec_lstclear(t_execlist **lst)
-// {
-// 	t_execlist	*tmp;
-// 	size_t		i;
+void	exec_lstclear(t_execlist **lst)
+{
+	t_execlist	*tmp;
+	size_t		i;
 
-// 	if (!lst)
-// 		return ;
-// 	i = 0;
-// 	while (i < exec_lstsize(*lst))
-// 	{
-// 		tmp = *lst;
-// 		*lst = (*lst)->next;
-// 		free(tmp->str);
-// 		free(tmp);
-// 		i++;
-// 	}
-// 	*lst = (NULL);
-// }
+	if (!lst)
+		return ;
+	i = 0;
+	while (i < exec_lstsize(*lst))
+	{
+		tmp = *lst;
+		*lst = (*lst)->next;
+		free(tmp->cmdline);
+		free(tmp->cmd);
+		free(tmp->red);
+		free(tmp->env);
+		free(tmp);
+		i++;
+	}
+	*lst = (NULL);
+}
+

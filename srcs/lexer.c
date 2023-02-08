@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/07 15:03:19 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/08 12:09:39 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,35 @@ bool		is_quoted(char c, t_minishell *ms);
 bool		is_delimiter(char c);
 bool		is_space(char c);
 
+//a > b | cd >> e だとリストのサイズが８になる
 void	lexer(t_minishell *ms)
 {
 	t_mslist	*tmp;
 	char		*start;
 	size_t		len;
 
+	//printf("strlen= %ld\n", ft_strlen(ms->input));//
 	while (*ms->input)
 	{
 		len = 0;
 		start = ms->input;
+		//printf("ms->input= %c\n", *ms->input);//
 		while (*ms->input && is_quoted(*ms->input, ms))
 			ms->input++;
+			//printf("len= %ld\n", ms->input - start);//
 		while (*ms->input && !(is_space(*ms->input)) \
 			&& !(is_delimiter(*ms->input)))
 			ms->input++;
+			//printf("len= %ld\n", ms->input - start);//
 		len = ms->input - start;
 		if (len > 0)
 		{
+			//printf("len= %ld\n", len);//
 			tmp = ms_lstnew(len, start);
+			//printf("tmp= %s\n", tmp->str);//
 			ms_lstadd_back(&ms->list, tmp);
 		}
-		if (is_delimiter(*ms->input))
+		else if (is_delimiter(*ms->input))
 			ms->input = add_list(ms->input, &ms->list);
 		ms->input++;
 	}
@@ -56,8 +63,8 @@ char	*add_list(char *input, t_mslist	**list)
 		input++;
 	len = input - start;
 	tmp = ms_lstnew(len, start);
+	//printf("addtmp= %s\n", tmp->str);//
 	ms_lstadd_back(list, tmp);
-	input--;
 	return (input);
 }
 
@@ -93,8 +100,8 @@ bool	is_delimiter(char c)
 
 bool	is_space(char c)
 {
-	if (c == ' ' || c == '\t' || c == '\r'
-		|| c == '\n' || c == '\v' || c == '\f')
+	if (c == ' ' || c == '\t' || c == '\r' || c == '\n' \
+	|| c == '\v' || c == '\f' || c == '\0')
 		return (true);
 	else
 		return (false);

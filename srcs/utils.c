@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/01/27 16:07:50 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/08 11:13:26 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,21 @@ t_minishell	*init_struct_ms(t_minishell *ms)
 	ms->list = NULL;
 	ms->exec = NULL;
 	return (ms);
+}
+
+char	*toupper_char(char *str)
+{
+	char	*tmp;
+	char	*start;
+
+	tmp = ft_strdup(str);
+	start = tmp;
+	while (*tmp != '\0')
+	{
+		*tmp = ft_toupper(*tmp);
+		tmp++;
+	}
+	return (start);
 }
 
 void	get_pathname(void)

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/07 15:56:08 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/08 11:55:20 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 static void	minishell(t_minishell *ms);
 static void	signal_handler(int signum);
 
+//syntax error、終了ステータス等のエラー処理してない
+//リダイレクト実装してない
+//環境変数の展開してない
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*ms;
@@ -24,26 +27,6 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGQUIT, SIG_IGN);
 	minishell(ms);
 	return (0);
-}
-
-static void	print_execlist(t_minishell *ms)
-{
-	size_t		i;
-	size_t		j;
-
-	i = 0;
-	//printf("execsize= %d\n", exec_lstsize(ms->exec));//
-	while (ms->exec)
-	{
-		j = 0;
-		while (ms->exec->cmdline[j] != 0)
-		{
-			printf("[exec:%ld]cmdline[%ld]= %s\n", i, j, ms->exec->cmdline[j]);
-			j++;
-		}
-		ms->exec = ms->exec->next;
-		i++;
-	}
 }
 
 static void	minishell(t_minishell *ms)
@@ -61,9 +44,10 @@ static void	minishell(t_minishell *ms)
 		ms->input = line;
 		lexer(ms);
 		parser(ms);
-		print_execlist(ms);//
+		//expansion(ms);
 		free(line);
 		ms_lstclear(&ms->list);
+		exec_lstclear(&ms->exec);
 	}
 	exit(ms->exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/07 14:44:25 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/08 12:04:28 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ typedef struct s_mslist
 {
 	char			*str;
 	t_pipe			pipe;
-	t_redirect		redirect;
-	t_cmd			cmd;
+	// t_redirect		redirect;
+	// t_cmd			cmd;
 	struct s_mslist	*next;
 }	t_mslist;
 
@@ -138,6 +138,7 @@ void		parser(t_minishell *ms);
 
 //utils.c
 t_minishell	*init_struct_ms(t_minishell *ms);
+char		*toupper_char(char *str);
 void		get_pathname(void);
 
 //mslist.c
@@ -151,5 +152,6 @@ void		ms_lstclear(t_mslist **lst);
 t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num);
 void		exec_lstadd_back(t_execlist **lst, t_execlist *new);
 int			exec_lstsize(t_execlist *lst);
+void		exec_lstclear(t_execlist **lst);
 
 #endif
