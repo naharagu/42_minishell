@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/08 15:58:59 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/09 11:49:04 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,14 @@ typedef struct s_mslist
 typedef struct s_cmdlist
 {
 	char				*str;
-	//char				*quote;
+	t_quote				quote;
 	struct s_cmdlist	*next;
 }	t_cmdlist;
 
 typedef struct s_redlist
 {
 	char				*str;
-	//char				*quote;
+	t_quote				quote;
 	int					fd;
 	struct s_redlist	*next;
 }	t_redlist;

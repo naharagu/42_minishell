@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/08 15:59:30 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/09 11:50:33 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_cmdlist	*cmd_lstnew(t_cmdlist *cmd)
 	if (!cmd)
 		exit (EXIT_FAILURE);
 	cmd->str = NULL;
-	//cmd->quote = NULL;
+	cmd->quote = NO_QUOTE;
 	cmd->next = NULL;
 	return (cmd);
 }
@@ -64,6 +64,7 @@ t_redlist	*red_lstnew(t_redlist *red)
 	if (!red)
 		exit (EXIT_FAILURE);
 	red->str = NULL;
+	red->quote = NO_QUOTE;
 	red->fd = 0;
 	red->next = NULL;
 	return (red);
