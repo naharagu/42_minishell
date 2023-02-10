@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/10 11:39:58 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/10 15:11:17 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ bool		is_quoted(char c, t_minishell *ms);
 bool		is_delimiter(char c);
 bool		is_space(char c);
 
-//a > b | cd >> e だとリストのサイズが８になる
 void	lexer(t_minishell *ms)
 {
 	t_mslist	*tmp;
@@ -30,11 +29,9 @@ void	lexer(t_minishell *ms)
 		start = ms->input;
 		while (*ms->input && is_quoted(*ms->input, ms))
 			ms->input++;
-			//printf("len= %ld\n", ms->input - start);//
 		while (*ms->input && !(is_space(*ms->input)) \
 			&& !(is_delimiter(*ms->input)))
 			ms->input++;
-			//printf("len= %ld\n", ms->input - start);//
 		len = ms->input - start;
 		if (len > 0)
 		{
@@ -47,7 +44,7 @@ void	lexer(t_minishell *ms)
 	}
 }
 
-char	*add_list(char *input, t_mslist	**list)
+static char	*add_list(char *input, t_mslist	**list)
 {
 	t_mslist	*tmp;
 	char		*start;

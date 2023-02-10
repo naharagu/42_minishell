@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/10 12:18:58 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/10 16:00:53 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,10 @@ void	get_pathname(void)
 	free(pathname);
 }
 
+//a > b | cd >> e だとリストのサイズが８になる
 void	print_mslist(t_minishell *ms)
 {
-	size_t	i;
+	size_t		i;
 
 	i = 0;
 	printf("lstsize= %d\n", ms_lstsize(ms->list));
@@ -66,38 +67,49 @@ void	print_mslist(t_minishell *ms)
 	}
 }
 
+//print_mslistの後だと動かない
 void	print_execlist(t_minishell *ms)
 {
-	size_t	i;
-	size_t	j;
+	size_t		i;
+	size_t		j;
 
 	printf("execsize= %d\n", exec_lstsize(ms->exec));
-	printf("cmdtype= %d\n", ms->exec->cmdtype);
-	printf("redtype= %d\n", ms->exec->redtype);
-	// j = 0;
-	// while (ms->exec)
-	// {
-	// 	i = 0;
-	// 	while (ms->exec->cmdline[i] != 0)
-	// 	{
-	// 		printf("[exec:%ld]cmdline[%ld]= %s\n", j, i, ms->exec->cmdline[i]);
-	// 		i++;
-	// 	}
-	// 	ms->exec = ms->exec->next;
-	// 	j++;
-	// }
-	// i = 0;
-	// j = 0;
-	// while (ms->exec->cmd)
-	// {
-	// 	printf("cmd[%ld]= %s\n", i, ms->exec->cmd->str);
-	// 	ms->exec->cmd = ms->exec->cmd->next;
-	// 	i++;
-	// }
-	// while (ms->exec->red)
-	// {
-	// 	printf("red[%ld]= %s\n", j, ms->exec->red->str);
-	// 	ms->exec->red = ms->exec->red->next;
-	// 	j++;
-	// }
+	j = 0;
+	while (ms->exec)
+	{
+		i = 0;
+		while (ms->exec->cmdline[i] != 0)
+		{
+			printf("[exec:%ld]cmdline[%ld]= %s\n", j, i, ms->exec->cmdline[i]);
+			i++;
+		}
+		ms->exec = ms->exec->next;
+		j++;
+	}
+}
+
+void	print_cmdredlist(t_minishell *ms)
+{
+	size_t		i;
+
+	while (ms->exec)
+	{
+		printf("cmdtype= %d\n", ms->exec->cmdtype);
+		printf("redtype= %d\n", ms->exec->redtype);
+		i = 0;
+		while (ms->exec->cmd)
+		{
+			printf("cmd[%ld]= %s\n", i, ms->exec->cmd->str);
+			ms->exec->cmd = ms->exec->cmd->next;
+			i++;
+		}
+		i = 0;
+		while (ms->exec->red)
+		{
+			printf("red[%ld]= %s\n", i, ms->exec->red->str);
+			ms->exec->red = ms->exec->red->next;
+			i++;
+		}
+		ms->exec = ms->exec->next;
+	}
 }

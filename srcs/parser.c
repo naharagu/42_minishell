@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/10 12:56:33 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/10 16:01:13 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	parser(t_minishell *ms)
 	t_execlist	*tmp;
 	size_t		num;
 
+	//print_mslist(ms);//
 	start = ms->list;
 	num = 0;
 	while (ms->list)
@@ -31,7 +32,6 @@ void	parser(t_minishell *ms)
 		if (ms->list->pipe != NO_PIPE)
 		{
 			tmp = exec_lstnew(ms, start, num);
-			printf ("tmp=%s", tmp->cmdline[0]);//
 			exec_lstadd_back(&ms->exec, tmp);
 			start = ms->list->next;
 			num = 0;
@@ -42,6 +42,7 @@ void	parser(t_minishell *ms)
 	}
 	tmp = exec_lstnew(ms, start, num);
 	exec_lstadd_back(&ms->exec, tmp);
+	//print_execlist(ms);//
 	check_execlist(ms);
 }
 
@@ -56,34 +57,33 @@ void	check_pipe(t_minishell *ms, char *str)
 void	check_execlist(t_minishell *ms)
 {
 	size_t		i;
-	size_t		j;
 
-	j = 0;
-	printf("execsize= %d\n", exec_lstsize(ms->exec));//
 	while (ms->exec)
 	{
 		i = 0;
 		while (ms->exec->cmdline[i] != 0)
 		{
-			printf("[exec:%ld]cmdline[%ld]= %s\n", j, i, ms->exec->cmdline[j]);//
 			check_cmd(ms, ms->exec->cmdline[i]);
 			check_red(ms, ms->exec->cmdline[i]);
+			//printf("cmdtype= %d\n", ms->exec->cmdtype);//
+			//printf("redtype= %d\n", ms->exec->redtype);//
 			if (ms->exec->redtype == NO_REDIRECT)
 			{
 				ms->exec->cmd->str = ms->exec->cmdline[i];
+				//printf("cmd[%ld]= %s\n", i, ms->exec->cmd->str);//
 				ms->exec->cmd->next = cmd_lstnew(ms->exec->cmd->next);
 				ms->exec->cmd = ms->exec->cmd->next;
 			}
 			else if (ms->exec->redtype != NO_REDIRECT)
 			{
 				ms->exec->red->str = ms->exec->cmdline[i];
+				//printf("red[%ld]= %s\n", i, ms->exec->red->str);//
 				ms->exec->red->next = red_lstnew(ms->exec->red->next);
 				ms->exec->red = ms->exec->red->next;
 			}
 			i++;
 		}
 		ms->exec = ms->exec->next;
-		j++;
 	}
 }
 
