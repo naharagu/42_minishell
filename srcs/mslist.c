@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:01:38 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/08 11:55:02 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/10 12:25:43 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,11 @@ void	ms_lstadd_back(t_mslist **lst, t_mslist *new)
 
 int	ms_lstsize(t_mslist *lst)
 {
-	t_mslist	*first;
 	int			size;
 
 	if (!lst)
 		return (0);
 	size = 0;
-	first = lst;
 	while (lst)
 	{
 		size++;

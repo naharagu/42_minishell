@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/09 11:49:04 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/10 12:03:50 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,10 +136,15 @@ void		lexer(t_minishell *ms);
 //parser.c
 void		parser(t_minishell *ms);
 
+//expansion.c
+void		expansion(t_minishell *ms);
+
 //utils.c
 t_minishell	*init_struct_ms(t_minishell *ms);
 char		*toupper_char(char *str);
 void		get_pathname(void);
+void		print_mslist(t_minishell *ms);
+void		print_execlist(t_minishell *ms);
 
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);

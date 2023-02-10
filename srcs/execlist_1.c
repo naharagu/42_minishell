@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/09 11:50:33 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/10 13:01:44 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 	j = 0;
 	while (j < num)
 	{
-		new->cmdline[j] = list->str;
+		new->cmdline[j][0] = list->str;
 		list = list->next;
 		j++;
 	}
@@ -42,7 +42,6 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 	new->cmd = cmd_lstnew(new->cmd);
 	new->red = red_lstnew(new->red);
 	new->env = env_lstnew(new->env);
-	//init_lists(new, ms);
 	new->next = NULL;
 	return (new);
 }
@@ -80,26 +79,3 @@ t_envlist	*env_lstnew(t_envlist *env)
 	env->next = NULL;
 	return (env);
 }
-
-// static void	init_lists(t_execlist *new, t_minishell *ms)
-// {
-// 	new->cmd = (t_cmdlist *)malloc(sizeof(t_cmdlist));
-// 	if (!new->cmd)
-// 		exit (EXIT_FAILURE);
-// 	new->cmd->str = NULL;
-// 	//new->cmd->quote = NULL;
-// 	new->cmd->next = NULL;
-// 	new->red = (t_redlist *)malloc(sizeof(t_redlist));
-// 	if (!new->red)
-// 		exit (EXIT_FAILURE);
-// 	new->red->redtype = NO_REDIRECT;
-// 	new->red->str = NULL;
-// 	new->red->fd = 0;
-// 	new->red->next = NULL;
-// 	new->env = (t_envlist *)malloc(sizeof(t_envlist));
-// 	if (!new->env)
-// 		exit (EXIT_FAILURE);
-// 	new->env->key = NULL;
-// 	new->env->value = NULL;
-// 	new->env->next = NULL;
-// }

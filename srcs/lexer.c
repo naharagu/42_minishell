@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/08 12:09:39 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/10 11:39:58 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,10 @@ void	lexer(t_minishell *ms)
 	char		*start;
 	size_t		len;
 
-	//printf("strlen= %ld\n", ft_strlen(ms->input));//
 	while (*ms->input)
 	{
 		len = 0;
 		start = ms->input;
-		//printf("ms->input= %c\n", *ms->input);//
 		while (*ms->input && is_quoted(*ms->input, ms))
 			ms->input++;
 			//printf("len= %ld\n", ms->input - start);//
@@ -40,9 +38,7 @@ void	lexer(t_minishell *ms)
 		len = ms->input - start;
 		if (len > 0)
 		{
-			//printf("len= %ld\n", len);//
 			tmp = ms_lstnew(len, start);
-			//printf("tmp= %s\n", tmp->str);//
 			ms_lstadd_back(&ms->list, tmp);
 		}
 		else if (is_delimiter(*ms->input))
@@ -63,7 +59,6 @@ char	*add_list(char *input, t_mslist	**list)
 		input++;
 	len = input - start;
 	tmp = ms_lstnew(len, start);
-	//printf("addtmp= %s\n", tmp->str);//
 	ms_lstadd_back(list, tmp);
 	return (input);
 }

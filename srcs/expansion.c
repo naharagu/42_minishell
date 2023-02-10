@@ -6,29 +6,42 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/09 13:14:23 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/10 11:21:05 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_cmd(t_cmdlist *cmd, t_execlist *exec);
-char	*check_env(char *str, t_execlist *exec);
+void	trim_quote_cmd(t_cmdlist *cmd);
+void	expand_env_cmd(t_cmdlist *cmd, t_execlist *exec);
+void	trim_quote_red(t_redlist *red);
+void	expand_env_red(t_redlist *red, t_execlist *exec);
 
 void	expansion(t_minishell *ms)
 {
+	ms->exec->env->key = ft_strdup("KEY");//
+	ms->exec->env->value = ft_strdup("value");//
 	while (ms->exec)
 	{
 		while (ms->exec->cmd)
 		{
-			check_cmd(ms->exec->cmd, ms->exec);
+			trim_quote_cmd(ms->exec->cmd);
+			expand_env_cmd(ms->exec->cmd, ms->exec);
 			ms->exec->cmd = ms->exec->cmd->next;
+		}
+		while (ms->exec->red)
+		{
+			trim_quote_red(ms->exec->red);
+			expand_env_red(ms->exec->red, ms->exec);
+			ms->exec->red = ms->exec->red->next;
 		}
 		ms->exec = ms->exec->next;
 	}
+	free(ms->exec->env->key);
+	free(ms->exec->env->value);
 }
 
-void	check_cmd(t_cmdlist *cmd, t_execlist *exec)
+void	trim_quote_cmd(t_cmdlist *cmd)
 {
 	if (*cmd->str == '\'')
 	{
@@ -40,29 +53,50 @@ void	check_cmd(t_cmdlist *cmd, t_execlist *exec)
 		cmd->quote = D_QUOTE;
 		cmd->str = ft_strtrim(cmd->str, "\"");
 	}
-	printf("cmd->str = %s", cmd->str);//
-	if (*cmd->str == '$' && cmd->quote != S_QUOTE)
-		cmd->str = expand_env(cmd->str, exec);
-	printf("cmd->str = %s", cmd->str);//
+	printf("trimedcmdstr = %s", cmd->str);//
 }
 
-char	*expand_env(char *str, t_execlist *exec)
+void	expand_env_cmd(t_cmdlist *cmd, t_execlist *exec)
 {
-	char	*newstr;
-	size_t	len;
-	size_t	i;
-
-	len = 0;
-	i = 1;
-	while (str[i] != '\0')
+	if (*cmd->str == '$' && cmd->quote != S_QUOTE)
 	{
 		while (exec->env)
 		{
-			if (!(ft_strncmp(exec->env->key, \
-				cmd->str[i], ft_strlen(exec->env->key))))
+			if (!(ft_strncmp(exec->env->key, &cmd->str[1], \
+				ft_strlen(exec->env->key))))
+				cmd->str = exec->env->value;
 			exec->env = exec->env->next;
 		}
-		i++;
 	}
-	return (newstr);
+	printf("expandedcmdstr = %s", cmd->str);//
+}
+
+void	trim_quote_red(t_redlist *red)
+{
+	if (*red->str == '\'')
+	{
+		red->quote = S_QUOTE;
+		red->str = ft_strtrim(red->str, "\'");
+	}
+	else if (*red->str == '\"')
+	{
+		red->quote = D_QUOTE;
+		red->str = ft_strtrim(red->str, "\"");
+	}
+	printf("trimedredstr = %s", red->str);//
+}
+
+void	expand_env_red(t_redlist *red, t_execlist *exec)
+{
+	if (*red->str == '$' && red->quote != S_QUOTE)
+	{
+		while (exec->env)
+		{
+			if (!(ft_strncmp(exec->env->key, &red->str[1], \
+				ft_strlen(exec->env->key))))
+				red->str = exec->env->value;
+			exec->env = exec->env->next;
+		}
+	}
+	printf("expandedredstr = %s", red->str);//
 }

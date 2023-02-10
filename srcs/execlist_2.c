@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:49 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/08 15:46:26 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/10 12:25:30 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,11 @@ void	exec_lstadd_back(t_execlist **lst, t_execlist *new)
 
 int	exec_lstsize(t_execlist *lst)
 {
-	t_execlist	*first;
 	int			size;
 
 	if (!lst)
 		return (0);
 	size = 0;
-	first = lst;
 	while (lst)
 	{
 		size++;

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/08 16:04:12 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/10 12:56:33 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ void	parser(t_minishell *ms)
 
 	start = ms->list;
 	num = 0;
-	//printf("listsize= %d\n", ms_lstsize(ms->list));//
 	while (ms->list)
 	{
 		check_pipe(ms, ms->list->str);
 		if (ms->list->pipe != NO_PIPE)
 		{
 			tmp = exec_lstnew(ms, start, num);
+			printf ("tmp=%s", tmp->cmdline[0]);//
 			exec_lstadd_back(&ms->exec, tmp);
 			start = ms->list->next;
 			num = 0;
@@ -59,7 +59,7 @@ void	check_execlist(t_minishell *ms)
 	size_t		j;
 
 	j = 0;
-	//printf("execsize= %d\n", exec_lstsize(ms->exec));//
+	printf("execsize= %d\n", exec_lstsize(ms->exec));//
 	while (ms->exec)
 	{
 		i = 0;
@@ -71,14 +71,12 @@ void	check_execlist(t_minishell *ms)
 			if (ms->exec->redtype == NO_REDIRECT)
 			{
 				ms->exec->cmd->str = ms->exec->cmdline[i];
-				printf("cmdstr= %s\n", ms->exec->cmd->str);//
 				ms->exec->cmd->next = cmd_lstnew(ms->exec->cmd->next);
 				ms->exec->cmd = ms->exec->cmd->next;
 			}
 			else if (ms->exec->redtype != NO_REDIRECT)
 			{
 				ms->exec->red->str = ms->exec->cmdline[i];
-				printf("redstr= %s\n", ms->exec->red->str);//
 				ms->exec->red->next = red_lstnew(ms->exec->red->next);
 				ms->exec->red = ms->exec->red->next;
 			}
@@ -109,7 +107,6 @@ void	check_cmd(t_minishell *ms, char *str)
 	else if (!(ft_strncmp("EXIT", upstr, ft_strlen("EXIT"))))
 		ms->exec->cmdtype = EXIT_CMD;
 	free(upstr);
-	printf("cmdtype= %d\n", ms->exec->cmdtype);//
 }
 
 void	check_red(t_minishell *ms, char *str)
@@ -122,5 +119,4 @@ void	check_red(t_minishell *ms, char *str)
 		ms->exec->redtype = HERE_DOC;
 	else if (!(ft_strncmp(">>", str, ft_strlen(">>"))))
 		ms->exec->redtype = APPEND;
-	printf("redtype= %d\n", ms->exec->redtype);//
 }
