@@ -6,16 +6,16 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/10 16:01:13 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/10 16:54:55 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_pipe(t_minishell *ms, char *str);
 void	check_execlist(t_minishell *ms);
 void	check_cmd(t_minishell *ms, char *str);
 void	check_red(t_minishell *ms, char *str);
+void	copy_cmd_red_list(t_minishell *ms, char *str, size_t i);
 
 void	parser(t_minishell *ms)
 {
@@ -23,7 +23,6 @@ void	parser(t_minishell *ms)
 	t_execlist	*tmp;
 	size_t		num;
 
-	//print_mslist(ms);//
 	start = ms->list;
 	num = 0;
 	while (ms->list)
@@ -42,22 +41,15 @@ void	parser(t_minishell *ms)
 	}
 	tmp = exec_lstnew(ms, start, num);
 	exec_lstadd_back(&ms->exec, tmp);
-	//print_execlist(ms);//
 	check_execlist(ms);
-}
-
-void	check_pipe(t_minishell *ms, char *str)
-{
-	if (!(ft_strncmp("|", str, ft_strlen(str))))
-		ms->list->pipe = PIPE;
-	else if (!(ft_strncmp(";", str, ft_strlen(str))))
-		ms->list->pipe = SEMICOLON;
 }
 
 void	check_execlist(t_minishell *ms)
 {
+	t_execlist	*start;
 	size_t		i;
 
+	start = ms->exec;
 	while (ms->exec)
 	{
 		i = 0;
@@ -65,26 +57,12 @@ void	check_execlist(t_minishell *ms)
 		{
 			check_cmd(ms, ms->exec->cmdline[i]);
 			check_red(ms, ms->exec->cmdline[i]);
-			//printf("cmdtype= %d\n", ms->exec->cmdtype);//
-			//printf("redtype= %d\n", ms->exec->redtype);//
-			if (ms->exec->redtype == NO_REDIRECT)
-			{
-				ms->exec->cmd->str = ms->exec->cmdline[i];
-				//printf("cmd[%ld]= %s\n", i, ms->exec->cmd->str);//
-				ms->exec->cmd->next = cmd_lstnew(ms->exec->cmd->next);
-				ms->exec->cmd = ms->exec->cmd->next;
-			}
-			else if (ms->exec->redtype != NO_REDIRECT)
-			{
-				ms->exec->red->str = ms->exec->cmdline[i];
-				//printf("red[%ld]= %s\n", i, ms->exec->red->str);//
-				ms->exec->red->next = red_lstnew(ms->exec->red->next);
-				ms->exec->red = ms->exec->red->next;
-			}
+			copy_cmd_red_list(ms, ms->exec->cmdline[i], i);
 			i++;
 		}
 		ms->exec = ms->exec->next;
 	}
+	ms->exec = start;
 }
 
 void	check_cmd(t_minishell *ms, char *str)
@@ -119,4 +97,34 @@ void	check_red(t_minishell *ms, char *str)
 		ms->exec->redtype = HERE_DOC;
 	else if (!(ft_strncmp(">>", str, ft_strlen(">>"))))
 		ms->exec->redtype = APPEND;
+}
+
+void	copy_cmd_red_list(t_minishell *ms, char *str, size_t i)
+{
+	t_cmdlist	*startcmd;
+	t_redlist	*startred;
+
+	printf("cmdtype= %d\n", ms->exec->cmdtype);//
+	printf("redtype= %d\n", ms->exec->redtype);//
+	startcmd = ms->exec->cmd;
+	startred = ms->exec->red;
+	if (ms->exec->redtype == NO_REDIRECT)
+	{
+		ms->exec->cmd->str = str;
+		printf("cmd[%ld]= %s\n", i,  ms->exec->cmd->str);//
+		ms->exec->cmd->next = cmd_lstnew(ms->exec->cmd->next);
+		ms->exec->cmd = ms->exec->cmd->next;
+	}
+	else if (ms->exec->redtype != NO_REDIRECT)
+	{
+		ms->exec->red->str = str;
+		printf("red[%ld]= %s\n", i, ms->exec->red->str);//
+		ms->exec->red->next = red_lstnew(ms->exec->red->next);
+		ms->exec->red = ms->exec->red->next;
+	}
+	ms->exec->cmd = startcmd;
+	ms->exec->red = startred;
+	printf("startcmd= %s\n", ms->exec->cmd->str);//
+	printf("startred= %s\n", ms->exec->red->str);//
+	//startがズレてる
 }
