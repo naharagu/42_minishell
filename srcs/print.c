@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 10:40:12 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 11:37:07 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	print_mslist(t_minishell *ms)
 
 void	print_execlist(t_minishell *ms)
 {
-	t_execlist	*start;
+	t_execlist	*startexec;
 	size_t		i;
 	size_t		j;
 
-	start = ms->exec;
+	startexec = ms->exec;
 	printf("execsize= %d\n", exec_lstsize(ms->exec));
 	j = 0;
 	while (ms->exec)
@@ -50,18 +50,18 @@ void	print_execlist(t_minishell *ms)
 		ms->exec = ms->exec->next;
 		j++;
 	}
-	ms->exec = start;
+	ms->exec = startexec;
 }
 
 void	print_cmdredlist(t_minishell *ms)
 {
-	t_execlist	*start;
+	t_execlist	*startexec;
 	t_cmdlist	*startcmd;
 	t_redlist	*startred;
 	size_t		i;
 	size_t		j;
 
-	start = ms->exec;
+	startexec = ms->exec;
 	j = 0;
 	while (ms->exec)
 	{
@@ -88,5 +88,5 @@ void	print_cmdredlist(t_minishell *ms)
 		ms->exec = ms->exec->next;
 		j++;
 	}
-	ms->exec = start;
+	ms->exec = startexec;
 }

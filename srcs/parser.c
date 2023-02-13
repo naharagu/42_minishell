@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 10:40:58 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 11:31:41 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ void	parser(t_minishell *ms)
 
 void	check_execlist(t_minishell *ms)
 {
-	t_execlist	*start;
+	t_execlist	*startexec;
 	t_cmdlist	*startcmd;
 	t_redlist	*startred;
 	size_t		i;
 
-	start = ms->exec;
+	startexec = ms->exec;
 	while (ms->exec)
 	{
 		startcmd = ms->exec->cmd;
@@ -68,7 +68,7 @@ void	check_execlist(t_minishell *ms)
 		ms->exec->red = startred;
 		ms->exec = ms->exec->next;
 	}
-	ms->exec = start;
+	ms->exec = startexec;
 }
 
 void	check_cmd(t_minishell *ms, char *str)

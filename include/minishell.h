@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/10 16:19:04 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 11:34:26 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,13 @@ typedef struct s_execlist
 	t_envlist			*env;
 	struct s_execlist	*next;
 }	t_execlist;
+
+typedef struct s_start
+{
+	t_execlist			*startexec;
+	t_cmdlist			*startcmd;
+	t_redlist			*startred;
+}	t_start;
 
 typedef struct s_minishell
 {

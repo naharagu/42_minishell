@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/10 11:21:05 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 10:55:06 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,17 @@ void	expand_env_red(t_redlist *red, t_execlist *exec);
 
 void	expansion(t_minishell *ms)
 {
+	t_execlist	*start;
+	t_cmdlist	*startcmd;
+	t_redlist	*startred;
+
 	ms->exec->env->key = ft_strdup("KEY");//
 	ms->exec->env->value = ft_strdup("value");//
+	start = ms->exec;
 	while (ms->exec)
 	{
+		startcmd = ms->exec->cmd;
+		startred = ms->exec->red;
 		while (ms->exec->cmd)
 		{
 			trim_quote_cmd(ms->exec->cmd);
@@ -35,10 +42,13 @@ void	expansion(t_minishell *ms)
 			expand_env_red(ms->exec->red, ms->exec);
 			ms->exec->red = ms->exec->red->next;
 		}
+		ms->exec->cmd = startcmd;
+		ms->exec->red = startred;
 		ms->exec = ms->exec->next;
 	}
-	free(ms->exec->env->key);
-	free(ms->exec->env->value);
+	ms->exec = start;
+	free(ms->exec->env->key);//
+	free(ms->exec->env->value);//
 }
 
 void	trim_quote_cmd(t_cmdlist *cmd)
