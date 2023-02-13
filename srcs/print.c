@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 14:07:00 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 22:30:54 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	print_cmdredlist(t_minishell *ms)
 	size_t		i;
 	size_t		j;
 
-	startexec = ms->exec;
+	ms->exec = startexec;
 	j = 0;
 	while (ms->exec)
 	{

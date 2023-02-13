@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 22:10:01 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 22:20:18 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	minishell(t_minishell *ms);
 static void	signal_handler(int signum);
 
-//syntax error、終了ステータス等のエラー処理してない
 //リダイレクト実装してない
 int	main(int argc, char **argv, char **env)
 {
@@ -45,9 +44,9 @@ static void	minishell(t_minishell *ms)
 		//print_mslist(ms);//
 		parser(ms);
 		//print_execlist(ms);//
-		print_cmdredlist(ms);//
-		expansion(ms);
 		//print_cmdredlist(ms);//
+		expansion(ms);
+		print_cmdredlist(ms);//
 		free(line);
 		ms_lstclear(&ms->list);
 		exec_lstclear(&ms->exec);

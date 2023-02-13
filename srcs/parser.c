@@ -6,23 +6,16 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 22:07:15 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 22:28:11 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num);
 void	check_execlist(t_minishell *ms);
 void	check_cmd_red(t_minishell *ms, char *str);
 void	copy_cmd_red_list(t_minishell *ms, char *str);
-
-void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num)
-{
-	t_execlist	*tmp;
-
-	tmp = exec_lstnew(ms, first, num);
-	exec_lstadd_back(&ms->exec, tmp);
-}
 
 void	parser(t_minishell *ms)
 {
@@ -50,6 +43,14 @@ void	parser(t_minishell *ms)
 	add_execlist(ms, first, num);
 	check_execlist(ms);
 	error_parser(ms);
+}
+
+void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num)
+{
+	t_execlist	*tmp;
+
+	tmp = exec_lstnew(ms, first, num);
+	exec_lstadd_back(&ms->exec, tmp);
 }
 
 void	check_execlist(t_minishell *ms)

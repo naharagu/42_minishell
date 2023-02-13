@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 22:16:02 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 22:35:37 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ void	error_lexer(t_minishell *ms)
 void	error_parser(t_minishell *ms)
 {
 	t_mslist	*start;
+	t_execlist	*startexec;
 
 	start = ms->list;
+	startexec = ms->exec;
 	while (ms->list)
 	{
 		if (*ms->list->str == '|' && ms->list->next == NULL)
@@ -41,6 +43,11 @@ void	error_parser(t_minishell *ms)
 		ms->list = ms->list->next;
 	}
 	ms->list = start;
-	if (red_lstsize(ms->exec->red) < 2)
-		error_exit("newline", SYNTAX);
+	while (ms->exec)
+	{
+		if (red_lstsize(ms->exec->red) == 1)
+			error_exit("newline", SYNTAX);
+		ms->exec = ms->exec->next;
+	}
+	ms->exec = startexec;
 }
