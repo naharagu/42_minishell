@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/10 16:46:23 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 10:40:12 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	print_execlist(t_minishell *ms)
 void	print_cmdredlist(t_minishell *ms)
 {
 	t_execlist	*start;
+	t_cmdlist	*startcmd;
+	t_redlist	*startred;
 	size_t		i;
 	size_t		j;
 
@@ -65,20 +67,24 @@ void	print_cmdredlist(t_minishell *ms)
 	{
 		printf("cmdtype= %d\n", ms->exec->cmdtype);
 		printf("redtype= %d\n", ms->exec->redtype);
+		startcmd = ms->exec->cmd;
+		startred = ms->exec->red;
 		i = 0;
-		while (ms->exec->cmd)
+		while (ms->exec->cmd->next)
 		{
-			printf("[%ld]cmd[%ld]= %s\n", j, i, ms->exec->cmd->str);
+			printf("[exec:%ld]cmd[%ld]= %s\n", j, i, ms->exec->cmd->str);
 			ms->exec->cmd = ms->exec->cmd->next;
 			i++;
 		}
 		i = 0;
-		while (ms->exec->red)
+		while (ms->exec->red->next)
 		{
-			printf("[%ld]red[%ld]= %s\n", j, i, ms->exec->red->str);
+			printf("[exec:%ld]red[%ld]= %s\n", j, i, ms->exec->red->str);
 			ms->exec->red = ms->exec->red->next;
 			i++;
 		}
+		ms->exec->cmd = startcmd;
+		ms->exec->red = startred;
 		ms->exec = ms->exec->next;
 		j++;
 	}

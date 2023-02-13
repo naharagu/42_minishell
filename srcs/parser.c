@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/10 16:54:55 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 10:40:58 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	check_execlist(t_minishell *ms);
 void	check_cmd(t_minishell *ms, char *str);
 void	check_red(t_minishell *ms, char *str);
-void	copy_cmd_red_list(t_minishell *ms, char *str, size_t i);
+void	copy_cmd_red_list(t_minishell *ms, char *str);
 
 void	parser(t_minishell *ms)
 {
@@ -47,19 +47,25 @@ void	parser(t_minishell *ms)
 void	check_execlist(t_minishell *ms)
 {
 	t_execlist	*start;
+	t_cmdlist	*startcmd;
+	t_redlist	*startred;
 	size_t		i;
 
 	start = ms->exec;
 	while (ms->exec)
 	{
+		startcmd = ms->exec->cmd;
+		startred = ms->exec->red;
 		i = 0;
-		while (ms->exec->cmdline[i] != 0)
+		while (ms->exec->cmdline[i])
 		{
 			check_cmd(ms, ms->exec->cmdline[i]);
 			check_red(ms, ms->exec->cmdline[i]);
-			copy_cmd_red_list(ms, ms->exec->cmdline[i], i);
+			copy_cmd_red_list(ms, ms->exec->cmdline[i]);
 			i++;
 		}
+		ms->exec->cmd = startcmd;
+		ms->exec->red = startred;
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = start;
@@ -99,32 +105,18 @@ void	check_red(t_minishell *ms, char *str)
 		ms->exec->redtype = APPEND;
 }
 
-void	copy_cmd_red_list(t_minishell *ms, char *str, size_t i)
+void	copy_cmd_red_list(t_minishell *ms, char *str)
 {
-	t_cmdlist	*startcmd;
-	t_redlist	*startred;
-
-	printf("cmdtype= %d\n", ms->exec->cmdtype);//
-	printf("redtype= %d\n", ms->exec->redtype);//
-	startcmd = ms->exec->cmd;
-	startred = ms->exec->red;
 	if (ms->exec->redtype == NO_REDIRECT)
 	{
 		ms->exec->cmd->str = str;
-		printf("cmd[%ld]= %s\n", i,  ms->exec->cmd->str);//
 		ms->exec->cmd->next = cmd_lstnew(ms->exec->cmd->next);
 		ms->exec->cmd = ms->exec->cmd->next;
 	}
 	else if (ms->exec->redtype != NO_REDIRECT)
 	{
 		ms->exec->red->str = str;
-		printf("red[%ld]= %s\n", i, ms->exec->red->str);//
 		ms->exec->red->next = red_lstnew(ms->exec->red->next);
 		ms->exec->red = ms->exec->red->next;
 	}
-	ms->exec->cmd = startcmd;
-	ms->exec->red = startred;
-	printf("startcmd= %s\n", ms->exec->cmd->str);//
-	printf("startred= %s\n", ms->exec->red->str);//
-	//startがズレてる
 }
