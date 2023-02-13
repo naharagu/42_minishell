@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 14:49:27 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 16:48:55 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # include <readline/history.h>
 # include "libft.h"
 
-// # define 
+# define SYNTAX 1 
 
 typedef enum e_quote
 {
@@ -143,6 +143,11 @@ char		*toupper_char(char *str);
 void		check_pipe(t_minishell *ms, char *str);
 void		get_pathname(void);
 
+//error.c
+void		error_exit(char *str, size_t flag);
+void		error_lexer(t_minishell *ms);
+void		error_parser(t_minishell *ms);
+
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);
 t_mslist	*ms_lstlast(t_mslist *lst);
@@ -161,6 +166,7 @@ t_execlist	*exec_lstlast(t_execlist *lst);
 void		exec_lstadd_back(t_execlist **lst, t_execlist *new);
 int			exec_lstsize(t_execlist *lst);
 void		exec_lstclear(t_execlist **lst);
+int			red_lstsize(t_redlist *lst);
 
 //print.c
 void		print_mslist(t_minishell *ms);

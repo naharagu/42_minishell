@@ -6,13 +6,13 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/10 15:11:17 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 17:35:57 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*add_list(char *input, t_mslist	**list);
+static char	*add_mslist(char *input, t_mslist	**list);
 bool		is_quoted(char c, t_minishell *ms);
 bool		is_delimiter(char c);
 bool		is_space(char c);
@@ -39,12 +39,13 @@ void	lexer(t_minishell *ms)
 			ms_lstadd_back(&ms->list, tmp);
 		}
 		else if (is_delimiter(*ms->input))
-			ms->input = add_list(ms->input, &ms->list);
+			ms->input = add_mslist(ms->input, &ms->list);
 		ms->input++;
 	}
+	error_lexer(ms);
 }
 
-static char	*add_list(char *input, t_mslist	**list)
+static char	*add_mslist(char *input, t_mslist	**list)
 {
 	t_mslist	*tmp;
 	char		*start;

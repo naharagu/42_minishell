@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 15:00:48 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 17:40:06 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*ms;
 
-	//printf("1ms = %p\n", &ms);//
 	ms = init_struct_ms(ms);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
@@ -45,10 +44,10 @@ static void	minishell(t_minishell *ms)
 		lexer(ms);
 		//print_mslist(ms);//
 		parser(ms);
-		//print_execlist(ms);//
-		print_cmdredlist(ms);//
+		print_execlist(ms);//
+		//print_cmdredlist(ms);//
 		expansion(ms);
-		print_cmdredlist(ms);//
+		//print_cmdredlist(ms);//
 		free(line);
 		ms_lstclear(&ms->list);
 		exec_lstclear(&ms->exec);

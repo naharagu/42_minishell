@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:49 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/10 12:25:30 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 16:02:51 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,19 @@ void	exec_lstclear(t_execlist **lst)
 		i++;
 	}
 	*lst = (NULL);
+}
+
+int	red_lstsize(t_redlist *lst)
+{
+	int			size;
+
+	if (!lst)
+		return (0);
+	size = 0;
+	while (lst)
+	{
+		size++;
+		lst = lst->next;
+	}
+	return (size);
 }

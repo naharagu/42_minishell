@@ -6,7 +6,7 @@
 #    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/02/10 16:06:41 by shimakaori       ###   ########.fr        #
+#    Updated: 2023/02/13 16:41:19 by shimakaori       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS		= 	main.c       \
 				lexer.c      \
 				parser.c     \
 				expansion.c  \
+				error.c      \
 				utils.c      \
 				mslist.c 	 \
 				execlist_1.c \
