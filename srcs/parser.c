@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 17:41:44 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 22:07:15 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ void	check_execlist(t_minishell *ms)
 		}
 		ms->exec->cmd = startcmd;
 		ms->exec->red = startred;
-		// if (red_lstsize(ms->exec->red) < 2)
-		// 	error_exit("newline", SYNTAX);
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;

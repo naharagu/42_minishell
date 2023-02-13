@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 17:34:16 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/13 22:16:02 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ void	error_parser(t_minishell *ms)
 	start = ms->list;
 	while (ms->list)
 	{
-		//printf("liststr=%s\n", ms->list->str);//
 		if (*ms->list->str == '|' && ms->list->next == NULL)
 			error_exit("No Command After Pipe", 0);
 		ms->list = ms->list->next;
 	}
 	ms->list = start;
+	if (red_lstsize(ms->exec->red) < 2)
+		error_exit("newline", SYNTAX);
 }
