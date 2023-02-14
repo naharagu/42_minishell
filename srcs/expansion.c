@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/14 14:36:50 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/14 15:08:46 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void	expansion(t_minishell *ms)
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;
-	free(ms->exec->env->key);//
-	free(ms->exec->env->value);//
 }
 
 void	expand_cmd(char *str, t_cmdlist *cmd, t_execlist *exec)
