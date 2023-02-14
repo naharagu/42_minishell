@@ -1,10 +1,32 @@
-CC			=	gcc
-# CFLAGS 		=	-Wall -Werror -Wextra -g -fsanitize=address
-CFLAGS 	=	-Wall -Werror -Wextra
-RL_FLAGS 	=	-I $(shell brew --prefix readline)/include -lreadline -lhistory -L$(shell brew --prefix readline)/lib
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
+#    Updated: 2023/02/13 16:41:19 by shimakaori       ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME		=	minishell
-SRCS		= 	main.c \
-				tokenizer.c
+CC			=	gcc
+C_FLAGS 	=	-Wall -Werror -Wextra -g -fsanitize=address
+# C_FLAGS 	=	-Wall -Werror -Wextra
+RL_FLAGS 	=	-I $(shell brew --prefix readline)/include -lreadline -lhistory -L$(shell brew --prefix readline)/lib
+INCLUDE		=   -I include -I $(LIB_DIR)
+VPATH 		=   srcs
+SRCS		= 	main.c       \
+				lexer.c      \
+				parser.c     \
+				expansion.c  \
+				error.c      \
+				utils.c      \
+				mslist.c 	 \
+				execlist_1.c \
+				execlist_2.c \
+				print.c
 OBJS_DIR	=	./obj/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
 LIB_DIR		= 	./libft
@@ -12,25 +34,22 @@ LIB			=	./libft/libft.a
 
 $(NAME): $(OBJS)
 	make -C $(LIB_DIR)
-	$(CC) $(CFLAGS) $(RL_FLAGS) $(OBJS) -o $(NAME) $(LIB)
+	$(CC) $(C_FLAGS) $(RL_FLAGS) $(OBJS) -o $(NAME) $(LIB)
 
 $(OBJS_DIR)%.o: %.c
-	mkdir -p $(OBJS_DIR)
-	$(CC) $(CFLAGS) -o $@ -c $<
+		mkdir -p $(OBJS_DIR)
+		$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 all: $(NAME)
 
 clean:
-	rm -f $(OBJS)
 	make -C $(LIB_DIR) clean
+	rm -f $(OBJS)
 
 fclean: clean
 	rm -f $(NAME)
 	rm -f $(LIB_DIR)/libft.a
 
 re: fclean all
-
-norm: $(SRCS)
-	norminette $(SRCS)
 
 .PHONY: all clean fclean re
