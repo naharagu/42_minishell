@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 14:58:37 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/14 14:36:50 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	expansion(t_minishell *ms)
 	while (ms->exec)
 	{
 		ms->exec->env->key = ft_strdup("KEY");//
-		ms->exec->env->value = ft_strdup("value");//
+		ms->exec->env->value = ft_strdup("hoge fuga");//
 		startcmd = ms->exec->cmd;
 		startred = ms->exec->red;
 		while (ms->exec->cmd->next)
@@ -49,9 +49,12 @@ void	expansion(t_minishell *ms)
 
 void	expand_cmd(char *str, t_cmdlist *cmd, t_execlist *exec)
 {
-	t_envlist			*startenv;
+	t_envlist	*startenv;
+	char		**split;
+	size_t		i;
 
 	startenv = exec->env;
+	i = 0;
 	if (*str == '\'')
 		cmd->quote = S_QUOTE;
 	else if (*str == '\"')
@@ -64,7 +67,21 @@ void	expand_cmd(char *str, t_cmdlist *cmd, t_execlist *exec)
 		while (exec->env)
 		{
 			if (!(ft_strncmp(exec->env->key, str, ft_strlen(exec->env->key))))
-				cmd->str = exec->env->value;
+			{
+				if (cmd->quote == D_QUOTE)
+					cmd->str = exec->env->value;
+				else
+				{
+					split = ft_split(exec->env->value, ' ');
+					while (split[i])
+					{
+						cmd->str = split[i];
+						cmd->next = cmd_lstnew(cmd->next);
+						cmd = cmd->next;
+						i++;
+					}
+				}
+			}
 			exec->env = exec->env->next;
 		}
 	}
