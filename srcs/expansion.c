@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/14 15:08:46 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/14 15:27:06 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	expand_cmd(char *str, t_cmdlist *cmd, t_execlist *exec);
 void	expand_red(char *str, t_redlist *red, t_execlist *exec);
+void	assign_value_cmd(char *str, t_cmdlist *cmd, t_execlist *exec);
+void	assign_value_red(char *str, t_redlist *red, t_execlist *exec);
 
 void	expansion(t_minishell *ms)
 {
@@ -48,11 +50,8 @@ void	expansion(t_minishell *ms)
 void	expand_cmd(char *str, t_cmdlist *cmd, t_execlist *exec)
 {
 	t_envlist	*startenv;
-	char		**split;
-	size_t		i;
 
 	startenv = exec->env;
-	i = 0;
 	if (*str == '\'')
 		cmd->quote = S_QUOTE;
 	else if (*str == '\"')
@@ -64,22 +63,7 @@ void	expand_cmd(char *str, t_cmdlist *cmd, t_execlist *exec)
 		str++;
 		while (exec->env)
 		{
-			if (!(ft_strncmp(exec->env->key, str, ft_strlen(exec->env->key))))
-			{
-				if (cmd->quote == D_QUOTE)
-					cmd->str = exec->env->value;
-				else
-				{
-					split = ft_split(exec->env->value, ' ');
-					while (split[i])
-					{
-						cmd->str = split[i];
-						cmd->next = cmd_lstnew(cmd->next);
-						cmd = cmd->next;
-						i++;
-					}
-				}
-			}
+			assign_value_cmd (str, cmd, exec);
 			exec->env = exec->env->next;
 		}
 	}
@@ -104,12 +88,59 @@ void	expand_red(char *str, t_redlist *red, t_execlist *exec)
 		str++;
 		while (exec->env)
 		{
-			if (!(ft_strncmp(exec->env->key, str, ft_strlen(exec->env->key))))
-				red->str = exec->env->value;
+			assign_value_red (str, red, exec);
 			exec->env = exec->env->next;
 		}
 	}
 	else
 		red->str = str;
 	exec->env = startenv;
+}
+
+void	assign_value_cmd(char *str, t_cmdlist *cmd, t_execlist *exec)
+{
+	char		**split;
+	size_t		i;
+
+	i = 0;
+	if (!(ft_strncmp(exec->env->key, str, ft_strlen(exec->env->key))))
+	{
+		if (cmd->quote == D_QUOTE)
+			cmd->str = exec->env->value;
+		else
+		{
+			split = ft_split(exec->env->value, ' ');
+			while (split[i])
+			{
+				cmd->str = split[i];
+				cmd->next = cmd_lstnew(cmd->next);
+				cmd = cmd->next;
+				i++;
+			}
+		}
+	}
+}
+
+void	assign_value_red(char *str, t_redlist *red, t_execlist *exec)
+{
+	char		**split;
+	size_t		i;
+
+	i = 0;
+	if (!(ft_strncmp(exec->env->key, str, ft_strlen(exec->env->key))))
+	{
+		if (red->quote == D_QUOTE)
+			red->str = exec->env->value;
+		else
+		{
+			split = ft_split(exec->env->value, ' ');
+			while (split[i])
+			{
+				red->str = split[i];
+				red->next = red_lstnew(red->next);
+				red = red->next;
+				i++;
+			}
+		}
+	}
 }
