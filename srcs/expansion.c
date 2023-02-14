@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/14 15:27:06 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/14 16:07:43 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ void	assign_value_red(char *str, t_redlist *red, t_execlist *exec)
 				red = red->next;
 				i++;
 			}
+			error_expansion(exec, i);
 		}
 	}
 }

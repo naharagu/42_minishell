@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/14 14:39:53 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/14 16:10:06 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ void		get_pathname(void);
 void		error_exit(char *str, size_t flag);
 void		error_lexer(t_minishell *ms);
 void		error_parser(t_minishell *ms);
+void		error_expansion(t_execlist *exec, size_t i);
 
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);
