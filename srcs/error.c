@@ -6,27 +6,33 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/14 16:08:54 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/15 13:13:01 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error_exit(char *str, size_t flag)
+void	print_error(char *str, size_t flag, t_minishell *ms)
 {
 	if (flag == SYNTAX)
 		printf("minishell: syntax error near unexpected token `%s'\n", str);
 	else
 		printf("minishell: %s\n", str);
-	exit(EXIT_FAILURE);
+	minishell(ms);
+	//exit(EXIT_FAILURE);
 }
 
 void	error_lexer(t_minishell *ms)
 {
 	if (*ms->list->str == '|')
-		error_exit("|", SYNTAX);
+	{
+		ms->exit_status = 258;
+		print_error("|", SYNTAX, ms);
+	}
 	if (ms->quote == S_QUOTE || ms->quote == D_QUOTE)
-		error_exit("error: unclosed quotes", 0);
+	{
+		print_error("error: unclosed quotes", 0, ms);
+	}
 }
 
 void	error_parser(t_minishell *ms)
@@ -39,26 +45,36 @@ void	error_parser(t_minishell *ms)
 	while (ms->list)
 	{
 		if (*ms->list->str == '|' && ms->list->next == NULL)
-			error_exit("error: no command after pipe", 0);
+		{
+			print_error("error: no command after pipe", 0, ms);
+		}
 		ms->list = ms->list->next;
 	}
 	ms->list = start;
 	while (ms->exec)
 	{
 		if (red_lstsize(ms->exec->red) == 1)
-			error_exit("newline", SYNTAX);
+		{
+			print_error("newline", SYNTAX, ms);
+		}
+		if (ms->exec->cmdtype == NO_CMD)
+		{
+			ms->exit_status = 127;
+			print_error(ft_strjoin(ms->exec->cmd->str, \
+				": command not found"), 0, ms);
+		}
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;
 }
 
-void	error_expansion(t_execlist *exec, size_t i)
+void	error_expansion(t_execlist *exec, size_t i,t_minishell *ms)
 {
 	char		*env;
 
 	if (exec->redtype == 2 && i > 1)
 	{
 		env = ft_strjoin("$", exec->env->key);
-		error_exit(ft_strjoin(env, ": ambiguous redirect"), 0);
+		print_error(ft_strjoin(env, ": ambiguous redirect"), 0, ms);
 	}
 }

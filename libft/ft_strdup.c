@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 16:13:20 by naharagu          #+#    #+#             */
-/*   Updated: 2022/07/23 09:43:55 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/02/07 21:48:59 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

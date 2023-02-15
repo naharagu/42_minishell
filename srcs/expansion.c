@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/14 16:07:43 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/15 13:16:09 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	expansion(t_minishell *ms)
 		startred = ms->exec->red;
 		while (ms->exec->cmd->next)
 		{
-			expand_cmd(ms->exec->cmd->str, ms->exec->cmd, ms->exec);
+			expand_cmd(ms->exec->cmd->str, ms->exec->cmd, ms->exec);//ここにms入れる
 			ms->exec->cmd = ms->exec->cmd->next;
 		}
 		while (ms->exec->red->next)

@@ -6,13 +6,13 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/14 15:30:26 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/15 13:11:23 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	minishell(t_minishell *ms);
+void		minishell(t_minishell *ms);
 static void	signal_handler(int signum);
 
 //リダイレクト実装してない
@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char **env)
 	return (0);
 }
 
-static void	minishell(t_minishell *ms)
+void	minishell(t_minishell *ms)
 {
 	char	*line;
 

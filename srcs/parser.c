@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 22:28:11 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/15 12:59:59 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	check_cmd_red(t_minishell *ms, char *str)
 		ms->exec->cmdtype = ENV_CMD;
 	else if (!(ft_strncmp("EXIT", str, ft_strlen("EXIT"))))
 		ms->exec->cmdtype = EXIT_CMD;
-	else if (!(ft_strncmp("<", str, ft_strlen("<"))))
+	if (!(ft_strncmp("<", str, ft_strlen("<"))))
 		ms->exec->redtype = INPUT;
 	else if (!(ft_strncmp(">", str, ft_strlen(">"))))
 		ms->exec->redtype = OUTPUT;
