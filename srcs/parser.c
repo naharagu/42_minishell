@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/15 14:57:34 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/15 15:55:56 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	parser(t_minishell *ms)
 	ms->list = start;
 	add_execlist(ms, first, num);
 	check_execlist(ms);
-	error_parser(ms);
+	error_parser_mslist(ms);
+	error_parser_execlist(ms);
 }
 
 static void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num)
