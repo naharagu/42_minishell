@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/14 14:39:45 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/15 15:51:31 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ t_minishell	*init_struct_ms(t_minishell *ms)
 	if (!ms)
 		exit(EXIT_FAILURE);
 	ms->exit_status = 0;
-	ms->input = NULL;
+	ms->startline = NULL;
+	ms->line = NULL;
 	ms->quote = NO_QUOTE;
 	ms->list = NULL;
 	ms->exec = NULL;

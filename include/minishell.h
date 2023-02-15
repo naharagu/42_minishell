@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/15 13:12:30 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/15 15:51:11 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,8 @@ typedef struct s_execlist
 typedef struct s_minishell
 {
 	int			exit_status;
-	char		*input;
+	char		*startline;
+	char		*line;
 	t_quote		quote;
 	t_mslist	*list;
 	t_execlist	*exec;

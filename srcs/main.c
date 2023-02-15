@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/15 13:11:23 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/15 15:51:55 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,15 @@ int	main(int argc, char **argv, char **env)
 
 void	minishell(t_minishell *ms)
 {
-	char	*line;
-
 	rl_outstream = stderr;
 	while (1)
 	{
-		line = readline("minishell$ ");
-		if (!line)
+		ms->line = readline("minishell$ ");
+		if (!ms->line)
 			break ;
-		if (*line)
-			add_history(line);
-		ms->input = line;
+		if (*ms->line)
+			add_history(ms->line);
+		ms->startline = ms->line;
 		lexer(ms);
 		//print_mslist(ms);//
 		parser(ms);
@@ -47,7 +45,7 @@ void	minishell(t_minishell *ms)
 		//print_cmdredlist(ms);//
 		expansion(ms);
 		print_cmdredlist(ms);//
-		free(line);
+		free(ms->startline);
 		ms_lstclear(&ms->list);
 		exec_lstclear(&ms->exec);
 	}

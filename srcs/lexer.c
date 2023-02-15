@@ -6,13 +6,13 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/15 14:57:09 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/15 15:27:39 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*add_mslist(char *input, t_mslist	**list);
+static char	*add_mslist(char *line, t_mslist	**list);
 static bool	is_quoted(char c, t_minishell *ms);
 static bool	is_delimiter(char c);
 static bool	is_space(char c);
@@ -23,42 +23,42 @@ void	lexer(t_minishell *ms)
 	char		*start;
 	size_t		len;
 
-	while (*ms->input)
+	while (*ms->line)
 	{
 		len = 0;
-		start = ms->input;
-		while (*ms->input && is_quoted(*ms->input, ms))
-			ms->input++;
-		while (*ms->input && !(is_space(*ms->input)) \
-			&& !(is_delimiter(*ms->input)))
-			ms->input++;
-		len = ms->input - start;
+		start = ms->line;
+		while (*ms->line && is_quoted(*ms->line, ms))
+			ms->line++;
+		while (*ms->line && !(is_space(*ms->line)) \
+			&& !(is_delimiter(*ms->line)))
+			ms->line++;
+		len = ms->line - start;
 		if (len > 0)
 		{
 			tmp = ms_lstnew(len, start);
 			ms_lstadd_back(&ms->list, tmp);
 		}
-		else if (is_delimiter(*ms->input))
-			ms->input = add_mslist(ms->input, &ms->list);
-		ms->input++;
+		else if (is_delimiter(*ms->line))
+			ms->line = add_mslist(ms->line, &ms->list);
+		ms->line++;
 	}
 	error_lexer(ms);
 }
 
-static char	*add_mslist(char *input, t_mslist	**list)
+static char	*add_mslist(char *line, t_mslist	**list)
 {
 	t_mslist	*tmp;
 	char		*start;
 	size_t		len;
 
 	len = 0;
-	start = input;
-	while (is_delimiter(*input))
-		input++;
-	len = input - start;
+	start = line;
+	while (is_delimiter(*line))
+		line++;
+	len = line - start;
 	tmp = ms_lstnew(len, start);
 	ms_lstadd_back(list, tmp);
-	return (input);
+	return (line);
 }
 
 static bool	is_quoted(char c, t_minishell *ms)

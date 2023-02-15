@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/15 15:02:55 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/15 15:53:35 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@ void	print_error(char *str, size_t flag, t_minishell *ms)
 		printf("minishell: syntax error near unexpected token `%s'\n", str);
 	else
 		printf("minishell: %s\n", str);
-	//minishell(ms);
-	exit(EXIT_FAILURE);
+	if (ms->startline)
+		free(ms->startline);
+	if (ms->list)
+		ms_lstclear(&ms->list);
+	if (ms->exec)
+		exec_lstclear(&ms->exec);
+	minishell(ms);
 }
 
 void	error_lexer(t_minishell *ms)
