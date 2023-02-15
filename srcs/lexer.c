@@ -6,16 +6,16 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 17:35:57 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/15 14:57:09 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static char	*add_mslist(char *input, t_mslist	**list);
-bool		is_quoted(char c, t_minishell *ms);
-bool		is_delimiter(char c);
-bool		is_space(char c);
+static bool	is_quoted(char c, t_minishell *ms);
+static bool	is_delimiter(char c);
+static bool	is_space(char c);
 
 void	lexer(t_minishell *ms)
 {
@@ -61,7 +61,7 @@ static char	*add_mslist(char *input, t_mslist	**list)
 	return (input);
 }
 
-bool	is_quoted(char c, t_minishell *ms)
+static bool	is_quoted(char c, t_minishell *ms)
 {
 	if (c == '\'' && ms->quote == S_QUOTE)
 		ms->quote = END_S_QUOTE;
@@ -83,7 +83,7 @@ bool	is_quoted(char c, t_minishell *ms)
 		return (false);
 }
 
-bool	is_delimiter(char c)
+static bool	is_delimiter(char c)
 {
 	if (c == '|' || c == '>' || c == '<' || c == ';')
 		return (true);
@@ -91,7 +91,7 @@ bool	is_delimiter(char c)
 		return (false);
 }
 
-bool	is_space(char c)
+static bool	is_space(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\r' || c == '\n' \
 	|| c == '\v' || c == '\f' || c == '\0')

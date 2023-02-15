@@ -6,16 +6,16 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/15 12:59:59 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/15 14:57:34 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num);
-void	check_execlist(t_minishell *ms);
-void	check_cmd_red(t_minishell *ms, char *str);
-void	copy_cmd_red_list(t_minishell *ms, char *str);
+static void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num);
+static void	check_execlist(t_minishell *ms);
+static void	check_cmd_red(t_minishell *ms, char *str);
+static void	copy_cmd_red_list(t_minishell *ms, char *str);
 
 void	parser(t_minishell *ms)
 {
@@ -45,7 +45,7 @@ void	parser(t_minishell *ms)
 	error_parser(ms);
 }
 
-void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num)
+static void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num)
 {
 	t_execlist	*tmp;
 
@@ -53,7 +53,7 @@ void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num)
 	exec_lstadd_back(&ms->exec, tmp);
 }
 
-void	check_execlist(t_minishell *ms)
+static void	check_execlist(t_minishell *ms)
 {
 	t_execlist	*startexec;
 	t_cmdlist	*startcmd;
@@ -80,7 +80,7 @@ void	check_execlist(t_minishell *ms)
 	ms->exec = startexec;
 }
 
-void	check_cmd_red(t_minishell *ms, char *str)
+static void	check_cmd_red(t_minishell *ms, char *str)
 {
 	if (!(ft_strncmp("ECHO", str, ft_strlen("ECHO"))))
 		ms->exec->cmdtype = ECHO_CMD;
@@ -106,7 +106,7 @@ void	check_cmd_red(t_minishell *ms, char *str)
 		ms->exec->redtype = APPEND;
 }
 
-void	copy_cmd_red_list(t_minishell *ms, char *str)
+static void	copy_cmd_red_list(t_minishell *ms, char *str)
 {
 	if (ms->exec->redtype == NO_REDIRECT)
 	{

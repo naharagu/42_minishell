@@ -6,16 +6,16 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/15 13:16:09 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/15 15:16:50 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	expand_cmd(char *str, t_cmdlist *cmd, t_execlist *exec);
-void	expand_red(char *str, t_redlist *red, t_execlist *exec);
-void	assign_value_cmd(char *str, t_cmdlist *cmd, t_execlist *exec);
-void	assign_value_red(char *str, t_redlist *red, t_execlist *exec);
+static void	expand_cmd(t_minishell *ms, t_cmdlist *cmd, t_execlist *exec);
+static void	expand_red(t_minishell *ms, t_redlist *red, t_execlist *exec);
+static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, t_execlist *exec);
+static void	assign_value_red(t_minishell *ms, t_redlist *red, t_execlist *exec);
 
 void	expansion(t_minishell *ms)
 {
@@ -32,12 +32,12 @@ void	expansion(t_minishell *ms)
 		startred = ms->exec->red;
 		while (ms->exec->cmd->next)
 		{
-			expand_cmd(ms->exec->cmd->str, ms->exec->cmd, ms->exec);//ここにms入れる
+			expand_cmd(ms, ms->exec->cmd, ms->exec);
 			ms->exec->cmd = ms->exec->cmd->next;
 		}
 		while (ms->exec->red->next)
 		{
-			expand_red(ms->exec->red->str, ms->exec->red, ms->exec);
+			expand_red(ms, ms->exec->red, ms->exec);
 			ms->exec->red = ms->exec->red->next;
 		}
 		ms->exec->cmd = startcmd;
@@ -47,63 +47,59 @@ void	expansion(t_minishell *ms)
 	ms->exec = startexec;
 }
 
-void	expand_cmd(char *str, t_cmdlist *cmd, t_execlist *exec)
+static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, t_execlist *exec)
 {
 	t_envlist	*startenv;
 
 	startenv = exec->env;
-	if (*str == '\'')
+	if (*cmd->str == '\'')
 		cmd->quote = S_QUOTE;
-	else if (*str == '\"')
+	else if (*cmd->str == '\"')
 		cmd->quote = D_QUOTE;
 	if (cmd->quote == S_QUOTE || cmd->quote == D_QUOTE)
-		str = ft_strtrim(str, "\'\"");
-	if (*str == '$' && cmd->quote != S_QUOTE)
+		cmd->str = ft_strtrim(cmd->str, "\'\"");
+	if (*cmd->str == '$' && cmd->quote != S_QUOTE)
 	{
-		str++;
+		cmd->str++;
 		while (exec->env)
 		{
-			assign_value_cmd (str, cmd, exec);
+			assign_value_cmd (ms, cmd, exec);
 			exec->env = exec->env->next;
 		}
 	}
-	else
-		cmd->str = str;
 	exec->env = startenv;
 }
 
-void	expand_red(char *str, t_redlist *red, t_execlist *exec)
+static void	expand_red(t_minishell *ms, t_redlist *red, t_execlist *exec)
 {
-	t_envlist			*startenv;
+	t_envlist	*startenv;
 
 	startenv = exec->env;
-	if (*str == '\'')
+	if (*red->str == '\'')
 		red->quote = S_QUOTE;
-	else if (*str == '\"')
+	else if (*red->str == '\"')
 		red->quote = D_QUOTE;
 	if (red->quote == S_QUOTE || red->quote == D_QUOTE)
-		str = ft_strtrim(str, "\'\"");
-	if (*str == '$' && red->quote != S_QUOTE)
+		red->str = ft_strtrim(red->str, "\'\"");
+	if (*red->str == '$' && red->quote != S_QUOTE)
 	{
-		str++;
+		red->str++;
 		while (exec->env)
 		{
-			assign_value_red (str, red, exec);
+			assign_value_red (ms, red, exec);
 			exec->env = exec->env->next;
 		}
 	}
-	else
-		red->str = str;
 	exec->env = startenv;
 }
 
-void	assign_value_cmd(char *str, t_cmdlist *cmd, t_execlist *exec)
+static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, t_execlist *exec)
 {
 	char		**split;
 	size_t		i;
 
 	i = 0;
-	if (!(ft_strncmp(exec->env->key, str, ft_strlen(exec->env->key))))
+	if (!(ft_strncmp(exec->env->key, cmd->str, ft_strlen(exec->env->key))))
 	{
 		if (cmd->quote == D_QUOTE)
 			cmd->str = exec->env->value;
@@ -121,13 +117,13 @@ void	assign_value_cmd(char *str, t_cmdlist *cmd, t_execlist *exec)
 	}
 }
 
-void	assign_value_red(char *str, t_redlist *red, t_execlist *exec)
+static void	assign_value_red(t_minishell *ms, t_redlist *red, t_execlist *exec)
 {
 	char		**split;
 	size_t		i;
 
 	i = 0;
-	if (!(ft_strncmp(exec->env->key, str, ft_strlen(exec->env->key))))
+	if (!(ft_strncmp(exec->env->key, red->str, ft_strlen(exec->env->key))))
 	{
 		if (red->quote == D_QUOTE)
 			red->str = exec->env->value;
@@ -141,7 +137,7 @@ void	assign_value_red(char *str, t_redlist *red, t_execlist *exec)
 				red = red->next;
 				i++;
 			}
-			error_expansion(exec, i);
+			error_expansion(exec, i, ms);
 		}
 	}
 }
