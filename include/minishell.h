@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/15 15:57:41 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/16 16:27:24 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,9 @@ void		parser(t_minishell *ms);
 
 //expansion.c
 void		expansion(t_minishell *ms);
+
+//redirect.c
+void		redirect(t_minishell *ms);
 
 //utils.c
 t_minishell	*init_struct_ms(t_minishell *ms);

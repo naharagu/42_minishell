@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/15 15:57:10 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/16 12:39:02 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,17 @@
 
 void	print_error(char *str, size_t flag, t_minishell *ms)
 {
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	if (flag == SYNTAX)
-		printf("minishell: syntax error near unexpected token `%s'\n", str);
+	{
+		ft_putstr_fd("syntax error near unexpected token `", STDERR_FILENO);
+		ft_putstr_fd(str, STDERR_FILENO);
+		ft_putendl_fd("\'", STDERR_FILENO);
+	}
 	else
-		printf("minishell: %s\n", str);
+	{
+		ft_putendl_fd(str, STDERR_FILENO);
+	}
 	if (ms->startline)
 		free(ms->startline);
 	if (ms->list)
