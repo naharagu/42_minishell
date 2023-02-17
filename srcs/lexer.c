@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/15 15:27:39 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/17 10:26:35 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static bool	is_quoted(char c, t_minishell *ms)
 
 static bool	is_delimiter(char c)
 {
-	if (c == '|' || c == '>' || c == '<' || c == ';')
+	if (c == '|' || c == ';')
 		return (true);
 	else
 		return (false);

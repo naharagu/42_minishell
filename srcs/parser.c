@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/15 15:55:56 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/17 10:37:59 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,13 @@ static void	check_cmd_red(t_minishell *ms, char *str)
 		ms->exec->cmdtype = ENV_CMD;
 	else if (!(ft_strncmp("EXIT", str, ft_strlen("EXIT"))))
 		ms->exec->cmdtype = EXIT_CMD;
-	if (!(ft_strncmp("<", str, ft_strlen("<"))))
+	if ((ft_strnstr(str, "<", ft_strlen(str))))
 		ms->exec->redtype = INPUT;
-	else if (!(ft_strncmp(">", str, ft_strlen(">"))))
+	else if ((ft_strnstr(str, ">", ft_strlen(str))))
 		ms->exec->redtype = OUTPUT;
-	else if (!(ft_strncmp("<<", str, ft_strlen("<<"))))
+	else if ((ft_strnstr(str, "<<", ft_strlen(str))))
 		ms->exec->redtype = HERE_DOC;
-	else if (!(ft_strncmp(">>", str, ft_strlen(">>"))))
+	else if ((ft_strnstr(str, ">>", ft_strlen(str))))
 		ms->exec->redtype = APPEND;
 }
 
