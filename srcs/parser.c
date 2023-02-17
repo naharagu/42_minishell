@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/17 11:32:39 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/17 13:03:07 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ static void	check_redtype(t_minishell *ms, char *str)
 		if (*str == '&')
 			ms->exec->red->fd = STD_OUTERR;
 	}
-	//printf ("fd= %d\n", ms->exec->red->fd);//
 }
 
 static void	copy_cmd_red_list(t_minishell *ms, char *str)
