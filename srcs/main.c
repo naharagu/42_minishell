@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/16 16:41:56 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/17 10:40:31 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void		minishell(t_minishell *ms);
 static void	signal_handler(int signum);
 
 //リダイレクト実装してない
-//2> のようなFD指定の場合のredlistの反映
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*ms;

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/16 16:27:24 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/17 11:25:56 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,14 @@ typedef enum e_cmd
 	EXIT_CMD
 }	t_cmd;
 
+typedef enum e_fd
+{
+	STD_IN,
+	STD_OUT,
+	STD_ERR,
+	STD_OUTERR
+}	t_fd;
+
 typedef struct s_mslist
 {
 	char			*str;
@@ -95,7 +103,7 @@ typedef struct s_redlist
 {
 	char				*str;
 	t_quote				quote;
-	int					fd;
+	t_fd				fd;
 	struct s_redlist	*next;
 }	t_redlist;
 
@@ -167,6 +175,7 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num);
 t_cmdlist	*cmd_lstnew(t_cmdlist *cmd);
 t_redlist	*red_lstnew(t_redlist *red);
 t_envlist	*env_lstnew(t_envlist *env);
+void		add_execlist(t_minishell *ms, t_mslist	*first, size_t num);
 
 //execlist_2.c
 t_execlist	*exec_lstlast(t_execlist *lst);

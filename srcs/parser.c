@@ -6,15 +6,15 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/17 10:37:59 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/17 11:32:39 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num);
 static void	check_execlist(t_minishell *ms);
-static void	check_cmd_red(t_minishell *ms, char *str);
+static void	check_cmdtype(t_minishell *ms, char *str);
+static void	check_redtype(t_minishell *ms, char *str);
 static void	copy_cmd_red_list(t_minishell *ms, char *str);
 
 void	parser(t_minishell *ms)
@@ -46,14 +46,6 @@ void	parser(t_minishell *ms)
 	error_parser_execlist(ms);
 }
 
-static void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num)
-{
-	t_execlist	*tmp;
-
-	tmp = exec_lstnew(ms, first, num);
-	exec_lstadd_back(&ms->exec, tmp);
-}
-
 static void	check_execlist(t_minishell *ms)
 {
 	t_execlist	*startexec;
@@ -69,8 +61,9 @@ static void	check_execlist(t_minishell *ms)
 		i = 0;
 		while (ms->exec->cmdline[i])
 		{
-			check_cmd_red(ms, toupper_char(ms->exec->cmdline[i]));
+			check_cmdtype(ms, toupper_char(ms->exec->cmdline[i]));
 			free(toupper_char(ms->exec->cmdline[i]));
+			check_redtype(ms, ms->exec->cmdline[i]);
 			copy_cmd_red_list(ms, ms->exec->cmdline[i]);
 			i++;
 		}
@@ -81,7 +74,7 @@ static void	check_execlist(t_minishell *ms)
 	ms->exec = startexec;
 }
 
-static void	check_cmd_red(t_minishell *ms, char *str)
+static void	check_cmdtype(t_minishell *ms, char *str)
 {
 	if (!(ft_strncmp("ECHO", str, ft_strlen("ECHO"))))
 		ms->exec->cmdtype = ECHO_CMD;
@@ -97,14 +90,31 @@ static void	check_cmd_red(t_minishell *ms, char *str)
 		ms->exec->cmdtype = ENV_CMD;
 	else if (!(ft_strncmp("EXIT", str, ft_strlen("EXIT"))))
 		ms->exec->cmdtype = EXIT_CMD;
+}
+
+static void	check_redtype(t_minishell *ms, char *str)
+{
 	if ((ft_strnstr(str, "<", ft_strlen(str))))
 		ms->exec->redtype = INPUT;
 	else if ((ft_strnstr(str, ">", ft_strlen(str))))
+	{
 		ms->exec->redtype = OUTPUT;
+		if (*str == '2')
+			ms->exec->red->fd = STD_ERR;
+		if (*str == '&')
+			ms->exec->red->fd = STD_OUTERR;
+	}
 	else if ((ft_strnstr(str, "<<", ft_strlen(str))))
 		ms->exec->redtype = HERE_DOC;
 	else if ((ft_strnstr(str, ">>", ft_strlen(str))))
+	{
 		ms->exec->redtype = APPEND;
+		if (*str == '2')
+			ms->exec->red->fd = STD_ERR;
+		if (*str == '&')
+			ms->exec->red->fd = STD_OUTERR;
+	}
+	//printf ("fd= %d\n", ms->exec->red->fd);//
 }
 
 static void	copy_cmd_red_list(t_minishell *ms, char *str)

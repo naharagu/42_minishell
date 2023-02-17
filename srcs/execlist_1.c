@@ -6,13 +6,12 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/10 14:08:14 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/17 11:26:20 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//static void	init_lists(t_execlist *new, t_minishell *ms);
 t_cmdlist	*cmd_lstnew(t_cmdlist *cmd);
 t_redlist	*red_lstnew(t_redlist *red);
 t_envlist	*env_lstnew(t_envlist *env);
@@ -64,7 +63,7 @@ t_redlist	*red_lstnew(t_redlist *red)
 		exit (EXIT_FAILURE);
 	red->str = NULL;
 	red->quote = NO_QUOTE;
-	red->fd = 0;
+	red->fd = STD_OUT;
 	red->next = NULL;
 	return (red);
 }
@@ -78,4 +77,12 @@ t_envlist	*env_lstnew(t_envlist *env)
 	env->value = NULL;
 	env->next = NULL;
 	return (env);
+}
+
+void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num)
+{
+	t_execlist	*tmp;
+
+	tmp = exec_lstnew(ms, first, num);
+	exec_lstadd_back(&ms->exec, tmp);
 }

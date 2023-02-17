@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/17 10:23:58 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/17 10:43:24 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ void	redirect(t_minishell *ms)
 	while (ms->exec)
 	{
 		if (ms->exec->redtype == OUTPUT)
+		{
 			out_redirect(ms, 1, ms->exec->red->next->str);
+		}
 		// startred = ms->exec->red;
 		// while (ms->exec->red->next)
 		// {
