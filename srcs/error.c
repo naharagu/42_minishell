@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/17 11:26:57 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/17 11:44:27 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	error_parser_execlist(t_minishell *ms)
 	startexec = ms->exec;
 	while (ms->exec)
 	{
-		if (red_lstsize(ms->exec->red) == 1)
+		if (red_lstsize(ms->exec->red) == 1 \
+			&& ft_strlen(ms->exec->red->str) < 3)
 		{
 			print_error("newline", SYNTAX, ms);
 		}

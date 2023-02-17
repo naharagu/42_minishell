@@ -6,13 +6,44 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/17 10:43:24 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/17 12:07:38 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_command(void)
+void	out_redirect(t_minishell *ms, int newfd, char *file);
+
+void	redirect(t_minishell *ms)
+{
+	t_execlist	*startexec;
+	//t_redlist	*startred;
+
+	ms->exec = startexec;
+	while (ms->exec)
+	{
+		if (ms->exec->redtype == OUTPUT)
+		{
+			if (ms->exec->red->fd == STD_OUT || ms->exec->red->fd == STD_ERR)
+				out_redirect(ms, ms->exec->red->fd, ms->exec->red->next->str);
+			if (ms->exec->red->fd == STD_OUTERR)
+			{
+				out_redirect(ms, STD_OUT, ms->exec->red->next->str);
+				out_redirect(ms, STD_ERR, ms->exec->red->next->str);
+			}
+		}
+		// startred = ms->exec->red;
+		// while (ms->exec->red->next)
+		// {
+		// 	ms->exec->red = ms->exec->red->next;
+		// }
+		// ms->exec->red = startred;
+		ms->exec = ms->exec->next;
+	}
+	ms->exec = startexec;
+}
+
+void	exec_command(int newfd)
 {
 	write(1, "test", 4);
 }
@@ -36,29 +67,6 @@ void	out_redirect(t_minishell *ms, int newfd, char *file)
 			exit(EXIT_FAILURE);
 		close(filefd);
 	}
-	exec_command();
+	exec_command(newfd);
 	dup2(tmpfd, newfd);
-}
-
-void	redirect(t_minishell *ms)
-{
-	t_execlist	*startexec;
-	//t_redlist	*startred;
-
-	ms->exec = startexec;
-	while (ms->exec)
-	{
-		if (ms->exec->redtype == OUTPUT)
-		{
-			out_redirect(ms, 1, ms->exec->red->next->str);
-		}
-		// startred = ms->exec->red;
-		// while (ms->exec->red->next)
-		// {
-		// 	ms->exec->red = ms->exec->red->next;
-		// }
-		// ms->exec->red = startred;
-		ms->exec = ms->exec->next;
-	}
-	ms->exec = startexec;
 }
