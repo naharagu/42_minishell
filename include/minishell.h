@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/17 11:25:56 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/17 14:42:44 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,9 @@ void		expansion(t_minishell *ms);
 
 //redirect.c
 void		redirect(t_minishell *ms);
+
+//out_redirect.c
+void		red_out(t_minishell *ms, t_redlist *red);
 
 //utils.c
 t_minishell	*init_struct_ms(t_minishell *ms);

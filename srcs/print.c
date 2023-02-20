@@ -6,13 +6,12 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 22:30:54 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/18 14:40:20 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//a > b | cd >> e だとリストのサイズが８になる
 void	print_mslist(t_minishell *ms)
 {
 	t_mslist	*start;
