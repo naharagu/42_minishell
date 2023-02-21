@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   red_out.c                                          :+:      :+:    :+:   */
+/*   red_append.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/17 14:10:30 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/21 11:29:11 by shimakaori       ###   ########.fr       */
+/*   Created: 2023/02/21 10:34:34 by shimakaori        #+#    #+#             */
+/*   Updated: 2023/02/21 12:02:05 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	file_redirect(t_minishell *ms, int originfd, char *file);
-void	both_redirect(t_minishell *ms, char *file);
-void	std_redirect(t_minishell *ms, int originfd, int outfd);
-void	exec_command(int originfd);
+void	file_append(t_minishell *ms, int originfd, char *file);
+void	both_append(t_minishell *ms, char *file);
+void	std_append(t_minishell *ms, int originfd, int outfd);
 
-void	red_out(t_minishell *ms, t_redlist *red)
+void	red_append(t_minishell *ms, t_redlist *red)
 {
 	t_redlist	*startred;
 
@@ -26,25 +25,25 @@ void	red_out(t_minishell *ms, t_redlist *red)
 	{
 		while (*red->str == '>' || *red->str == '&')
 			red->str++;
-		std_redirect(ms, red->fd, ft_atoi(red->str));
+		std_append(ms, red->fd, ft_atoi(red->str));
 	}
 	while (red->next->str)
 	{
-		if (red->next->str && (ft_strchr(red->str, '>')))
+		if (red->next->str && (ft_strnstr(red->str, ">>", ft_strlen(red->str))))
 		{
 			if (red->next->next->str && ft_strchr(red->next->next->str, '&'))
-				both_redirect(ms, red->next->str);
+				both_append(ms, red->next->str);
 			else if (red->fd == STD_OUT || red->fd == STD_ERR)
-				file_redirect(ms, red->fd, red->next->str);
+				file_append(ms, red->fd, red->next->str);
 			else if (red->fd == STD_OUTERR)
-				both_redirect(ms, red->next->str);
+				both_append(ms, red->next->str);
 		}
 		red = red->next;
 	}
 	red = startred;
 }
 
-void	file_redirect(t_minishell *ms, int originfd, char *file)
+void	file_append(t_minishell *ms, int originfd, char *file)
 {
 	int		filefd;
 	int		tmpfd;
@@ -52,7 +51,7 @@ void	file_redirect(t_minishell *ms, int originfd, char *file)
 
 	tmpfd = 0;
 	dupfd = 0;
-	filefd = open(file, O_CREAT | O_WRONLY, 0644);
+	filefd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (filefd == -1)
 		exit(EXIT_FAILURE);
 	tmpfd = dup(originfd);
@@ -67,7 +66,7 @@ void	file_redirect(t_minishell *ms, int originfd, char *file)
 	dup2(tmpfd, originfd);
 }
 
-void	both_redirect(t_minishell *ms, char *file)
+void	both_append(t_minishell *ms, char *file)
 {
 	int		filefd;
 	int		tmpfd;
@@ -77,7 +76,7 @@ void	both_redirect(t_minishell *ms, char *file)
 	tmpfd = 0;
 	dupfd = 0;
 	stdfd = 1;
-	filefd = open(file, O_CREAT | O_WRONLY, 0644);
+	filefd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (filefd == -1)
 		exit(EXIT_FAILURE);
 	while (stdfd < 3)
@@ -93,7 +92,7 @@ void	both_redirect(t_minishell *ms, char *file)
 	close(filefd);
 }
 
-void	std_redirect(t_minishell *ms, int originfd, int outfd)
+void	std_append(t_minishell *ms, int originfd, int outfd)
 {
 	int		tmpfd;
 	int		dupfd;
@@ -109,15 +108,4 @@ void	std_redirect(t_minishell *ms, int originfd, int outfd)
 		exec_command(originfd);//
 	}
 	dup2(tmpfd, originfd);
-}
-
-void	exec_command(int originfd)
-{
-	char	*str;
-
-	str = ft_strdup("test");
-	ft_putnbr_fd(originfd, originfd);
-	ft_putchar_fd('\n', originfd);
-	ft_putendl_fd(str, originfd);
-	free(str);
 }

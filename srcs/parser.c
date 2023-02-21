@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/18 14:12:43 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/21 12:02:19 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,16 @@ static void	check_redtype(t_minishell *ms, char *str)
 {
 	t_redlist	*startred;
 
-	if ((ft_strnstr(str, "<", ft_strlen(str))))
-		ms->exec->redtype = INPUT;
+	if ((ft_strnstr(str, ">>", ft_strlen(str))))
+		ms->exec->redtype = APPEND;
+	else if ((ft_strnstr(str, ">", ft_strlen(str))) && \
+		ms->exec->redtype != APPEND)
+		ms->exec->redtype = OUTPUT;
 	else if ((ft_strnstr(str, "<<", ft_strlen(str))))
 		ms->exec->redtype = HERE_DOC;
-	else if ((ft_strnstr(str, ">", ft_strlen(str))))
-		ms->exec->redtype = OUTPUT;
-	else if ((ft_strnstr(str, ">>", ft_strlen(str))))
-		ms->exec->redtype = APPEND;
+	else if ((ft_strnstr(str, "<", ft_strlen(str))) && \
+		ms->exec->redtype != HERE_DOC)
+		ms->exec->redtype = INPUT;
 	startred = ms->exec->red;
 	while (ms->exec->red)
 	{
