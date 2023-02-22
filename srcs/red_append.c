@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:34:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/21 12:02:05 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/22 12:08:29 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,28 @@ void	file_append(t_minishell *ms, int originfd, char *file);
 void	both_append(t_minishell *ms, char *file);
 void	std_append(t_minishell *ms, int originfd, int outfd);
 
-void	red_append(t_minishell *ms, t_redlist *red)
+void	red_append(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 {
 	t_redlist	*startred;
 
 	startred = red;
-	if (!(red->next->str))
+	if (exec->std_fd == STD_ERR)
+		std_append(ms, STD_OUT, STD_ERR);
+	else if (exec->err_fd == STD_OUT)
+		std_append(ms, STD_ERR, STD_OUT);
+	else if (exec->std_fd == FILE_1 && exec->err_fd == FILE_1)
+		both_append(ms, red->next->str);
+	else if (exec->std_fd == FILE_1 || exec->err_fd == FILE_2)
 	{
-		while (*red->str == '>' || *red->str == '&')
-			red->str++;
-		std_append(ms, red->fd, ft_atoi(red->str));
-	}
-	while (red->next->str)
-	{
-		if (red->next->str && (ft_strnstr(red->str, ">>", ft_strlen(red->str))))
+		while (red->next->str)
 		{
-			if (red->next->next->str && ft_strchr(red->next->next->str, '&'))
-				both_append(ms, red->next->str);
-			else if (red->fd == STD_OUT || red->fd == STD_ERR)
-				file_append(ms, red->fd, red->next->str);
-			else if (red->fd == STD_OUTERR)
-				both_append(ms, red->next->str);
+			if (!(ft_strncmp(">>", red->str, ft_strlen(">>"))) || \
+				!(ft_strncmp("1>>", red->str, ft_strlen("1>>"))))
+				file_append(ms, STD_OUT, red->next->str);
+			if (!(ft_strncmp("2>>", red->str, ft_strlen("2>>"))))
+				file_append(ms, STD_ERR, red->next->str);
+			red = red->next;
 		}
-		red = red->next;
 	}
 	red = startred;
 }

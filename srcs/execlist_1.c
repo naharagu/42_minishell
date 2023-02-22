@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/17 11:26:20 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/22 12:13:27 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 	t_execlist	*new;
 	size_t		j;
 
-	if (!ms || !list || !num)
-		return (NULL);
 	new = (t_execlist *)malloc(sizeof(t_execlist));
 	if (!new)
 		return (NULL);
@@ -38,6 +36,8 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 	}
 	new->cmdtype = NO_CMD;
 	new->redtype = NO_REDIRECT;
+	new->std_fd = STD_OUT;
+	new->err_fd = STD_ERR;
 	new->cmd = cmd_lstnew(new->cmd);
 	new->red = red_lstnew(new->red);
 	new->env = env_lstnew(new->env);
@@ -63,7 +63,6 @@ t_redlist	*red_lstnew(t_redlist *red)
 		exit (EXIT_FAILURE);
 	red->str = NULL;
 	red->quote = NO_QUOTE;
-	red->fd = STD_OUT;
 	red->next = NULL;
 	return (red);
 }

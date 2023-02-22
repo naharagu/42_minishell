@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:10:30 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/21 11:29:11 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/22 13:01:31 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,34 @@ void	both_redirect(t_minishell *ms, char *file);
 void	std_redirect(t_minishell *ms, int originfd, int outfd);
 void	exec_command(int originfd);
 
-void	red_out(t_minishell *ms, t_redlist *red)
+void	red_out(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 {
 	t_redlist	*startred;
 
 	startred = red;
-	if (!(red->next->str))
+	if (exec->std_fd == STD_ERR)
+		std_redirect(ms, STD_OUT, STD_ERR);
+	else if (exec->err_fd == STD_OUT)
+		std_redirect(ms, STD_ERR, STD_OUT);
+	else if (exec->std_fd == DELETE)
+		file_redirect(ms, STD_OUT, "/dev/null");
+	else if (exec->err_fd == DELETE)
+		file_redirect(ms, STD_ERR, "/dev/null");
+	else if (exec->std_fd == FILE_1 && exec->err_fd == FILE_1)
+		both_redirect(ms, red->next->str);
+	else if (exec->std_fd == FILE_1 || exec->err_fd == FILE_2)
 	{
-		while (*red->str == '>' || *red->str == '&')
-			red->str++;
-		std_redirect(ms, red->fd, ft_atoi(red->str));
-	}
-	while (red->next->str)
-	{
-		if (red->next->str && (ft_strchr(red->str, '>')))
+		while (red->next->str)
 		{
-			if (red->next->next->str && ft_strchr(red->next->next->str, '&'))
-				both_redirect(ms, red->next->str);
-			else if (red->fd == STD_OUT || red->fd == STD_ERR)
-				file_redirect(ms, red->fd, red->next->str);
-			else if (red->fd == STD_OUTERR)
-				both_redirect(ms, red->next->str);
+			if (!(ft_strncmp(">", red->str, ft_strlen(">"))) || \
+				!(ft_strncmp("1>", red->str, ft_strlen("1>"))))
+				file_redirect(ms, STD_OUT, red->next->str);
+			if (!(ft_strncmp("2>", red->str, ft_strlen("2>"))))
+				file_redirect(ms, STD_ERR, red->next->str);
+			red = red->next;
 		}
-		red = red->next;
+		red = startred;
 	}
-	red = startred;
 }
 
 void	file_redirect(t_minishell *ms, int originfd, char *file)

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/21 12:02:19 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/21 15:12:22 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ static void	check_cmdtype(t_minishell *ms, char *str)
 
 static void	check_redtype(t_minishell *ms, char *str)
 {
-	t_redlist	*startred;
-
 	if ((ft_strnstr(str, ">>", ft_strlen(str))))
 		ms->exec->redtype = APPEND;
 	else if ((ft_strnstr(str, ">", ft_strlen(str))) && \
@@ -106,16 +104,6 @@ static void	check_redtype(t_minishell *ms, char *str)
 	else if ((ft_strnstr(str, "<", ft_strlen(str))) && \
 		ms->exec->redtype != HERE_DOC)
 		ms->exec->redtype = INPUT;
-	startred = ms->exec->red;
-	while (ms->exec->red)
-	{
-		if (*str == '2')
-			ms->exec->red->fd = STD_ERR;
-		if (*str == '&')
-			ms->exec->red->fd = STD_OUTERR;
-		ms->exec->red = ms->exec->red->next;
-	}
-	ms->exec->red = startred;
 }
 
 static void	copy_cmd_red_list(t_minishell *ms, char *str)

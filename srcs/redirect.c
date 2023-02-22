@@ -6,27 +6,37 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/21 11:53:55 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/22 13:08:11 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	check_fd(t_execlist	*exec, t_redlist *red);
 void	in_redirect(t_minishell *ms, t_redlist *red);
-void	append(t_minishell *ms, t_redlist *red);
 
 void	redirect(t_minishell *ms)
 {
 	t_execlist	*startexec;
+	t_redlist	*startred;
 
-	ms->exec = startexec;
+	startexec = ms->exec;
 	while (ms->exec)
 	{
-		printf ("redtype= %d\n", ms->exec->redtype);//
+		//printf ("redtype= %d\n", ms->exec->redtype);//
+		startred = ms->exec->red;
+		while (ms->exec->red->str)
+		{
+			check_fd(ms->exec, ms->exec->red);
+			ms->exec->red = ms->exec->red->next;
+		}
+		ms->exec->red = startred;
+		printf ("stdfd= %d\n", ms->exec->std_fd);//
+		printf ("errfd= %d\n", ms->exec->err_fd);//
 		if (ms->exec->redtype == OUTPUT)
-			red_out (ms, ms->exec->red);
+			red_out (ms, ms->exec, ms->exec->red);
 		else if (ms->exec->redtype == APPEND)
-			red_append (ms, ms->exec->red);
+			red_append (ms, ms->exec, ms->exec->red);
 		// if (ms->exec->redtype == INPUT)
 		// 	in_redirect (ms, ms->exec->red);
 		// if (ms->exec->redtype == HERE_DOC)
@@ -34,6 +44,30 @@ void	redirect(t_minishell *ms)
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;
+}
+
+void	check_fd(t_execlist	*exec, t_redlist *red)
+{
+	if (!(ft_strncmp(">/dev/null", red->str, 10)) || \
+		!(ft_strncmp("1>/dev/null", red->str, ft_strlen("1>/dev/null"))))
+		exec->std_fd = DELETE;
+	else if (!(ft_strncmp("2>/dev/null", red->str, 10)))
+		exec->err_fd = DELETE;
+	else if (!(ft_strncmp(">", red->str, ft_strlen(">"))) || \
+		(!(ft_strncmp("1>", red->str, ft_strlen("1>")))))
+		exec->std_fd = FILE_1;
+	else if (!(ft_strncmp("2>", red->str, ft_strlen("2>"))))
+		exec->err_fd = FILE_2;
+	else if ((ft_strnstr(red->str, "&>", ft_strlen(red->str))))
+	{
+		exec->std_fd = FILE_1;
+		exec->err_fd = FILE_1;
+	}
+	if (!(ft_strncmp("2>&1", red->str, ft_strlen("2>&1"))))
+		exec->err_fd = exec->std_fd;
+	else if (!(ft_strncmp(">&2", red->str, ft_strlen(">&2"))) || \
+		(!(ft_strncmp("1>&2", red->str, ft_strlen("1>&2")))))
+		exec->std_fd = exec->err_fd;
 }
 
 void	in_redirect(t_minishell *ms, t_redlist *red)

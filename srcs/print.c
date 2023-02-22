@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/18 14:40:20 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/22 12:37:38 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ void	print_cmdredlist(t_minishell *ms)
 	j = 0;
 	while (ms->exec)
 	{
-		//printf("cmdtype= %d\n", ms->exec->cmdtype);
-		//printf("redtype= %d\n", ms->exec->redtype);
 		startcmd = ms->exec->cmd;
 		startred = ms->exec->red;
 		i = 0;

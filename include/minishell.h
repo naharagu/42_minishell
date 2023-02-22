@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/21 11:02:48 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/22 12:14:09 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ typedef enum e_fd
 	STD_IN,
 	STD_OUT,
 	STD_ERR,
-	STD_OUTERR
+	FILE_1,
+	FILE_2,
+	DELETE
 }	t_fd;
 
 typedef struct s_mslist
@@ -103,7 +105,6 @@ typedef struct s_redlist
 {
 	char				*str;
 	t_quote				quote;
-	t_fd				fd;
 	struct s_redlist	*next;
 }	t_redlist;
 
@@ -119,6 +120,8 @@ typedef struct s_execlist
 	char				**cmdline;
 	t_cmd				cmdtype;
 	t_redirect			redtype;
+	int					std_fd;
+	int					err_fd;
 	t_cmdlist			*cmd;
 	t_redlist			*red;
 	t_envlist			*env;
@@ -151,11 +154,11 @@ void		expansion(t_minishell *ms);
 void		redirect(t_minishell *ms);
 
 //red_out.c
-void		red_out(t_minishell *ms, t_redlist *red);
+void		red_out(t_minishell *ms, t_execlist *exec, t_redlist *red);
 void		exec_command(int originfd);
 
 //red_append.c
-void		red_append(t_minishell *ms, t_redlist *red);
+void		red_append(t_minishell *ms, t_execlist	*exec, t_redlist *red);
 
 //utils.c
 t_minishell	*init_struct_ms(t_minishell *ms);
