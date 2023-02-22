@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/22 12:37:38 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/22 15:02:24 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,15 @@ void	print_cmdredlist(t_minishell *ms)
 		j++;
 	}
 	ms->exec = startexec;
+}
+
+void	exec_command(int originfd)
+{
+	char	*str;
+
+	str = ft_strdup("test");
+	ft_putnbr_fd(originfd, originfd);
+	ft_putchar_fd('\n', originfd);
+	ft_putendl_fd(str, originfd);
+	free(str);
 }

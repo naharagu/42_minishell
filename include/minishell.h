@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/22 12:14:09 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/22 15:01:46 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,5 +198,6 @@ int			red_lstsize(t_redlist *lst);
 void		print_mslist(t_minishell *ms);
 void		print_execlist(t_minishell *ms);
 void		print_cmdredlist(t_minishell *ms);
+void		exec_command(int originfd);
 
 #endif
