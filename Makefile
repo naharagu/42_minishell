@@ -6,7 +6,7 @@
 #    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/02/21 10:39:29 by shimakaori       ###   ########.fr        #
+#    Updated: 2023/02/22 15:07:16 by shimakaori       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS		= 	main.c       \
 				redirect.c   \
 				red_out.c    \
 				red_append.c \
+				red_in.c     \
 				error.c      \
 				utils.c      \
 				mslist.c 	 \
