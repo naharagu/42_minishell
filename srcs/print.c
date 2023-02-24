@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/22 15:02:24 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/24 16:23:04 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,19 @@ void	print_cmdredlist(t_minishell *ms)
 	ms->exec = startexec;
 }
 
-void	exec_command(int originfd)
+void	exec_command(t_execlist	*exec)
 {
-	char	*str;
+	char	*str1;
+	char	*str2;
 
-	str = ft_strdup("test");
-	ft_putnbr_fd(originfd, originfd);
-	ft_putchar_fd('\n', originfd);
-	ft_putendl_fd(str, originfd);
-	free(str);
+	str1 = ft_strdup("test1");
+	str2 = ft_strdup("test2");
+	ft_putnbr_fd(exec->std_fd, exec->std_fd);
+	ft_putchar_fd(':', exec->std_fd);
+	ft_putendl_fd(str1, exec->std_fd);
+	ft_putnbr_fd(exec->err_fd, exec->err_fd);
+	ft_putchar_fd(':', exec->err_fd);
+	ft_putendl_fd(str2, exec->err_fd);
+	free(str1);
+	free(str2);
 }

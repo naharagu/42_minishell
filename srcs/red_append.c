@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:34:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/22 12:08:29 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/24 16:14:20 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	file_append(t_minishell *ms, int originfd, char *file)
 		dupfd = dup2(filefd, originfd);
 		if (dupfd == -1)
 			exit(EXIT_FAILURE);
-		exec_command(originfd);//
+		//exec_command(originfd);//
 		close(filefd);
 	}
 	dup2(tmpfd, originfd);
@@ -84,7 +84,7 @@ void	both_append(t_minishell *ms, char *file)
 		dupfd = dup2(filefd, stdfd);
 		if (dupfd == -1)
 			exit(EXIT_FAILURE);
-		exec_command(stdfd);//
+		//exec_command(stdfd);//
 		dup2(tmpfd, stdfd);
 		stdfd++;
 	}
@@ -104,7 +104,7 @@ void	std_append(t_minishell *ms, int originfd, int outfd)
 		dupfd = dup2(outfd, originfd);
 		if (dupfd == -1)
 			exit(EXIT_FAILURE);
-		exec_command(originfd);//
+		//exec_command(originfd);//
 	}
 	dup2(tmpfd, originfd);
 }

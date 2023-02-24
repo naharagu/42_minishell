@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/22 15:06:53 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/24 16:13:13 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,6 @@ void		redirect(t_minishell *ms);
 
 //red_out.c
 void		red_out(t_minishell *ms, t_execlist *exec, t_redlist *red);
-void		exec_command(int originfd);
 
 //red_append.c
 void		red_append(t_minishell *ms, t_execlist	*exec, t_redlist *red);
@@ -201,6 +200,6 @@ int			red_lstsize(t_redlist *lst);
 void		print_mslist(t_minishell *ms);
 void		print_execlist(t_minishell *ms);
 void		print_cmdredlist(t_minishell *ms);
-void		exec_command(int originfd);
+void		exec_command(t_execlist	*exec);
 
 #endif
