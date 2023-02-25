@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/25 16:29:55 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 17:13:09 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	get_pathname(void)
 
 void	all_free(t_minishell *ms)
 {
+	ms->quote = NO_QUOTE;
 	if (ms->startline)
 		free(ms->startline);
 	if (ms->list)

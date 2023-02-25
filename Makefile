@@ -6,7 +6,7 @@
 #    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/02/25 13:02:58 by shimakaori       ###   ########.fr        #
+#    Updated: 2023/02/25 17:15:53 by shimakaori       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS		= 	main.c        \
 				red_heredoc.c \
 				red_in.c      \
 				error.c       \
+				interpret.c   \
 				utils.c       \
 				mslist.c 	  \
 				execlist_1.c  \

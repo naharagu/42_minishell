@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/25 16:43:03 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 17:15:33 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
-
-# define SYNTAX_ERR 1 
 
 typedef enum e_error
 {
@@ -171,6 +169,9 @@ void		red_in(t_minishell *ms, t_execlist *exec, t_redlist *red);
 
 //red_heredoc.c
 void		red_heredoc(t_minishell *ms, t_execlist *exec, t_redlist *red);
+
+//interpret.c
+int			interpret(char *line);
 
 //utils.c
 t_minishell	*init_struct_ms(t_minishell *ms);
