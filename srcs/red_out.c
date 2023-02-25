@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:10:30 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/25 14:45:08 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 16:54:42 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	std_outred(t_minishell *ms, int originfd, int outfd)
 	{
 		dupfd = dup2(outfd, originfd);
 		if (dupfd == -1)
-			exit(EXIT_FAILURE);
+			print_error(ms, "dup2", EXIT_ERR);
 	}
 }
 
@@ -64,12 +64,12 @@ void	file_outred(t_minishell *ms, int originfd, char *file)
 
 	filefd = open(file, O_CREAT | O_WRONLY, 0644);
 	if (filefd == -1)
-		exit(EXIT_FAILURE);
+		print_error(ms, "open filefd", EXIT_ERR);
 	if (filefd != originfd)
 	{
 		dupfd = dup2(filefd, originfd);
 		if (dupfd == -1)
-			exit(EXIT_FAILURE);
+			print_error(ms, "dup2", EXIT_ERR);
 	}
 	close(filefd);
 }
@@ -83,12 +83,12 @@ void	both_outred(t_minishell *ms, char *file)
 	stdfd = 1;
 	filefd = open(file, O_CREAT | O_WRONLY, 0644);
 	if (filefd == -1)
-		exit(EXIT_FAILURE);
+		print_error(ms, "open filefd", EXIT_ERR);
 	while (stdfd < 3)
 	{
 		dupfd = dup2(filefd, stdfd);
 		if (dupfd == -1)
-			exit(EXIT_FAILURE);
+			print_error(ms, "dup2", EXIT_ERR);
 		stdfd++;
 	}
 	close(filefd);

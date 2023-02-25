@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:01:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/25 14:49:49 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 16:57:56 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ void	file_heredoc(t_minishell *ms, int originfd, char *delimiter)
 
 	filefd = read_heredoc(ms, delimiter);
 	if (filefd == -1)
-		exit(EXIT_FAILURE);
+		print_error(ms, "open filefd", EXIT_ERR);
 	if (filefd != originfd)
 	{
 		dupfd = dup2(filefd, originfd);
 		if (dupfd == -1)
-			exit(EXIT_FAILURE);
+			print_error(ms, "dup2", EXIT_ERR);
 	}
 	close(filefd);
 }
@@ -57,7 +57,7 @@ int	read_heredoc(t_minishell *ms, const char *delimiter)
 	int		pfd[2];
 
 	if (pipe(pfd) < 0)
-		exit(EXIT_FAILURE);
+		print_error(ms, "pipe", EXIT_ERR);
 	while (1)
 	{
 		line = readline("> ");

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/15 15:51:31 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 16:29:55 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,14 @@ void	get_pathname(void)
 	else
 		printf("%s\n", pathname);
 	free(pathname);
+}
+
+void	all_free(t_minishell *ms)
+{
+	if (ms->startline)
+		free(ms->startline);
+	if (ms->list)
+		ms_lstclear(&ms->list);
+	if (ms->exec)
+		exec_lstclear(&ms->exec);
 }

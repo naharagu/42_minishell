@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/21 11:18:04 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 16:32:57 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ void	minishell(t_minishell *ms)
 		expansion(ms);
 		//print_cmdredlist(ms);//
 		redirect(ms);
-		free(ms->startline);
-		ms_lstclear(&ms->list);
-		exec_lstclear(&ms->exec);
+		all_free(ms);
 	}
 	exit(ms->exit_status);
 }

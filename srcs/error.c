@@ -6,31 +6,34 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/25 10:49:52 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 16:53:46 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_error(char *str, size_t flag, t_minishell *ms)
+void	print_error(t_minishell *ms, char *str, size_t flag)
 {
-	ft_putstr_fd("minishell: ", STD_ERR);
-	if (flag == SYNTAX)
+	if (flag == EXIT_ERR)
 	{
+		ft_putendl_fd("error: ", STD_ERR);
+		ft_putendl_fd(str, STD_ERR);
+		all_free(ms);
+		exit(EXIT_FAILURE);
+	}
+	else if (flag == SYNTAX_ERR)
+	{
+		ft_putstr_fd("minishell: ", STD_ERR);
 		ft_putstr_fd("syntax error near unexpected token `", STD_ERR);
 		ft_putstr_fd(str, STD_ERR);
 		ft_putendl_fd("\'", STD_ERR);
 	}
-	else
+	else if (flag == OTHER_ERR)
 	{
+		ft_putstr_fd("minishell: ", STD_ERR);
 		ft_putendl_fd(str, STD_ERR);
 	}
-	if (ms->startline)
-		free(ms->startline);
-	if (ms->list)
-		ms_lstclear(&ms->list);
-	if (ms->exec)
-		exec_lstclear(&ms->exec);
+	all_free(ms);
 	minishell(ms);
 }
 
@@ -41,11 +44,11 @@ void	error_lexer(t_minishell *ms)
 	if (ms->list && *ms->list->str == '|')
 	{
 		ms->exit_status = 258;
-		print_error("|", SYNTAX, ms);
+		print_error(ms, "|", SYNTAX_ERR);
 	}
 	if (ms->quote == S_QUOTE || ms->quote == D_QUOTE)
 	{
-		print_error("error: unclosed quotes", 0, ms);
+		print_error(ms, "error: unclosed quotes", OTHER_ERR);
 	}
 }
 
@@ -58,7 +61,7 @@ void	error_parser_mslist(t_minishell *ms)
 	{
 		if (*ms->list->str == '|' && ms->list->next == NULL)
 		{
-			print_error("error: no command after pipe", 0, ms);
+			print_error(ms, "error: no command after pipe", OTHER_ERR);
 		}
 		ms->list = ms->list->next;
 	}
@@ -68,6 +71,7 @@ void	error_parser_mslist(t_minishell *ms)
 void	error_parser_execlist(t_minishell *ms)
 {
 	t_execlist	*startexec;
+	char		*err_str;
 
 	startexec = ms->exec;
 	while (ms->exec)
@@ -75,13 +79,14 @@ void	error_parser_execlist(t_minishell *ms)
 		if (red_lstsize(ms->exec->red) == 1 \
 			&& ft_strlen(ms->exec->red->str) < 3)
 		{
-			print_error("newline", SYNTAX, ms);
+			print_error(ms, "newline", SYNTAX_ERR);
 		}
 		if (ms->exec->cmdtype == NO_CMD)
 		{
 			ms->exit_status = 127;
-			print_error(ft_strjoin(ms->exec->cmd->str, \
-				": command not found"), 0, ms);
+			err_str = ft_strjoin(ms->exec->cmd->str, ": command not found");
+			print_error(ms, err_str, OTHER_ERR);
+			free(err_str);
 		}
 		ms->exec = ms->exec->next;
 	}
@@ -91,10 +96,14 @@ void	error_parser_execlist(t_minishell *ms)
 void	error_expansion(t_execlist *exec, size_t i, t_minishell *ms)
 {
 	char		*env;
+	char		*err_str;
 
 	if (exec->redtype == 2 && i > 1)
 	{
 		env = ft_strjoin("$", exec->env->key);
-		print_error(ft_strjoin(env, ": ambiguous redirect"), 0, ms);
+		err_str = ft_strjoin(env, ": ambiguous redirect");
+		print_error(ms, err_str, OTHER_ERR);
+		free(env);
+		free(err_str);
 	}
 }

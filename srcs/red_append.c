@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:34:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/25 14:47:51 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 16:56:48 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	std_append(t_minishell *ms, int originfd, int outfd)
 	{
 		dupfd = dup2(outfd, originfd);
 		if (dupfd == -1)
-			exit(EXIT_FAILURE);
+			print_error(ms, "dup2", EXIT_ERR);
 	}
 }
 
@@ -60,12 +60,12 @@ void	file_append(t_minishell *ms, int originfd, char *file)
 	dupfd = 0;
 	filefd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (filefd == -1)
-		exit(EXIT_FAILURE);
+		print_error(ms, "open filefd", EXIT_ERR);
 	if (filefd != originfd)
 	{
 		dupfd = dup2(filefd, originfd);
 		if (dupfd == -1)
-			exit(EXIT_FAILURE);
+			print_error(ms, "dup2", EXIT_ERR);
 	}
 	close(filefd);
 }
@@ -79,12 +79,12 @@ void	both_append(t_minishell *ms, char *file)
 	stdfd = 1;
 	filefd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (filefd == -1)
-		exit(EXIT_FAILURE);
+		print_error(ms, "open filefd", EXIT_ERR);
 	while (stdfd < 3)
 	{
 		dupfd = dup2(filefd, stdfd);
 		if (dupfd == -1)
-			exit(EXIT_FAILURE);
+			print_error(ms, "dup2", EXIT_ERR);
 		stdfd++;
 	}
 	close(filefd);
