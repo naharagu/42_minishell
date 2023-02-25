@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:10:30 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/25 11:59:31 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 12:04:38 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,26 +43,6 @@ void	red_out(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 	dup2(tmpfd_err, STD_ERR);
 }
 
-void	both_outred(t_minishell *ms, char *file)
-{
-	int		filefd;
-	int		dupfd;
-	int		stdfd;
-
-	stdfd = 1;
-	filefd = open(file, O_CREAT | O_WRONLY, 0644);
-	if (filefd == -1)
-		exit(EXIT_FAILURE);
-	while (stdfd < 3)
-	{
-		dupfd = dup2(filefd, stdfd);
-		if (dupfd == -1)
-			exit(EXIT_FAILURE);
-		stdfd++;
-	}
-	close(filefd);
-}
-
 void	std_outred(t_minishell *ms, int originfd, int outfd)
 {
 	int		dupfd;
@@ -88,6 +68,26 @@ void	file_outred(t_minishell *ms, int originfd, char *file)
 		dupfd = dup2(filefd, originfd);
 		if (dupfd == -1)
 			exit(EXIT_FAILURE);
+	}
+	close(filefd);
+}
+
+void	both_outred(t_minishell *ms, char *file)
+{
+	int		filefd;
+	int		dupfd;
+	int		stdfd;
+
+	stdfd = 1;
+	filefd = open(file, O_CREAT | O_WRONLY, 0644);
+	if (filefd == -1)
+		exit(EXIT_FAILURE);
+	while (stdfd < 3)
+	{
+		dupfd = dup2(filefd, stdfd);
+		if (dupfd == -1)
+			exit(EXIT_FAILURE);
+		stdfd++;
 	}
 	close(filefd);
 }

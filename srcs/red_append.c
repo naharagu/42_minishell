@@ -6,21 +6,24 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:34:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/24 16:14:20 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 12:08:32 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	std_append(t_minishell *ms, int originfd, int outfd);
 void	file_append(t_minishell *ms, int originfd, char *file);
 void	both_append(t_minishell *ms, char *file);
-void	std_append(t_minishell *ms, int originfd, int outfd);
+void	each_file_append(t_minishell *ms, t_execlist *exec, t_redlist *red);
 
 void	red_append(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 {
-	t_redlist	*startred;
+	int			tmpfd_std;
+	int			tmpfd_err;
 
-	startred = red;
+	tmpfd_std = dup(STD_OUT);
+	tmpfd_err = dup(STD_ERR);
 	if (exec->std_fd == STD_ERR)
 		std_append(ms, STD_OUT, STD_ERR);
 	else if (exec->err_fd == STD_OUT)
@@ -28,6 +31,68 @@ void	red_append(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 	else if (exec->std_fd == FILE_1 && exec->err_fd == FILE_1)
 		both_append(ms, red->next->str);
 	else if (exec->std_fd == FILE_1 || exec->err_fd == FILE_2)
+		each_file_append(ms, exec, red);
+	exec_command(exec);//
+	dup2(tmpfd_std, STD_OUT);
+	dup2(tmpfd_err, STD_ERR);
+}
+
+void	std_append(t_minishell *ms, int originfd, int outfd)
+{
+	int		dupfd;
+
+	dupfd = 0;
+	if (outfd != originfd)
+	{
+		dupfd = dup2(outfd, originfd);
+		if (dupfd == -1)
+			exit(EXIT_FAILURE);
+	}
+}
+
+void	file_append(t_minishell *ms, int originfd, char *file)
+{
+	int		filefd;
+	int		dupfd;
+
+	dupfd = 0;
+	filefd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
+	if (filefd == -1)
+		exit(EXIT_FAILURE);
+	if (filefd != originfd)
+	{
+		dupfd = dup2(filefd, originfd);
+		if (dupfd == -1)
+			exit(EXIT_FAILURE);
+	}
+	close(filefd);
+}
+
+void	both_append(t_minishell *ms, char *file)
+{
+	int		filefd;
+	int		dupfd;
+	int		stdfd;
+
+	stdfd = 1;
+	filefd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
+	if (filefd == -1)
+		exit(EXIT_FAILURE);
+	while (stdfd < 3)
+	{
+		dupfd = dup2(filefd, stdfd);
+		if (dupfd == -1)
+			exit(EXIT_FAILURE);
+		stdfd++;
+	}
+	close(filefd);
+}
+
+void	each_file_append(t_minishell *ms, t_execlist *exec, t_redlist *red)
+{
+	t_redlist	*startred;
+
+	startred = red;
 	{
 		while (red->next->str)
 		{
@@ -38,73 +103,6 @@ void	red_append(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 				file_append(ms, STD_ERR, red->next->str);
 			red = red->next;
 		}
+		red = startred;
 	}
-	red = startred;
-}
-
-void	file_append(t_minishell *ms, int originfd, char *file)
-{
-	int		filefd;
-	int		tmpfd;
-	int		dupfd;
-
-	tmpfd = 0;
-	dupfd = 0;
-	filefd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
-	if (filefd == -1)
-		exit(EXIT_FAILURE);
-	tmpfd = dup(originfd);
-	if (filefd != originfd)
-	{
-		dupfd = dup2(filefd, originfd);
-		if (dupfd == -1)
-			exit(EXIT_FAILURE);
-		//exec_command(originfd);//
-		close(filefd);
-	}
-	dup2(tmpfd, originfd);
-}
-
-void	both_append(t_minishell *ms, char *file)
-{
-	int		filefd;
-	int		tmpfd;
-	int		dupfd;
-	int		stdfd;
-
-	tmpfd = 0;
-	dupfd = 0;
-	stdfd = 1;
-	filefd = open(file, O_CREAT | O_RDWR | O_APPEND, 0644);
-	if (filefd == -1)
-		exit(EXIT_FAILURE);
-	while (stdfd < 3)
-	{
-		tmpfd = dup(stdfd);
-		dupfd = dup2(filefd, stdfd);
-		if (dupfd == -1)
-			exit(EXIT_FAILURE);
-		//exec_command(stdfd);//
-		dup2(tmpfd, stdfd);
-		stdfd++;
-	}
-	close(filefd);
-}
-
-void	std_append(t_minishell *ms, int originfd, int outfd)
-{
-	int		tmpfd;
-	int		dupfd;
-
-	tmpfd = 0;
-	dupfd = 0;
-	tmpfd = dup(originfd);
-	if (outfd != originfd)
-	{
-		dupfd = dup2(outfd, originfd);
-		if (dupfd == -1)
-			exit(EXIT_FAILURE);
-		//exec_command(originfd);//
-	}
-	dup2(tmpfd, originfd);
 }
