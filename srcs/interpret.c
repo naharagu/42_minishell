@@ -6,13 +6,13 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/25 17:14:37 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 17:20:04 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	interpret(char *line)
+int	interpret(t_minishell *ms, char *line)
 {
 	extern char	**environ;
 	char		*argv[] = {line, NULL};
@@ -34,4 +34,5 @@ int	interpret(char *line)
 		wait(&wstatus);
 		return (WEXITSTATUS(wstatus));
 	}
+	return (0);
 }

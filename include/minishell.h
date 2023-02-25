@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/25 17:15:33 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 21:28:43 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ typedef enum e_cmd
 	EXPORT_CMD,
 	UNSET_CMD,
 	ENV_CMD,
-	EXIT_CMD
+	EXIT_CMD,
+	OTHER_CMD
 }	t_cmd;
 
 typedef enum e_fd
@@ -171,7 +172,7 @@ void		red_in(t_minishell *ms, t_execlist *exec, t_redlist *red);
 void		red_heredoc(t_minishell *ms, t_execlist *exec, t_redlist *red);
 
 //interpret.c
-int			interpret(char *line);
+int			interpret(t_minishell *ms, char *line);
 
 //utils.c
 t_minishell	*init_struct_ms(t_minishell *ms);
