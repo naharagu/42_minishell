@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/25 11:55:23 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 13:04:48 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void	redirect(t_minishell *ms)
 			red_out (ms, ms->exec, ms->exec->red);
 		else if (ms->exec->redtype == APPEND)
 			red_append (ms, ms->exec, ms->exec->red);
-		if (ms->exec->redtype == INPUT)
+		else if (ms->exec->redtype == INPUT)
 			red_in (ms, ms->exec, ms->exec->red);
-		// if (ms->exec->redtype == HERE_DOC)
-		// 	here_document (ms, ms->exec->red);
+		else if (ms->exec->redtype == HERE_DOC)
+			red_heredoc (ms, ms->exec, ms->exec->red);
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;

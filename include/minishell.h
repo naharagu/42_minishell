@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/24 16:13:13 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 13:02:28 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,9 @@ void		red_out(t_minishell *ms, t_execlist *exec, t_redlist *red);
 void		red_append(t_minishell *ms, t_execlist	*exec, t_redlist *red);
 
 //red_in.c
+void		red_in(t_minishell *ms, t_execlist *exec, t_redlist *red);
+
+//red_heredoc.c
 void		red_in(t_minishell *ms, t_execlist *exec, t_redlist *red);
 
 //utils.c
