@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 15:06:00 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/24 16:13:48 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 12:49:26 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ void	file_inred(t_minishell *ms, int originfd, char *file);
 void	red_in(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 {
 	t_redlist	*startred;
+	int			tmpfd_std;
+	int			tmpfd_err;
 
+	tmpfd_std = dup(STD_OUT);
+	tmpfd_err = dup(STD_ERR);
 	startred = red;
 	while (red->next->str)
 	{
@@ -29,27 +33,24 @@ void	red_in(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 		red = red->next;
 	}
 	red = startred;
+	exec_command(exec);//
+	dup2(tmpfd_std, STD_OUT);
+	dup2(tmpfd_err, STD_ERR);
 }
 
 void	file_inred(t_minishell *ms, int originfd, char *file)
 {
 	int		filefd;
-	int		tmpfd;
 	int		dupfd;
 
-	tmpfd = 0;
-	dupfd = 0;
-	filefd = open(file, O_CREAT | O_RDONLY, 0644);
+	filefd = open(file, O_RDONLY);
 	if (filefd == -1)
 		exit(EXIT_FAILURE);
-	tmpfd = dup(originfd);
 	if (filefd != originfd)
 	{
-		dupfd = dup2(originfd, filefd);
+		dupfd = dup2(filefd, originfd);
 		if (dupfd == -1)
 			exit(EXIT_FAILURE);
-		//exec_command(filefd);//
-		close(filefd);
 	}
-	dup2(tmpfd, originfd);
+	close(filefd);
 }
