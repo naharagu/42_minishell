@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/24 16:31:51 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 11:55:23 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	redirect(t_minishell *ms)
 			ms->exec->red = ms->exec->red->next;
 		}
 		ms->exec->red = startred;
-		//printf ("stdfd= %d\n", ms->exec->std_fd);//
-		//printf ("errfd= %d\n", ms->exec->err_fd);//
+		// printf ("stdfd= %d\n", ms->exec->std_fd);//
+		// printf ("errfd= %d\n", ms->exec->err_fd);//
 		if (ms->exec->redtype == OUTPUT)
 			red_out (ms, ms->exec, ms->exec->red);
 		else if (ms->exec->redtype == APPEND)

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/24 16:23:04 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 11:04:45 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,12 @@ void	exec_command(t_execlist	*exec)
 
 	str1 = ft_strdup("test1");
 	str2 = ft_strdup("test2");
-	ft_putnbr_fd(exec->std_fd, exec->std_fd);
-	ft_putchar_fd(':', exec->std_fd);
-	ft_putendl_fd(str1, exec->std_fd);
-	ft_putnbr_fd(exec->err_fd, exec->err_fd);
-	ft_putchar_fd(':', exec->err_fd);
-	ft_putendl_fd(str2, exec->err_fd);
+	ft_putnbr_fd(exec->std_fd, 1);
+	ft_putchar_fd(':', 1);
+	ft_putendl_fd(str1, 1);
+	ft_putnbr_fd(exec->err_fd, 2);
+	ft_putchar_fd(':', 2);
+	ft_putendl_fd(str2, 2);
 	free(str1);
 	free(str2);
 }

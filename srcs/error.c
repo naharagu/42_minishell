@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/17 11:44:27 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 10:49:52 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ void	print_error(char *str, size_t flag, t_minishell *ms)
 
 void	error_lexer(t_minishell *ms)
 {
-	if (*ms->list->str == '|')
+	if (!(ms->list))
+		minishell(ms);
+	if (ms->list && *ms->list->str == '|')
 	{
 		ms->exit_status = 258;
 		print_error("|", SYNTAX, ms);

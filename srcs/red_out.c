@@ -6,15 +6,15 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:10:30 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/24 16:48:42 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 11:59:31 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		std_outred(t_minishell *ms, int originfd, int outfd);
-int		file_outred(t_minishell *ms, int originfd, char *file);
-//void	both_outred(t_minishell *ms, char *file);
+void	std_outred(t_minishell *ms, int originfd, int outfd);
+void	file_outred(t_minishell *ms, int originfd, char *file);
+void	both_outred(t_minishell *ms, char *file);
 void	each_file_outred(t_minishell *ms, t_execlist *exec, t_redlist *red);
 
 void	red_out(t_minishell *ms, t_execlist	*exec, t_redlist *red)
@@ -25,28 +25,45 @@ void	red_out(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 	tmpfd_std = dup(STD_OUT);
 	tmpfd_err = dup(STD_ERR);
 	if (exec->std_fd == STD_ERR)
-		exec->std_fd = std_outred(ms, STD_OUT, STD_ERR);
+		std_outred(ms, STD_OUT, STD_ERR);
 	else if (exec->err_fd == STD_OUT)
-		exec->err_fd = std_outred(ms, STD_ERR, STD_OUT);
+		std_outred(ms, STD_ERR, STD_OUT);
+	else if (exec->std_fd == DELETE && exec->err_fd == DELETE)
+		both_outred(ms, "/dev/null");
 	else if (exec->std_fd == DELETE)
-		exec->std_fd = file_outred(ms, STD_OUT, "/dev/null");
+		file_outred(ms, STD_OUT, "/dev/null");
 	else if (exec->err_fd == DELETE)
-		exec->err_fd = file_outred(ms, STD_ERR, "/dev/null");
+		file_outred(ms, STD_ERR, "/dev/null");
 	else if (exec->std_fd == FILE_1 && exec->err_fd == FILE_1)
-	{
-		exec->std_fd = file_outred(ms, STD_OUT, red->next->str);
-		exec->err_fd = exec->std_fd;
-	}
+		both_outred(ms, red->next->str);
 	else if (exec->std_fd == FILE_1 || exec->err_fd == FILE_2)
 		each_file_outred(ms, exec, red);
 	exec_command(exec);//
-	printf("std= %d\n", exec->std_fd);//
-	printf("err= %d\n", exec->err_fd);//
 	dup2(tmpfd_std, STD_OUT);
 	dup2(tmpfd_err, STD_ERR);
 }
 
-int	std_outred(t_minishell *ms, int originfd, int outfd)
+void	both_outred(t_minishell *ms, char *file)
+{
+	int		filefd;
+	int		dupfd;
+	int		stdfd;
+
+	stdfd = 1;
+	filefd = open(file, O_CREAT | O_WRONLY, 0644);
+	if (filefd == -1)
+		exit(EXIT_FAILURE);
+	while (stdfd < 3)
+	{
+		dupfd = dup2(filefd, stdfd);
+		if (dupfd == -1)
+			exit(EXIT_FAILURE);
+		stdfd++;
+	}
+	close(filefd);
+}
+
+void	std_outred(t_minishell *ms, int originfd, int outfd)
 {
 	int		dupfd;
 
@@ -56,10 +73,9 @@ int	std_outred(t_minishell *ms, int originfd, int outfd)
 		if (dupfd == -1)
 			exit(EXIT_FAILURE);
 	}
-	return (dupfd);
 }
 
-int	file_outred(t_minishell *ms, int originfd, char *file)
+void	file_outred(t_minishell *ms, int originfd, char *file)
 {
 	int		filefd;
 	int		dupfd;
@@ -72,9 +88,8 @@ int	file_outred(t_minishell *ms, int originfd, char *file)
 		dupfd = dup2(filefd, originfd);
 		if (dupfd == -1)
 			exit(EXIT_FAILURE);
-		close(filefd);
 	}
-	return (dupfd);
+	close(filefd);
 }
 
 void	each_file_outred(t_minishell *ms, t_execlist *exec, t_redlist *red)
@@ -87,9 +102,9 @@ void	each_file_outred(t_minishell *ms, t_execlist *exec, t_redlist *red)
 		{
 			if (!(ft_strncmp(">", red->str, 1)) || \
 				!(ft_strncmp("1>", red->str, 2)))
-				exec->std_fd = file_outred(ms, STD_OUT, red->next->str);
+				file_outred(ms, STD_OUT, red->next->str);
 			if (!(ft_strncmp("2>", red->str, 2)))
-				exec->err_fd = file_outred(ms, STD_ERR, red->next->str);
+				file_outred(ms, STD_ERR, red->next->str);
 			red = red->next;
 		}
 		red = startred;
