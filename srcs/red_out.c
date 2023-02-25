@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:10:30 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/25 12:04:38 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/25 14:45:08 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	red_out(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 	exec_command(exec);//
 	dup2(tmpfd_std, STD_OUT);
 	dup2(tmpfd_err, STD_ERR);
+	close(tmpfd_std);
+	close(tmpfd_err);
 }
 
 void	std_outred(t_minishell *ms, int originfd, int outfd)
