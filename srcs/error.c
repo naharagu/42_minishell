@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/25 17:07:21 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/27 11:41:21 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ void	print_error(t_minishell *ms, char *str, size_t flag)
 {
 	if (flag == EXIT_ERR)
 	{
-		ft_putendl_fd("error: ", STD_ERR);
-		ft_putendl_fd(str, STD_ERR);
+		// ft_putendl_fd("error: ", STD_ERR);
+		// ft_putendl_fd(str, STD_ERR);
+		perror(str);
 		all_free(ms);
 		exit(EXIT_FAILURE);
 	}

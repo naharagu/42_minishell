@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/25 17:24:02 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/27 12:38:55 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void		minishell(t_minishell *ms);
 static void	signal_handler(int signum);
 
-//リダイレクトアウト出力先ファイルじゃない時
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*ms;
@@ -38,7 +37,7 @@ void	minishell(t_minishell *ms)
 		if (*ms->line)
 			add_history(ms->line);
 		ms->startline = ms->line;
-		ms->exit_status = interpret(ms, ms->line);
+		//ms->exit_status = interpret(ms, ms->line);
 		lexer(ms);
 		//print_mslist(ms);//
 		parser(ms);
@@ -46,6 +45,7 @@ void	minishell(t_minishell *ms)
 		//print_cmdredlist(ms);//
 		expansion(ms);
 		//print_cmdredlist(ms);//
+		cmd_exec(ms);
 		redirect(ms);
 		all_free(ms);
 	}
