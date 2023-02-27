@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/27 22:05:11 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/27 22:13:06 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,14 @@ void	child_process(t_minishell *ms, char **argv)
 			print_error(ms, ms->err_str, OTHER_ERR);
 		}
 		if (execve(path, argv, environ))
+		{
+			free(path);
 			free_argv_error(ms, argv, "execve");
+		}
 	}
 	else if (execve(ms->line, argv, environ))
 		free_argv_error(ms, argv, "execve");
+	free(path);
 }
 
 char	*serch_path(char *file)
@@ -79,6 +83,8 @@ char	*serch_path(char *file)
 		//printf("path= %s\n", path[i]);//
 		if (!(access(path[i], X_OK)))
 			return (path[i]);
+		else
+			free(path[i]);
 		i++;
 	}
 	return (NULL);

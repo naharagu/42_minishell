@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/27 15:53:19 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/27 22:11:53 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,8 +183,8 @@ int			interpret(t_minishell *ms);
 t_minishell	*init_struct_ms(t_minishell *ms);
 char		*toupper_char(char *str);
 void		check_pipe(t_minishell *ms, char *str);
-void		get_pathname(void);
 void		all_free(t_minishell *ms);
+//void		get_pathname(void);
 
 //error.c
 void		print_error(t_minishell *ms, char *str, size_t flag);

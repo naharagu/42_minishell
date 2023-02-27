@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/27 15:54:21 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/27 22:11:37 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,6 @@ void	check_pipe(t_minishell *ms, char *str)
 		ms->list->pipe = SEMICOLON;
 }
 
-void	get_pathname(void)
-{
-	char	*pathname;
-
-	pathname = getcwd(NULL, 0);
-	if (!pathname)
-		return ;
-	else
-		printf("%s\n", pathname);
-	free(pathname);
-}
-
 void	all_free(t_minishell *ms)
 {
 	ms->quote = NO_QUOTE;
@@ -74,3 +62,15 @@ void	all_free(t_minishell *ms)
 	if (ms->exec)
 		exec_lstclear(&ms->exec);
 }
+
+// void	get_pathname(void)
+// {
+// 	char	*pathname;
+
+// 	pathname = getcwd(NULL, 0);
+// 	if (!pathname)
+// 		return ;
+// 	else
+// 		printf("%s\n", pathname);
+// 	free(pathname);
+// }
