@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/27 12:57:29 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/27 15:07:37 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,12 @@ static void	check_cmdtype(t_minishell *ms, char *str)
 		ms->exec->cmdtype = EXIT_CMD;
 	else if (!(ft_strncmp("LS", str, ft_strlen("LS"))))
 		ms->exec->cmdtype = LS_CMD;
+	else if (!(ft_strncmp("/BIN/PWD", str, ft_strlen("/BIN/PWD"))))
+		ms->exec->cmdtype = OTHER_CMD;
+	else if (!(ft_strncmp("/BIN/ECHO", str, ft_strlen("/BIN/PWD"))))
+		ms->exec->cmdtype = OTHER_CMD;
+	else if (!(ft_strncmp("/BIN/LS", str, ft_strlen("/BIN/PWD"))))
+		ms->exec->cmdtype = OTHER_CMD;
 }
 
 static void	check_redtype(t_minishell *ms, char *str)
