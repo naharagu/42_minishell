@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/27 22:13:06 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/27 23:45:48 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ int	interpret(t_minishell *ms)
 	pid = fork();
 	argv = ft_calloc(2, sizeof(char *));
 	if (!argv)
-		print_error(ms, "malloc", EXIT_ERR);
+	{
+		ms->err_location = ft_strdup("malloc");
+		print_error(ms, ms->err_location, EXIT_ERR);
+	}
 	argv[0] = ft_strdup(ms->line);
 	argv[1] = NULL;
 	if (pid < 0)
@@ -53,8 +56,8 @@ void	child_process(t_minishell *ms, char **argv)
 		if (!path || access(path, F_OK) < 0)
 		{
 			ms->exit_status = 127;
-			ms->err_str = ft_strjoin(argv[0], ": command not found");
-			print_error(ms, ms->err_str, OTHER_ERR);
+			ms->err_msg = ft_strjoin(argv[0], ": command not found");
+			print_error(ms, OTHER_ERR);
 		}
 		if (execve(path, argv, environ))
 		{
@@ -94,5 +97,6 @@ void	free_argv_error(t_minishell *ms, char **argv, char *str)
 {
 	free(argv[0]);
 	free(argv);
-	print_error(ms, str, EXIT_ERR);
+	ms->err_msg = str;
+	print_error(ms, EXIT_ERR);
 }

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/27 22:11:37 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/27 23:18:14 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ t_minishell	*init_struct_ms(t_minishell *ms)
 	if (!ms)
 		exit(EXIT_FAILURE);
 	ms->exit_status = 0;
-	ms->err_str = NULL;
+	ms->err_location = NULL;
+	ms->err_msg = NULL;
 	ms->startline = NULL;
 	ms->line = NULL;
 	ms->quote = NO_QUOTE;
@@ -53,7 +54,9 @@ void	check_pipe(t_minishell *ms, char *str)
 void	all_free(t_minishell *ms)
 {
 	ms->quote = NO_QUOTE;
-	if (ms->err_str)
+	if (ms->err_location)
+		free(ms->err_location);
+	if (ms->err_msg)
 		free(ms->err_str);
 	if (ms->startline)
 		free(ms->startline);

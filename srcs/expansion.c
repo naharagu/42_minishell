@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/15 15:16:50 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/27 23:33:06 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ static void	assign_value_red(t_minishell *ms, t_redlist *red, t_execlist *exec)
 				red = red->next;
 				i++;
 			}
-			error_expansion(exec, i, ms);
+			error_expansion(ms, exec, i);
 		}
 	}
 }

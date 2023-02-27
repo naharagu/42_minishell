@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/27 22:11:53 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/27 23:14:42 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef enum e_cmd
 	ENV_CMD,
 	EXIT_CMD,
 	LS_CMD,
+	SPC_CMD,
 	OTHER_CMD
 }	t_cmd;
 
@@ -138,7 +139,8 @@ typedef struct s_execlist
 typedef struct s_minishell
 {
 	int			exit_status;
-	char		*err_str;
+	char		*err_location;
+	char		*err_msg;
 	char		*startline;
 	char		*line;
 	t_quote		quote;
