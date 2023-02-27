@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/25 17:13:09 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/27 15:54:21 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_minishell	*init_struct_ms(t_minishell *ms)
 	if (!ms)
 		exit(EXIT_FAILURE);
 	ms->exit_status = 0;
+	ms->err_str = NULL;
 	ms->startline = NULL;
 	ms->line = NULL;
 	ms->quote = NO_QUOTE;
@@ -64,6 +65,8 @@ void	get_pathname(void)
 void	all_free(t_minishell *ms)
 {
 	ms->quote = NO_QUOTE;
+	if (ms->err_str)
+		free(ms->err_str);
 	if (ms->startline)
 		free(ms->startline);
 	if (ms->list)

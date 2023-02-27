@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/27 15:11:43 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/27 15:53:19 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ typedef struct s_execlist
 typedef struct s_minishell
 {
 	int			exit_status;
+	char		*err_str;
 	char		*startline;
 	char		*line;
 	t_quote		quote;
@@ -176,7 +177,7 @@ void		red_heredoc(t_minishell *ms, t_execlist *exec, t_redlist *red);
 void		cmd_exec(t_minishell *ms);
 
 //interpret.c
-int			interpret(t_minishell *ms, char *line);
+int			interpret(t_minishell *ms);
 
 //utils.c
 t_minishell	*init_struct_ms(t_minishell *ms);
