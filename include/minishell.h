@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 10:53:04 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/28 15:39:36 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
-
-typedef enum e_error
-{
-	EXIT_ERR,
-	SYNTAX_ERR,
-	OTHER_ERR
-}	t_error;
 
 typedef enum e_quote
 {
@@ -151,6 +144,12 @@ void		minishell(t_minishell *ms);
 
 //lexer.c
 void		lexer(t_minishell *ms);
+
+//bool.c
+bool		is_quoted(char c, t_minishell *ms);
+bool		is_delimiter(char c);
+bool		is_space(char c);
+bool		is_metachara(char c);
 
 //parser.c
 void		parser(t_minishell *ms);

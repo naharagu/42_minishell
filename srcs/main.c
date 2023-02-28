@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 12:06:33 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/28 16:36:08 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	minishell(t_minishell *ms)
 		//print_execlist(ms);//
 		//print_cmdredlist(ms);//
 		expansion(ms);
-		//print_cmdredlist(ms);//
+		print_cmdredlist(ms);//
 		//cmd_exec(ms);
 		redirect(ms);
 		ms->exit_status = interpret(ms);

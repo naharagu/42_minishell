@@ -6,7 +6,7 @@
 #    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/02/28 10:18:09 by shimakaori       ###   ########.fr        #
+#    Updated: 2023/02/28 15:38:16 by shimakaori       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ INCLUDE		=   -I include -I $(LIB_DIR)
 VPATH 		=   srcs
 SRCS		= 	main.c        \
 				lexer.c       \
+				bool.c        \
 				parser.c      \
 				expansion.c   \
 				redirect.c    \
