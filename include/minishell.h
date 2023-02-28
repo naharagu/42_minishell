@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/27 23:14:42 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/28 10:53:04 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,6 @@ typedef struct s_execlist
 typedef struct s_minishell
 {
 	int			exit_status;
-	char		*err_location;
-	char		*err_msg;
 	char		*startline;
 	char		*line;
 	t_quote		quote;
@@ -188,13 +186,6 @@ void		check_pipe(t_minishell *ms, char *str);
 void		all_free(t_minishell *ms);
 //void		get_pathname(void);
 
-//error.c
-void		print_error(t_minishell *ms, char *str, size_t flag);
-void		error_lexer(t_minishell *ms);
-void		error_parser_mslist(t_minishell *ms);
-void		error_parser_execlist(t_minishell *ms);
-void		error_expansion(t_execlist *exec, size_t i, t_minishell *ms);
-
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);
 t_mslist	*ms_lstlast(t_mslist *lst);
@@ -216,7 +207,18 @@ int			exec_lstsize(t_execlist *lst);
 void		exec_lstclear(t_execlist **lst);
 int			red_lstsize(t_redlist *lst);
 
-//print.c
+//error.c
+void		error_lexer(t_minishell *ms);
+void		error_parser_mslist(t_minishell *ms);
+void		error_parser_execlist(t_minishell *ms);
+void		error_expansion(t_minishell *ms, t_execlist *exec, size_t i);
+
+//print_error.c
+void		exit_error(t_minishell *ms, char *location);
+void		syntax_error(t_minishell *ms, char *location, int status);
+void		other_error(t_minishell *ms, char *location, char *msg, int status);
+
+//print_list.c (for test)
 void		print_mslist(t_minishell *ms);
 void		print_execlist(t_minishell *ms);
 void		print_cmdredlist(t_minishell *ms);

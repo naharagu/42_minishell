@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 15:06:00 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/25 16:55:09 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/28 11:01:21 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ void	file_inred(t_minishell *ms, int originfd, char *file)
 
 	filefd = open(file, O_RDONLY);
 	if (filefd == -1)
-		print_error(ms, "open filefd", EXIT_ERR);
+		exit_error(ms, "open");
 	if (filefd != originfd)
 	{
 		dupfd = dup2(filefd, originfd);
 		if (dupfd == -1)
-			print_error(ms, "dup2", EXIT_ERR);
+			exit_error(ms, "dup2");
 	}
 	close(filefd);
 }

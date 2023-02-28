@@ -6,7 +6,7 @@
 #    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/02/27 15:12:12 by shimakaori       ###   ########.fr        #
+#    Updated: 2023/02/28 10:18:09 by shimakaori       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,12 +28,13 @@ SRCS		= 	main.c        \
 				red_in.c      \
 				cmd_exec.c    \
 				interpret.c   \
-				error.c       \
 				utils.c       \
 				mslist.c 	  \
 				execlist_1.c  \
 				execlist_2.c  \
-				print.c
+				error.c       \
+				print_error.c \
+				print_list.c
 OBJS_DIR	=	./obj/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
 LIB_DIR		= 	./libft

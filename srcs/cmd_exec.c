@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:55:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/27 23:51:29 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/28 11:08:14 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,7 @@ void	cmd_exec(t_minishell *ms)
 		// if (ms->exec->cmdtype == LS_CMD)
 		// 	my_ls (ms);//
 		if (ms->exec->cmdtype == SPC_CMD)
-		{
-			ms->err_msg = ft_substr("command not found");
-			ms->err_location = ft_strdup(ft_itoa(ms->exit_status));
-			print_error(ms, OTHER_ERR);
-		}
+			other_error(ms, ft_itoa(127), "command not found", 127);
 		// startcmd = ms->exec->cmd;
 		// while (ms->exec->cmd->str)
 		// {
@@ -69,11 +65,11 @@ void	my_ls(t_minishell *ms)
 	}
 	free(path);
 	if (closedir(dir) < 0)
-		print_error(ms, "closedir", EXIT_ERR);
+		exit_error(ms, "closedir");
 }
 
 void	free_path_error(t_minishell *ms, char **path, char *str)
 {
 	free(path);
-	print_error(ms, str, EXIT_ERR);
+	exit_error(ms, str);
 }

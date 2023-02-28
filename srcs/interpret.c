@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/27 23:45:48 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/28 11:11:57 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int	interpret(t_minishell *ms)
 	pid = fork();
 	argv = ft_calloc(2, sizeof(char *));
 	if (!argv)
-	{
-		ms->err_location = ft_strdup("malloc");
-		print_error(ms, ms->err_location, EXIT_ERR);
-	}
+		exit_error(ms, "malloc");
 	argv[0] = ft_strdup(ms->line);
 	argv[1] = NULL;
 	if (pid < 0)
@@ -54,11 +51,7 @@ void	child_process(t_minishell *ms, char **argv)
 	{
 		path = serch_path(path);
 		if (!path || access(path, F_OK) < 0)
-		{
-			ms->exit_status = 127;
-			ms->err_msg = ft_strjoin(argv[0], ": command not found");
-			print_error(ms, OTHER_ERR);
-		}
+			other_error(ms, argv[0], "command not found", 127);
 		if (execve(path, argv, environ))
 		{
 			free(path);
@@ -83,7 +76,6 @@ char	*serch_path(char *file)
 	{
 		path[i] = ft_strjoin(path[i], "/");
 		path[i] = ft_strjoin(path[i], file);
-		//printf("path= %s\n", path[i]);//
 		if (!(access(path[i], X_OK)))
 			return (path[i]);
 		else
@@ -97,6 +89,5 @@ void	free_argv_error(t_minishell *ms, char **argv, char *str)
 {
 	free(argv[0]);
 	free(argv);
-	ms->err_msg = str;
-	print_error(ms, EXIT_ERR);
+	exit_error(ms, str);
 }
