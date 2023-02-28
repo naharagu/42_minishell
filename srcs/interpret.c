@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 11:55:56 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/28 12:08:22 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	interpret(t_minishell *ms)
 	argv = ft_calloc(2, sizeof(char *));
 	if (!argv)
 		exit_error(ms, "malloc");
-	argv[0] = ft_strdup(ms->line);
+	argv[0] = ft_strdup(ms->exec->cmd->str);
 	argv[1] = NULL;
 	if (pid < 0)
 		free_argv_error(ms, argv, "fork");

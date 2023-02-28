@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 11:13:35 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/28 12:18:16 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	error_lexer(t_minishell *ms)
 	if (ms->list && *ms->list->str == '|')
 		syntax_error(ms, "|", 258);
 	if (ms->quote == S_QUOTE || ms->quote == D_QUOTE)
-		other_error(ms, "error", "unclosed quotes", 1);
+		syntax_error(ms, "unclosed quotes", 0);
 }
 
 void	error_parser_mslist(t_minishell *ms)
