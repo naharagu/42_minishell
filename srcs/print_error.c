@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:17:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 10:54:51 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/28 11:33:57 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	exit_error(t_minishell *ms, char *location)
 {
+	ft_putstr_fd("minishell: ", STD_ERR);
 	perror(location);
 	all_free(ms);
 	exit(EXIT_FAILURE);

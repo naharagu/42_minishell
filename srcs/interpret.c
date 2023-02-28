@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 11:11:57 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/28 11:55:56 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,10 @@ void	child_process(t_minishell *ms, char **argv)
 		if (!path || access(path, F_OK) < 0)
 			other_error(ms, argv[0], "command not found", 127);
 		if (execve(path, argv, environ))
-		{
-			free(path);
-			free_argv_error(ms, argv, "execve");
-		}
+			return ;
 	}
 	else if (execve(ms->line, argv, environ))
-		free_argv_error(ms, argv, "execve");
-	free(path);
+		return ;
 }
 
 char	*serch_path(char *file)
