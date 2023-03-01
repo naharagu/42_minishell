@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 15:55:58 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/01 11:32:38 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,20 @@ void	error_parser_execlist(t_minishell *ms)
 	startexec = ms->exec;
 	while (ms->exec)
 	{
-		if (ms->exec->redtype != NO_REDIRECT && red_lstsize(ms->exec->red) < 2)
+		if (ms->exec->redtype != NO_REDIRECT && \
+			((ft_strnstr(ms->exec->red->str, ">>>>", 4))))
+			syntax_error(ms, ">>", 0);
+		else if (ms->exec->redtype != NO_REDIRECT && \
+			((ft_strnstr(ms->exec->red->str, ">>>", 3))))
+			syntax_error(ms, ">", 0);
+		else if (ms->exec->redtype != NO_REDIRECT && \
+			((ft_strnstr(ms->exec->red->str, "<<<<", 4))))
+			syntax_error(ms, "<", 0);
+		else if (ms->exec->redtype != NO_REDIRECT && \
+			red_lstsize(ms->exec->red) < 2)
 			syntax_error(ms, "newline", 0);
-		// else if (((ft_strnstr(ms->exec->red->str, ">>", ft_strlen(">>>>")))))
-		// 	syntax_error(ms, , 0);
-		if (ms->exec->cmdtype == NO_CMD && ms->exec->redtype == NO_REDIRECT)
+		else if (ms->exec->cmdtype == NO_CMD && \
+			ms->exec->redtype == NO_REDIRECT)
 			other_error(ms, ms->exec->cmd->str, "command not found", 127);
 		ms->exec = ms->exec->next;
 	}

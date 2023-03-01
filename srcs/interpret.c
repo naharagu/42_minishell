@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 12:08:22 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/01 10:14:52 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ int	interpret(t_minishell *ms)
 	argv = ft_calloc(2, sizeof(char *));
 	if (!argv)
 		exit_error(ms, "malloc");
-	argv[0] = ft_strdup(ms->exec->cmd->str);
+	if (ms->exec->cmd->str)
+		argv[0] = ft_strdup(ms->exec->cmd->str);
+	else if (!(ms->exec->cmd->str) && ms->exec->red->str)
+		argv[0] = ft_strdup(ms->exec->red->str);
 	argv[1] = NULL;
 	if (pid < 0)
 		free_argv_error(ms, argv, "fork");
@@ -51,7 +54,7 @@ void	child_process(t_minishell *ms, char **argv)
 	{
 		path = serch_path(path);
 		if (!path || access(path, F_OK) < 0)
-			other_error(ms, argv[0], "command not found", 127);
+			return ;
 		if (execve(path, argv, environ))
 			return ;
 	}

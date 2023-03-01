@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 10:16:32 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/01 10:04:55 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	print_execlist(t_minishell *ms)
 	while (ms->exec)
 	{
 		i = 0;
-		while (ms->exec->cmdline[i] != 0)
+		while (ms->exec->cmdline[i])
 		{
 			printf("[exec:%ld]cmdline[%ld]= %s\n", j, i, ms->exec->cmdline[i]);
 			i++;
@@ -67,14 +67,14 @@ void	print_cmdredlist(t_minishell *ms)
 		startcmd = ms->exec->cmd;
 		startred = ms->exec->red;
 		i = 0;
-		while (ms->exec->cmd->next)
+		while (ms->exec->cmd && ms->exec->cmd->next)
 		{
 			printf("[exec:%ld]cmd[%ld]= %s\n", j, i, ms->exec->cmd->str);
 			ms->exec->cmd = ms->exec->cmd->next;
 			i++;
 		}
 		i = 0;
-		while (ms->exec->red->next)
+		while (ms->exec->red && ms->exec->red->next)
 		{
 			printf("[exec:%ld]red[%ld]= %s\n", j, i, ms->exec->red->str);
 			ms->exec->red = ms->exec->red->next;

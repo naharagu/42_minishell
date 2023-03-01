@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 16:35:43 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/01 13:07:59 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,26 +35,40 @@ void	lexer(t_minishell *ms)
 			tmp = ms_lstnew(len, start);
 			ms_lstadd_back(&ms->list, tmp);
 		}
-		else if (is_delimiter(*ms->line))
-			ms->line = add_mslist(ms->line, &ms->list);
-		if (*ms->line && is_space(*ms->line))
+		start = ms->line;
+		if (is_delimiter(*ms->line))
+		{
+			while (*ms->line && (is_delimiter(*ms->line) || is_metachara(*ms->line)))
+				ms->line++;
+			len = ms->line - start;
+			printf("len=  %zu\n", len);//
+			tmp = ms_lstnew(len, start);
+			printf("tmpstr2= %s\n", tmp->str);//
+			ms_lstadd_back(&ms->list, tmp);
+		}
+		while (*ms->line && is_space(*ms->line))
 			ms->line++;
+		if (!(ft_strlen(ms->line)))
+			break ;
 	}
 	error_lexer(ms);
 }
 
-static char	*add_mslist(char *line, t_mslist **list)
-{
-	t_mslist	*tmp;
-	char		*start;
-	size_t		len;
+// static char	*add_mslist(char *line, t_mslist **list)
+// {
+// 	t_mslist	*tmp;
+// 	char		*start;
+// 	size_t		len;
 
-	len = 0;
-	start = line;
-	while (is_delimiter(*line) || is_metachara(*line))
-		line++;
-	len = line - start;
-	tmp = ms_lstnew(len, start);
-	ms_lstadd_back(list, tmp);
-	return (line);
-}
+// 	len = 0;
+// 	start = line;
+// 	while (line && (is_delimiter(*line) || is_metachara(*line)))
+// 		line++;
+// 	len = line - start;
+// 	printf("len=  %zu\n", len);//
+// 	tmp = ms_lstnew(len, start);
+// 	printf("tmpstr2= %s\n", tmp->str);//
+// 	ms_lstadd_back(list, tmp);
+// 	line++;
+// 	return (line);
+// }

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 12:43:25 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/01 11:41:40 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	parser(t_minishell *ms)
 			num++;
 		ms->list = ms->list->next;
 	}
-	ms->list = start;
 	add_execlist(ms, first, num);
+	ms->list = start;
 	check_execlist(ms);
 	error_parser_mslist(ms);
 	error_parser_execlist(ms);
@@ -76,42 +76,42 @@ static void	check_execlist(t_minishell *ms)
 
 static void	check_cmdtype(t_minishell *ms, char *str)
 {
-	if (!(ft_strncmp("ECHO", str, ft_strlen("ECHO"))))
+	if (!(ft_strncmp("ECHO", str, ft_strlen(str))))
 		ms->exec->cmdtype = ECHO_CMD;
-	else if (!(ft_strncmp("CD", str, ft_strlen("CD"))))
+	else if (!(ft_strncmp("CD", str, ft_strlen(str))))
 		ms->exec->cmdtype = CD_CMD;
-	else if (!(ft_strncmp("PWD", str, ft_strlen("PWD"))))
+	else if (!(ft_strncmp("PWD", str, ft_strlen(str))))
 		ms->exec->cmdtype = PWD_CMD;
-	else if (!(ft_strncmp("EXPORT", str, ft_strlen("EXPORT"))))
+	else if (!(ft_strncmp("EXPORT", str, ft_strlen(str))))
 		ms->exec->cmdtype = EXPORT_CMD;
-	else if (!(ft_strncmp("UNSET", str, ft_strlen("UNSET"))))
+	else if (!(ft_strncmp("UNSET", str, ft_strlen(str))))
 		ms->exec->cmdtype = UNSET_CMD;
-	else if (!(ft_strncmp("ENV", str, ft_strlen("ENV"))))
+	else if (!(ft_strncmp("ENV", str, ft_strlen(str))))
 		ms->exec->cmdtype = ENV_CMD;
-	else if (!(ft_strncmp("EXIT", str, ft_strlen("EXIT"))))
+	else if (!(ft_strncmp("EXIT", str, ft_strlen(str))))
 		ms->exec->cmdtype = EXIT_CMD;
-	else if (!(ft_strncmp("LS", str, ft_strlen("LS"))))
+	else if (!(ft_strncmp("LS", str, ft_strlen(str))))
 		ms->exec->cmdtype = LS_CMD;
-	else if (!(ft_strncmp("$?", str, ft_strlen("$?"))))
+	else if (!(ft_strncmp("$?", str, ft_strlen(str))))
 		ms->exec->cmdtype = SPC_CMD;
-	else if (!(ft_strncmp("/BIN/LS", str, ft_strlen("/BIN/PWD"))) || \
-			!(ft_strncmp("/BIN/PWD", str, ft_strlen("/BIN/PWD"))) || \
-			!(ft_strncmp("/BIN/ECHO", str, ft_strlen("/BIN/ECHO"))) || \
-			!(ft_strncmp("./A.OUT", str, ft_strlen("./A.OUT"))))
+	else if (!(ft_strncmp("/BIN/LS", str, ft_strlen(str))) || \
+			!(ft_strncmp("/BIN/PWD", str, ft_strlen(str))) || \
+			!(ft_strncmp("/BIN/ECHO", str, ft_strlen(str))) || \
+			!(ft_strncmp("./A.OUT", str, ft_strlen(str))))
 		ms->exec->cmdtype = OTHER_CMD;
 }
 
 static void	check_redtype(t_minishell *ms, char *str)
 {
-	if ((ft_strnstr(str, ">>", ft_strlen(str))))
+	if (!(ft_strncmp(">>", str, ft_strlen(">>"))))
 		ms->exec->redtype = APPEND;
-	else if ((ft_strnstr(str, ">", ft_strlen(str))) && \
-		ms->exec->redtype != APPEND)
+	else if (!(ft_strncmp(">", str, ft_strlen(">"))) \
+			&& ms->exec->redtype != APPEND)
 		ms->exec->redtype = OUTPUT;
-	else if ((ft_strnstr(str, "<<", ft_strlen(str))))
+	else if (!(ft_strncmp("<<", str, ft_strlen("<<"))))
 		ms->exec->redtype = HERE_DOC;
-	else if ((ft_strnstr(str, "<", ft_strlen(str))) && \
-		ms->exec->redtype != HERE_DOC)
+	else if (!(ft_strncmp("<", str, ft_strlen("<"))) \
+			&& ms->exec->redtype != HERE_DOC)
 		ms->exec->redtype = INPUT;
 }
 

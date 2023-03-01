@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/22 12:13:27 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/01 11:47:55 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 	if (!new->cmdline)
 		return (NULL);
 	j = 0;
-	while (j < num)
+	while (j < num && list->str)
 	{
 		new->cmdline[j] = list->str;
 		list = list->next;
