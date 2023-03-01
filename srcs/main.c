@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/14 15:30:26 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/02/27 09:08:18 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+// #include "minishell.h"
+#include "../include/minishell.h"
 
 static void	minishell(t_minishell *ms);
 static void	signal_handler(int signum);
@@ -47,6 +48,7 @@ static void	minishell(t_minishell *ms)
 		//print_cmdredlist(ms);//
 		expansion(ms);
 		print_cmdredlist(ms);//
+		execute(ms);
 		free(line);
 		ms_lstclear(&ms->list);
 		exec_lstclear(&ms->exec);
