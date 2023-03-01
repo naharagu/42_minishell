@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 17:59:18 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/01 18:25:32 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,10 @@ bool		is_metachara(char c);
 
 //parser.c
 void		parser(t_minishell *ms);
+
+//check_type.c
+void		check_cmdtype(t_minishell *ms, char *str);
+void		check_redtype(t_minishell *ms, char *str);
 
 //expansion.c
 void		expansion(t_minishell *ms);
