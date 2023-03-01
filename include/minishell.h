@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 12:05:08 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/01 17:59:18 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,7 @@ void		red_heredoc(t_minishell *ms, t_execlist *exec, t_redlist *red);
 void		cmd_exec(t_minishell *ms);
 
 //interpret.c
-int			interpret(t_minishell *ms);
+void		interpret(t_minishell *ms);
 
 //utils.c
 t_minishell	*init_struct_ms(t_minishell *ms);

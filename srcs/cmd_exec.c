@@ -6,14 +6,14 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:55:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 11:08:14 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/01 18:06:17 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	my_ls(t_minishell *ms);
-void	free_path_error(t_minishell *ms, char **path, char *str);
+//void	my_ls(t_minishell *ms);
+//void	free_path_error(t_minishell *ms, char **path, char *str);
 
 void	cmd_exec(t_minishell *ms)
 {
@@ -23,6 +23,8 @@ void	cmd_exec(t_minishell *ms)
 	startexec = ms->exec;
 	while (ms->exec)
 	{
+		if (ms->exec->cmdtype == ECHO_CMD)
+			printf("%s\n",ms->exec->cmd->next->str);
 		// if (ms->exec->cmdtype == LS_CMD)
 		// 	my_ls (ms);//
 		if (ms->exec->cmdtype == SPC_CMD)
@@ -38,38 +40,37 @@ void	cmd_exec(t_minishell *ms)
 	ms->exec = startexec;
 }
 
-//使わないかも
-void	my_ls(t_minishell *ms)
-{
-	DIR				*dir;
-	struct dirent	*dp;
-	char			*path;
+// void	my_ls(t_minishell *ms)
+// {
+// 	DIR				*dir;
+// 	struct dirent	*dp;
+// 	char			*path;
 
-	errno = 0;
-	path = ft_strdup(".");
-	dir = opendir(path);
-	if (!dir)
-		free_path_error(ms, &path, "opendir");
-	while (dp)
-	{
-		dp = readdir(dir);
-		if (!dp && !errno)
-			break ;
-		if (!dp && errno)
-		{
-			free_path_error(ms, &path, "readdir");
-			closedir(dir);
-		}
-		if (*dp->d_name != '.')
-			printf("%s\n", dp->d_name);
-	}
-	free(path);
-	if (closedir(dir) < 0)
-		exit_error(ms, "closedir");
-}
+// 	errno = 0;
+// 	path = ft_strdup(".");
+// 	dir = opendir(path);
+// 	if (!dir)
+// 		free_path_error(ms, &path, "opendir");
+// 	while (dp)
+// 	{
+// 		dp = readdir(dir);
+// 		if (!dp && !errno)
+// 			break ;
+// 		if (!dp && errno)
+// 		{
+// 			free_path_error(ms, &path, "readdir");
+// 			closedir(dir);
+// 		}
+// 		if (*dp->d_name != '.')
+// 			printf("%s\n", dp->d_name);
+// 	}
+// 	free(path);
+// 	if (closedir(dir) < 0)
+// 		exit_error(ms, "closedir");
+// }
 
-void	free_path_error(t_minishell *ms, char **path, char *str)
-{
-	free(path);
-	exit_error(ms, str);
-}
+// void	free_path_error(t_minishell *ms, char **path, char *str)
+// {
+// 	free(path);
+// 	exit_error(ms, str);
+// }
