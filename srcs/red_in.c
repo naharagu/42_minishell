@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 15:06:00 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 11:01:21 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/01 21:24:14 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	red_in(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 	startred = red;
 	while (red->next->str)
 	{
-		if (!(ft_strncmp("<", red->str, 1)) || \
-			!(ft_strncmp("1<", red->str, 2)))
+		if (!(ft_strncmp("<", red->str, ft_strlen(red->str))) || \
+			!(ft_strncmp("1<", red->str, ft_strlen(red->str))))
 			file_inred(ms, STD_IN, red->next->str);
 		red = red->next;
 	}

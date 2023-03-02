@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:34:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 10:57:59 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/01 21:28:01 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,10 @@ void	each_file_append(t_minishell *ms, t_execlist *exec, t_redlist *red)
 	{
 		while (red->next->str)
 		{
-			if (!(ft_strncmp(">>", red->str, ft_strlen(">>"))) || \
-				!(ft_strncmp("1>>", red->str, ft_strlen("1>>"))))
+			if (!(ft_strncmp(">>", red->str, ft_strlen(red->str))) || \
+				!(ft_strncmp("1>>", red->str, ft_strlen(red->str))))
 				file_append(ms, STD_OUT, red->next->str);
-			if (!(ft_strncmp("2>>", red->str, ft_strlen("2>>"))))
+			if (!(ft_strncmp("2>>", red->str, ft_strlen(red->str))))
 				file_append(ms, STD_ERR, red->next->str);
 			red = red->next;
 		}

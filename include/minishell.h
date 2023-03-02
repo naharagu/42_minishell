@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 18:25:32 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/01 21:12:31 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ void		red_heredoc(t_minishell *ms, t_execlist *exec, t_redlist *red);
 
 //cmd_exec.c
 void		cmd_exec(t_minishell *ms);
+void		exec_command(t_execlist	*exec);
 
 //interpret.c
 void		interpret(t_minishell *ms);
@@ -225,6 +226,5 @@ void		other_error(t_minishell *ms, char *location, char *msg, int status);
 void		print_mslist(t_minishell *ms);
 void		print_execlist(t_minishell *ms);
 void		print_cmdredlist(t_minishell *ms);
-void		exec_command(t_execlist	*exec);
 
 #endif

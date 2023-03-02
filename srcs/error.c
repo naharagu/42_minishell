@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 17:22:27 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/01 21:42:14 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,17 @@ void	error_parser_execlist(t_minishell *ms)
 	while (ms->exec)
 	{
 		if (ms->exec->redtype != NO_REDIRECT && \
-			((ft_strnstr(ms->exec->red->str, ">>>>", 4))))
+			ft_strnstr(ms->exec->red->str, ">>>>", 4))
 			syntax_error(ms, ">>", 0);
 		else if (ms->exec->redtype != NO_REDIRECT && \
-			((ft_strnstr(ms->exec->red->str, ">>>", 3))))
+			ft_strnstr(ms->exec->red->str, ">>>", 3))
 			syntax_error(ms, ">", 0);
 		if (ms->exec->redtype != NO_REDIRECT && \
-			((ft_strnstr(ms->exec->red->str, "<<<<", 4))))
+			ft_strnstr(ms->exec->red->str, "<<<<", 4))
 			syntax_error(ms, "<", 0);
-		if (ms->exec->redtype != NO_REDIRECT && \
-			red_lstsize(ms->exec->red) < 2)
+		if (ms->exec->redtype != NO_REDIRECT && red_lstsize(ms->exec->red) < 2 \
+			&& !(ft_strnstr(ms->exec->red->str, ">&", \
+			ft_strlen(ms->exec->red->str))))
 			syntax_error(ms, "newline", 0);
 		if (ms->exec->cmdtype == NO_CMD && \
 			ms->exec->redtype == NO_REDIRECT)

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:55:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 18:06:17 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/01 21:45:12 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	cmd_exec(t_minishell *ms)
 	startexec = ms->exec;
 	while (ms->exec)
 	{
-		if (ms->exec->cmdtype == ECHO_CMD)
+		if (ms->exec->cmdtype == ECHO_CMD && ms->exec->cmd->next->str)
 			printf("%s\n",ms->exec->cmd->next->str);
 		// if (ms->exec->cmdtype == LS_CMD)
 		// 	my_ls (ms);//
@@ -38,6 +38,23 @@ void	cmd_exec(t_minishell *ms)
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;
+}
+
+void	exec_command(t_execlist	*exec)
+{
+	char	*str1;
+	char	*str2;
+
+	str1 = ft_strdup("test1");
+	str2 = ft_strdup("test2");
+	ft_putnbr_fd(exec->std_fd, 1);
+	ft_putchar_fd(':', 1);
+	ft_putendl_fd(str1, 1);
+	ft_putnbr_fd(exec->err_fd, 2);
+	ft_putchar_fd(':', 2);
+	ft_putendl_fd(str2, 2);
+	free(str1);
+	free(str2);
 }
 
 // void	my_ls(t_minishell *ms)

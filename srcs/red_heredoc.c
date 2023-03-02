@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:01:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 11:00:51 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/01 21:26:46 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	red_heredoc(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 	tmpfd_std = dup(STD_OUT);
 	while (red->next->str)
 	{
-		if (!(ft_strncmp("<<", red->str, 2)))
+		if (!(ft_strncmp("<<", red->str, ft_strlen(red->str))))
 			file_heredoc(ms, STD_OUT, red->next->str);
 		red = red->next;
 	}
