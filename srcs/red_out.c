@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:10:30 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/02 13:06:33 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/02 13:31:44 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,20 +70,15 @@ void	file_outred(t_minishell *ms, int originfd, char *file)
 	close(filefd);
 }
 
-//echo &>/dev/nullの時はOK
-//echo 1>/dev/null 2>&1　の時出力される
 void	both_outred(t_minishell *ms, char *file)
 {
 	int		filefd;
 	int		dupfd;
 	int		stdfd;
 
-	printf("file= %s\n", file);//
-	printf("filelen= %zu\n", ft_strlen(file));//
 	filefd = open(file, O_CREAT | O_WRONLY, 0644);
 	if (filefd == -1)
 		exit_error(ms, "open");
-	printf("filefd= %d\n", filefd);//
 	stdfd = 1;
 	while (stdfd < 3)
 	{

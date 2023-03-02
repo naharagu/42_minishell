@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:37:06 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 18:58:36 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/02 13:56:40 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ bool	is_space(char c)
 
 bool	is_metachara(char c)
 {
-	if (ft_strchr("12&()", c))
+	if (ft_strchr("12&()ß", c))
 		return (true);
 	else
 		return (false);
