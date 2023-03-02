@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 22:34:38 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/02 12:37:41 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void	redirect(t_minishell *ms)
 			check_fd(ms->exec, ms->exec->red);
 			ms->exec->red = ms->exec->red->next;
 		}
-		printf("stdfd= %d\n", ms->exec->std_fd);//
-		printf("errfd= %d\n", ms->exec->err_fd);//
 		ms->exec->red = startred;
 		if (ms->exec->redtype == OUTPUT)
 			red_out (ms, ms->exec, ms->exec->red);
@@ -46,24 +44,23 @@ void	redirect(t_minishell *ms)
 
 void	check_fd(t_execlist	*exec, t_redlist *red)
 {
-	// if (!(ft_strncmp(">/dev/null", red->str, 10)) || \
-	// 	!(ft_strncmp("1>/dev/null", red->str, 10)))
-	// 	exec->std_fd = DELETE;
-	// else if (!(ft_strncmp("2>/dev/null", red->str, 10)))
-	// 	exec->err_fd = DELETE;
 	if (!(ft_strncmp(">", red->str, ft_strlen(red->str))) || \
-		!(ft_strncmp("1>", red->str, ft_strlen(red->str))))
+		!(ft_strncmp("1>", red->str, ft_strlen(red->str))) || \
+		!(ft_strncmp(">>", red->str, ft_strlen(red->str))) || \
+		!(ft_strncmp("1>>", red->str, ft_strlen(red->str))))
 		exec->std_fd = FILE_1;
-	else if (!(ft_strncmp("2>", red->str, ft_strlen(red->str))))
+	else if (!(ft_strncmp("2>", red->str, ft_strlen(red->str))) || \
+		!(ft_strncmp("2>>", red->str, ft_strlen(red->str))))
 		exec->err_fd = FILE_2;
-	else if ((ft_strnstr(red->str, "&>", ft_strlen(red->str))))
+	else if (!(ft_strncmp("&>", red->str, ft_strlen(red->str))) || \
+		!(ft_strncmp("&>>", red->str, ft_strlen(red->str))))
 	{
 		exec->std_fd = FILE_1;
 		exec->err_fd = FILE_1;
 	}
-	if (!(ft_strncmp("2>&1", red->str, ft_strlen("2>&1"))))
+	if (!(ft_strncmp("2>&1", red->str, 4)))
 		exec->err_fd = exec->std_fd;
-	else if (!(ft_strncmp(">&2", red->str, ft_strlen(">&2"))) || \
-		(!(ft_strncmp("1>&2", red->str, ft_strlen("1>&2")))))
+	else if (!(ft_strncmp(">&2", red->str, 3)) || \
+		!(ft_strncmp("1>&2", red->str, 4)))
 		exec->std_fd = exec->err_fd;
 }

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 21:12:31 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/02 12:06:21 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ typedef enum e_fd
 	STD_OUT,
 	STD_ERR,
 	FILE_1,
-	FILE_2,
-	DELETE
+	FILE_2
 }	t_fd;
 
 typedef struct s_mslist
