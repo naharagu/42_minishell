@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:10:30 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/02 12:30:49 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/02 13:06:33 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ void	red_out(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 		std_outred(ms, STD_ERR, STD_OUT);
 	else if (exec->std_fd == FILE_1 && exec->err_fd == FILE_1)
 		both_outred(ms, red->next->str);
-	else if (exec->std_fd == FILE_1 || exec->err_fd == FILE_2)
+	else if ((exec->std_fd == FILE_1 && exec->err_fd == STD_ERR) || \
+		(exec->err_fd == FILE_2 && exec->std_fd == STD_OUT) || \
+		(exec->std_fd == FILE_1 && exec->err_fd == FILE_2))
 		each_file_outred(ms, exec, red);
 	exec_command(exec);//
 	dup2(tmpfd_std, STD_OUT);
@@ -57,17 +59,19 @@ void	file_outred(t_minishell *ms, int originfd, char *file)
 	int		dupfd;
 
 	filefd = open(file, O_CREAT | O_WRONLY, 0644);
-	if (filefd == -1 && ft_strncmp("/dev/null", file, ft_strlen(file)))
+	if (filefd == -1)
 		exit_error(ms, "open");
 	if (filefd != originfd)
 	{
 		dupfd = dup2(filefd, originfd);
-		if (dupfd == -1 && ft_strncmp("/dev/null", file, ft_strlen(file)))
+		if (dupfd == -1)
 			exit_error(ms, "dup2");
 	}
 	close(filefd);
 }
 
+//echo &>/dev/nullの時はOK
+//echo 1>/dev/null 2>&1　の時出力される
 void	both_outred(t_minishell *ms, char *file)
 {
 	int		filefd;
@@ -75,16 +79,18 @@ void	both_outred(t_minishell *ms, char *file)
 	int		stdfd;
 
 	printf("file= %s\n", file);//
-	filefd = open(file, O_CREAT | O_WRONLY, 0666);
-	if (filefd == -1 && ft_strncmp("/dev/null", file, ft_strlen(file)))
+	printf("filelen= %zu\n", ft_strlen(file));//
+	filefd = open(file, O_CREAT | O_WRONLY, 0644);
+	if (filefd == -1)
 		exit_error(ms, "open");
+	printf("filefd= %d\n", filefd);//
 	stdfd = 1;
 	while (stdfd < 3)
 	{
 		if (filefd != stdfd)
 		{
 			dupfd = dup2(filefd, stdfd);
-			if (dupfd == -1 && ft_strncmp("/dev/null", file, ft_strlen(file)))
+			if (dupfd == -1)
 				exit_error(ms, "dup2");
 		}
 		stdfd++;

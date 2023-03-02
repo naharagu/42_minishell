@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 21:17:11 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/02 13:11:03 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	print_mslist(t_minishell *ms)
 	printf("lstsize= %d\n", ms_lstsize(ms->list));
 	while (ms->list)
 	{
-		printf("list[%ld]: %s\n", i, ms->list->str);
+		printf("list[%ld]: %s(%zu)\n", i, ms->list->str, \
+			ft_strlen(ms->list->str));
 		ms->list = ms->list->next;
 		i++;
 	}
@@ -43,7 +44,8 @@ void	print_execlist(t_minishell *ms)
 		i = 0;
 		while (ms->exec->cmdline[i])
 		{
-			printf("[exec:%ld]cmdline[%ld]= %s\n", j, i, ms->exec->cmdline[i]);
+			printf("[exec:%ld]cmdline[%ld]= %s(%zu)\n", j, i, \
+				ms->exec->cmdline[i], ft_strlen(ms->exec->cmdline[i]));
 			i++;
 		}
 		ms->exec = ms->exec->next;
@@ -69,14 +71,16 @@ void	print_cmdredlist(t_minishell *ms)
 		i = 0;
 		while (ms->exec->cmd && ms->exec->cmd->next)
 		{
-			printf("[exec:%ld]cmd[%ld]= %s\n", j, i, ms->exec->cmd->str);
+			printf("[exec:%ld]cmd[%ld]= %s(%zu)\n", j, i, \
+				ms->exec->cmd->str, ft_strlen(ms->exec->cmd->str));
 			ms->exec->cmd = ms->exec->cmd->next;
 			i++;
 		}
 		i = 0;
 		while (ms->exec->red && ms->exec->red->next)
 		{
-			printf("[exec:%ld]red[%ld]= %s\n", j, i, ms->exec->red->str);
+			printf("[exec:%ld]red[%ld]= %s(%zu)\n", j, i, \
+				ms->exec->red->str, ft_strlen(ms->exec->red->str));
 			ms->exec->red = ms->exec->red->next;
 			i++;
 		}
