@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/02 12:37:41 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/03 12:55:10 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ void	check_fd(t_execlist	*exec, t_redlist *red)
 		!(ft_strncmp("2>>", red->str, ft_strlen(red->str))))
 		exec->err_fd = FILE_2;
 	else if (!(ft_strncmp("&>", red->str, ft_strlen(red->str))) || \
-		!(ft_strncmp("&>>", red->str, ft_strlen(red->str))))
+		!(ft_strncmp(">&", red->str, ft_strlen(red->str))) || \
+		!(ft_strncmp("&>>", red->str, ft_strlen(red->str))) || \
+		!(ft_strncmp(">>&", red->str, ft_strlen(red->str))))
 	{
 		exec->std_fd = FILE_1;
 		exec->err_fd = FILE_1;

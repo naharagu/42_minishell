@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 15:06:00 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 21:24:14 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/03 13:07:25 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,29 @@ void	file_inred(t_minishell *ms, int originfd, char *file);
 void	red_in(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 {
 	t_redlist	*startred;
-	int			tmpfd_in;
+	int			tmpfd;
 
-	tmpfd_in = dup(STD_IN);
 	startred = red;
 	while (red->next->str)
 	{
 		if (!(ft_strncmp("<", red->str, ft_strlen(red->str))) || \
 			!(ft_strncmp("1<", red->str, ft_strlen(red->str))))
+		{
+			tmpfd = dup(STD_IN);
 			file_inred(ms, STD_IN, red->next->str);
+			exec_command(exec);//
+			dup2(tmpfd, STD_IN);
+		}
+		else if (ft_strnstr(red->str, "<", ft_strlen(red->str)))
+		{
+			tmpfd = dup(ft_atoi(*red->str));
+			file_inred(ms, ft_atoi(*red->str), red->next->str);
+			exec_command(exec);//
+			dup2(tmpfd, ft_atoi(*red->str));
+		}
 		red = red->next;
 	}
 	red = startred;
-	exec_command(exec);//
-	dup2(tmpfd_in, STD_IN);
 	close(tmpfd_in);
 }
 

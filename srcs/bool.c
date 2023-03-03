@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:37:06 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/02 13:56:40 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/03 12:32:00 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,6 @@ bool	is_quoted(char c, t_minishell *ms)
 		return (false);
 }
 
-bool	is_delimiter(char c)
-{
-	if (c == '|' || c == ';' || c == '<' || c == '>')
-		return (true);
-	else
-		return (false);
-}
-
 bool	is_space(char c)
 {
 	if (c == ' ' || c == '\t' || c == '\r' || c == '\n' \
@@ -53,7 +45,7 @@ bool	is_space(char c)
 
 bool	is_metachara(char c)
 {
-	if (ft_strchr("12&()ß", c))
+	if (ft_strchr("12|&;()<> \t", c))
 		return (true);
 	else
 		return (false);
