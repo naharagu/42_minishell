@@ -6,45 +6,43 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:01:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/02 22:13:19 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/03 15:55:02 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	file_heredoc(t_minishell *ms, int originfd, char *delimiter);
+void	dup_heredoc(t_minishell *ms, int originfd, char *delimiter);
 int		read_heredoc(t_minishell *ms, const char *delimiter);
 
 void	red_heredoc(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 {
 	t_redlist	*startred;
-	int			tmpfd_std;
+	int			tmpfd;
 
 	startred = red;
-	tmpfd_std = dup(STD_OUT);
+	tmpfd = dup(STD_OUT);
 	while (red->next->str)
 	{
 		if (!(ft_strncmp("<<", red->str, ft_strlen(red->str))) || \
 			!(ft_strncmp("1<<", red->str, ft_strlen(red->str))))
-			file_heredoc(ms, STD_OUT, red->next->str);
-		if (!(ft_strncmp("2<<", red->str, ft_strlen(red->str))))
-			file_heredoc(ms, STD_ERR, red->next->str);
+			dup_heredoc(ms, STD_OUT, red->next->str);
 		red = red->next;
 	}
 	red = startred;
-	exec_command(exec);//
-	dup2(tmpfd_std, STD_OUT);
-	close(tmpfd_std);
+	read_fd(ms, STD_OUT);//
+	dup2(tmpfd, STD_OUT);
+	close(tmpfd);
 }
 
-void	file_heredoc(t_minishell *ms, int originfd, char *delimiter)
+void	dup_heredoc(t_minishell *ms, int originfd, char *delimiter)
 {
 	int		filefd;
 	int		dupfd;
 
 	filefd = read_heredoc(ms, delimiter);
 	if (filefd == -1)
-		exit_error(ms, "open");
+		exit_error(ms, "read_heredoc");
 	if (filefd != originfd)
 	{
 		dupfd = dup2(filefd, originfd);

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:55:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 21:45:12 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/03 15:57:52 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,27 @@ void	exec_command(t_execlist	*exec)
 	ft_putendl_fd(str2, 2);
 	free(str1);
 	free(str2);
+}
+
+void	read_fd(t_minishell *ms, int fd)
+{
+	ssize_t		filesize;
+	char		*buf;
+	int			len;
+
+	filesize = 1;
+	len = 100;
+	buf = ft_calloc(sizeof(char), (len + 1));
+	if (!buf)
+		exit_error(ms, "calloc");
+	while (filesize != 0)
+	{
+		filesize = read(fd, buf, len);
+		if (filesize == -1)
+			free(buf);
+	}
+	ft_putendl_fd(buf, 2);
+	free(buf);
 }
 
 // void	my_ls(t_minishell *ms)
