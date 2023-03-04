@@ -6,96 +6,52 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 17:35:57 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/03 12:32:22 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*add_mslist(char *input, t_mslist	**list);
-bool		is_quoted(char c, t_minishell *ms);
-bool		is_delimiter(char c);
-bool		is_space(char c);
+void	add_mslist(t_minishell *ms, char *start, char *line);
 
 void	lexer(t_minishell *ms)
 {
-	t_mslist	*tmp;
 	char		*start;
-	size_t		len;
 
-	while (*ms->input)
+	while (*ms->line)
 	{
-		len = 0;
-		start = ms->input;
-		while (*ms->input && is_quoted(*ms->input, ms))
-			ms->input++;
-		while (*ms->input && !(is_space(*ms->input)) \
-			&& !(is_delimiter(*ms->input)))
-			ms->input++;
-		len = ms->input - start;
-		if (len > 0)
+		start = ms->line;
+		while (*ms->line && is_quoted(*ms->line, ms))
+			ms->line++;
+		while (*ms->line && !(is_space(*ms->line)) && \
+			!(is_metachara(*ms->line)))
+			ms->line++;
+		add_mslist(ms, start, ms->line);
+		while (*ms->line && is_space(*ms->line))
+			ms->line++;
+		start = ms->line;
+		if (is_metachara(*ms->line))
 		{
-			tmp = ms_lstnew(len, start);
-			ms_lstadd_back(&ms->list, tmp);
+			while (*ms->line && \
+				(is_metachara(*ms->line)))
+				ms->line++;
+			add_mslist(ms, start, ms->line);
 		}
-		else if (is_delimiter(*ms->input))
-			ms->input = add_mslist(ms->input, &ms->list);
-		ms->input++;
+		while (*ms->line && is_space(*ms->line))
+			ms->line++;
 	}
 	error_lexer(ms);
 }
 
-static char	*add_mslist(char *input, t_mslist	**list)
+void	add_mslist(t_minishell *ms, char *start, char *line)
 {
 	t_mslist	*tmp;
-	char		*start;
 	size_t		len;
 
-	len = 0;
-	start = input;
-	while (is_delimiter(*input))
-		input++;
-	len = input - start;
-	tmp = ms_lstnew(len, start);
-	ms_lstadd_back(list, tmp);
-	return (input);
-}
-
-bool	is_quoted(char c, t_minishell *ms)
-{
-	if (c == '\'' && ms->quote == S_QUOTE)
-		ms->quote = END_S_QUOTE;
-	else if (c == '\"' && ms->quote == D_QUOTE)
-		ms->quote = END_D_QUOTE;
-	else if (c == '\'' && (ms->quote == NO_QUOTE || \
-		ms->quote == END_S_QUOTE || ms->quote == END_D_QUOTE))
-		ms->quote = S_QUOTE;
-	else if (c == '\"' && (ms->quote == NO_QUOTE || \
-		ms->quote == END_S_QUOTE || ms->quote == END_D_QUOTE))
-		ms->quote = D_QUOTE;
-	else if (c != '\'' && c != '\"' && \
-		(ms->quote == END_S_QUOTE || ms->quote == END_D_QUOTE))
-		ms->quote = NO_QUOTE;
-	if (ms->quote == S_QUOTE || ms->quote == D_QUOTE || \
-		ms->quote == END_S_QUOTE || ms->quote == END_D_QUOTE)
-		return (true);
-	else
-		return (false);
-}
-
-bool	is_delimiter(char c)
-{
-	if (c == '|' || c == '>' || c == '<' || c == ';')
-		return (true);
-	else
-		return (false);
-}
-
-bool	is_space(char c)
-{
-	if (c == ' ' || c == '\t' || c == '\r' || c == '\n' \
-	|| c == '\v' || c == '\f' || c == '\0')
-		return (true);
-	else
-		return (false);
+	len = line - start;
+	if (len > 0)
+	{
+		tmp = ms_lstnew(len, start);
+		ms_lstadd_back(&ms->list, tmp);
+	}
 }

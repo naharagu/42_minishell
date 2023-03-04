@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:49 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 22:14:13 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/04 15:28:33 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,15 @@ void	exec_lstclear(t_execlist **lst)
 	{
 		tmp = *lst;
 		*lst = (*lst)->next;
+		tmp->cmdtype = NO_CMD;
+		tmp->redtype = NO_REDIRECT;
+		tmp->std_fd = STD_OUT;
+		tmp->err_fd = STD_ERR;
 		free(tmp->cmdline);
 		free(tmp->cmd);
 		free(tmp->red);
 		free(tmp->env);
+		free(tmp->heredoc);
 		free(tmp);
 		i++;
 	}

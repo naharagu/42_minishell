@@ -6,16 +6,15 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/13 22:28:11 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/04 15:44:57 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num);
-void	check_execlist(t_minishell *ms);
-void	check_cmd_red(t_minishell *ms, char *str);
-void	copy_cmd_red_list(t_minishell *ms, char *str);
+void		add_execlist(t_minishell *ms, t_mslist	*first, size_t num);
+static void	check_execlist(t_minishell *ms);
+static void	copy_cmd_red_list(t_minishell *ms, char *str);
 
 void	parser(t_minishell *ms)
 {
@@ -39,10 +38,11 @@ void	parser(t_minishell *ms)
 			num++;
 		ms->list = ms->list->next;
 	}
-	ms->list = start;
 	add_execlist(ms, first, num);
+	ms->list = start;
 	check_execlist(ms);
-	error_parser(ms);
+	error_parser_mslist(ms);
+	error_parser_execlist(ms);
 }
 
 void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num)
@@ -53,7 +53,7 @@ void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num)
 	exec_lstadd_back(&ms->exec, tmp);
 }
 
-void	check_execlist(t_minishell *ms)
+static void	check_execlist(t_minishell *ms)
 {
 	t_execlist	*startexec;
 	t_cmdlist	*startcmd;
@@ -68,8 +68,9 @@ void	check_execlist(t_minishell *ms)
 		i = 0;
 		while (ms->exec->cmdline[i])
 		{
-			check_cmd_red(ms, toupper_char(ms->exec->cmdline[i]));
+			check_cmdtype(ms, toupper_char(ms->exec->cmdline[i]));
 			free(toupper_char(ms->exec->cmdline[i]));
+			check_redtype(ms, ms->exec->cmdline[i]);
 			copy_cmd_red_list(ms, ms->exec->cmdline[i]);
 			i++;
 		}
@@ -80,44 +81,18 @@ void	check_execlist(t_minishell *ms)
 	ms->exec = startexec;
 }
 
-void	check_cmd_red(t_minishell *ms, char *str)
-{
-	if (!(ft_strncmp("ECHO", str, ft_strlen("ECHO"))))
-		ms->exec->cmdtype = ECHO_CMD;
-	else if (!(ft_strncmp("CD", str, ft_strlen("CD"))))
-		ms->exec->cmdtype = CD_CMD;
-	else if (!(ft_strncmp("PWD", str, ft_strlen("PWD"))))
-		ms->exec->cmdtype = PWD_CMD;
-	else if (!(ft_strncmp("EXPORT", str, ft_strlen("EXPORT"))))
-		ms->exec->cmdtype = EXPORT_CMD;
-	else if (!(ft_strncmp("UNSET", str, ft_strlen("UNSET"))))
-		ms->exec->cmdtype = UNSET_CMD;
-	else if (!(ft_strncmp("ENV", str, ft_strlen("ENV"))))
-		ms->exec->cmdtype = ENV_CMD;
-	else if (!(ft_strncmp("EXIT", str, ft_strlen("EXIT"))))
-		ms->exec->cmdtype = EXIT_CMD;
-	else if (!(ft_strncmp("<", str, ft_strlen("<"))))
-		ms->exec->redtype = INPUT;
-	else if (!(ft_strncmp(">", str, ft_strlen(">"))))
-		ms->exec->redtype = OUTPUT;
-	else if (!(ft_strncmp("<<", str, ft_strlen("<<"))))
-		ms->exec->redtype = HERE_DOC;
-	else if (!(ft_strncmp(">>", str, ft_strlen(">>"))))
-		ms->exec->redtype = APPEND;
-}
-
-void	copy_cmd_red_list(t_minishell *ms, char *str)
+static void	copy_cmd_red_list(t_minishell *ms, char *str)
 {
 	if (ms->exec->redtype == NO_REDIRECT)
 	{
 		ms->exec->cmd->str = str;
-		ms->exec->cmd->next = cmd_lstnew(ms->exec->cmd->next);
+		ms->exec->cmd->next = cmd_lstnew(ms, ms->exec->cmd->next);
 		ms->exec->cmd = ms->exec->cmd->next;
 	}
 	else if (ms->exec->redtype != NO_REDIRECT)
 	{
 		ms->exec->red->str = str;
-		ms->exec->red->next = red_lstnew(ms->exec->red->next);
+		ms->exec->red->next = red_lstnew(ms, ms->exec->red->next);
 		ms->exec->red = ms->exec->red->next;
 	}
 }

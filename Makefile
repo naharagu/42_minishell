@@ -6,7 +6,7 @@
 #    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/02/13 16:41:19 by shimakaori       ###   ########.fr        #
+#    Updated: 2023/03/01 18:25:51 by shimakaori       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,16 +17,26 @@ C_FLAGS 	=	-Wall -Werror -Wextra -g -fsanitize=address
 RL_FLAGS 	=	-I $(shell brew --prefix readline)/include -lreadline -lhistory -L$(shell brew --prefix readline)/lib
 INCLUDE		=   -I include -I $(LIB_DIR)
 VPATH 		=   srcs
-SRCS		= 	main.c       \
-				lexer.c      \
-				parser.c     \
-				expansion.c  \
-				error.c      \
-				utils.c      \
-				mslist.c 	 \
-				execlist_1.c \
-				execlist_2.c \
-				print.c
+SRCS		= 	main.c        \
+				lexer.c       \
+				bool.c        \
+				parser.c      \
+				check_type.c  \
+				expansion.c   \
+				redirect.c    \
+				red_out.c     \
+				red_append.c  \
+				red_heredoc.c \
+				red_in.c      \
+				cmd_exec.c    \
+				interpret.c   \
+				utils.c       \
+				mslist.c 	  \
+				execlist_1.c  \
+				execlist_2.c  \
+				error.c       \
+				print_error.c \
+				print_list.c
 OBJS_DIR	=	./obj/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
 LIB_DIR		= 	./libft

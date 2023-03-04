@@ -3,20 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/27 09:08:18 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/04 16:31:22 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "minishell.h"
-#include "../include/minishell.h"
+#include "minishell.h"
 
-static void	minishell(t_minishell *ms);
+void		minishell(t_minishell *ms);
 static void	signal_handler(int signum);
 
-//リダイレクト実装してない
+//シグナルの調整必要
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*ms;
@@ -28,30 +27,27 @@ int	main(int argc, char **argv, char **env)
 	return (0);
 }
 
-static void	minishell(t_minishell *ms)
+void	minishell(t_minishell *ms)
 {
-	char	*line;
-
 	rl_outstream = stderr;
 	while (1)
 	{
-		line = readline("minishell$ ");
-		if (!line)
+		ms->line = readline("minishell$ ");
+		if (!ms->line)
 			break ;
-		if (*line)
-			add_history(line);
-		ms->input = line;
+		if (*ms->line)
+			add_history(ms->line);
+		ms->startline = ms->line;
 		lexer(ms);
 		//print_mslist(ms);//
 		parser(ms);
 		//print_execlist(ms);//
-		//print_cmdredlist(ms);//
 		expansion(ms);
 		print_cmdredlist(ms);//
-		execute(ms);
-		free(line);
-		ms_lstclear(&ms->list);
-		exec_lstclear(&ms->exec);
+		redirect(ms);
+		interpret(ms);
+		cmd_exec(ms);//
+		all_free(ms);
 	}
 	exit(ms->exit_status);
 }
