@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/04 15:28:51 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/04 16:24:26 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ void		error_expansion(t_minishell *ms, t_execlist *exec, size_t i);
 //print_error.c
 void		exit_error(t_minishell *ms, char *location);
 void		syntax_error(t_minishell *ms, char *location, int status);
-void		other_error(t_minishell *ms, char *location, char *msg, int status);
+void		other_error(t_minishell *ms, char *location, char *msg);
 
 //print_list.c (for test)
 void		print_mslist(t_minishell *ms);

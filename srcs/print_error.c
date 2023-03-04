@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:17:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 11:29:31 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/04 16:24:04 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	syntax_error(t_minishell *ms, char *location, int status)
 	minishell(ms);
 }
 
-void	other_error(t_minishell *ms, char *location, char *msg, int status)
+void	other_error(t_minishell *ms, char *location, char *msg)
 {
-	ms->exit_status = status;
+	//ms->exit_status = status;
 	ft_putstr_fd("minishell: ", STD_ERR);
 	ft_putstr_fd(location, STD_ERR);
 	ft_putstr_fd(": ", STD_ERR);

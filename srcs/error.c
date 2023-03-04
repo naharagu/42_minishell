@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/02 21:40:18 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/04 16:27:30 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	error_parser_mslist(t_minishell *ms)
 	while (ms->list)
 	{
 		if (*ms->list->str == '|' && ms->list->next == NULL)
-			other_error(ms, "error", "no command after pipe", 1);
+			other_error(ms, "error", "no command after pipe");
 		ms->list = ms->list->next;
 	}
 	ms->list = start;
@@ -58,7 +58,7 @@ void	error_parser_execlist(t_minishell *ms)
 			syntax_error(ms, "newline", 0);
 		if (ms->exec->cmdtype == NO_CMD && \
 			ms->exec->redtype == NO_REDIRECT)
-			other_error(ms, ms->exec->cmd->str, "command not found", 127);
+			other_error(ms, ms->exec->cmd->str, "command not found");
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;
@@ -71,7 +71,7 @@ void	error_expansion( t_minishell *ms, t_execlist *exec, size_t i)
 	if (exec->redtype == OUTPUT && i > 1)
 	{
 		env = ft_strjoin("$", exec->env->key);
-		other_error(ms, env, "ambiguous redirect", 1);
+		other_error(ms, env, "ambiguous redirect");
 		free(env);
 	}
 }
