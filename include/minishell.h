@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/03 15:55:41 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/03 18:13:33 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,8 @@ void		lexer(t_minishell *ms);
 bool		is_quoted(char c, t_minishell *ms);
 bool		is_space(char c);
 bool		is_metachara(char c);
+bool		is_delquoted(t_minishell *ms, char *delimiter);
+//bool		is_env(t_minishell *ms, char *delimiter);
 
 //parser.c
 void		parser(t_minishell *ms);

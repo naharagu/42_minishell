@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:37:06 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/03 12:32:00 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/03 18:40:25 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,3 +50,54 @@ bool	is_metachara(char c)
 	else
 		return (false);
 }
+
+bool	is_delquoted(t_minishell *ms, char *delimiter)
+{
+	t_quote		quote;
+
+	quote = NO_QUOTE;
+	while (*delimiter)
+	{
+		if (*delimiter == '\'' && quote == S_QUOTE)
+			quote = END_S_QUOTE;
+		else if (*delimiter == '\"' && quote == D_QUOTE)
+			quote = END_D_QUOTE;
+		else if (*delimiter == '\'' && (quote == NO_QUOTE || \
+			quote == END_S_QUOTE || quote == END_D_QUOTE))
+			quote = S_QUOTE;
+		else if (*delimiter == '\"' && (quote == NO_QUOTE || \
+			quote == END_S_QUOTE || quote == END_D_QUOTE))
+			quote = D_QUOTE;
+		else if (*delimiter != '\'' && *delimiter != '\"' && \
+			(quote == END_S_QUOTE || quote == END_D_QUOTE))
+			quote = NO_QUOTE;
+		if (quote == S_QUOTE || quote == D_QUOTE || \
+			quote == END_S_QUOTE || quote == END_D_QUOTE)
+			return (true);
+		delimiter++;
+	}
+	return (false);
+}
+
+// bool	is_env(t_minishell *ms, char *delimiter)
+// {
+// 	t_execlist	*startexec;
+// 	t_envlist	*startenv;
+
+// 	startexec = ms->exec;
+// 	while (ms->exec)
+// 	{
+// 		startenv = ms->exec->env;
+// 		while (ms->exec->env)
+// 		{
+// 			if (ft_strnstr(delimiter, ms->exec->key, ft_strlen(delimiter)))
+// 				return (true);
+// 			else
+// 				return (false);
+// 			ms->exec->env = ms->exec->env->next;
+// 		}
+// 		ms->exec->env = startenv;
+// 		ms->exec = ms->exec->next;
+// 	}
+// 	ms->exec = startexec;
+// }
