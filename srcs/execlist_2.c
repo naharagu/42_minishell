@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:49 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/02 10:48:21 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/04 15:28:33 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	exec_lstclear(t_execlist **lst)
 		free(tmp->cmd);
 		free(tmp->red);
 		free(tmp->env);
+		free(tmp->heredoc);
 		free(tmp);
 		i++;
 	}

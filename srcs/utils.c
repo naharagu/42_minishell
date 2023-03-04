@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/02/28 10:33:07 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/04 15:12:41 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_minishell	*init_struct_ms(t_minishell *ms)
 {
 	ms = malloc(sizeof(t_minishell));
 	if (!ms)
-		exit(EXIT_FAILURE);
+		exit_error(ms, "malloc");
 	ms->exit_status = 0;
 	ms->startline = NULL;
 	ms->line = NULL;

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/04 13:55:35 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/04 15:28:51 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ typedef enum e_fd
 
 typedef struct s_mslist
 {
-	char			*str;
-	t_pipe			pipe;
-	struct s_mslist	*next;
+	char				*str;
+	t_pipe				pipe;
+	struct s_mslist		*next;
 }	t_mslist;
 
 typedef struct s_cmdlist
@@ -115,6 +115,14 @@ typedef struct s_envlist
 	struct s_envlist	*next;
 }	t_envlist;
 
+typedef struct s_heredoc
+{
+	char				*docline;
+	char				*expand;
+	char				*delimiter;
+	t_quote				quote;
+}	t_heredoc;
+
 typedef struct s_execlist
 {
 	char				**cmdline;
@@ -125,17 +133,18 @@ typedef struct s_execlist
 	t_cmdlist			*cmd;
 	t_redlist			*red;
 	t_envlist			*env;
+	t_heredoc			*heredoc;
 	struct s_execlist	*next;
 }	t_execlist;
 
 typedef struct s_minishell
 {
-	int			exit_status;
-	char		*startline;
-	char		*line;
-	t_quote		quote;
-	t_mslist	*list;
-	t_execlist	*exec;
+	int					exit_status;
+	char				*startline;
+	char				*line;
+	t_quote				quote;
+	t_mslist			*list;
+	t_execlist			*exec;
 }	t_minishell;
 
 // main.c
@@ -197,10 +206,10 @@ void		ms_lstclear(t_mslist **lst);
 
 //execlist_1.c
 t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num);
-t_cmdlist	*cmd_lstnew(t_cmdlist *cmd);
-t_redlist	*red_lstnew(t_redlist *red);
-t_envlist	*env_lstnew(t_envlist *env);
-void		add_execlist(t_minishell *ms, t_mslist	*first, size_t num);
+t_cmdlist	*cmd_lstnew(t_minishell *ms, t_cmdlist *cmd);
+t_redlist	*red_lstnew(t_minishell *ms, t_redlist *red);
+t_envlist	*env_lstnew(t_minishell *ms, t_envlist *env);
+t_heredoc	*heredoc_lstnew(t_minishell *ms, t_heredoc *heredoc);
 
 //execlist_2.c
 t_execlist	*exec_lstlast(t_execlist *lst);

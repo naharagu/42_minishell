@@ -6,14 +6,11 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:55:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/03 15:57:52 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/04 14:01:10 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//void	my_ls(t_minishell *ms);
-//void	free_path_error(t_minishell *ms, char **path, char *str);
 
 void	cmd_exec(t_minishell *ms)
 {
@@ -74,41 +71,7 @@ void	read_fd(t_minishell *ms, int fd)
 		if (filesize == -1)
 			free(buf);
 	}
+	ft_putendl_fd("", 2);
 	ft_putendl_fd(buf, 2);
 	free(buf);
 }
-
-// void	my_ls(t_minishell *ms)
-// {
-// 	DIR				*dir;
-// 	struct dirent	*dp;
-// 	char			*path;
-
-// 	errno = 0;
-// 	path = ft_strdup(".");
-// 	dir = opendir(path);
-// 	if (!dir)
-// 		free_path_error(ms, &path, "opendir");
-// 	while (dp)
-// 	{
-// 		dp = readdir(dir);
-// 		if (!dp && !errno)
-// 			break ;
-// 		if (!dp && errno)
-// 		{
-// 			free_path_error(ms, &path, "readdir");
-// 			closedir(dir);
-// 		}
-// 		if (*dp->d_name != '.')
-// 			printf("%s\n", dp->d_name);
-// 	}
-// 	free(path);
-// 	if (closedir(dir) < 0)
-// 		exit_error(ms, "closedir");
-// }
-
-// void	free_path_error(t_minishell *ms, char **path, char *str)
-// {
-// 	free(path);
-// 	exit_error(ms, str);
-// }

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/04 13:45:44 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/04 15:45:34 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, t_execlist *exec)
 			while (split[i])
 			{
 				cmd->str = split[i];
-				cmd->next = cmd_lstnew(cmd->next);
+				cmd->next = cmd_lstnew(ms, cmd->next);
 				cmd = cmd->next;
 				i++;
 			}
@@ -133,7 +133,7 @@ static void	assign_value_red(t_minishell *ms, t_redlist *red, t_execlist *exec)
 			while (split[i])
 			{
 				red->str = split[i];
-				red->next = red_lstnew(red->next);
+				red->next = red_lstnew(ms, red->next);
 				red = red->next;
 				i++;
 			}
