@@ -6,15 +6,12 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:01:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/04 15:50:32 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/04 16:12:51 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	dup_heredoc(t_minishell *ms, int stdfd, char *delimiter, t_quote quote);
-// int		read_heredoc(t_minishell *ms, char *delimiter, t_quote quote);
-// char	*expand_heredoc(t_minishell *ms, char *line);
 void	dup_heredoc(t_minishell *ms, t_execlist	*exec, t_heredoc *heredoc);
 int		read_heredoc(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc);
 size_t	assign_value(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc);
@@ -35,7 +32,6 @@ void	red_heredoc(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 			exec->heredoc->delimiter = red->next->str;
 			exec->heredoc->quote = red->next->quote;
 			dup_heredoc(ms, exec, exec->heredoc);
-			//dup_heredoc(ms, STD_OUT, red->next->str, red->next->quote);
 		}
 		red = red->next;
 	}
@@ -45,7 +41,6 @@ void	red_heredoc(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 	close(tmpfd);
 }
 
-//void	dup_heredoc(t_minishell *ms, int stdfd, char *delimiter, t_quote quote)
 void	dup_heredoc(t_minishell *ms, t_execlist	*exec, t_heredoc *heredoc)
 {
 	int		filefd;
@@ -63,10 +58,8 @@ void	dup_heredoc(t_minishell *ms, t_execlist	*exec, t_heredoc *heredoc)
 	close(filefd);
 }
 
-//int	read_heredoc(t_minishell *ms, char *delimiter, t_quote quote)
 int	read_heredoc(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
 {
-	//char	*line;
 	int		pfd[2];
 
 	if (pipe(pfd) < 0)
@@ -74,10 +67,8 @@ int	read_heredoc(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
 	while (1)
 	{
 		heredoc->docline = readline("> ");
-		if (heredoc->docline == NULL)
-			break ;
-		if (!(ft_strncmp(heredoc->docline, heredoc->delimiter, \
-			ft_strlen(heredoc->docline))))
+		if (heredoc->docline && !(ft_strncmp(heredoc->docline, \
+			heredoc->delimiter, ft_strlen(heredoc->delimiter))))
 		{
 			free(heredoc->docline);
 			break ;
@@ -91,7 +82,6 @@ int	read_heredoc(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
 	return (pfd[0]);
 }
 
-//size_t	assign_value_heredoc(t_minishell *ms, char *line, char *tmp)
 size_t	assign_value(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
 {
 	t_execlist	*startexec;
@@ -121,12 +111,8 @@ size_t	assign_value(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
 
 char	*expand_heredoc(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
 {
-	// t_execlist	*startexec;
-	// t_envlist	*startenv;
-	//char		*tmp;
 	size_t		len;
 
-	//tmp = NULL;
 	while (*heredoc->docline)
 	{
 		len = 0;
@@ -144,24 +130,6 @@ char	*expand_heredoc(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
 				heredoc->docline++;
 			heredoc->docline += assign_value(ms, exec, heredoc);
 		}
-		// startexec = ms->exec;
-		// while (ms->exec)
-		// {
-		// 	startenv = ms->exec->env;
-		// 	while (ms->exec->env)
-		// 	{
-		// 		if (ft_strnstr(line, ms->exec->env->key, \
-		// 			ft_strlen(ms->exec->env->key)))
-		// 		{
-		// 			tmp = ft_strjoin(tmp, ms->exec->env->value);
-		// 			line += ft_strlen(ms->exec->env->key);
-		// 		}
-		// 		ms->exec->env = ms->exec->env->next;
-		// 	}
-		// 	ms->exec->env = startenv;
-		// 	ms->exec = ms->exec->next;
-		// }
-		// ms->exec = startexec;
 		heredoc->docline++;
 	}
 	return (heredoc->expand);

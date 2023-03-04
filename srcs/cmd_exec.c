@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:55:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/04 14:01:10 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/04 15:58:47 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,6 @@ void	cmd_exec(t_minishell *ms)
 		// 	my_ls (ms);//
 		if (ms->exec->cmdtype == SPC_CMD)
 			other_error(ms, ft_itoa(127), "command not found", 127);
-		// startcmd = ms->exec->cmd;
-		// while (ms->exec->cmd->str)
-		// {
-		// 	ms->exec->cmd = ms->exec->cmd->next;
-		// }
-		// ms->exec->cmd = startcmd;
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;
