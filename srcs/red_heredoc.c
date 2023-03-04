@@ -6,15 +6,15 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:01:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/03 23:49:03 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/04 13:56:16 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	dup_heredoc(t_minishell *ms, int originfd, char *delimiter);
-int		read_heredoc(t_minishell *ms, char *delimiter);
-char	*expand_line(t_minishell *ms, char *line);
+void	dup_heredoc(t_minishell *ms, int stdfd, char *delimiter, t_quote quote);
+int		read_heredoc(t_minishell *ms, char *delimiter, t_quote quote);
+char	*expand_heredoc(t_minishell *ms, char *line);
 
 void	red_heredoc(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 {
@@ -27,7 +27,7 @@ void	red_heredoc(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 	{
 		if (!(ft_strncmp("<<", red->str, ft_strlen(red->str))) || \
 			!(ft_strncmp("1<<", red->str, ft_strlen(red->str))))
-			dup_heredoc(ms, STD_OUT, red->next->str);
+			dup_heredoc(ms, STD_OUT, red->next->str, red->next->quote);
 		red = red->next;
 	}
 	red = startred;
@@ -36,30 +36,31 @@ void	red_heredoc(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 	close(tmpfd);
 }
 
-void	dup_heredoc(t_minishell *ms, int originfd, char *delimiter)
+void	dup_heredoc(t_minishell *ms, int stdfd, char *delimiter, t_quote quote)
 {
 	int		filefd;
 	int		dupfd;
 
-	filefd = read_heredoc(ms, delimiter);
+	filefd = read_heredoc(ms, delimiter, quote);
 	if (filefd == -1)
 		exit_error(ms, "read_heredoc");
-	if (filefd != originfd)
+	if (filefd != stdfd)
 	{
-		dupfd = dup2(filefd, originfd);
+		dupfd = dup2(filefd, stdfd);
 		if (dupfd == -1)
 			exit_error(ms, "dup2");
 	}
 	close(filefd);
 }
 
-int	read_heredoc(t_minishell *ms, char *delimiter)
+int	read_heredoc(t_minishell *ms, char *delimiter, t_quote quote)
 {
 	char	*line;
 	int		pfd[2];
 
 	if (pipe(pfd) < 0)
 		exit_error(ms, "pipe");
+	printf("quote= %d\n", quote);//
 	while (1)
 	{
 		line = readline("> ");
@@ -70,8 +71,8 @@ int	read_heredoc(t_minishell *ms, char *delimiter)
 			free(line);
 			break ;
 		}
-		if (!(is_delquoted(ms, delimiter)) && ft_strchr(line, '$'))
-			line = expand_line(ms, line);
+		if (quote == NO_QUOTE && ft_strchr(line, '$'))
+			line = expand_heredoc(ms, line);
 		ft_putendl_fd(line, pfd[1]);
 		free(line);
 	}
@@ -79,7 +80,7 @@ int	read_heredoc(t_minishell *ms, char *delimiter)
 	return (pfd[0]);
 }
 
-char	*expand_line(t_minishell *ms, char *line)
+char	*expand_heredoc(t_minishell *ms, char *line)
 {
 	t_execlist	*startexec;
 	t_envlist	*startenv;
@@ -120,3 +121,28 @@ char	*expand_line(t_minishell *ms, char *line)
 	}
 	return (tmp);
 }
+
+// t_quote	is_delquoted(t_minishell *ms, char *delimiter)
+// {
+// 	t_quote	quote;
+
+// 	quote = NO_QUOTE;
+// 	while (*delimiter)
+// 	{
+// 		if (*delimiter == '\'' && quote == S_QUOTE)
+// 			quote = END_S_QUOTE;
+// 		else if (*delimiter == '\"' && quote == D_QUOTE)
+// 			quote = END_D_QUOTE;
+// 		else if (*delimiter == '\'' && (quote == NO_QUOTE || \
+// 			quote == END_S_QUOTE || quote == END_D_QUOTE))
+// 			quote = S_QUOTE;
+// 		else if (*delimiter == '\"' && (quote == NO_QUOTE || \
+// 			quote == END_S_QUOTE || quote == END_D_QUOTE))
+// 			quote = D_QUOTE;
+// 		delimiter++;
+// 	}
+// 	if (quote == END_S_QUOTE || quote == END_D_QUOTE)
+// 		return (QUOTED);
+// 	else
+// 		return (quote);
+// }

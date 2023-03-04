@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/03 18:13:33 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/04 13:55:35 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef enum e_quote
 	S_QUOTE,
 	END_S_QUOTE,
 	D_QUOTE,
-	END_D_QUOTE,
+	END_D_QUOTE
 }	t_quote;
 
 typedef enum e_redirect
@@ -148,8 +148,6 @@ void		lexer(t_minishell *ms);
 bool		is_quoted(char c, t_minishell *ms);
 bool		is_space(char c);
 bool		is_metachara(char c);
-bool		is_delquoted(t_minishell *ms, char *delimiter);
-//bool		is_env(t_minishell *ms, char *delimiter);
 
 //parser.c
 void		parser(t_minishell *ms);
@@ -189,7 +187,6 @@ t_minishell	*init_struct_ms(t_minishell *ms);
 char		*toupper_char(char *str);
 void		check_pipe(t_minishell *ms, char *str);
 void		all_free(t_minishell *ms);
-//void		get_pathname(void);
 
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);
