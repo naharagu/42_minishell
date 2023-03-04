@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/04 15:59:15 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/04 16:31:22 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void		minishell(t_minishell *ms);
 static void	signal_handler(int signum);
 
+//シグナルの調整必要
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*ms;
