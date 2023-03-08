@@ -6,11 +6,12 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:55:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/06 22:07:06 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/08 18:37:06 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+// #include "minishell.h"
+#include "../include/minishell.h"
 
 void	cmd_exec(t_minishell *ms)
 {
