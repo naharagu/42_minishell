@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/04 16:24:26 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/06 21:32:55 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include <dirent.h>
 # include <sys/ioctl.h>
 # include <termios.h>
-# include <termcap.h> 
+# include <termcap.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
