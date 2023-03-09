@@ -1,63 +1,67 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interpret.c                                        :+:      :+:    :+:   */
+/*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 18:18:28 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/09 09:07:23 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+// #include "minishell.h"
+#include "../include/minishell.h"
 
-void	child_process(t_minishell *ms, char **argv);
+void	child_process(t_minishell *ms, char *str);
 char	*serch_path(char *file);
 void	free_argv(t_minishell *ms, char **argv);
 
-void	interpret(t_minishell *ms)
+void	execute_cmd(t_minishell *ms)
 {
-	char		**argv;
+	// char		**argv;
 	pid_t		pid;
 	int			wstatus;
 
 	pid = fork();
-	argv = ft_calloc(2, sizeof(char **));
-	if (!argv)
-		exit_error(ms, "malloc");
-	if (ms->exec->cmd->str)
-		argv[0] = ft_strdup(ms->exec->cmd->str);
-	else if (!(ms->exec->cmd->str) && ms->exec->red->str)
-		argv[0] = ft_strdup(ms->exec->red->str);
-	argv[1] = NULL;
+	// argv = ft_calloc(2, sizeof(char **));
+	// if (!argv)
+	// 	exit_error(ms, "malloc");
+	// if (ms->exec->cmd->str)
+	// 	argv[0] = ft_strdup(ms->exec->cmd->str);
+	// else if (!(ms->exec->cmd->str) && ms->exec->red->str)
+	// 	argv[0] = ft_strdup(ms->exec->red->str);
+	// argv[1] = NULL;
 	if (pid < 0)
-		free_argv(ms, argv);
+		exit_error(ms, "pipe");
 	else if (pid == 0)
-		child_process(ms, argv);
+		child_process(ms, ms->exec->cmd->str);
 	else if (pid > 0)
 	{
 		wait(&wstatus);
 		ms->exit_status = WEXITSTATUS(wstatus);
 	}
-	free_argv(ms, argv);
+	// free_argv(ms, argv);
 }
 
-void	child_process(t_minishell *ms, char **argv)
+void	child_process(t_minishell *ms, char *str)
 {
 	extern char	**environ;
 	char		*path;
 
-	path = argv[0];
+	path = str;
 	if (!(ft_strchr(path, '/')))
 	{
 		path = serch_path(path);
+		// printf("test: path is %s\n", path);
+		// printf("test: str is %s\n", str);
+		// printf("test: env is %s\n", environ[0]);
 		if (!path || access(path, F_OK) < 0)
 			return ;
-		if (execve(path, argv, environ))
+		if (execve(path, &str, environ) == -1)
 			return ;
 	}
-	else if (execve(path, argv, environ))
+	else if (execve(path, &str, environ) == -1)
 		return ;
 }
 
@@ -81,10 +85,4 @@ char	*serch_path(char *file)
 		i++;
 	}
 	return (NULL);
-}
-
-void	free_argv(t_minishell *ms, char **argv)
-{
-	free(argv[0]);
-	free(argv);
 }

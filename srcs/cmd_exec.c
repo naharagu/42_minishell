@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:55:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/08 18:37:06 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/09 08:50:35 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	cmd_exec(t_minishell *ms)
 			printf("%s\n",ms->exec->cmd->next->str);
 		// if (ms->exec->cmdtype == LS_CMD)
 		// 	my_ls (ms);//
-		if (ms->exec->cmdtype == SPC_CMD)
-			other_error(ms, ft_itoa(ms->exit_status), "command not found");
+		// if (ms->exec->cmdtype == SPC_CMD)
+		// 	other_error(ms, ft_itoa(ms->exit_status), "command not found");
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;

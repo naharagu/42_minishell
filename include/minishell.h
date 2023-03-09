@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/06 21:32:55 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/09 08:38:20 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,8 +188,8 @@ void		cmd_exec(t_minishell *ms);
 void		exec_command(t_execlist	*exec);
 void		read_fd(t_minishell *ms, int fd);
 
-//interpret.c
-void		interpret(t_minishell *ms);
+//execute_cmd.c
+void		execute_cmd(t_minishell *ms);
 
 //utils.c
 t_minishell	*init_struct_ms(t_minishell *ms);

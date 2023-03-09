@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/06 21:32:05 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/09 08:52:49 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	minishell(t_minishell *ms)
 		expansion(ms);
 		// print_cmdredlist(ms);//
 		redirect(ms);
-		interpret(ms);
+		execute_cmd(ms);
 		// cmd_exec(ms);//
 		all_free(ms);
 	}
