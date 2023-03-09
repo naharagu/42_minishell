@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/09 10:21:12 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/09 14:36:18 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,21 @@ typedef struct s_minishell
 	t_execlist			*exec;
 }	t_minishell;
 
+extern volatile sig_atomic_t	g_flag;
+
 // main.c
 void		minishell(t_minishell *ms);
+
+//interpret.c
+void		interpret(t_minishell *ms);
+
+//signal.c
+void		handle_signal(t_minishell *ms, int signum);
+void		ignore_signal(t_minishell *ms, int signum);
+void		init_signal(t_minishell *ms, int signum);
+void		signal_exit(t_minishell *ms, int status);
+void		signal_minishell(t_minishell *ms);
+void		signal_heredoc(t_minishell *ms);
 
 //lexer.c
 void		lexer(t_minishell *ms);
@@ -187,9 +200,6 @@ void		red_heredoc(t_minishell *ms, t_execlist *exec, t_redlist *red);
 void		cmd_exec(t_minishell *ms);
 void		exec_command(t_execlist	*exec);
 void		read_fd(t_minishell *ms, int fd);
-
-//interpret.c
-void		interpret(t_minishell *ms);
 
 //utils.c
 t_minishell	*init_struct_ms(t_minishell *ms);
