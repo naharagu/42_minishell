@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/09 09:07:23 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/09 22:54:35 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	execute_cmd(t_minishell *ms)
 	if (pid < 0)
 		exit_error(ms, "pipe");
 	else if (pid == 0)
-		child_process(ms, ms->exec->cmd->str);
+		child_process(ms, ms->exec->cmdline[0]);
 	else if (pid > 0)
 	{
 		wait(&wstatus);
@@ -44,12 +44,12 @@ void	execute_cmd(t_minishell *ms)
 	// free_argv(ms, argv);
 }
 
-void	child_process(t_minishell *ms, char *str)
+void	child_process(t_minishell *ms, char *cmdline)
 {
 	extern char	**environ;
 	char		*path;
 
-	path = str;
+	path = cmdline;
 	if (!(ft_strchr(path, '/')))
 	{
 		path = serch_path(path);
@@ -58,10 +58,10 @@ void	child_process(t_minishell *ms, char *str)
 		// printf("test: env is %s\n", environ[0]);
 		if (!path || access(path, F_OK) < 0)
 			return ;
-		if (execve(path, &str, environ) == -1)
+		if (execve(path, &ms->exec->cmdline[1], environ) == -1)
 			return ;
 	}
-	else if (execve(path, &str, environ) == -1)
+	else if (execve(path, &ms->exec->cmdline[1], environ) == -1)
 		return ;
 }
 
