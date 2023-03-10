@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/10 15:36:01 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/10 16:36:26 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,12 +163,9 @@ void		minishell(t_minishell *ms);
 void		interpret(t_minishell *ms);
 
 //signal.c
-void		handle_signal(t_minishell *ms, int signum, int flag);
+void		handle_signal(t_minishell *ms, int signum);
 void		ignore_signal(t_minishell *ms, int signum);
 void		init_signal(t_minishell *ms, int signum);
-void		signal_exit(int signum);
-void		signal_default(int signum);
-void		signal_heredoc(int signum);
 
 //lexer.c
 void		lexer(t_minishell *ms);
