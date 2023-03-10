@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/09 22:54:35 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/10 13:51:36 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ void	child_process(t_minishell *ms, char *cmdline)
 		// printf("test: env is %s\n", environ[0]);
 		if (!path || access(path, F_OK) < 0)
 			return ;
-		if (execve(path, &ms->exec->cmdline[1], environ) == -1)
+		if (execve(path, &ms->exec->cmdline[0], environ) == -1)
 			return ;
 	}
-	else if (execve(path, &ms->exec->cmdline[1], environ) == -1)
+	else if (execve(path, &ms->exec->cmdline[0], environ) == -1)
 		return ;
 }
 
