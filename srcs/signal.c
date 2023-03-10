@@ -6,13 +6,13 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:29:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/10 17:29:48 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/10 18:36:15 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	signal_handler(int signum)
+void	default_handler(int signum)
 {
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -20,11 +20,25 @@ void	signal_handler(int signum)
 	rl_redisplay();
 }
 
-void	handle_signal(t_minishell *ms, int signum)
+void	heredoc_handler(int signum)
+{
+	t_minishell	*ms;
+
+	ms = init_struct_ms(ms);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	ft_putchar_fd('\n', STDOUT_FILENO);
+	minishell(ms);
+}
+
+void	handle_signal(t_minishell *ms, int signum, t_sig flag)
 {
 	struct sigaction	sa;
 
-	sa.sa_handler = signal_handler;
+	if (flag == DEFAULT)
+		sa.sa_handler = default_handler;
+	else if (flag == HEREDOC)
+		sa.sa_handler = heredoc_handler;
 	if (sigemptyset(&sa.sa_mask) < 0)
 		exit_error(ms, "sigemptyset");
 	sa.sa_flags = 0;

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/10 16:37:37 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/10 18:22:10 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char **env)
 void	minishell(t_minishell *ms)
 {
 	rl_outstream = stderr;
-	handle_signal(ms, SIGINT);
+	handle_signal(ms, SIGINT, DEFAULT);
 	ignore_signal(ms, SIGQUIT);
 	while (1)
 	{
