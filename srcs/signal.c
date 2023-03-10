@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:29:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/10 17:22:31 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/10 17:29:48 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	signal_handler(int signum)
 {
+	rl_on_new_line();
 	rl_replace_line("", 0);
 	ft_putchar_fd('\n', STDOUT_FILENO);
-	rl_on_new_line();
 	rl_redisplay();
 }
 
