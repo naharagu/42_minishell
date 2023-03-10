@@ -6,14 +6,14 @@
 #    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/09 08:37:57 by naharagu         ###   ########.fr        #
+#    Updated: 2023/03/10 15:56:03 by naharagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 CC			=	gcc
-C_FLAGS 	=	-Wall -Werror -Wextra -g -fsanitize=address
-# C_FLAGS 	=	-Wall -Werror -Wextra
+# C_FLAGS 	=	-Wall -Werror -Wextra -g -fsanitize=address
+C_FLAGS 	=	-Wall -Werror -Wextra
 RL_FLAGS 	=	-I $(shell brew --prefix readline)/include -lreadline -lhistory -L$(shell brew --prefix readline)/lib
 INCLUDE		=   -I include -I $(LIB_DIR)
 VPATH 		=   srcs
