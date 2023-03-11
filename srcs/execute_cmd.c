@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/10 20:59:07 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/11 10:14:42 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	child_process(t_minishell *ms, char *cmdline)
 		if (access(path, F_OK) < 0)
 			return (free(path));
 		if (execve(path, &ms->exec->cmdline[0], environ) == -1)
-			return ;
+			return (free(path));
 	}
 	else if (execve(path, &ms->exec->cmdline[0], environ) == -1)
 		return ;
