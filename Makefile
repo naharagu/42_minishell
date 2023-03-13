@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
+#    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/13 15:46:47 by shimakaori       ###   ########.fr        #
+#    Updated: 2023/03/13 21:15:35 by naharagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,8 @@ CC			=	gcc
 C_FLAGS 	=	-Wall -Werror -Wextra
 RL_FLAGS 	=	-lreadline -lhistory -L$(shell brew --prefix readline)/lib -L/usr/local/Cellar/readline/8.2.1/lib -L/usr/local/opt/readline/lib
 INCLUDE		=   -I include -I $(LIB_DIR) -I $(shell brew --prefix readline)/include -I/usr/local/opt/readline/include
+# RL_FLAGS 	=	-I $(shell brew --prefix readline)/include -lreadline -lhistory -L$(shell brew --prefix readline)/lib
+# INCLUDE		=   -I include -I $(LIB_DIR)
 VPATH 		=   srcs
 SRCS		= 	main.c        \
 				interpret.c   \
@@ -37,7 +39,8 @@ SRCS		= 	main.c        \
 				execlist_2.c  \
 				error.c       \
 				print_error.c \
-				print_list.c
+				print_list.c \
+				execute_cmd.c
 OBJS_DIR	=	./obj/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
 LIB_DIR		= 	./libft

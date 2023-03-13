@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/10 18:22:01 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/13 19:16:41 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@
 # include <dirent.h>
 # include <sys/ioctl.h>
 # include <termios.h>
-# include <termcap.h> 
+# include <termcap.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "libft.h"
+# include "../libft/libft.h"
 
 typedef enum e_quote
 {
@@ -246,5 +246,8 @@ void		other_error(t_minishell *ms, char *location, char *msg, int status);
 void		print_mslist(t_minishell *ms);
 void		print_execlist(t_minishell *ms);
 void		print_cmdredlist(t_minishell *ms);
+
+//execute_cmd.c
+void	execute_cmd(t_minishell *ms);
 
 #endif

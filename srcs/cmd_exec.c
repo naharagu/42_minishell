@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:55:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/09 10:25:23 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/13 22:04:15 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
