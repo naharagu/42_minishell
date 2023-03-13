@@ -3,26 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/11 10:20:31 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/13 15:52:05 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 void		minishell(t_minishell *ms);
 static void	signal_handler(int signum);
 
-//シグナルの調整必要
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*ms;
 
 	ms = init_struct_ms(ms);
-	signal(SIGINT, signal_handler);
-	signal(SIGQUIT, SIG_IGN);
 	minishell(ms);
 	return (0);
 }
@@ -30,6 +27,8 @@ int	main(int argc, char **argv, char **env)
 void	minishell(t_minishell *ms)
 {
 	rl_outstream = stderr;
+	handle_signal(ms, SIGINT, DEFAULT);
+	ignore_signal(ms, SIGQUIT);
 	while (1)
 	{
 		ms->line = readline("minishell$ ");
@@ -39,22 +38,15 @@ void	minishell(t_minishell *ms)
 			add_history(ms->line);
 		ms->startline = ms->line;
 		lexer(ms);
-		// print_mslist(ms);//
+		//print_mslist(ms);//
 		parser(ms);
-		// print_execlist(ms);//
+		//print_execlist(ms);//
 		expansion(ms);
-		print_cmdredlist(ms);//
+		//print_cmdredlist(ms);//
 		redirect(ms);
-		execute_cmd(ms);
-		// cmd_exec(ms);//
+		interpret(ms);
+		cmd_exec(ms);//
 		all_free(ms);
 	}
 	exit(ms->exit_status);
-}
-
-static void	signal_handler(int signum)
-{
-	ft_putchar_fd('\n', STDOUT_FILENO);
-	rl_on_new_line();
-	rl_redisplay();
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/10 16:02:08 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/10 18:22:01 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@
 # include <dirent.h>
 # include <sys/ioctl.h>
 # include <termios.h>
-# include <termcap.h>
+# include <termcap.h> 
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "../libft/libft.h"
+# include "libft.h"
 
 typedef enum e_quote
 {
@@ -86,6 +86,12 @@ typedef enum e_fd
 	FILE_1,
 	FILE_2
 }	t_fd;
+
+typedef enum e_sig
+{
+	DEFAULT,
+	HEREDOC
+}	t_sig;
 
 typedef struct s_mslist
 {
@@ -147,8 +153,18 @@ typedef struct s_minishell
 	t_execlist			*exec;
 }	t_minishell;
 
+//extern volatile sig_atomic_t	g_flag;
+
 // main.c
 void		minishell(t_minishell *ms);
+
+//interpret.c
+void		interpret(t_minishell *ms);
+
+//signal.c
+void		handle_signal(t_minishell *ms, int signum, t_sig flag);
+void		ignore_signal(t_minishell *ms, int signum);
+void		init_signal(t_minishell *ms, int signum);
 
 //lexer.c
 void		lexer(t_minishell *ms);
@@ -188,9 +204,6 @@ void		cmd_exec(t_minishell *ms);
 void		exec_command(t_execlist	*exec);
 void		read_fd(t_minishell *ms, int fd);
 
-//execute_cmd.c
-void		execute_cmd(t_minishell *ms);
-
 //utils.c
 t_minishell	*init_struct_ms(t_minishell *ms);
 char		*toupper_char(char *str);
@@ -227,7 +240,7 @@ void		error_expansion(t_minishell *ms, t_execlist *exec, size_t i);
 //print_error.c
 void		exit_error(t_minishell *ms, char *location);
 void		syntax_error(t_minishell *ms, char *location, int status);
-void		other_error(t_minishell *ms, char *location, char *msg);
+void		other_error(t_minishell *ms, char *location, char *msg, int status);
 
 //print_list.c (for test)
 void		print_mslist(t_minishell *ms);

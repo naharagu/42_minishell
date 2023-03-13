@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:01:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/04 16:12:51 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/10 18:34:05 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	read_heredoc(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
 
 	if (pipe(pfd) < 0)
 		exit_error(ms, "pipe");
+	handle_signal(ms, SIGINT, HEREDOC);
 	while (1)
 	{
 		heredoc->docline = readline("> ");
@@ -73,12 +74,14 @@ int	read_heredoc(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
 			free(heredoc->docline);
 			break ;
 		}
-		if (heredoc->quote == NO_QUOTE && ft_strchr(heredoc->docline, '$'))
+		if (heredoc->docline && ft_strchr(heredoc->docline, '$') \
+			&& heredoc->quote == NO_QUOTE)
 			heredoc->docline = expand_heredoc(ms, exec, heredoc);
 		ft_putendl_fd(heredoc->docline, pfd[1]);
 		free(heredoc->docline);
 	}
 	close(pfd[1]);
+	handle_signal(ms, SIGINT, DEFAULT);
 	return (pfd[0]);
 }
 
