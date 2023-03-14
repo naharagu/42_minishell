@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 21:29:30 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/14 21:36:27 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static size_t	get_args_size(t_execlist *exec)
 		// printf("now: %s\n", tmp->str);
 		tmp = tmp->next;
 	}
-	return (size - 1);
+	return (size);
 }
 
 char	**create_args_array(t_execlist *exec)
@@ -43,7 +43,7 @@ char	**create_args_array(t_execlist *exec)
 	if (!args)
 		return (NULL);
 	i = 0;
-	tmp = exec->cmd->next;
+	tmp = exec->cmd;
 	while (i < args_size)
 	{
 		args[i] = ft_strdup(tmp->str);
