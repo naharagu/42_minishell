@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/04 15:12:41 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/14 11:14:43 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ char	*toupper_char(char *str)
 	char	*start;
 
 	tmp = ft_strdup(str);
+	if (!tmp)
+		exit_error(ms, "malloc");
 	start = tmp;
 	while (*tmp != '\0')
 	{
