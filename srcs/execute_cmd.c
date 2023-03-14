@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/11 10:14:42 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/14 17:10:39 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static void	free_path(char **path)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (path[i])
@@ -26,7 +26,7 @@ static void	free_path(char **path)
 	free(path);
 }
 
-static char	*serch_path(t_minishell *ms, char *file)
+static char	*search_path(t_minishell *ms, char *file)
 {
 	char	**path;
 	char	*value;
@@ -54,36 +54,58 @@ static char	*serch_path(t_minishell *ms, char *file)
 	return (NULL);
 }
 
-static void	child_process(t_minishell *ms, char *cmdline)
+static void	child_process(t_minishell *ms, t_execlist *exec)
 {
 	extern char	**environ;
 	char		*path;
+	char		**args;
 
-	path = cmdline;
+	path = exec->cmd->str;
+	args = create_args_array(ms);
 	if (!(ft_strchr(path, '/')))
 	{
-		path = serch_path(ms, path);
+		path = search_path(ms, path);
+		printf("path is %s\n", path);
 		if (!path)
 			return ;
 		if (access(path, F_OK) < 0)
 			return (free(path));
-		if (execve(path, &ms->exec->cmdline[0], environ) == -1)
+		if (execve(path, args, environ) == -1)
 			return (free(path));
 	}
-	else if (execve(path, &ms->exec->cmdline[0], environ) == -1)
+	else if (execve(path, args, environ) == -1)
 		return ;
+}
+
+void	execute_child_process(t_minishell *ms)
+{
+	pid_t	pid;
+	int		wstatus;
+
+	// size_t	cmd_index;
+	// cmd_index = 0;
+	while (ms->exec)
+	{
+		pid = fork();
+		if (pid < 0)
+			exit_error(ms, "pipe");
+		else if (pid == 0)
+			child_process(ms, ms->exec);
+		ms->exec = ms->exec->next;
+	}
+	wait(&wstatus);
+	ms->exit_status = WEXITSTATUS(wstatus);
 }
 
 void	execute_cmd(t_minishell *ms)
 {
-	pid_t		pid;
-	int			wstatus;
+	pid_t	pid;
+	int		status;
 
-	pid = fork();
-	if (pid < 0)
-		exit_error(ms, "pipe");
-	else if (pid == 0)
-		child_process(ms, ms->exec->cmdline[0]);
-	wait(&wstatus);
-	ms->exit_status = WEXITSTATUS(wstatus);
+	//シグナルの調整が必要
+	// if (ms->list->pipe == NO_PIPE)
+	// 	status = execute_one_cmd(ms);
+	// else
+	execute_child_process(ms);
+	//シグナルの調整が必要
 }

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/04 15:44:57 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/14 11:20:10 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+// #include "minishell.h"
+#include "../include/minishell.h"
 
 void		add_execlist(t_minishell *ms, t_mslist	*first, size_t num);
 static void	check_execlist(t_minishell *ms);
@@ -68,6 +69,8 @@ static void	check_execlist(t_minishell *ms)
 		i = 0;
 		while (ms->exec->cmdline[i])
 		{
+			if (!toupper_char(ms->exec->cmdline[i]))
+				exit_error(ms, "malloc");
 			check_cmdtype(ms, toupper_char(ms->exec->cmdline[i]));
 			free(toupper_char(ms->exec->cmdline[i]));
 			check_redtype(ms, ms->exec->cmdline[i]);

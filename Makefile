@@ -6,7 +6,7 @@
 #    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/13 21:15:35 by naharagu         ###   ########.fr        #
+#    Updated: 2023/03/14 15:27:26 by naharagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,6 @@ INCLUDE		=   -I include -I $(LIB_DIR) -I $(shell brew --prefix readline)/include
 # INCLUDE		=   -I include -I $(LIB_DIR)
 VPATH 		=   srcs
 SRCS		= 	main.c        \
-				interpret.c   \
 				signal.c      \
 				lexer.c       \
 				bool.c        \
@@ -39,7 +38,8 @@ SRCS		= 	main.c        \
 				execlist_2.c  \
 				error.c       \
 				print_error.c \
-				print_list.c \
+				print_list.c  \
+				create_args_array.c \
 				execute_cmd.c
 OBJS_DIR	=	./obj/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
