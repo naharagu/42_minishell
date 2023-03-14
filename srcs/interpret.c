@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 18:18:28 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/14 23:36:35 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,28 @@
 
 void	child_process(t_minishell *ms, char **argv);
 char	*serch_path(char *file);
-void	free_argv(t_minishell *ms, char **argv);
 
 void	interpret(t_minishell *ms)
 {
-	char		**argv;
+	t_argv		*argv;
 	pid_t		pid;
 	int			wstatus;
 
+	argv = init_argv(ms, argv);
 	pid = fork();
-	argv = ft_calloc(2, sizeof(char **));
-	if (!argv)
+	argv->argc = 2;
+	argv->argv = ft_calloc(2, sizeof(char **));
+	if (!argv->argv)
 		exit_error(ms, "malloc");
 	if (ms->exec->cmd->str)
-		argv[0] = ft_strdup(ms->exec->cmd->str);
+		argv->argv[0] = ft_strdup(ms->exec->cmd->str);
 	else if (!(ms->exec->cmd->str) && ms->exec->red->str)
-		argv[0] = ft_strdup(ms->exec->red->str);
-	argv[1] = NULL;
+		argv->argv[0] = ft_strdup(ms->exec->red->str);
+	argv->argv[1] = NULL;
 	if (pid < 0)
 		free_argv(ms, argv);
 	else if (pid == 0)
-		child_process(ms, argv);
+		child_process(ms, argv->argv);
 	else if (pid > 0)
 	{
 		wait(&wstatus);
@@ -81,10 +82,4 @@ char	*serch_path(char *file)
 		i++;
 	}
 	return (NULL);
-}
-
-void	free_argv(t_minishell *ms, char **argv)
-{
-	free(argv[0]);
-	free(argv);
 }

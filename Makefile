@@ -6,14 +6,14 @@
 #    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/14 14:54:40 by shimakaori       ###   ########.fr        #
+#    Updated: 2023/03/14 21:40:45 by shimakaori       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 CC			=	gcc
-# C_FLAGS 	=	-Wall -Werror -Wextra -g -fsanitize=address
-C_FLAGS 	=	-Wall -Werror -Wextra
+C_FLAGS 	=	-Wall -Werror -Wextra -g -fsanitize=address
+# C_FLAGS 	=	-Wall -Werror -Wextra
 RL_FLAGS 	=	-lreadline -lhistory -L$(shell brew --prefix readline)/lib -L/usr/local/Cellar/readline/8.2.1/lib -L/usr/local/opt/readline/lib
 INCLUDE		=   -I include -I $(LIB_DIR) -I $(shell brew --prefix readline)/include -I/usr/local/opt/readline/include
 VPATH 		=   srcs
@@ -38,6 +38,7 @@ SRCS		= 	main.c        \
 				error.c       \
 				print_error.c \
 				ft_exit.c     \
+				list_to_argv.c\
 				print_list.c
 OBJS_DIR	=	./obj/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)

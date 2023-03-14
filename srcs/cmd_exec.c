@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:55:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 15:37:23 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/15 00:32:09 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,28 @@
 void	cmd_exec(t_minishell *ms)
 {
 	t_execlist	*startexec;
-	t_cmdlist	*startcmd;
-	int			argc;
-	char		**argv;
+	t_argv		*argv;
 	size_t		i;
 
-	argc = 0;
+	i = 0;
 	startexec = ms->exec;
+	argv = init_argv(ms, argv);
 	while (ms->exec)
 	{
-		i = 0;
-		startcmd = ms->exec->cmd;
+		printf("cmdtype= %d\n", ms->exec->cmdtype);//
+		printf("i= %zu\n", i);//
 		if (ms->exec->cmdtype == ECHO_CMD && ms->exec->cmd->next->str)
 			printf("%s\n", ms->exec->cmd->next->str);
 		if (ms->exec->cmdtype == SPC_CMD)
 			other_error(ms, ft_itoa(ms->exit_status), "command not found", 1);
 		if (ms->exec->cmdtype == EXIT_CMD)
 		{
-			argc = cmd_lstsize(ms->exec->cmd);
-			argv = ft_calloc(sizeof(char *), argc);
-			while (ms->exec->cmd)
-			{
-				argv[i] = ms->exec->cmd->str;
-				ms->exec->cmd = ms->exec->cmd->next;
-				i++;
-			}
-			ft_exit (ms, argc, argv);
-			free (argv);
+			argv = list_to_argv(ms, ms->exec);
+			ft_exit (ms, argv->argc, argv->argv);
+			free_argv(ms, argv);
 		}
-		ms->exec->cmd = startcmd;
 		ms->exec = ms->exec->next;
+		i++;
 	}
 	ms->exec = startexec;
 }

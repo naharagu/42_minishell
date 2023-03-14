@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 15:33:16 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/14 22:29:00 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,24 @@ void	all_free(t_minishell *ms)
 		ms_lstclear(&ms->list);
 	if (ms->exec)
 		exec_lstclear(&ms->exec);
+}
+
+void	free_execlist(t_execlist *tmp)
+{
+	tmp->cmdtype = NO_CMD;
+	tmp->redtype = NO_REDIRECT;
+	tmp->std_fd = STD_OUT;
+	tmp->err_fd = STD_ERR;
+	if (tmp->cmdline)
+		free(tmp->cmdline);
+	if (tmp->cmd)
+		free(tmp->cmd);
+	if (tmp->red)
+		free(tmp->red);
+	if (tmp->env)
+		free(tmp->env);
+	if (tmp->heredoc)
+		free(tmp->heredoc);
+	if (tmp)
+		free(tmp);
 }

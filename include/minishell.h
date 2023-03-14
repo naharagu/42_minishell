@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 15:20:56 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/14 23:21:44 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,11 @@ typedef struct s_minishell
 	t_execlist			*exec;
 }	t_minishell;
 
-//extern volatile sig_atomic_t	g_flag;
+typedef struct s_argv
+{
+	int					argc;
+	char				**argv;
+}	t_argv;
 
 // main.c
 void		minishell(t_minishell *ms);
@@ -209,6 +213,7 @@ t_minishell	*init_struct_ms(t_minishell *ms);
 char		*toupper_char(char *str);
 void		check_pipe(t_minishell *ms, char *str);
 void		all_free(t_minishell *ms);
+void		free_execlist(t_execlist *tmp);
 
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);
@@ -244,6 +249,11 @@ void		other_error(t_minishell *ms, char *location, char *msg, int status);
 
 //ft_exit.c
 void		ft_exit(t_minishell *ms, int argc, char **argv);
+
+//list_to_argv.c
+t_argv		*list_to_argv(t_minishell *ms, t_execlist *exec);
+t_argv		*init_argv(t_minishell *ms, t_argv *argv);
+void		free_argv(t_minishell *ms, t_argv *argv);
 
 //print_list.c (for test)
 void		print_mslist(t_minishell *ms);

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:49 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 15:21:00 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/14 23:37:29 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	exec_lstadd_back(t_execlist **lst, t_execlist *new)
 		*lst = new;
 	else
 	{
-		//tmp = exec_lstlast(*lst);
 		while ((*lst)->next)
 			(*lst) = (*lst)->next;
 		tmp = (*lst);
@@ -33,28 +32,16 @@ void	exec_lstadd_back(t_execlist **lst, t_execlist *new)
 void	exec_lstclear(t_execlist **lst)
 {
 	t_execlist	*tmp;
-	size_t		i;
 
 	if (!lst)
 		return ;
-	i = 0;
-	while (i < exec_lstsize(*lst))
+	while (*lst)
 	{
 		tmp = *lst;
+		free_execlist(tmp);
 		*lst = (*lst)->next;
-		tmp->cmdtype = NO_CMD;
-		tmp->redtype = NO_REDIRECT;
-		tmp->std_fd = STD_OUT;
-		tmp->err_fd = STD_ERR;
-		free(tmp->cmdline);
-		free(tmp->cmd);
-		free(tmp->red);
-		free(tmp->env);
-		free(tmp->heredoc);
-		free(tmp);
-		i++;
 	}
-	*lst = (NULL);
+	*lst = NULL;
 }
 
 int	exec_lstsize(t_execlist *lst)
