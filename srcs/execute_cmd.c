@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 17:10:39 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/14 21:16:14 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,15 @@ static void	child_process(t_minishell *ms, t_execlist *exec)
 	char		**args;
 
 	path = exec->cmd->str;
-	args = create_args_array(ms);
+	args = create_args_array(exec);
+	printf("test2!\n");
+	int i = 0;
+	while (args)
+	{
+		printf("arg is %s\n", args[i]);
+		i++;
+	}
+
 	if (!(ft_strchr(path, '/')))
 	{
 		path = search_path(ms, path);
@@ -81,12 +89,14 @@ void	execute_child_process(t_minishell *ms)
 {
 	pid_t	pid;
 	int		wstatus;
+	t_execlist	tmp;
 
 	// size_t	cmd_index;
 	// cmd_index = 0;
 	while (ms->exec)
 	{
 		pid = fork();
+		printf("test1!\n");
 		if (pid < 0)
 			exit_error(ms, "pipe");
 		else if (pid == 0)
