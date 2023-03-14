@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 21:16:14 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/14 21:27:45 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static void	child_process(t_minishell *ms, t_execlist *exec)
 
 	path = exec->cmd->str;
 	args = create_args_array(exec);
-	printf("test2!\n");
 	int i = 0;
 	while (args)
 	{

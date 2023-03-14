@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 21:13:47 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/14 21:29:30 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ static size_t	get_args_size(t_execlist *exec)
 
 	size = 0;
 	tmp = exec->cmd;
-	while (tmp)
+	while (tmp->next)
 	{
 		size++;
+		// printf("now: %s\n", tmp->str);
 		tmp = tmp->next;
 	}
 	return (size - 1);
@@ -49,7 +50,7 @@ char	**create_args_array(t_execlist *exec)
 		tmp = tmp->next;
 		i++;
 	}
-	args[i] = NULL;
+	args[args_size] = NULL;
 	return (args);
 }
 
