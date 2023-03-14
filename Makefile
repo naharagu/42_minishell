@@ -6,7 +6,7 @@
 #    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/13 15:46:47 by shimakaori       ###   ########.fr        #
+#    Updated: 2023/03/14 14:54:40 by shimakaori       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRCS		= 	main.c        \
 				execlist_2.c  \
 				error.c       \
 				print_error.c \
+				ft_exit.c     \
 				print_list.c
 OBJS_DIR	=	./obj/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)

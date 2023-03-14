@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/10 18:22:01 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/14 15:20:56 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,11 +225,11 @@ t_envlist	*env_lstnew(t_minishell *ms, t_envlist *env);
 t_heredoc	*heredoc_lstnew(t_minishell *ms, t_heredoc *heredoc);
 
 //execlist_2.c
-t_execlist	*exec_lstlast(t_execlist *lst);
 void		exec_lstadd_back(t_execlist **lst, t_execlist *new);
 int			exec_lstsize(t_execlist *lst);
 void		exec_lstclear(t_execlist **lst);
 int			red_lstsize(t_redlist *lst);
+int			cmd_lstsize(t_cmdlist *lst);
 
 //error.c
 void		error_lexer(t_minishell *ms);
@@ -241,6 +241,9 @@ void		error_expansion(t_minishell *ms, t_execlist *exec, size_t i);
 void		exit_error(t_minishell *ms, char *location);
 void		syntax_error(t_minishell *ms, char *location, int status);
 void		other_error(t_minishell *ms, char *location, char *msg, int status);
+
+//ft_exit.c
+void		ft_exit(t_minishell *ms, int argc, char **argv);
 
 //print_list.c (for test)
 void		print_mslist(t_minishell *ms);
