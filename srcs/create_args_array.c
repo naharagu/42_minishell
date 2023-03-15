@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 21:36:27 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/15 19:31:50 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 static size_t	get_args_size(t_execlist *exec)
 {
 	size_t		size;
-	t_cmdlist	*tmp;
+	t_cmdlist	*tmp_cmd;
 
 	size = 0;
-	tmp = exec->cmd;
-	while (tmp->next)
+	tmp_cmd = exec->cmd;
+	while (tmp_cmd->next)
 	{
 		size++;
 		// printf("now: %s\n", tmp->str);
-		tmp = tmp->next;
+		tmp_cmd = tmp_cmd->next;
 	}
 	return (size);
 }
@@ -33,7 +33,7 @@ char	**create_args_array(t_execlist *exec)
 	char		**args;
 	size_t		args_size;
 	size_t		i;
-	t_cmdlist	*tmp;
+	t_cmdlist	*tmp_cmd;
 
 	args_size = get_args_size(exec);
 	printf("args size is %lu\n", args_size);
@@ -43,11 +43,11 @@ char	**create_args_array(t_execlist *exec)
 	if (!args)
 		return (NULL);
 	i = 0;
-	tmp = exec->cmd;
+	tmp_cmd = exec->cmd;
 	while (i < args_size)
 	{
-		args[i] = ft_strdup(tmp->str);
-		tmp = tmp->next;
+		args[i] = ft_strdup(tmp_cmd->str);
+		tmp_cmd = tmp_cmd->next;
 		i++;
 	}
 	args[args_size] = NULL;

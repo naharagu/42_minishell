@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/15 08:44:25 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/15 19:35:33 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,18 +87,18 @@ void	execute_child_process(t_minishell *ms)
 {
 	pid_t	pid;
 	int		wstatus;
-	t_execlist	*tmp;
+	t_execlist	*tmp_exec;
 
-	tmp = ms->exec;
-	while (tmp)
+	tmp_exec = ms->exec;
+	while (tmp_exec)
 	{
 		pid = fork();
 		printf("fork pid is %d\n", pid);
 		if (pid < 0)
 			exit_error(ms, "pipe");
 		else if (pid == 0)
-			child_process_helper(ms, tmp);
-		tmp = tmp->next;
+			child_process_helper(ms, tmp_exec);
+		tmp_exec = tmp_exec->next;
 	}
 	wait(&wstatus);
 	ms->exit_status = WEXITSTATUS(wstatus);
