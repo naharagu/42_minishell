@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 21:01:23 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/15 21:18:33 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ typedef struct s_minishell
 	int					exit_status;
 	char				*startline;
 	char				*line;
+	size_t				cmd_size;
 	t_quote				quote;
 	t_mslist			*list;
 	t_execlist			*exec;
