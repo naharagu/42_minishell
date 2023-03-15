@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/15 19:31:50 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/15 22:14:54 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**create_args_array(t_execlist *exec)
 	t_cmdlist	*tmp_cmd;
 
 	args_size = get_args_size(exec);
-	printf("args size is %lu\n", args_size);
+	// printf("args size is %lu\n", args_size);
 	if (args_size == 0)
 		return NULL;
 	args = ft_calloc(args_size + 1, sizeof(char *));
