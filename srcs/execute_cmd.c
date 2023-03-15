@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 21:51:50 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/15 08:44:25 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*search_path(t_minishell *ms, char *file)
 	return (NULL);
 }
 
-static void	child_process(t_minishell *ms, t_execlist *exec)
+static void	child_process_helper(t_minishell *ms, t_execlist *exec)
 {
 	extern char	**environ;
 	char		*path;
@@ -87,17 +87,18 @@ void	execute_child_process(t_minishell *ms)
 {
 	pid_t	pid;
 	int		wstatus;
-	t_execlist	tmp;
+	t_execlist	*tmp;
 
-	while (ms->exec)
+	tmp = ms->exec;
+	while (tmp)
 	{
 		pid = fork();
 		printf("fork pid is %d\n", pid);
 		if (pid < 0)
 			exit_error(ms, "pipe");
 		else if (pid == 0)
-			child_process(ms, ms->exec);
-		ms->exec = ms->exec->next;
+			child_process_helper(ms, tmp);
+		tmp = tmp->next;
 	}
 	wait(&wstatus);
 	ms->exit_status = WEXITSTATUS(wstatus);

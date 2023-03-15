@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 21:50:34 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/14 22:18:19 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 void		minishell(t_minishell *ms);
 static void	signal_handler(int signum);
 
-int	main(int argc, char **argv, char **env)
+int	main(void)
 {
 	t_minishell	*ms;
 
+	ms = NULL;
 	ms = init_struct_ms(ms);
 	minishell(ms);
 	return (0);
