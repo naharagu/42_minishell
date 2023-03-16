@@ -6,16 +6,16 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 14:27:14 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 17:07:39 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmdlist	*cmd_lstnew(t_minishell *ms, t_cmdlist *cmd);
-t_redlist	*red_lstnew(t_minishell *ms, t_redlist *red);
-t_envlist	*env_lstnew(t_minishell *ms, t_envlist *env);
-t_heredoc	*heredoc_lstnew(t_minishell *ms, t_heredoc *heredoc);
+t_cmdlist	*cmd_lstnew(t_minishell *ms);
+t_redlist	*red_lstnew(t_minishell *ms);
+t_envlist	*env_lstnew(t_minishell *ms);
+t_heredoc	*heredoc_lstnew(t_minishell *ms);
 
 t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 {
@@ -23,13 +23,14 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 	size_t		j;
 
 	new = (t_execlist *)malloc(sizeof(t_execlist));
-	new->cmdline = (char **)ft_calloc(sizeof (char *), num + 1);
+	new->cmdline = (char **)ft_calloc(sizeof (char *), num);
 	if (!new || !new->cmdline)
-		return (NULL);
+		exit_error(ms, "malloc");
 	j = 0;
 	while (j < num && list->str)
 	{
 		new->cmdline[j] = ft_strdup(list->str);
+		//printf("cmdline[%zu]= %s\n", j, new->cmdline[j]);//
 		list = list->next;
 		j++;
 	}
@@ -37,16 +38,18 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 	new->redtype = NO_REDIRECT;
 	new->std_fd = STD_OUT;
 	new->err_fd = STD_ERR;
-	new->cmd = cmd_lstnew(ms, new->cmd);
-	new->red = red_lstnew(ms, new->red);
-	new->env = env_lstnew(ms, new->env);
-	new->heredoc = heredoc_lstnew(ms, new->heredoc);
+	new->cmd = cmd_lstnew(ms);
+	new->red = red_lstnew(ms);
+	new->env = env_lstnew(ms);
+	new->heredoc = heredoc_lstnew(ms);
 	new->next = NULL;
 	return (new);
 }
 
-t_cmdlist	*cmd_lstnew(t_minishell *ms, t_cmdlist *cmd)
+t_cmdlist	*cmd_lstnew(t_minishell *ms)
 {
+	t_cmdlist	*cmd;
+
 	cmd = (t_cmdlist *)malloc(sizeof(t_cmdlist));
 	if (!cmd)
 		exit_error (ms, "malloc");
@@ -56,8 +59,10 @@ t_cmdlist	*cmd_lstnew(t_minishell *ms, t_cmdlist *cmd)
 	return (cmd);
 }
 
-t_redlist	*red_lstnew(t_minishell *ms, t_redlist *red)
+t_redlist	*red_lstnew(t_minishell *ms)
 {
+	t_redlist	*red;
+
 	red = (t_redlist *)malloc(sizeof(t_redlist));
 	if (!red)
 		exit_error (ms, "malloc");
@@ -67,8 +72,10 @@ t_redlist	*red_lstnew(t_minishell *ms, t_redlist *red)
 	return (red);
 }
 
-t_envlist	*env_lstnew(t_minishell *ms, t_envlist *env)
+t_envlist	*env_lstnew(t_minishell *ms)
 {
+	t_envlist	*env;
+
 	env = (t_envlist *)malloc(sizeof(t_envlist));
 	if (!env)
 		exit_error (ms, "malloc");
@@ -78,8 +85,10 @@ t_envlist	*env_lstnew(t_minishell *ms, t_envlist *env)
 	return (env);
 }
 
-t_heredoc	*heredoc_lstnew(t_minishell *ms, t_heredoc *heredoc)
+t_heredoc	*heredoc_lstnew(t_minishell *ms)
 {
+	t_heredoc	*heredoc;
+
 	heredoc = malloc(sizeof(t_heredoc));
 	if (!heredoc)
 		exit_error(ms, "malloc");
