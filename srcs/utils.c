@@ -6,14 +6,16 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/04 15:12:41 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 15:16:26 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_minishell	*init_struct_ms(t_minishell *ms)
+t_minishell	*init_struct_ms(void)
 {
+	t_minishell	*ms;
+
 	ms = malloc(sizeof(t_minishell));
 	if (!ms)
 		exit_error(ms, "malloc");
@@ -51,23 +53,9 @@ void	check_pipe(t_minishell *ms, char *str)
 
 void	all_free(t_minishell *ms)
 {
-	ms->quote = NO_QUOTE;
-	if (ms->startline)
-		free(ms->startline);
-	if (ms->list)
-		ms_lstclear(&ms->list);
-	if (ms->exec)
-		exec_lstclear(&ms->exec);
+	if (!ms || !(ms->startline))
+		return ;
+	free(ms->startline);
+	ms_lstclear(&ms->list);
+	exec_lstclear(&ms->exec);
 }
-
-// void	get_pathname(void)
-// {
-// 	char	*pathname;
-
-// 	pathname = getcwd(NULL, 0);
-// 	if (!pathname)
-// 		return ;
-// 	else
-// 		printf("%s\n", pathname);
-// 	free(pathname);
-// }

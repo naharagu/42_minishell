@@ -6,7 +6,7 @@
 #    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/13 15:46:47 by shimakaori       ###   ########.fr        #
+#    Updated: 2023/03/16 15:47:08 by shimakaori       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ $(NAME): $(OBJS)
 
 $(OBJS_DIR)%.o: %.c
 		mkdir -p $(OBJS_DIR)
-		$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
+		$(CC) $(C_FLAGS) $(INCLUDE) -o $@ -c $<
 
 all: $(NAME)
 

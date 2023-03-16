@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:01:38 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 17:18:12 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 13:46:25 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	ms_lstsize(t_mslist *lst)
 void	ms_lstclear(t_mslist **lst)
 {
 	t_mslist	*tmp;
-	size_t		i;
+	int			i;
 
 	if (!lst)
 		return ;
@@ -84,7 +84,6 @@ void	ms_lstclear(t_mslist **lst)
 		tmp = *lst;
 		*lst = (*lst)->next;
 		free(tmp->str);
-		tmp->pipe = NO_PIPE;
 		free(tmp);
 		i++;
 	}

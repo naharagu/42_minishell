@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 10:34:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 21:28:01 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 12:03:10 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	std_append(t_minishell *ms, int originfd, int outfd);
 void	file_append(t_minishell *ms, int originfd, char *file);
 void	both_append(t_minishell *ms, char *file);
-void	each_file_append(t_minishell *ms, t_execlist *exec, t_redlist *red);
+void	each_file_append(t_minishell *ms, t_redlist *red);
 
 void	red_append(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 {
@@ -31,7 +31,7 @@ void	red_append(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 	else if (exec->std_fd == FILE_1 && exec->err_fd == FILE_1)
 		both_append(ms, red->next->str);
 	else if (exec->std_fd == FILE_1 || exec->err_fd == FILE_2)
-		each_file_append(ms, exec, red);
+		each_file_append(ms, red);
 	exec_command(exec);//
 	dup2(tmpfd_std, STD_OUT);
 	dup2(tmpfd_err, STD_ERR);
@@ -90,7 +90,7 @@ void	both_append(t_minishell *ms, char *file)
 	close(filefd);
 }
 
-void	each_file_append(t_minishell *ms, t_execlist *exec, t_redlist *red)
+void	each_file_append(t_minishell *ms, t_redlist *red)
 {
 	t_redlist	*startred;
 

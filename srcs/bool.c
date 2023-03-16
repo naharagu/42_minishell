@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 15:37:06 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/04 12:58:35 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/14 16:11:13 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,31 +45,8 @@ bool	is_space(char c)
 
 bool	is_metachara(char c)
 {
-	if (ft_strchr("12|&;()<> \t", c))
+	if (ft_strchr("|&;()<>", c))
 		return (true);
 	else
 		return (false);
 }
-
-// bool	is_env(t_minishell *ms, char *delimiter)
-// {
-// 	t_execlist	*startexec;
-// 	t_envlist	*startenv;
-
-// 	startexec = ms->exec;
-// 	while (ms->exec)
-// 	{
-// 		startenv = ms->exec->env;
-// 		while (ms->exec->env)
-// 		{
-// 			if (ft_strnstr(delimiter, ms->exec->key, ft_strlen(delimiter)))
-// 				return (true);
-// 			else
-// 				return (false);
-// 			ms->exec->env = ms->exec->env->next;
-// 		}
-// 		ms->exec->env = startenv;
-// 		ms->exec = ms->exec->next;
-// 	}
-// 	ms->exec = startexec;
-// }

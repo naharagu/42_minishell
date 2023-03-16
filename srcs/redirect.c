@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/03 12:55:10 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 12:03:25 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	redirect(t_minishell *ms)
 		else if (ms->exec->redtype == APPEND)
 			red_append (ms, ms->exec, ms->exec->red);
 		else if (ms->exec->redtype == INPUT)
-			red_in (ms, ms->exec, ms->exec->red);
+			red_in (ms, ms->exec->red);
 		else if (ms->exec->redtype == HERE_DOC)
 			red_heredoc (ms, ms->exec, ms->exec->red);
 		ms->exec = ms->exec->next;
