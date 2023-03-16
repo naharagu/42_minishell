@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 13:36:24 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 16:00:27 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,8 +225,8 @@ void		ms_lstclear(t_mslist **lst);
 t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num);
 t_cmdlist	*cmd_lstnew(t_minishell *ms, t_cmdlist *cmd);
 t_redlist	*red_lstnew(t_minishell *ms, t_redlist *red);
-// t_envlist	*env_lstnew(t_minishell *ms, t_envlist *env);
-// t_heredoc	*heredoc_lstnew(t_minishell *ms, t_heredoc *heredoc);
+t_envlist	*env_lstnew(t_minishell *ms, t_envlist *env);
+t_heredoc	*heredoc_lstnew(t_minishell *ms, t_heredoc *heredoc);
 
 //execlist.c
 void		exec_lstadd_back(t_execlist **lst, t_execlist *new);
