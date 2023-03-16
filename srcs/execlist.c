@@ -1,23 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execlist_2.c                                       :+:      :+:    :+:   */
+/*   execlist.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:49 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/04 15:28:33 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 13:11:12 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_execlist	*exec_lstlast(t_execlist *lst)
-{
-	while (lst && lst->next)
-		lst = lst->next;
-	return (lst);
-}
 
 void	exec_lstadd_back(t_execlist **lst, t_execlist *new)
 {
@@ -29,7 +22,9 @@ void	exec_lstadd_back(t_execlist **lst, t_execlist *new)
 		*lst = new;
 	else
 	{
-		tmp = exec_lstlast(*lst);
+		while ((*lst)->next)
+			(*lst) = (*lst)->next;
+		tmp = (*lst);
 		tmp->next = new;
 	}
 }
@@ -49,34 +44,22 @@ int	exec_lstsize(t_execlist *lst)
 	return (size);
 }
 
-void	exec_lstclear(t_execlist **lst)
+int	red_lstsize(t_redlist *lst)
 {
-	t_execlist	*tmp;
-	size_t		i;
+	int			size;
 
 	if (!lst)
-		return ;
-	i = 0;
-	while (i < exec_lstsize(*lst))
+		return (0);
+	size = 0;
+	while (lst->next)
 	{
-		tmp = *lst;
-		*lst = (*lst)->next;
-		tmp->cmdtype = NO_CMD;
-		tmp->redtype = NO_REDIRECT;
-		tmp->std_fd = STD_OUT;
-		tmp->err_fd = STD_ERR;
-		free(tmp->cmdline);
-		free(tmp->cmd);
-		free(tmp->red);
-		free(tmp->env);
-		free(tmp->heredoc);
-		free(tmp);
-		i++;
+		size++;
+		lst = lst->next;
 	}
-	*lst = (NULL);
+	return (size);
 }
 
-int	red_lstsize(t_redlist *lst)
+int	cmd_lstsize(t_cmdlist *lst)
 {
 	int			size;
 

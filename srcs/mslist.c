@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mslist.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:01:38 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/01 17:18:12 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 17:41:32 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ int	ms_lstsize(t_mslist *lst)
 void	ms_lstclear(t_mslist **lst)
 {
 	t_mslist	*tmp;
-	size_t		i;
+	int			i;
 
-	if (!lst)
+	if (!lst || !*lst)
 		return ;
 	i = 0;
 	while (i < ms_lstsize(*lst))
@@ -84,7 +84,6 @@ void	ms_lstclear(t_mslist **lst)
 		tmp = *lst;
 		*lst = (*lst)->next;
 		free(tmp->str);
-		tmp->pipe = NO_PIPE;
 		free(tmp);
 		i++;
 	}

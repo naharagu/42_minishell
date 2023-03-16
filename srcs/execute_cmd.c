@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 17:24:48 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/16 17:39:47 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,8 @@ void	execute_child_process(t_minishell *ms)
 
 void	execute_cmd(t_minishell *ms)
 {
-	pid_t	pid;
-	int		status;
+	// pid_t	pid;
+	// int		status;
 
 	//シグナルの調整が必要
 	// if (ms->list->pipe == NO_PIPE)

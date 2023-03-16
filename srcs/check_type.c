@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 18:24:24 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 11:18:28 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/16 17:36:39 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	check_cmdtype(t_minishell *ms, char *str)
 
 bool	is_othercmd(t_minishell *ms, char *str, size_t len)
 {
+	(void)ms;
 	if ((len == 7 && !(ft_strncmp("/BIN/LS", str, len))) || \
 		(len == 8 && !(ft_strncmp("/BIN/PWD", str, len))) || \
 		(len == 9 && !(ft_strncmp("/BIN/ECHO", str, len))) || \

@@ -6,21 +6,22 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/15 22:14:35 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/16 17:39:24 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 void		minishell(t_minishell *ms);
-static void	signal_handler(int signum);
 
-int	main(void)
+int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*ms;
 
-	ms = NULL;
-	ms = init_struct_ms(ms);
+	(void)argc;
+	(void)argv;
+	(void)env;
+	ms = init_struct_ms();
 	minishell(ms);
 	return (0);
 }

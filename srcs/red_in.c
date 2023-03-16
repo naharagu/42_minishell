@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 15:06:00 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/03 16:03:19 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 11:59:24 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	file_inred(t_minishell *ms, int originfd, char *file);
 
-void	red_in(t_minishell *ms, t_execlist	*exec, t_redlist *red)
+void	red_in(t_minishell *ms, t_redlist *red)
 {
 	t_redlist	*startred;
 	int			tmpfd;

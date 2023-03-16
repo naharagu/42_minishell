@@ -6,16 +6,16 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:01:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/10 18:34:05 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 11:58:04 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	dup_heredoc(t_minishell *ms, t_execlist	*exec, t_heredoc *heredoc);
-int		read_heredoc(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc);
-size_t	assign_value(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc);
-char	*expand_heredoc(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc);
+void	dup_heredoc(t_minishell *ms, t_heredoc *heredoc);
+int		read_heredoc(t_minishell *ms, t_heredoc *heredoc);
+size_t	assign_value(t_minishell *ms, t_heredoc *heredoc);
+char	*expand_heredoc(t_minishell *ms, t_heredoc *heredoc);
 
 void	red_heredoc(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 {
@@ -31,7 +31,7 @@ void	red_heredoc(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 		{
 			exec->heredoc->delimiter = red->next->str;
 			exec->heredoc->quote = red->next->quote;
-			dup_heredoc(ms, exec, exec->heredoc);
+			dup_heredoc(ms, exec->heredoc);
 		}
 		red = red->next;
 	}
@@ -41,12 +41,12 @@ void	red_heredoc(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 	close(tmpfd);
 }
 
-void	dup_heredoc(t_minishell *ms, t_execlist	*exec, t_heredoc *heredoc)
+void	dup_heredoc(t_minishell *ms, t_heredoc *heredoc)
 {
 	int		filefd;
 	int		dupfd;
 
-	filefd = read_heredoc(ms, exec, heredoc);
+	filefd = read_heredoc(ms, heredoc);
 	if (filefd == -1)
 		exit_error(ms, "read_heredoc");
 	if (filefd != STD_OUT)
@@ -58,7 +58,7 @@ void	dup_heredoc(t_minishell *ms, t_execlist	*exec, t_heredoc *heredoc)
 	close(filefd);
 }
 
-int	read_heredoc(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
+int	read_heredoc(t_minishell *ms, t_heredoc *heredoc)
 {
 	int		pfd[2];
 
@@ -76,7 +76,7 @@ int	read_heredoc(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
 		}
 		if (heredoc->docline && ft_strchr(heredoc->docline, '$') \
 			&& heredoc->quote == NO_QUOTE)
-			heredoc->docline = expand_heredoc(ms, exec, heredoc);
+			heredoc->docline = expand_heredoc(ms, heredoc);
 		ft_putendl_fd(heredoc->docline, pfd[1]);
 		free(heredoc->docline);
 	}
@@ -85,7 +85,7 @@ int	read_heredoc(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
 	return (pfd[0]);
 }
 
-size_t	assign_value(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
+size_t	assign_value(t_minishell *ms, t_heredoc *heredoc)
 {
 	t_execlist	*startexec;
 	t_envlist	*startenv;
@@ -112,7 +112,7 @@ size_t	assign_value(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
 	return (0);
 }
 
-char	*expand_heredoc(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
+char	*expand_heredoc(t_minishell *ms, t_heredoc *heredoc)
 {
 	size_t		len;
 
@@ -131,7 +131,7 @@ char	*expand_heredoc(t_minishell *ms, t_execlist *exec, t_heredoc *heredoc)
 		{
 			while (*heredoc->docline && *heredoc->docline == '$')
 				heredoc->docline++;
-			heredoc->docline += assign_value(ms, exec, heredoc);
+			heredoc->docline += assign_value(ms, heredoc);
 		}
 		heredoc->docline++;
 	}
