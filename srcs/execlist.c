@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execlist_2.c                                       :+:      :+:    :+:   */
+/*   execlist.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:49 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 23:37:29 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 13:11:12 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,6 @@ void	exec_lstadd_back(t_execlist **lst, t_execlist *new)
 		tmp = (*lst);
 		tmp->next = new;
 	}
-}
-
-void	exec_lstclear(t_execlist **lst)
-{
-	t_execlist	*tmp;
-
-	if (!lst)
-		return ;
-	while (*lst)
-	{
-		tmp = *lst;
-		free_execlist(tmp);
-		*lst = (*lst)->next;
-	}
-	*lst = NULL;
 }
 
 int	exec_lstsize(t_execlist *lst)

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:09:56 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 21:29:38 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 14:51:20 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,5 @@ void	numeric_error(t_minishell *ms, char *location, char *msg, int status)
 	ft_putstr_fd(location, STD_ERR);
 	ft_putstr_fd(": ", STD_ERR);
 	ft_putendl_fd(msg, STD_ERR);
-	all_free(ms);
 	exit(ms->exit_status);
 }

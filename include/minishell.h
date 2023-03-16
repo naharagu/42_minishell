@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 13:01:49 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 13:36:24 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,6 @@ t_minishell	*init_struct_ms(void);
 char		*toupper_char(char *str);
 void		check_pipe(t_minishell *ms, char *str);
 void		all_free(t_minishell *ms);
-void		free_execlist(t_execlist *tmp);
 
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);
@@ -224,17 +223,19 @@ void		ms_lstclear(t_mslist **lst);
 
 //exec_listnew.c
 t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num);
-// t_cmdlist	*cmd_lstnew(t_minishell *ms, t_cmdlist *cmd);
-// t_redlist	*red_lstnew(t_minishell *ms, t_redlist *red);
+t_cmdlist	*cmd_lstnew(t_minishell *ms, t_cmdlist *cmd);
+t_redlist	*red_lstnew(t_minishell *ms, t_redlist *red);
 // t_envlist	*env_lstnew(t_minishell *ms, t_envlist *env);
 // t_heredoc	*heredoc_lstnew(t_minishell *ms, t_heredoc *heredoc);
 
-//execlist_2.c
+//execlist.c
 void		exec_lstadd_back(t_execlist **lst, t_execlist *new);
 int			exec_lstsize(t_execlist *lst);
-void		exec_lstclear(t_execlist **lst);
 int			red_lstsize(t_redlist *lst);
 int			cmd_lstsize(t_cmdlist *lst);
+
+//exec_lstclear.c
+void		exec_lstclear(t_execlist **lst);
 
 //error.c
 void		error_lexer(t_minishell *ms);
