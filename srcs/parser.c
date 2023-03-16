@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/15 00:33:40 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 09:58:04 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ static void	check_execlist(t_minishell *ms)
 		while (ms->exec->cmdline[i])
 		{
 			check_cmdtype(ms, toupper_char(ms->exec->cmdline[i]));
-			printf("parser:cmdtype= %d\n", ms->exec->cmdtype);//
 			free(toupper_char(ms->exec->cmdline[i]));
 			check_redtype(ms, ms->exec->cmdline[i]);
 			copy_cmd_red_list(ms, ms->exec->cmdline[i]);

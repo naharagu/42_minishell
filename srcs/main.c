@@ -6,20 +6,22 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/15 00:27:56 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 12:25:18 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void		minishell(t_minishell *ms);
-static void	signal_handler(int signum);
 
 int	main(int argc, char **argv, char **env)
 {
 	t_minishell	*ms;
 
-	ms = init_struct_ms(ms);
+	(void)argc;
+	(void)argv;
+	(void)env;
+	ms = init_struct_ms();
 	minishell(ms);
 	return (0);
 }
@@ -31,9 +33,7 @@ void	minishell(t_minishell *ms)
 	ignore_signal(ms, SIGQUIT);
 	while (1)
 	{
-		printf("test\n");
 		ms->line = readline("minishell$ ");
-		printf("line= %s\n", ms->line);//
 		if (!ms->line)
 			break ;
 		if (*ms->line)
@@ -44,7 +44,7 @@ void	minishell(t_minishell *ms)
 		parser(ms);
 		//print_execlist(ms);//
 		expansion(ms);
-		print_cmdredlist(ms);//
+		//print_cmdredlist(ms);//
 		redirect(ms);
 		interpret(ms);
 		cmd_exec(ms);//

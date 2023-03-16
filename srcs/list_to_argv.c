@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 21:17:59 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 23:46:40 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 12:19:33 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ t_argv	*list_to_argv(t_minishell *ms, t_execlist *exec)
 {
 	t_cmdlist	*startcmd;
 	t_argv		*argv;
-	size_t		i;
+	int			i;
 
-	argv = init_argv(ms, argv);
+	argv = init_argv(ms);
 	i = 0;
 	argv->argc = cmd_lstsize(exec->cmd);
 	argv->argv = malloc(sizeof(char *) * argv->argc);
@@ -28,7 +28,7 @@ t_argv	*list_to_argv(t_minishell *ms, t_execlist *exec)
 	while (i < argv->argc)
 	{
 		argv->argv[i] = ft_strdup(ms->exec->cmd->str);
-		printf("argv[%zu]= %s\n", i, argv->argv[i]);//
+		printf("argv[%d]= %s\n", i, argv->argv[i]);//
 		ms->exec->cmd = ms->exec->cmd->next;
 		i++;
 	}
@@ -36,8 +36,10 @@ t_argv	*list_to_argv(t_minishell *ms, t_execlist *exec)
 	return (argv);
 }
 
-t_argv	*init_argv(t_minishell *ms, t_argv *argv)
+t_argv	*init_argv(t_minishell *ms)
 {
+	t_argv		*argv;
+
 	argv = malloc (sizeof(t_argv));
 	if (!argv)
 		exit_error(ms, "malloc");
@@ -46,9 +48,9 @@ t_argv	*init_argv(t_minishell *ms, t_argv *argv)
 	return (argv);
 }
 
-void	free_argv(t_minishell *ms, t_argv *argv)
+void	free_argv(t_argv *argv)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (i < argv->argc)

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:10:30 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/03 12:49:44 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/16 10:36:49 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	each_file_outred(t_minishell *ms, t_execlist *exec, t_redlist *red)
 {
 	t_redlist	*startred;
 
+	(void)exec;
 	startred = red;
 	{
 		while (red->next->str)
