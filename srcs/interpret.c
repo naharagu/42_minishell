@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 12:17:20 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 15:00:56 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ void	interpret(t_minishell *ms)
 	argv->argv = ft_calloc(2, sizeof(char **));
 	if (!argv->argv)
 		exit_error(ms, "malloc");
+	printf("cmdstr= %s\n", ms->exec->cmd->str);//
 	if (ms->exec->cmd->str)
 		argv->argv[0] = ft_strdup(ms->exec->cmd->str);
 	else if (!(ms->exec->cmd->str) && ms->exec->red->str)
 		argv->argv[0] = ft_strdup(ms->exec->red->str);
+	printf("argv[0]= %s\n", argv->argv[0]);//
 	argv->argv[1] = NULL;
 	if (pid < 0)
 		free_argv(argv);
@@ -50,6 +52,7 @@ void	child_process(t_minishell *ms, char **argv)
 	char		*path;
 
 	path = argv[0];
+	printf("path= %s\n", path);//
 	if (!(ft_strchr(path, '/')))
 	{
 		path = serch_path(path);

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 13:03:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 17:25:16 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 16:14:35 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	free_cmdline(char **cmdline)
 {
 	char	**tmp;
 
-	if (cmdline)
+	if (!cmdline)
 		return ;
 	tmp = cmdline;
 	while (*tmp)

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 16:39:55 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 16:05:39 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,15 @@ void	expansion(t_minishell *ms)
 	startexec = ms->exec;
 	while (ms->exec)
 	{
-		ms->exec->env->key = ft_strdup("KEY");//
-		ms->exec->env->value = ft_strdup("hoge fuga");//
+		add_envlist(ms, "key", "hoge fuga");
 		startcmd = ms->exec->cmd;
 		startred = ms->exec->red;
-		while (ms->exec->cmd->next)
+		while (ms->exec->cmd)
 		{
 			expand_cmd(ms, ms->exec->cmd, ms->exec);
 			ms->exec->cmd = ms->exec->cmd->next;
 		}
-		while (ms->exec->red->next)
+		while (ms->exec->red)
 		{
 			expand_red(ms, ms->exec->red, ms->exec);
 			ms->exec->red = ms->exec->red->next;
@@ -52,6 +51,7 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, t_execlist *exec)
 	t_envlist	*startenv;
 
 	startenv = exec->env;
+	printf("cmdstrinexpand= %s\n", cmd->str);//
 	if (*cmd->str == '\'')
 		cmd->quote = S_QUOTE;
 	else if (*cmd->str == '\"')
@@ -108,9 +108,7 @@ static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, t_execlist *exec)
 			split = ft_split(exec->env->value, ' ');
 			while (split[i])
 			{
-				cmd->str = split[i];
-				cmd->next = cmd_lstnew(ms);
-				cmd = cmd->next;
+				add_cmdlist(ms, split[i]);
 				i++;
 			}
 		}
@@ -132,9 +130,7 @@ static void	assign_value_red(t_minishell *ms, t_redlist *red, t_execlist *exec)
 			split = ft_split(exec->env->value, ' ');
 			while (split[i])
 			{
-				red->str = split[i];
-				red->next = red_lstnew(ms);
-				red = red->next;
+				add_redlist(ms, split[i]);
 				i++;
 			}
 			error_expansion(ms, exec, i);

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 16:42:19 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 16:07:04 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,15 @@ void	minishell(t_minishell *ms)
 			add_history(ms->line);
 		ms->startline = ms->line;
 		lexer(ms);
-		print_mslist(ms);//
+		//print_mslist(ms);//
 		parser(ms);
-		print_execlist(ms);//
-		expansion(ms);
+		//print_execlist(ms);//
 		print_cmdredlist(ms);//
-		redirect(ms);
-		cmd_exec(ms);//
-		interpret(ms);
+		//expansion(ms);
+		//print_cmdredlist(ms);//
+		//redirect(ms);
+		//cmd_exec(ms);//
+		//interpret(ms);
 		all_free(ms);
 	}
 	exit(ms->exit_status);

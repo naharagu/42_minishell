@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 17:20:19 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 16:38:08 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,10 @@ void	parser(t_minishell *ms)
 	error_parser_execlist(ms);
 }
 
-void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num)
-{
-	t_execlist	*tmp;
-
-	tmp = exec_lstnew(ms, first, num);
-	exec_lstadd_back(&ms->exec, tmp);
-}
-
 static void	check_execlist(t_minishell *ms)
 {
 	t_execlist	*startexec;
+	char		*upchar;
 	size_t		i;
 
 	startexec = ms->exec;
@@ -64,8 +57,10 @@ static void	check_execlist(t_minishell *ms)
 		i = 0;
 		while (ms->exec->cmdline[i])
 		{
-			check_cmdtype(ms, toupper_char(ms->exec->cmdline[i]));
-			free(toupper_char(ms->exec->cmdline[i]));
+			//printf("cmdline[%zu]= %s\n", i, ms->exec->cmdline[i]);//
+			upchar = toupper_char(ms->exec->cmdline[i]);
+			check_cmdtype(ms, upchar);
+			free(upchar);
 			check_redtype(ms, ms->exec->cmdline[i]);
 			copy_cmd_red_list(ms, ms->exec->cmdline[i]);
 			i++;
@@ -79,14 +74,10 @@ static void	copy_cmd_red_list(t_minishell *ms, char *str)
 {
 	if (ms->exec->redtype == NO_REDIRECT)
 	{
-		ms->exec->cmd->str = ft_strdup(str);
-		ms->exec->cmd->next = cmd_lstnew(ms);
-		ms->exec->cmd = ms->exec->cmd->next;
+		add_cmdlist(ms, str);
 	}
 	else if (ms->exec->redtype != NO_REDIRECT)
 	{
-		ms->exec->red->str = ft_strdup(str);
-		ms->exec->red->next = red_lstnew(ms);
-		ms->exec->red = ms->exec->red->next;
+		add_redlist(ms, str);
 	}
 }

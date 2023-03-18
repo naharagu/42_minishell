@@ -6,7 +6,7 @@
 #    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/16 17:06:42 by shimakaori       ###   ########.fr        #
+#    Updated: 2023/03/18 16:01:04 by shimakaori       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,12 @@ SRCS		= 	main.c          \
 				cmd_exec.c      \
 				utils.c         \
 				mslist.c 	    \
-				execlist.c      \
 				exec_lstnew.c   \
 				exec_lstclear.c \
+				add_execlist.c  \
+				add_cmdlist.c   \
+				add_redlist.c   \
+				add_envlist.c   \
 				error.c         \
 				print_error.c   \
 				ft_exit.c       \
