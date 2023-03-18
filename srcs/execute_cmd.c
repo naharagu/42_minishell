@@ -6,12 +6,11 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 17:39:47 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/16 22:33:24 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "minishell.h"
-#include "../include/minishell.h"
+#include "minishell.h"
 
 static void	free_path(char **path)
 {
@@ -54,13 +53,13 @@ static char	*search_path(t_minishell *ms, char *file)
 	return (NULL);
 }
 
-void init_pipe_fd(int fd[2])
+void	init_pipe_fd(int fd[2])
 {
 	fd[0] = STDIN_FILENO;
 	fd[1] = STDOUT_FILENO;
 }
 
-void close_fd(int fd[2])
+void	close_fd(int fd[2])
 {
 	if (fd[0] != STDIN_FILENO)
 		close(fd[0]);
@@ -97,11 +96,12 @@ static void	execute_one_cmd_helper(t_minishell *ms, t_execlist *exec)
 		return ;
 }
 
-static void	execute_one_cmd(t_minishell *ms, t_execlist *exec, int left_pipe[2], int right_pipe[2])
+static void	execute_one_cmd(t_minishell *ms, t_execlist *exec, int left_pipe[2],
+		int right_pipe[2])
 {
-	pid_t	pid;
+	pid_t		pid;
 	extern char	**environ;
-	int current_pipe[2];
+	int			current_pipe[2];
 
 	current_pipe[0] = left_pipe[0];
 	current_pipe[1] = right_pipe[1];
@@ -122,7 +122,7 @@ static void	execute_one_cmd(t_minishell *ms, t_execlist *exec, int left_pipe[2],
 
 void	execute_child_process(t_minishell *ms)
 {
-	int		wstatus;
+	int			wstatus;
 	t_execlist	*tmp_exec;
 	int			left_pipe[2];
 	int			right_pipe[2];
@@ -149,7 +149,6 @@ void	execute_cmd(t_minishell *ms)
 {
 	// pid_t	pid;
 	// int		status;
-
 	//シグナルの調整が必要
 	// if (ms->list->pipe == NO_PIPE)
 	// 	status = execute_one_cmd(ms);

@@ -6,11 +6,11 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 17:39:24 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/17 15:46:19 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
 void		minishell(t_minishell *ms);
 
@@ -44,8 +44,8 @@ void	minishell(t_minishell *ms)
 		parser(ms);
 		// print_execlist(ms);//
 		expansion(ms);
-		// print_cmdredlist(ms);//
-		redirect(ms);
+		print_cmdredlist(ms);//
+		// redirect(ms);
 		// cmd_exec(ms);//
 		execute_cmd(ms);
 		all_free(ms);
