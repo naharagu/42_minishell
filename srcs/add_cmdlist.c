@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 15:27:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 16:37:53 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 18:57:57 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,28 @@ void	add_cmdlist(t_minishell *ms, char *str)
 	cmd_lstadd_back(&ms->exec->cmd, tmp);
 }
 
+t_cmdlist	*cmd_lstlast(t_cmdlist *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
+
 void	cmd_lstadd_back(t_cmdlist **lst, t_cmdlist *new)
 {
-	t_cmdlist	*tmp;
+	t_cmdlist	*last;
 
 	if (!lst || !new)
 		return ;
-	if (!(*lst))
-		*lst = new;
-	else
+	if (*lst)
 	{
-		while ((*lst)->next)
-			(*lst) = (*lst)->next;
-		tmp = (*lst);
-		tmp->next = new;
+		last = cmd_lstlast(*lst);
+		last->next = new;
 	}
+	else
+		*lst = new;
 }
 
 int	cmd_lstsize(t_cmdlist *lst)
@@ -46,7 +53,7 @@ int	cmd_lstsize(t_cmdlist *lst)
 	if (!lst)
 		return (0);
 	size = 0;
-	while (lst->next)
+	while (lst)
 	{
 		size++;
 		lst = lst->next;

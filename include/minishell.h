@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 15:59:57 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 17:14:46 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,6 @@ typedef struct s_execlist
 typedef struct s_minishell
 {
 	int					exit_status;
-	char				*startline;
 	char				*line;
 	t_quote				quote;
 	t_mslist			*list;
@@ -268,7 +267,7 @@ void		free_argv(t_argv *argv);
 
 //print_list.c (for test)
 void		print_mslist(t_minishell *ms);
+void		print_cmdline(t_minishell *ms);
 void		print_execlist(t_minishell *ms);
-void		print_cmdredlist(t_minishell *ms);
 
 #endif

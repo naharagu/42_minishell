@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 15:49:43 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 18:57:34 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 	while (j < num && list->str)
 	{
 		new->cmdline[j] = ft_strdup(list->str);
-		//printf("cmdline[%zu]= %s\n", j, new->cmdline[j]);//
 		list = list->next;
 		j++;
 	}

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 15:35:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 15:52:24 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 18:29:17 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	red_lstsize(t_redlist *lst)
 	if (!lst)
 		return (0);
 	size = 0;
-	while (lst->next)
+	while (lst)
 	{
 		size++;
 		lst = lst->next;

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 15:56:49 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 16:00:01 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 18:29:05 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	env_lstsize(t_envlist *lst)
 	if (!lst)
 		return (0);
 	size = 0;
-	while (lst->next)
+	while (lst)
 	{
 		size++;
 		lst = lst->next;

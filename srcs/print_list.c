@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 17:16:13 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 18:24:49 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	print_execlist(t_minishell *ms)
 		startred = ms->exec->red;
 		startenv = ms->exec->env;
 		i = 0;
+		printf("cmdsize= %d\n", cmd_lstsize(ms->exec->cmd));
 		while (ms->exec->cmd)
 		{
 			printf("[exec:%zu]cmd[%zu]= %s(%zu)\n", j, i, \
@@ -80,6 +81,7 @@ void	print_execlist(t_minishell *ms)
 			i++;
 		}
 		i = 0;
+		printf("redsize= %d\n", red_lstsize(ms->exec->red));
 		while (ms->exec->red)
 		{
 			printf("[exec:%zu]red[%zu]= %s(%zu)\n", j, i, \
@@ -88,6 +90,7 @@ void	print_execlist(t_minishell *ms)
 			i++;
 		}
 		i = 0;
+		printf("envsize= %d\n", env_lstsize(ms->exec->env));
 		while (ms->exec->env)
 		{
 			printf("[exec:%zu]KEY[%zu]= %s(%zu) VALUE[%zu]= %s(%zu)\n", \
