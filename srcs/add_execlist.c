@@ -6,13 +6,14 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:49 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 15:35:54 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 19:06:50 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_lstadd_back(t_execlist **lst, t_execlist *new);
+void		exec_lstadd_back(t_execlist **lst, t_execlist *new);
+t_execlist	*exec_lstlast(t_execlist *lst);
 
 void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num)
 {
@@ -24,19 +25,26 @@ void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num)
 
 void	exec_lstadd_back(t_execlist **lst, t_execlist *new)
 {
-	t_execlist	*tmp;
+	t_execlist	*last;
 
 	if (!lst || !new)
 		return ;
-	if (!(*lst))
-		*lst = new;
-	else
+	if (*lst)
 	{
-		while ((*lst)->next)
-			(*lst) = (*lst)->next;
-		tmp = (*lst);
-		tmp->next = new;
+		last = exec_lstlast(*lst);
+		last->next = new;
 	}
+	else
+		*lst = new;
+}
+
+t_execlist	*exec_lstlast(t_execlist *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
 }
 
 int	exec_lstsize(t_execlist *lst)

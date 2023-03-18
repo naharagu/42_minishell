@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:09:56 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 14:51:20 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 19:11:41 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_exit(t_minishell *ms, int argc, char **argv)
 	char	*arg;
 
 	if (argc > 2)
-		other_error(ms, "exit", "too many arguments", 0);
+		other_error(ms, "exit", "too many arguments", 1);
 	else if (argc == 2)
 	{
 		arg = argv[1];

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 21:17:59 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 17:32:25 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 19:09:34 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_argv	*list_to_argv(t_minishell *ms, t_execlist *exec)
 	argv = init_argv(ms);
 	i = 0;
 	argv->argc = cmd_lstsize(exec->cmd);
-	printf("argc= %d\n", argv->argc);//
+	//printf("argc= %d\n", argv->argc);//
 	argv->argv = malloc(sizeof(char *) * argv->argc);
 	if (!argv->argv)
 		exit_error(ms, "malloc");
@@ -29,7 +29,7 @@ t_argv	*list_to_argv(t_minishell *ms, t_execlist *exec)
 	while (i < argv->argc)
 	{
 		argv->argv[i] = ft_strdup(ms->exec->cmd->str);
-		printf("argv[%d]= %s\n", i, argv->argv[i]);//
+		//printf("argv[%d]= %s\n", i, argv->argv[i]);//
 		ms->exec->cmd = ms->exec->cmd->next;
 		i++;
 	}

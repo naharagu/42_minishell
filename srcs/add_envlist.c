@@ -6,13 +6,14 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 15:56:49 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 18:29:05 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 19:05:04 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	env_lstadd_back(t_envlist **lst, t_envlist *new);
+void		env_lstadd_back(t_envlist **lst, t_envlist *new);
+t_envlist	*env_lstlast(t_envlist *lst);
 
 void	add_envlist(t_minishell *ms, char *key, char *value)
 {
@@ -24,19 +25,26 @@ void	add_envlist(t_minishell *ms, char *key, char *value)
 
 void	env_lstadd_back(t_envlist **lst, t_envlist *new)
 {
-	t_envlist	*tmp;
+	t_envlist	*last;
 
 	if (!lst || !new)
 		return ;
-	if (!(*lst))
-		*lst = new;
-	else
+	if (*lst)
 	{
-		while ((*lst)->next)
-			(*lst) = (*lst)->next;
-		tmp = (*lst);
-		tmp->next = new;
+		last = env_lstlast(*lst);
+		last->next = new;
 	}
+	else
+		*lst = new;
+}
+
+t_envlist	*env_lstlast(t_envlist *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
 }
 
 int	env_lstsize(t_envlist *lst)
