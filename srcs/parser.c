@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 16:38:08 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 16:40:57 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static void	check_execlist(t_minishell *ms)
 		i = 0;
 		while (ms->exec->cmdline[i])
 		{
-			//printf("cmdline[%zu]= %s\n", i, ms->exec->cmdline[i]);//
 			upchar = toupper_char(ms->exec->cmdline[i]);
 			check_cmdtype(ms, upchar);
 			free(upchar);

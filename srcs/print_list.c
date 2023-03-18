@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 16:37:05 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 17:16:13 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	print_mslist(t_minishell *ms)
 	printf("lstsize= %d\n", ms_lstsize(ms->list));
 	while (ms->list)
 	{
-		printf("list[%ld]: %s(%zu)\n", i, ms->list->str, \
+		printf("list[%zu]: %s(%zu)\n", i, ms->list->str, \
 			ft_strlen(ms->list->str));
 		ms->list = ms->list->next;
 		i++;
@@ -30,7 +30,7 @@ void	print_mslist(t_minishell *ms)
 	ms->list = start;
 }
 
-void	print_execlist(t_minishell *ms)
+void	print_cmdline(t_minishell *ms)
 {
 	t_execlist	*startexec;
 	size_t		i;
@@ -44,7 +44,7 @@ void	print_execlist(t_minishell *ms)
 		i = 0;
 		while (ms->exec->cmdline[i])
 		{
-			printf("[exec:%ld]cmdline[%ld]= %s(%zu)\n", j, i, \
+			printf("[exec:%zu]cmdline[%zu]= %s(%zu)\n", j, i, \
 				ms->exec->cmdline[i], ft_strlen(ms->exec->cmdline[i]));
 			i++;
 		}
@@ -54,24 +54,27 @@ void	print_execlist(t_minishell *ms)
 	ms->exec = startexec;
 }
 
-void	print_cmdredlist(t_minishell *ms)
+void	print_execlist(t_minishell *ms)
 {
 	t_execlist	*startexec;
 	t_cmdlist	*startcmd;
 	t_redlist	*startred;
+	t_envlist	*startenv;
 	size_t		i;
 	size_t		j;
 
 	startexec = ms->exec;
+	printf("execsize= %d\n", exec_lstsize(ms->exec));
 	j = 0;
 	while (ms->exec)
 	{
 		startcmd = ms->exec->cmd;
 		startred = ms->exec->red;
+		startenv = ms->exec->env;
 		i = 0;
 		while (ms->exec->cmd)
 		{
-			printf("[exec:%ld]cmd[%ld]= %s(%zu)\n", j, i, \
+			printf("[exec:%zu]cmd[%zu]= %s(%zu)\n", j, i, \
 				ms->exec->cmd->str, ft_strlen(ms->exec->cmd->str));
 			ms->exec->cmd = ms->exec->cmd->next;
 			i++;
@@ -79,13 +82,23 @@ void	print_cmdredlist(t_minishell *ms)
 		i = 0;
 		while (ms->exec->red)
 		{
-			printf("[exec:%ld]red[%ld]= %s(%zu)\n", j, i, \
+			printf("[exec:%zu]red[%zu]= %s(%zu)\n", j, i, \
 				ms->exec->red->str, ft_strlen(ms->exec->red->str));
 			ms->exec->red = ms->exec->red->next;
 			i++;
 		}
+		i = 0;
+		while (ms->exec->env)
+		{
+			printf("[exec:%zu]KEY[%zu]= %s(%zu) VALUE[%zu]= %s(%zu)\n", \
+			j, i, ms->exec->env->key, ft_strlen(ms->exec->env->key), \
+			i, ms->exec->env->value, ft_strlen(ms->exec->env->value));
+			ms->exec->env = ms->exec->env->next;
+			i++;
+		}
 		ms->exec->cmd = startcmd;
 		ms->exec->red = startred;
+		ms->exec->env = startenv;
 		ms->exec = ms->exec->next;
 		j++;
 	}

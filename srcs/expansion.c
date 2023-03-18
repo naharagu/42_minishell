@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 16:05:39 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 17:00:41 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	expansion(t_minishell *ms)
 	startexec = ms->exec;
 	while (ms->exec)
 	{
-		add_envlist(ms, "key", "hoge fuga");
+		add_envlist(ms, "key", "hoge fuga");//
 		startcmd = ms->exec->cmd;
 		startred = ms->exec->red;
 		while (ms->exec->cmd)
@@ -51,7 +51,6 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, t_execlist *exec)
 	t_envlist	*startenv;
 
 	startenv = exec->env;
-	printf("cmdstrinexpand= %s\n", cmd->str);//
 	if (*cmd->str == '\'')
 		cmd->quote = S_QUOTE;
 	else if (*cmd->str == '\"')
