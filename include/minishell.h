@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/19 21:11:19 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/19 23:17:05 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,10 +208,11 @@ void		exec_command(t_execlist	*exec);
 void		read_fd(t_minishell *ms, int fd);
 
 //utils.c
-t_minishell	*init_struct_ms(void);
+t_minishell	*init_ms(void);
 char		*toupper_char(char *str);
 void		check_pipe(t_minishell *ms, char *str);
 void		all_free(t_minishell *ms);
+void		clear_ms(t_minishell *ms);
 
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);

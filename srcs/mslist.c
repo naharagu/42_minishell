@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:01:38 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 13:46:25 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/19 22:49:54 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_mslist	*ms_lstnew(size_t len, char *str)
 	t_mslist	*new;
 	size_t		j;
 
-	new = (t_mslist *)malloc(sizeof(t_mslist));
+	new = (t_mslist *)malloc(sizeof(t_mslist) * 2);
 	if (!new)
 		return (NULL);
 	new->str = ft_calloc(sizeof(char), (len + 1));
@@ -74,18 +74,23 @@ int	ms_lstsize(t_mslist *lst)
 void	ms_lstclear(t_mslist **lst)
 {
 	t_mslist	*tmp;
-	int			i;
+	t_mslist	*start;
 
-	if (!lst)
+	if (!lst || !(*lst))
 		return ;
-	i = 0;
-	while (i < ms_lstsize(*lst))
+	start = *lst;
+	while (*lst)
 	{
 		tmp = *lst;
-		*lst = (*lst)->next;
-		free(tmp->str);
+		if (tmp->str)
+		{
+			free(tmp->str);
+			tmp->str = NULL;
+		}
 		free(tmp);
-		i++;
+		tmp = NULL;
+		*lst = (*lst)->next;
 	}
-	*lst = (NULL);
+	*lst = start;
+	*lst = NULL;
 }

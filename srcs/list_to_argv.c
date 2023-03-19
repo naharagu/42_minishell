@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 21:17:59 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/19 13:23:25 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/19 22:21:40 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_argv	*init_argv(t_minishell *ms)
 {
 	t_argv		*argv;
 
-	argv = malloc (sizeof(t_argv));
+	argv = (t_argv *)malloc (sizeof(t_argv) * 1);
 	if (!argv)
 		exit_error(ms, "malloc");
 	argv->argc = 0;
