@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:09:56 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 23:39:37 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/19 11:53:31 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_exit(t_minishell *ms, int argc, char **argv)
 		{
 			if (!(ft_isdigit(*arg)))
 			{
-				ft_putendl_fd("exit", STDOUT_FILENO);
+				ft_putendl_fd("exit", STD_ERR);
 				numeric_error(ms, argv[1], "numeric argument required", 255);
 			}
 			arg++;
@@ -35,7 +35,7 @@ void	ft_exit(t_minishell *ms, int argc, char **argv)
 	}
 	else if (argc == 1)
 	{
-		ft_putendl_fd("exit", STDOUT_FILENO);
+		ft_putendl_fd("exit", STD_ERR);
 		exit(EXIT_SUCCESS);
 	}
 	else

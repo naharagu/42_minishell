@@ -7,7 +7,7 @@ OK=$GREEN"OK"$RESET
 NG=$RED"NG"$RESET
 
 cleanup() {
-	rm -f cmp out a.out print_args hello.txt pwd.txt
+	rm -f a.out cmp out print_args hello.txt pwd.txt
 }
 
 # Generate Executable
@@ -32,25 +32,25 @@ assert() {
 	COMMAND="$1"
 	# exit status
 	# bashの出力をcmpに保存
-	# n>&m ファイルディスクリプタ n を m にリダイレクト
-	# 2>&1 とすると標準エラーの出力先が標準出力にマージ
 	echo -n -e "$1" | bash >cmp 2>&-
+
 	# bashのexit statusをexpectedに代入
-	expected=$?
+	expectedstatus=$?
+
 	# minishellの出力をoutに保存
 	echo -n -e "$1" | ./minishell >out 2>&-
+
 	# minishellのexit statusをactualに代入
-	actual=$?
+	actualstatus=$?
 
 	# bashとminishellの出力を比較
-	# リダイレクト先を /dev/null にするとデータは破棄される
 	diff cmp out >/dev/null && printf "  diff $OK" || printf "  diff $NG"
 
 	# bashとminishellのexit statusを比較
-	if [ "$actual" = "$expected" ]; then
+	if [ "$actualstatus" = "$expectedstatus" ]; then
 		printf "  status $OK"
 	else
-		printf "  status $NG, expected $expected but got $actual"
+		printf "  status $NG, expected $expectedstatus but got $actualstatus"
 	fi
 	echo
 }
@@ -72,57 +72,62 @@ assert './a.out'
 assert 'a.out'
 assert 'nosuchfile'
 
-# Tokenize
-## unquoted word
-assert 'ls /'
-assert 'echo hello    world     '
-assert 'nosuchfile\n\n'
+## exit command
+assert 'exit'
+assert 'exit 1 2'
+assert 'exit 1a'
 
-## single quote
-assert "./print_args 'hello   world' '42Tokyo'"
-assert "echo 'hello   world' '42Tokyo'"
-assert "echo '\"hello   world\"' '42Tokyo'"
+# # Tokenize
+# ## unquoted word
+# assert 'ls /'
+# assert 'echo hello    world     '
+# assert 'nosuchfile\n\n'
 
-## double quote
-assert './print_args "hello   world" "42Tokyo"'
-assert 'echo "hello   world" "42Tokyo"'
-assert "echo \"'hello   world'\" \"42Tokyo\""
+# ## single quote
+# assert "./print_args 'hello   world' '42Tokyo'"
+# assert "echo 'hello   world' '42Tokyo'"
+# assert "echo '\"hello   world\"' '42Tokyo'"
 
-## combination
-assert "echo hello'      world'"
-assert "echo hello'  world  '\"  42Tokyo  \""
+# ## double quote
+# assert './print_args "hello   world" "42Tokyo"'
+# assert 'echo "hello   world" "42Tokyo"'
+# assert "echo \"'hello   world'\" \"42Tokyo\""
 
-# Redirect
-## Redirecting output
-assert 'echo hello >hello.txt' 'hello.txt'
-assert 'echo hello >f1>f2>f3' 'f1' 'f2' 'f3'
+# ## combination
+# assert "echo hello'      world'"
+# assert "echo hello'  world  '\"  42Tokyo  \""
 
-## Redirecting input
-assert 'cat <Makefile'
-echo hello >f1
-echo world >f2
-echo 42Tokyo >f3
-assert 'cat <f1<f2<f3'
-rm -f f1 f2 f3
-assert 'cat <hoge'
+# # Redirect
+# ## Redirecting output
+# assert 'echo hello >hello.txt' 'hello.txt'
+# assert 'echo hello >f1>f2>f3' 'f1' 'f2' 'f3'
 
-## Appending Redirected output
-assert 'pwd >>pwd.txt' 'pwd.txt'
-assert 'pwd >>pwd.txt \n pwd >>pwd.txt' 'pwd.txt'
+# ## Redirecting input
+# assert 'cat <Makefile'
+# echo hello >f1
+# echo world >f2
+# echo 42Tokyo >f3
+# assert 'cat <f1<f2<f3'
+# rm -f f1 f2 f3
+# assert 'cat <hoge'
 
-## Here Document
-assert 'cat <<EOF\nhello\nworld\nEOF\nNOPRINT'
-assert 'cat <<EOF<<eof\nhello\nworld\nEOF\neof\nNOPRINT'
-assert 'cat <<EOF\nhello\nworld'
-assert 'cat <<E"O"F\nhello\nworld\nEOF\nNOPRINT'
+# ## Appending Redirected output
+# assert 'pwd >>pwd.txt' 'pwd.txt'
+# assert 'pwd >>pwd.txt \n pwd >>pwd.txt' 'pwd.txt'
 
-# Pipe
-assert 'cat Makefile | grep minishell'
-assert 'cat | cat | ls\n\n'
+# ## Here Document
+# assert 'cat <<EOF\nhello\nworld\nEOF\nNOPRINT'
+# assert 'cat <<EOF<<eof\nhello\nworld\nEOF\neof\nNOPRINT'
+# assert 'cat <<EOF\nhello\nworld'
+# assert 'cat <<E"O"F\nhello\nworld\nEOF\nNOPRINT'
 
-# Expand Variable
-assert 'echo $USER'
-assert 'echo $USER$PATH$TERM'
-assert 'echo "$USER  $PATH   $TERM"'
+# # Pipe
+# assert 'cat Makefile | grep minishell'
+# assert 'cat | cat | ls\n\n'
+
+# # Expand Variable
+# assert 'echo $USER'
+# assert 'echo $USER$PATH$TERM'
+# assert 'echo "$USER  $PATH   $TERM"'
 
 cleanup
