@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/19 11:56:28 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/19 09:19:24 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include <dirent.h>
 # include <sys/ioctl.h>
 # include <termios.h>
-# include <termcap.h> 
+# include <termcap.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
@@ -222,8 +222,9 @@ void		ms_lstclear(t_mslist **lst);
 
 //exec_listnew.c
 t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num);
-t_cmdlist	*cmd_lstnew(t_minishell *ms, t_cmdlist *cmd);
-t_redlist	*red_lstnew(t_minishell *ms, t_redlist *red);
+t_cmdlist	*cmd_lstnew(t_minishell *ms, char *str);
+t_redlist	*red_lstnew(t_minishell *ms, char *str);
+t_envlist	*env_lstnew(t_minishell *ms, char *key, char *value);
 
 //execlist.c
 void		exec_lstadd_back(t_execlist **lst, t_execlist *new);
