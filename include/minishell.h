@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 17:14:46 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/19 21:11:19 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # include <dirent.h>
 # include <sys/ioctl.h>
 # include <termios.h>
-# include <termcap.h> 
+# include <termcap.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
