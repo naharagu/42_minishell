@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:55:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 14:50:30 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/19 12:35:29 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	cmd_exec(t_minishell *ms)
 {
 	t_execlist	*startexec;
 	t_argv		*argv;
-	size_t		i;
+	//size_t		i;//
 
-	i = 0;
+	//i = 0;//
 	startexec = ms->exec;
 	argv = init_argv(ms);
 	while (ms->exec)
@@ -31,11 +31,16 @@ void	cmd_exec(t_minishell *ms)
 		if (ms->exec->cmdtype == EXIT_CMD)
 		{
 			argv = list_to_argv(ms, ms->exec);
+			// printf("argc= %d\n", argv->argc);//
+			// while(argv->argv[i])//
+			// {//
+			// 	printf("argv[%zu]= %s\n", i, argv->argv[i]);//
+			// 	i++;//
+			// }//
 			ft_exit (ms, argv->argc, argv->argv);
 			free_argv(argv);
 		}
 		ms->exec = ms->exec->next;
-		i++;
 	}
 	ms->exec = startexec;
 }
