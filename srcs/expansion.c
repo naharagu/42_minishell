@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 17:54:48 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/19 23:57:18 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 	t_envlist	*startenv;
 
 	startenv = ms->exec->env;
-	if (*cmd->str == '\'')
+	if (cmd->str && *cmd->str == '\'')
 		cmd->quote = S_QUOTE;
-	else if (*cmd->str == '\"')
+	else if (cmd->str && *cmd->str == '\"')
 		cmd->quote = D_QUOTE;
-	if (cmd->quote == S_QUOTE || cmd->quote == D_QUOTE)
+	if (cmd->str && (cmd->quote == S_QUOTE || cmd->quote == D_QUOTE))
 		cmd->str = ft_strtrim(cmd->str, "\'\"");
-	if (*cmd->str == '$' && cmd->quote != S_QUOTE)
+	if (cmd->str && *cmd->str == '$' && cmd->quote != S_QUOTE)
 	{
 		cmd->str++;
 		while (ms->exec->env)
@@ -74,13 +74,13 @@ static void	expand_red(t_minishell *ms, t_redlist *red)
 	t_envlist	*startenv;
 
 	startenv = ms->exec->env;
-	if (*red->str == '\'')
+	if (red->str && *red->str == '\'')
 		red->quote = S_QUOTE;
-	else if (*red->str == '\"')
+	else if (red->str && *red->str == '\"')
 		red->quote = D_QUOTE;
-	if (red->quote == S_QUOTE || red->quote == D_QUOTE)
+	if (red->str && (red->quote == S_QUOTE || red->quote == D_QUOTE))
 		red->str = ft_strtrim(red->str, "\'\"");
-	if (*red->str == '$' && red->quote != S_QUOTE)
+	if (red->str && *red->str == '$' && red->quote != S_QUOTE)
 	{
 		red->str++;
 		while (ms->exec->env)

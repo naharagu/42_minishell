@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 18:24:49 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 00:06:42 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	print_execlist(t_minishell *ms)
 		startenv = ms->exec->env;
 		i = 0;
 		printf("cmdsize= %d\n", cmd_lstsize(ms->exec->cmd));
-		while (ms->exec->cmd)
+		while (ms->exec->cmd && ms->exec->cmd->str)
 		{
 			printf("[exec:%zu]cmd[%zu]= %s(%zu)\n", j, i, \
 				ms->exec->cmd->str, ft_strlen(ms->exec->cmd->str));
@@ -82,7 +82,7 @@ void	print_execlist(t_minishell *ms)
 		}
 		i = 0;
 		printf("redsize= %d\n", red_lstsize(ms->exec->red));
-		while (ms->exec->red)
+		while (ms->exec->red && ms->exec->red->str)
 		{
 			printf("[exec:%zu]red[%zu]= %s(%zu)\n", j, i, \
 				ms->exec->red->str, ft_strlen(ms->exec->red->str));
@@ -91,7 +91,7 @@ void	print_execlist(t_minishell *ms)
 		}
 		i = 0;
 		printf("envsize= %d\n", env_lstsize(ms->exec->env));
-		while (ms->exec->env)
+		while (ms->exec->env && ms->exec->env->key && ms->exec->env->value)
 		{
 			printf("[exec:%zu]KEY[%zu]= %s(%zu) VALUE[%zu]= %s(%zu)\n", \
 			j, i, ms->exec->env->key, ft_strlen(ms->exec->env->key), \
