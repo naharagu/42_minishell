@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 13:03:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 15:13:21 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 16:14:35 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	free_cmdline(char **cmdline)
 {
 	char	**tmp;
 
-	if (cmdline)
+	if (!cmdline)
 		return ;
 	tmp = cmdline;
 	while (*tmp)
@@ -61,6 +61,8 @@ void	cmd_lstclear(t_cmdlist **lst)
 	while (*lst)
 	{
 		tmp = *lst;
+		if (tmp->str)
+			free(tmp->str);
 		free(tmp);
 		*lst = (*lst)->next;
 	}
@@ -76,6 +78,8 @@ void	red_lstclear(t_redlist **lst)
 	while (*lst)
 	{
 		tmp = *lst;
+		if (tmp->str)
+			free(tmp->str);
 		free(tmp);
 		*lst = (*lst)->next;
 	}
@@ -91,6 +95,10 @@ void	env_lstclear(t_envlist **lst)
 	while (*lst)
 	{
 		tmp = *lst;
+		if (tmp->key)
+			free(tmp->key);
+		if (tmp->value)
+			free(tmp->value);
 		free(tmp);
 		*lst = (*lst)->next;
 	}

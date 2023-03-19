@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 16:00:27 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/19 11:56:28 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,6 @@ typedef struct s_execlist
 typedef struct s_minishell
 {
 	int					exit_status;
-	char				*startline;
 	char				*line;
 	t_quote				quote;
 	t_mslist			*list;
@@ -225,8 +224,6 @@ void		ms_lstclear(t_mslist **lst);
 t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num);
 t_cmdlist	*cmd_lstnew(t_minishell *ms, t_cmdlist *cmd);
 t_redlist	*red_lstnew(t_minishell *ms, t_redlist *red);
-t_envlist	*env_lstnew(t_minishell *ms, t_envlist *env);
-t_heredoc	*heredoc_lstnew(t_minishell *ms, t_heredoc *heredoc);
 
 //execlist.c
 void		exec_lstadd_back(t_execlist **lst, t_execlist *new);
@@ -236,6 +233,22 @@ int			cmd_lstsize(t_cmdlist *lst);
 
 //exec_lstclear.c
 void		exec_lstclear(t_execlist **lst);
+
+//add_execlist.c
+void		add_execlist(t_minishell *ms, t_mslist	*first, size_t num);
+int			exec_lstsize(t_execlist *lst);
+
+//add_cmdlist.c
+void		add_cmdlist(t_minishell *ms, char *str);
+int			cmd_lstsize(t_cmdlist *lst);
+
+//add_redlist.c
+void		add_redlist(t_minishell *ms, char *str);
+int			red_lstsize(t_redlist *lst);
+
+//add_envlist.c
+void		add_envlist(t_minishell *ms, char *key, char *value);
+int			env_lstsize(t_envlist *lst);
 
 //error.c
 void		error_lexer(t_minishell *ms);
@@ -258,7 +271,7 @@ void		free_argv(t_argv *argv);
 
 //print_list.c (for test)
 void		print_mslist(t_minishell *ms);
+void		print_cmdline(t_minishell *ms);
 void		print_execlist(t_minishell *ms);
-void		print_cmdredlist(t_minishell *ms);
 
 #endif

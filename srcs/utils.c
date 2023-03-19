@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 15:16:26 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 16:50:20 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_minishell	*init_struct_ms(void)
 	if (!ms)
 		exit_error(ms, "malloc");
 	ms->exit_status = 0;
-	ms->startline = NULL;
 	ms->line = NULL;
 	ms->quote = NO_QUOTE;
 	ms->list = NULL;
@@ -53,9 +52,8 @@ void	check_pipe(t_minishell *ms, char *str)
 
 void	all_free(t_minishell *ms)
 {
-	if (!ms || !(ms->startline))
+	if (!ms)
 		return ;
-	free(ms->startline);
 	ms_lstclear(&ms->list);
 	exec_lstclear(&ms->exec);
 }

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 21:17:59 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 14:28:14 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 23:42:24 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_argv	*list_to_argv(t_minishell *ms, t_execlist *exec)
 	while (i < argv->argc)
 	{
 		argv->argv[i] = ft_strdup(ms->exec->cmd->str);
-		//printf("argv[%d]= %s\n", i, argv->argv[i]);//
 		ms->exec->cmd = ms->exec->cmd->next;
 		i++;
 	}

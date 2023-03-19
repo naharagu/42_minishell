@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 09:58:04 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/18 18:58:32 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,37 +45,25 @@ void	parser(t_minishell *ms)
 	error_parser_execlist(ms);
 }
 
-void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num)
-{
-	t_execlist	*tmp;
-
-	tmp = exec_lstnew(ms, first, num);
-	exec_lstadd_back(&ms->exec, tmp);
-}
-
 static void	check_execlist(t_minishell *ms)
 {
 	t_execlist	*startexec;
-	t_cmdlist	*startcmd;
-	t_redlist	*startred;
+	char		*upchar;
 	size_t		i;
 
 	startexec = ms->exec;
 	while (ms->exec)
 	{
-		startcmd = ms->exec->cmd;
-		startred = ms->exec->red;
 		i = 0;
 		while (ms->exec->cmdline[i])
 		{
-			check_cmdtype(ms, toupper_char(ms->exec->cmdline[i]));
-			free(toupper_char(ms->exec->cmdline[i]));
+			upchar = toupper_char(ms->exec->cmdline[i]);
+			check_cmdtype(ms, upchar);
+			free(upchar);
 			check_redtype(ms, ms->exec->cmdline[i]);
 			copy_cmd_red_list(ms, ms->exec->cmdline[i]);
 			i++;
 		}
-		ms->exec->cmd = startcmd;
-		ms->exec->red = startred;
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;
@@ -85,14 +73,10 @@ static void	copy_cmd_red_list(t_minishell *ms, char *str)
 {
 	if (ms->exec->redtype == NO_REDIRECT)
 	{
-		ms->exec->cmd->str = str;
-		ms->exec->cmd->next = cmd_lstnew(ms, ms->exec->cmd->next);
-		ms->exec->cmd = ms->exec->cmd->next;
+		add_cmdlist(ms, str);
 	}
 	else if (ms->exec->redtype != NO_REDIRECT)
 	{
-		ms->exec->red->str = str;
-		ms->exec->red->next = red_lstnew(ms, ms->exec->red->next);
-		ms->exec->red = ms->exec->red->next;
+		add_redlist(ms, str);
 	}
 }
