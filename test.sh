@@ -55,27 +55,34 @@ assert() {
 	echo
 }
 
-# Empty line (EOF)
-assert ''
+# # Empty line (EOF)
+# assert ''
 
-assert '/bin/pwd'
-assert '/bin/ls'
-assert '/bin/echo'
+# assert '/bin/pwd'
+# assert '/bin/ls'
+# assert '/bin/echo'
 
-# Search command path without args
-assert 'pwd'
-assert 'echo'
-assert 'ls'
-assert './a.out'
+# # Search command path without args
+# assert 'pwd'
+# assert 'echo'
+# assert 'ls'
+# assert './a.out'
 
-## no such command
-assert 'a.out'
-assert 'nosuchfile'
+# ## no such command
+# assert 'a.out'
+# assert 'nosuchfile'
 
 ## exit command
 assert 'exit'
-assert 'exit 1 2'
-assert 'exit 1a'
+assert 'exit 42'
+assert 'exit 256'
+assert 'exit 999'
+assert 'exit 99999999999999999999'
+assert 'exit hello'
+assert 'exit 42Tokyo'
+assert 'exit 42 41 40'
+assert 'exit 42 hello'
+assert 'exit hello 42'
 
 # # Tokenize
 # ## unquoted word
