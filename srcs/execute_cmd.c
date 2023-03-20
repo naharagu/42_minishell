@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 19:59:42 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/20 23:26:27 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void	execute_child_process_helper(t_minishell *ms, t_execlist *exec)
 		return ;
 }
 
-static void	execute_child_process(t_minishell *ms, t_execlist *exec)
+static pid_t execute_child_process(t_minishell *ms, t_execlist *exec)
 {
 	pid_t		pid;
 	extern char	**environ;
@@ -102,11 +102,41 @@ static void	execute_child_process(t_minishell *ms, t_execlist *exec)
 	setup_parent_pipe(exec);
 	if (exec->next)
 		return (execute_child_process(ms, exec->next));
+	return (pid);
 }
 
-void	execute_cmd(t_minishell *ms)
+int	wait_child_process(t_minishell *ms, pid_t last_pid)
 {
-	// pid_t	pid;
+	pid_t	wait_result;
+	int		status;
+	int		wstatus;
+
+	while (1)
+	{
+		wait_result = wait(&wstatus);
+		if (wait_result == last_pid)
+		{
+			if (WIFSIGNALED(wstatus))
+				status = 128 + WTERMSIG(wstatus);
+			else
+				status = WEXITSTATUS(wstatus);
+		}
+		else if (wait_result < 0)
+		{
+			if (errno == ECHILD)
+				break ;
+			else if (errno == EINTR)
+				continue ;
+			else
+				exit_error(ms, "wait");
+		}
+	}
+	return (status);
+}
+
+int	execute_cmd(t_minishell *ms)
+{
+	pid_t	last_pid;
 	int		status;
 
 
@@ -115,7 +145,8 @@ void	execute_cmd(t_minishell *ms)
 	// 	status = execute_single_cmd(ms);
 	// else
 	// printf("test1!\n");
-	execute_child_process(ms, ms->exec);
-	wait(&status);
+	last_pid = execute_child_process(ms, ms->exec);
+	status = wait_child_process(ms, last_pid);
+	return (status);
 	//シグナルの調整が必要
 }
