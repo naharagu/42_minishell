@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:17:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 16:15:51 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 15:47:40 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	syntax_error(t_minishell *ms, char *location, int status)
 	}
 	else
 		ft_putendl_fd(location, STD_ERR);
+	clear_ms(ms);
 	minishell(ms);
 }
 
@@ -45,5 +46,6 @@ void	other_error(t_minishell *ms, char *location, char *msg, int status)
 	ft_putstr_fd(location, STD_ERR);
 	ft_putstr_fd(": ", STD_ERR);
 	ft_putendl_fd(msg, STD_ERR);
+	clear_ms(ms);
 	minishell(ms);
 }
