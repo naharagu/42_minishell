@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 22:33:24 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/19 20:41:47 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	close_fd(int fd[2])
 		close(fd[1]);
 }
 
-static void	execute_one_cmd_helper(t_minishell *ms, t_execlist *exec)
+static void	execute_single_cmd_helper(t_minishell *ms, t_execlist *exec)
 {
 	extern char	**environ;
 	char		*path;
@@ -75,16 +75,9 @@ static void	execute_one_cmd_helper(t_minishell *ms, t_execlist *exec)
 
 	path = exec->cmd->str;
 	args = create_args_array(exec);
-	// int i = 0;
-	// while (args[i])
-	// {
-	// 	printf("arg is %s\n", args[i]);
-	// 	i++;
-	// }
 	if (!(ft_strchr(path, '/')))
 	{
 		path = search_path(ms, path);
-		// printf("path is %s\n", path);
 		if (!path)
 			return ;
 		if (access(path, F_OK) < 0)
@@ -96,7 +89,7 @@ static void	execute_one_cmd_helper(t_minishell *ms, t_execlist *exec)
 		return ;
 }
 
-static void	execute_one_cmd(t_minishell *ms, t_execlist *exec, int left_pipe[2],
+static void	execute_single_cmd(t_minishell *ms, t_execlist *exec, int left_pipe[2],
 		int right_pipe[2])
 {
 	pid_t		pid;
@@ -116,7 +109,7 @@ static void	execute_one_cmd(t_minishell *ms, t_execlist *exec, int left_pipe[2],
 		close_fd(current_pipe);
 		close_fd(left_pipe);
 		close_fd(right_pipe);
-		execute_one_cmd_helper(ms, exec);
+		execute_single_cmd_helper(ms, exec);
 	}
 }
 
@@ -135,7 +128,7 @@ void	execute_child_process(t_minishell *ms)
 			pipe(right_pipe);
 		else
 			init_pipe_fd(right_pipe);
-		execute_one_cmd(ms, tmp_exec, left_pipe, right_pipe);
+		execute_single_cmd(ms, tmp_exec, left_pipe, right_pipe);
 		close_fd(left_pipe);
 		left_pipe[0] = right_pipe[0];
 		left_pipe[1] = right_pipe[1];
@@ -151,7 +144,7 @@ void	execute_cmd(t_minishell *ms)
 	// int		status;
 	//シグナルの調整が必要
 	// if (ms->list->pipe == NO_PIPE)
-	// 	status = execute_one_cmd(ms);
+	// 	status = execute_single_cmd(ms);
 	// else
 	execute_child_process(ms);
 	//シグナルの調整が必要
