@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:55:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 12:00:21 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 16:08:27 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	cmd_exec(t_minishell *ms)
 			ms->argv = list_to_argv(ms, ms->exec);
 			ft_exit (ms, ms->argv->argc, ms->argv->argv);
 		}
+		if (ms->exec->cmdtype == CD_CMD)
+			ft_cd(ms, ms->exec->cmd->next->str);
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;
