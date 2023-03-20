@@ -6,12 +6,11 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 12:20:32 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/20 13:09:57 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "minishell.h"
-#include "../include/minishell.h"
+#include "minishell.h"
 
 static void	check_execlist(t_minishell *ms);
 static void	copy_cmd_red_list(t_minishell *ms, char *str);

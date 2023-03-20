@@ -6,12 +6,11 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/18 22:42:12 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/20 13:09:18 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "minishell.h"
-#include "../include/minishell.h"
+#include "minishell.h"
 
 int	ft_pwd(int argc, char **argv)
 {
