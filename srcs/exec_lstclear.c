@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 13:03:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/19 22:36:25 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 12:12:51 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,8 @@ void	cmd_lstclear(t_cmdlist **lst)
 	while (*lst)
 	{
 		tmp = *lst;
-		if (tmp->str)
-		{
-			free(tmp->str);
-			tmp->str = NULL;
-		}
+		free(tmp->str);
+		tmp->str = NULL;
 		free(tmp);
 		tmp = NULL;
 		*lst = (*lst)->next;
@@ -89,11 +86,8 @@ void	red_lstclear(t_redlist **lst)
 	while (*lst)
 	{
 		tmp = *lst;
-		if (tmp->str)
-		{
-			free(tmp->str);
-			tmp->str = NULL;
-		}
+		free(tmp->str);
+		tmp->str = NULL;
 		free(tmp);
 		tmp = NULL;
 		*lst = (*lst)->next;
@@ -110,16 +104,10 @@ void	env_lstclear(t_envlist **lst)
 	while (*lst)
 	{
 		tmp = *lst;
-		if (tmp->key)
-		{
-			free(tmp->key);
-			tmp->key = NULL;
-		}
-		if (tmp->value)
-		{
-			free(tmp->value);
-			tmp->value = NULL;
-		}
+		free(tmp->key);
+		tmp->key = NULL;
+		free(tmp->value);
+		tmp->value = NULL;
 		free(tmp);
 		tmp = NULL;
 		*lst = (*lst)->next;

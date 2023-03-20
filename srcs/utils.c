@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/19 23:17:41 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 12:08:05 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_minishell	*init_ms(void)
 	ms->quote = NO_QUOTE;
 	ms->list = NULL;
 	ms->exec = NULL;
+	ms->argv = init_argv(ms);
 	return (ms);
 }
 
@@ -54,8 +55,9 @@ void	all_free(t_minishell *ms)
 {
 	if (!ms)
 		return ;
-	ms_lstclear(&ms->list);
-	exec_lstclear(&ms->exec);
+	// ms_lstclear(&ms->list);
+	// exec_lstclear(&ms->exec);
+	// free_argv(ms->argv);
 	free (ms);
 }
 
@@ -63,6 +65,9 @@ void	clear_ms(t_minishell *ms)
 {
 	ms->line = NULL;
 	ms->quote = NO_QUOTE;
-	ms->list = NULL;
-	ms->exec = NULL;
+	// ms->list = NULL;
+	// ms->exec = NULL;
+	ms_lstclear(&ms->list);
+	exec_lstclear(&ms->exec);
+	free_argv(ms->argv);
 }

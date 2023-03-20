@@ -6,13 +6,12 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 18:58:32 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 11:34:10 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		add_execlist(t_minishell *ms, t_mslist	*first, size_t num);
 static void	check_execlist(t_minishell *ms);
 static void	copy_cmd_red_list(t_minishell *ms, char *str);
 
@@ -55,7 +54,7 @@ static void	check_execlist(t_minishell *ms)
 	while (ms->exec)
 	{
 		i = 0;
-		while (ms->exec->cmdline[i])
+		while (ms->exec && ms->exec->cmdline[i])
 		{
 			upchar = toupper_char(ms->exec->cmdline[i]);
 			check_cmdtype(ms, upchar);

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/19 23:50:10 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 11:37:38 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 	t_execlist	*new;
 	size_t		j;
 
-	new = (t_execlist *)malloc(sizeof(t_execlist) * 2);
+	new = (t_execlist *)malloc(sizeof(t_execlist) * 1);
 	new->cmdline = (char **)ft_calloc(sizeof (char *), num + 1);
 	if (!new || !new->cmdline)
 		exit_error(ms, "malloc");
@@ -37,10 +37,10 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 	new->redtype = NO_REDIRECT;
 	new->std_fd = STD_OUT;
 	new->err_fd = STD_ERR;
-	new->cmd = cmd_lstnew(ms, NULL);
-	new->red = red_lstnew(ms, NULL);
-	new->env = env_lstnew(ms, NULL, NULL);
-	new->heredoc = heredoc_lstnew(ms);
+	new->cmd = NULL;
+	new->red = NULL;
+	new->env = NULL;
+	new->heredoc = NULL;
 	new->next = NULL;
 	return (new);
 }
@@ -49,7 +49,7 @@ t_cmdlist	*cmd_lstnew(t_minishell *ms, char *str)
 {
 	t_cmdlist	*cmd;
 
-	cmd = (t_cmdlist *)malloc(sizeof(t_cmdlist) * 2);
+	cmd = (t_cmdlist *)malloc(sizeof(t_cmdlist) * 1);
 	if (!cmd)
 		exit_error (ms, "malloc");
 	if (str)
@@ -63,7 +63,7 @@ t_redlist	*red_lstnew(t_minishell *ms, char *str)
 {
 	t_redlist	*red;
 
-	red = (t_redlist *)malloc(sizeof(t_redlist) * 2);
+	red = (t_redlist *)malloc(sizeof(t_redlist) * 1);
 	if (!red)
 		exit_error (ms, "malloc");
 	if (str)
@@ -77,7 +77,7 @@ t_envlist	*env_lstnew(t_minishell *ms, char *key, char *value)
 {
 	t_envlist	*env;
 
-	env = (t_envlist *)malloc(sizeof(t_envlist) * 2);
+	env = (t_envlist *)malloc(sizeof(t_envlist) * 1);
 	if (!env)
 		exit_error (ms, "malloc");
 	if (key)

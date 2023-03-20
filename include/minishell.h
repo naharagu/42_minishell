@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/19 23:17:05 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 12:09:46 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,12 @@ typedef struct s_execlist
 	struct s_execlist	*next;
 }	t_execlist;
 
+typedef struct s_argv
+{
+	int					argc;
+	char				**argv;
+}	t_argv;
+
 typedef struct s_minishell
 {
 	int					exit_status;
@@ -150,13 +156,8 @@ typedef struct s_minishell
 	t_quote				quote;
 	t_mslist			*list;
 	t_execlist			*exec;
+	t_argv				*argv;
 }	t_minishell;
-
-typedef struct s_argv
-{
-	int					argc;
-	char				**argv;
-}	t_argv;
 
 // main.c
 void		minishell(t_minishell *ms);

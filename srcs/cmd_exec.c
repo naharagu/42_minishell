@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:55:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/19 23:27:21 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 12:00:21 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 void	cmd_exec(t_minishell *ms)
 {
 	t_execlist	*startexec;
-	t_argv		*argv;
 
 	startexec = ms->exec;
-	argv = init_argv(ms);
 	while (ms->exec)
 	{
 		if (ms->exec->cmdtype == ECHO_CMD && ms->exec->cmd->next)
@@ -27,9 +25,8 @@ void	cmd_exec(t_minishell *ms)
 			other_error(ms, ft_itoa(ms->exit_status), "command not found", 1);
 		if (ms->exec->cmdtype == EXIT_CMD)
 		{
-			argv = list_to_argv(ms, ms->exec);
-			ft_exit (ms, argv->argc, argv->argv);
-			free_argv(argv);
+			ms->argv = list_to_argv(ms, ms->exec);
+			ft_exit (ms, ms->argv->argc, ms->argv->argv);
 		}
 		ms->exec = ms->exec->next;
 	}
