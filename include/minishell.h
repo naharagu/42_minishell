@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 12:17:47 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/20 18:52:13 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,8 @@ typedef struct s_execlist
 	t_envlist			*env;
 	t_heredoc			*heredoc;
 	struct s_execlist	*next;
+	int					pipe_in[2];
+	int					pipe_out[2];
 }	t_execlist;
 
 typedef struct s_argv
