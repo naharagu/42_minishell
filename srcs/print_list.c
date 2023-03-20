@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 10:45:36 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 20:09:48 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	print_execlist(t_minishell *ms)
 		{
 			printf("[exec:%zu]red[%zu]= %s(%zu)\n", j, i, \
 				ms->exec->red->str, ft_strlen(ms->exec->red->str));
+			printf("redtype is %d\n", ms->exec->redtype);
 			ms->exec->red = ms->exec->red->next;
 			i++;
 		}

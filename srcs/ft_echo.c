@@ -6,11 +6,12 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/02/05 22:13:47 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/20 22:49:47 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+// #include "minishell.h"
+#include "../include/minishell.h"
 #include <stdbool.h>
 
 static bool	is_all_n(char *s)
@@ -34,7 +35,7 @@ static bool	skip_n_option(char **argv, size_t *i)
 	bool	n_option;
 
 	n_option = false;
-	while (argv[*i] && *(argv[*i] == '-'))
+	while (argv[*i] && (*argv[*i] == '-'))
 	{
 		if (!is_all_n(argv[*i]))
 			break ;
@@ -44,7 +45,7 @@ static bool	skip_n_option(char **argv, size_t *i)
 	return (n_option);
 }
 
-int	ft_echo(int argc, char **argv)
+int	ft_echo(size_t argc, char **argv)
 {
 	size_t	i;
 	bool	n_option;
@@ -67,7 +68,7 @@ int	main(int argc, char **argv)
 {
 	if (argc > 1)
 	{
-		ft_echo(argc, argv);
+		ft_echo((size_t)argc, argv);
 	}
 	return (0);
 }

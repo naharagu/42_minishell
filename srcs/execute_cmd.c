@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 19:37:54 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/20 19:59:42 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,19 @@ static char	*search_path(t_minishell *ms, char *file)
 	return (NULL);
 }
 
-static void	execute_single_cmd_helper(t_minishell *ms, t_execlist *exec)
+void	set_redirect(t_execlist *exec)
+{
+	(void) exec;
+	return ;
+}
+
+static void	execute_child_process_helper(t_minishell *ms, t_execlist *exec)
 {
 	extern char	**environ;
 	char		*path;
 	char		**args;
 
+	set_redirect(exec);
 	path = exec->cmd->str;
 	args = create_args_array(exec);
 	if (!(ft_strchr(path, '/')))
@@ -89,7 +96,7 @@ static void	execute_child_process(t_minishell *ms, t_execlist *exec)
 	{
 		// printf("pid is %d\n", pid);//
 		setup_child_pipe(exec);
-		execute_single_cmd_helper(ms, exec);
+		execute_child_process_helper(ms, exec);
 	}
 	// printf("pid is %d exec is %s\n", pid, exec->cmd->str);//
 	setup_parent_pipe(exec);
@@ -101,6 +108,8 @@ void	execute_cmd(t_minishell *ms)
 {
 	// pid_t	pid;
 	int		status;
+
+
 	//シグナルの調整が必要
 	// if (ms->list->pipe == NO_PIPE)
 	// 	status = execute_single_cmd(ms);
