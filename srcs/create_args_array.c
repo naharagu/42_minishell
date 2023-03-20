@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/15 22:14:54 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/20 12:42:25 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ static size_t	get_args_size(t_execlist *exec)
 	size_t		size;
 	t_cmdlist	*tmp_cmd;
 
-	size = 0;
+	size = 1;
 	tmp_cmd = exec->cmd;
 	while (tmp_cmd->next)
 	{
 		size++;
-		// printf("now: %s\n", tmp->str);
+		// printf("now: %s\n", tmp->str);//
 		tmp_cmd = tmp_cmd->next;
 	}
 	return (size);
@@ -36,7 +36,7 @@ char	**create_args_array(t_execlist *exec)
 	t_cmdlist	*tmp_cmd;
 
 	args_size = get_args_size(exec);
-	// printf("args size is %lu\n", args_size);
+	// printf("args size is %lu\n", args_size);//
 	if (args_size == 0)
 		return NULL;
 	args = ft_calloc(args_size + 1, sizeof(char *));
@@ -47,6 +47,7 @@ char	**create_args_array(t_execlist *exec)
 	while (i < args_size)
 	{
 		args[i] = ft_strdup(tmp_cmd->str);
+		// printf("arg %zu is: %s\n", i, args[i]);//
 		tmp_cmd = tmp_cmd->next;
 		i++;
 	}

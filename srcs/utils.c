@@ -6,14 +6,14 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 17:33:13 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/20 12:21:01 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include "minishell.h"
 #include "../include/minishell.h"
 
-t_minishell	*init_struct_ms(void)
+t_minishell	*init_ms(void)
 {
 	t_minishell	*ms;
 
@@ -21,12 +21,12 @@ t_minishell	*init_struct_ms(void)
 	if (!ms)
 		exit_error(ms, "malloc");
 	ms->exit_status = 0;
-	ms->startline = NULL;
 	ms->cmd_size = 0;
 	ms->line = NULL;
 	ms->quote = NO_QUOTE;
 	ms->list = NULL;
 	ms->exec = NULL;
+	ms->argv = init_argv(ms);
 	return (ms);
 }
 
@@ -53,11 +53,11 @@ void	check_pipe(t_minishell *ms, char *str)
 		ms->list->pipe = SEMICOLON;
 }
 
-void	all_free(t_minishell *ms)
+void	clear_ms(t_minishell *ms)
 {
-	if (!ms || !(ms->startline))
-		return ;
-	free(ms->startline);
+	ms->line = NULL;
+	ms->quote = NO_QUOTE;
 	ms_lstclear(&ms->list);
 	exec_lstclear(&ms->exec);
+	free_argv(&ms->argv);
 }

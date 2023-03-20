@@ -6,7 +6,7 @@
 #    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/16 17:43:25 by naharagu         ###   ########.fr        #
+#    Updated: 2023/03/20 12:18:01 by naharagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,12 +35,16 @@ SRCS		= 	main.c          \
 				cmd_exec.c      \
 				utils.c         \
 				mslist.c 	    \
-				execlist.c      \
 				exec_lstnew.c   \
 				exec_lstclear.c \
+				add_execlist.c  \
+				add_cmdlist.c   \
+				add_redlist.c   \
+				add_envlist.c   \
 				error.c         \
 				print_error.c   \
 				ft_exit.c       \
+				ft_cd.c         \
 				list_to_argv.c  \
 				print_list.c \
 				create_args_array.c \

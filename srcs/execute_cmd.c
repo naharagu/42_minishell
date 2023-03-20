@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/19 20:41:47 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/20 12:45:44 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ static void	execute_single_cmd_helper(t_minishell *ms, t_execlist *exec)
 
 	path = exec->cmd->str;
 	args = create_args_array(exec);
+	// printf("arg[0] is %s\n", args[0]);
+	// printf("arg[1] is %s\n", args[1]);
+	// printf("arg[2] is %s\n", args[2]);
 	if (!(ft_strchr(path, '/')))
 	{
 		path = search_path(ms, path);
@@ -146,6 +149,7 @@ void	execute_cmd(t_minishell *ms)
 	// if (ms->list->pipe == NO_PIPE)
 	// 	status = execute_single_cmd(ms);
 	// else
+	// printf("test1!\n");
 	execute_child_process(ms);
 	//シグナルの調整が必要
 }

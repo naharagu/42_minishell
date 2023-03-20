@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/17 15:46:19 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/20 12:35:57 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,39 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	(void)env;
-	ms = init_struct_ms();
+	ms = init_ms();
 	minishell(ms);
+	free (ms);
 	return (0);
 }
 
 void	minishell(t_minishell *ms)
 {
+	char	*line;
+
 	rl_outstream = stderr;
 	handle_signal(ms, SIGINT, DEFAULT);
 	ignore_signal(ms, SIGQUIT);
 	while (1)
 	{
-		ms->line = readline("minishell$ ");
-		if (!ms->line)
+		line = readline("minishell$ ");
+		if (!line)
 			break ;
-		if (*ms->line)
-			add_history(ms->line);
-		ms->startline = ms->line;
+		if (*line)
+			add_history(line);
+		ms->line = line;
 		lexer(ms);
 		//print_mslist(ms);//
 		parser(ms);
-		// print_execlist(ms);//
+		//print_cmdline(ms);//
+		//print_execlist(ms);//
 		expansion(ms);
-		print_cmdredlist(ms);//
+		// print_execlist(ms);//
 		// redirect(ms);
 		// cmd_exec(ms);//
 		execute_cmd(ms);
-		all_free(ms);
-		// system("leaks -q minishell");//
+		free(line);
+		clear_ms(ms);
 	}
 	exit(ms->exit_status);
 }

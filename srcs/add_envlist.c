@@ -1,35 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execlist.c                                         :+:      :+:    :+:   */
+/*   add_envlist.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 15:45:49 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 13:11:12 by shimakaori       ###   ########.fr       */
+/*   Created: 2023/03/18 15:56:49 by shimakaori        #+#    #+#             */
+/*   Updated: 2023/03/18 19:05:04 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exec_lstadd_back(t_execlist **lst, t_execlist *new)
+void		env_lstadd_back(t_envlist **lst, t_envlist *new);
+t_envlist	*env_lstlast(t_envlist *lst);
+
+void	add_envlist(t_minishell *ms, char *key, char *value)
 {
-	t_execlist	*tmp;
+	t_envlist	*tmp;
+
+	tmp = env_lstnew(ms, key, value);
+	env_lstadd_back(&ms->exec->env, tmp);
+}
+
+void	env_lstadd_back(t_envlist **lst, t_envlist *new)
+{
+	t_envlist	*last;
 
 	if (!lst || !new)
 		return ;
-	if (!(*lst))
-		*lst = new;
-	else
+	if (*lst)
 	{
-		while ((*lst)->next)
-			(*lst) = (*lst)->next;
-		tmp = (*lst);
-		tmp->next = new;
+		last = env_lstlast(*lst);
+		last->next = new;
 	}
+	else
+		*lst = new;
 }
 
-int	exec_lstsize(t_execlist *lst)
+t_envlist	*env_lstlast(t_envlist *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
+
+int	env_lstsize(t_envlist *lst)
 {
 	int			size;
 
@@ -37,36 +55,6 @@ int	exec_lstsize(t_execlist *lst)
 		return (0);
 	size = 0;
 	while (lst)
-	{
-		size++;
-		lst = lst->next;
-	}
-	return (size);
-}
-
-int	red_lstsize(t_redlist *lst)
-{
-	int			size;
-
-	if (!lst)
-		return (0);
-	size = 0;
-	while (lst->next)
-	{
-		size++;
-		lst = lst->next;
-	}
-	return (size);
-}
-
-int	cmd_lstsize(t_cmdlist *lst)
-{
-	int			size;
-
-	if (!lst)
-		return (0);
-	size = 0;
-	while (lst->next)
 	{
 		size++;
 		lst = lst->next;

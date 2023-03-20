@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 23:45:24 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/20 12:17:47 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,22 +144,22 @@ typedef struct s_execlist
 	struct s_execlist	*next;
 }	t_execlist;
 
-typedef struct s_minishell
-{
-	int					exit_status;
-	char				*startline;
-	char				*line;
-	size_t				cmd_size;
-	t_quote				quote;
-	t_mslist			*list;
-	t_execlist			*exec;
-}	t_minishell;
-
 typedef struct s_argv
 {
 	int					argc;
 	char				**argv;
 }	t_argv;
+
+typedef struct s_minishell
+{
+	int					exit_status;
+	char				*line;
+	size_t				cmd_size;
+	t_quote				quote;
+	t_mslist			*list;
+	t_execlist			*exec;
+	t_argv				*argv;
+}	t_minishell;
 
 // main.c
 void		minishell(t_minishell *ms);
@@ -211,10 +211,10 @@ void		exec_command(t_execlist	*exec);
 void		read_fd(t_minishell *ms, int fd);
 
 //utils.c
-t_minishell	*init_struct_ms(void);
+t_minishell	*init_ms(void);
 char		*toupper_char(char *str);
 void		check_pipe(t_minishell *ms, char *str);
-void		all_free(t_minishell *ms);
+void		clear_ms(t_minishell *ms);
 
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);
@@ -225,10 +225,9 @@ void		ms_lstclear(t_mslist **lst);
 
 //exec_listnew.c
 t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num);
-t_cmdlist	*cmd_lstnew(t_minishell *ms, t_cmdlist *cmd);
-t_redlist	*red_lstnew(t_minishell *ms, t_redlist *red);
-t_envlist	*env_lstnew(t_minishell *ms, t_envlist *env);
-t_heredoc	*heredoc_lstnew(t_minishell *ms, t_heredoc *heredoc);
+t_cmdlist	*cmd_lstnew(t_minishell *ms, char *str);
+t_redlist	*red_lstnew(t_minishell *ms, char *str);
+t_envlist	*env_lstnew(t_minishell *ms, char *key, char *value);
 
 //execlist.c
 void		exec_lstadd_back(t_execlist **lst, t_execlist *new);
@@ -238,6 +237,22 @@ int			cmd_lstsize(t_cmdlist *lst);
 
 //exec_lstclear.c
 void		exec_lstclear(t_execlist **lst);
+
+//add_execlist.c
+void		add_execlist(t_minishell *ms, t_mslist	*first, size_t num);
+int			exec_lstsize(t_execlist *lst);
+
+//add_cmdlist.c
+void		add_cmdlist(t_minishell *ms, char *str);
+int			cmd_lstsize(t_cmdlist *lst);
+
+//add_redlist.c
+void		add_redlist(t_minishell *ms, char *str);
+int			red_lstsize(t_redlist *lst);
+
+//add_envlist.c
+void		add_envlist(t_minishell *ms, char *key, char *value);
+int			env_lstsize(t_envlist *lst);
 
 //error.c
 void		error_lexer(t_minishell *ms);
@@ -253,15 +268,18 @@ void		other_error(t_minishell *ms, char *location, char *msg, int status);
 //ft_exit.c
 void		ft_exit(t_minishell *ms, int argc, char **argv);
 
+//ft_cd.c
+void		ft_cd(t_minishell *ms, char *newdir);
+
 //list_to_argv.c
 t_argv		*list_to_argv(t_minishell *ms, t_execlist *exec);
 t_argv		*init_argv(t_minishell *ms);
-void		free_argv(t_argv *argv);
+void		free_argv(t_argv **argv);
 
 //print_list.c (for test)
 void		print_mslist(t_minishell *ms);
+void		print_cmdline(t_minishell *ms);
 void		print_execlist(t_minishell *ms);
-void		print_cmdredlist(t_minishell *ms);
 
 //create_args_array.c
 char	**create_args_array(t_execlist *exec);

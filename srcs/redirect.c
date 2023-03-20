@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 18:46:00 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/20 12:21:06 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	redirect(t_minishell *ms)
 	while (ms->exec)
 	{
 		startred = ms->exec->red;
-		while (ms->exec->red->str)
+		while (ms->exec->red)
 		{
 			check_fd(ms->exec, ms->exec->red);
 			ms->exec->red = ms->exec->red->next;
