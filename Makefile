@@ -6,7 +6,7 @@
 #    By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/20 15:48:43 by shimakaori       ###   ########.fr        #
+#    Updated: 2023/03/20 15:55:03 by shimakaori       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRCS		= 	main.c          \
 				error.c         \
 				print_error.c   \
 				ft_exit.c       \
+				ft_cd.c         \
 				list_to_argv.c  \
 				print_list.c
 OBJS_DIR	=	./obj/

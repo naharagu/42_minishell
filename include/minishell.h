@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 13:28:41 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 16:07:05 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,6 +260,9 @@ void		other_error(t_minishell *ms, char *location, char *msg, int status);
 
 //ft_exit.c
 void		ft_exit(t_minishell *ms, int argc, char **argv);
+
+//ft_cd.c
+void		ft_cd(t_minishell *ms, char *newdir);
 
 //list_to_argv.c
 t_argv		*list_to_argv(t_minishell *ms, t_execlist *exec);
