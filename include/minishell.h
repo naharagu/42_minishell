@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 18:52:13 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/20 19:38:36 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,5 +288,10 @@ char	**create_args_array(t_execlist *exec);
 
 //execute_cmd.c
 void	execute_cmd(t_minishell *ms);
+
+//pipe.c
+void	setup_pipe(t_execlist *exec);
+void	setup_child_pipe(t_execlist *exec);
+void	setup_parent_pipe(t_execlist *exec);
 
 #endif

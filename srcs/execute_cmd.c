@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 19:35:17 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/20 19:37:54 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,34 +74,6 @@ static void	execute_single_cmd_helper(t_minishell *ms, t_execlist *exec)
 	}
 	else if (execve(path, args, environ) == -1)
 		return ;
-}
-
-void	setup_pipe(t_execlist *exec)
-{
-	if (exec->next == NULL)
-		return ;
-	pipe(exec->pipe_out);
-	exec->next->pipe_in[0] = exec->pipe_out[0];
-	exec->next->pipe_in[1] = exec->pipe_out[1];
-}
-
-void	setup_child_pipe(t_execlist *exec)
-{
-	close(exec->pipe_out[0]);
-	dup2(exec->pipe_in[0], STDIN_FILENO);
-	if (exec->pipe_in[0] != STDIN_FILENO)
-		close(exec->pipe_in[0]);
-	dup2(exec->pipe_out[1], STDOUT_FILENO);
-	if (exec->pipe_out[1] != STDOUT_FILENO)
-		close(exec->pipe_out[1]);
-}
-
-void	setup_parent_pipe(t_execlist *exec)
-{
-	if (exec->pipe_in[0] != STDIN_FILENO)
-		close(exec->pipe_in[0]);
-	if (exec->next)
-		close(exec->pipe_out[1]);
 }
 
 static void	execute_child_process(t_minishell *ms, t_execlist *exec)
