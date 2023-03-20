@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 12:08:00 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 12:49:50 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char **argv, char **env)
 	(void)env;
 	ms = init_ms();
 	minishell(ms);
-	all_free(ms);
+	free (ms);
 	return (0);
 }
 

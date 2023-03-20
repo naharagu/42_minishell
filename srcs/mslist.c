@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:01:38 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 12:24:54 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 12:48:26 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ void	ms_lstclear(t_mslist **lst)
 	while (*lst)
 	{
 		tmp = *lst;
+		*lst = (*lst)->next;
 		free(tmp->str);
 		free(tmp);
-		*lst = (*lst)->next;
 	}
 	*lst = NULL;
 }

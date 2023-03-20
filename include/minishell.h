@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 12:09:46 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 13:28:41 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,6 @@ void		read_fd(t_minishell *ms, int fd);
 t_minishell	*init_ms(void);
 char		*toupper_char(char *str);
 void		check_pipe(t_minishell *ms, char *str);
-void		all_free(t_minishell *ms);
 void		clear_ms(t_minishell *ms);
 
 //mslist.c
@@ -265,7 +264,7 @@ void		ft_exit(t_minishell *ms, int argc, char **argv);
 //list_to_argv.c
 t_argv		*list_to_argv(t_minishell *ms, t_execlist *exec);
 t_argv		*init_argv(t_minishell *ms);
-void		free_argv(t_argv *argv);
+void		free_argv(t_argv **argv);
 
 //print_list.c (for test)
 void		print_mslist(t_minishell *ms);

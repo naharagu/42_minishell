@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 16:59:32 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 14:40:31 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	interpret(t_minishell *ms)
 	argv = init_argv(ms);
 	pid = fork();
 	argv->argc = 2;
-	argv->argv = ft_calloc(2, sizeof(char **));
+	argv->argv = ft_calloc(sizeof(char *), 2);
 	if (!argv->argv)
 		exit_error(ms, "malloc");
 	if (ms->exec->cmd->str)
@@ -33,7 +33,7 @@ void	interpret(t_minishell *ms)
 		argv->argv[0] = ft_strdup(ms->exec->red->str);
 	argv->argv[1] = NULL;
 	if (pid < 0)
-		free_argv(argv);
+		free_argv(&argv);
 	else if (pid == 0)
 		child_process(ms, argv->argv);
 	else if (pid > 0)
@@ -41,7 +41,7 @@ void	interpret(t_minishell *ms)
 		wait(&wstatus);
 		ms->exit_status = WEXITSTATUS(wstatus);
 	}
-	free_argv(argv);
+	free_argv(&argv);
 }
 
 void	child_process(t_minishell *ms, char **argv)
