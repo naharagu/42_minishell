@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:29:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 10:25:42 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/19 21:35:29 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	heredoc_handler(int signum)
 	t_minishell	*ms;
 
 	(void)signum;
-	ms = init_struct_ms();
+	ms = init_ms();
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	ft_putchar_fd('\n', STDOUT_FILENO);

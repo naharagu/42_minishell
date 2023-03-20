@@ -6,13 +6,13 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 16:50:20 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 13:28:02 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_minishell	*init_struct_ms(void)
+t_minishell	*init_ms(void)
 {
 	t_minishell	*ms;
 
@@ -24,6 +24,7 @@ t_minishell	*init_struct_ms(void)
 	ms->quote = NO_QUOTE;
 	ms->list = NULL;
 	ms->exec = NULL;
+	ms->argv = init_argv(ms);
 	return (ms);
 }
 
@@ -50,10 +51,11 @@ void	check_pipe(t_minishell *ms, char *str)
 		ms->list->pipe = SEMICOLON;
 }
 
-void	all_free(t_minishell *ms)
+void	clear_ms(t_minishell *ms)
 {
-	if (!ms)
-		return ;
+	ms->line = NULL;
+	ms->quote = NO_QUOTE;
 	ms_lstclear(&ms->list);
 	exec_lstclear(&ms->exec);
+	free_argv(&ms->argv);
 }

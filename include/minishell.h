@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/19 21:12:48 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 14:45:58 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,12 @@ typedef struct s_execlist
 	struct s_execlist	*next;
 }	t_execlist;
 
+typedef struct s_argv
+{
+	int					argc;
+	char				**argv;
+}	t_argv;
+
 typedef struct s_minishell
 {
 	int					exit_status;
@@ -150,13 +156,8 @@ typedef struct s_minishell
 	t_quote				quote;
 	t_mslist			*list;
 	t_execlist			*exec;
+	t_argv				*argv;
 }	t_minishell;
-
-typedef struct s_argv
-{
-	int					argc;
-	char				**argv;
-}	t_argv;
 
 // main.c
 void		minishell(t_minishell *ms);
@@ -208,10 +209,10 @@ void		exec_command(t_execlist	*exec);
 void		read_fd(t_minishell *ms, int fd);
 
 //utils.c
-t_minishell	*init_struct_ms(void);
+t_minishell	*init_ms(void);
 char		*toupper_char(char *str);
 void		check_pipe(t_minishell *ms, char *str);
-void		all_free(t_minishell *ms);
+void		clear_ms(t_minishell *ms);
 
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);
@@ -268,7 +269,7 @@ void		ft_exit(t_minishell *ms, int argc, char **argv);
 //list_to_argv.c
 t_argv		*list_to_argv(t_minishell *ms, t_execlist *exec);
 t_argv		*init_argv(t_minishell *ms);
-void		free_argv(t_argv *argv);
+void		free_argv(t_argv **argv);
 
 //print_list.c (for test)
 void		print_mslist(t_minishell *ms);
