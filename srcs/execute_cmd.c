@@ -6,56 +6,15 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 23:26:27 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/21 10:48:26 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	free_path(char **path)
-{
-	size_t	i;
-
-	i = 0;
-	while (path[i])
-	{
-		free(path[i]);
-		i++;
-	}
-	free(path);
-}
-
-static char	*search_path(t_minishell *ms, char *file)
-{
-	char	**path;
-	char	*value;
-	char	*res;
-	size_t	i;
-
-	value = getenv("PATH");
-	path = ft_split(value, ':');
-	i = 0;
-	while (path[i])
-	{
-		path[i] = ft_strjoin(path[i], "/");
-		path[i] = ft_strjoin(path[i], file);
-		if (!(access(path[i], X_OK)))
-		{
-			res = ft_strdup(path[i]);
-			if (!res)
-				exit_error(ms, "malloc");
-			free_path(path);
-			return (res);
-		}
-		i++;
-	}
-	free_path(path);
-	return (NULL);
-}
-
 void	set_redirect(t_execlist *exec)
 {
-	(void) exec;
+	(void)exec;
 	return ;
 }
 
@@ -83,7 +42,7 @@ static void	execute_child_process_helper(t_minishell *ms, t_execlist *exec)
 		return ;
 }
 
-static pid_t execute_child_process(t_minishell *ms, t_execlist *exec)
+static pid_t	execute_child_process(t_minishell *ms, t_execlist *exec)
 {
 	pid_t		pid;
 	extern char	**environ;
@@ -138,7 +97,6 @@ int	execute_cmd(t_minishell *ms)
 {
 	pid_t	last_pid;
 	int		status;
-
 
 	//シグナルの調整が必要
 	// if (ms->list->pipe == NO_PIPE)

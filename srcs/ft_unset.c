@@ -12,13 +12,13 @@
 
 #include "minishell.h"
 
-bool is_valid_key_name(char *key)
+bool	is_valid_key_name(char *key)
 {
-	bool res;
+	bool	res;
 
 	res = true;
 	//
-	return res;
+	return (res);
 }
 
 void	delete_env_value(t_minishell *ms)
@@ -28,9 +28,9 @@ void	delete_env_value(t_minishell *ms)
 
 int	ft_unset(t_minishell *ms, t_execlist *exe)
 {
-	char **args;
-	int status;
-	size_t i;
+	char	**args;
+	int		status;
+	size_t	i;
 
 	args = create_args_array(ms);
 	status = EXIT_SUCCESS;
