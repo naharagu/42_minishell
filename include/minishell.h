@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 23:24:15 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/21 07:43:55 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,9 +165,6 @@ typedef struct s_minishell
 
 // main.c
 void		minishell(t_minishell *ms);
-
-//interpret.c
-void		interpret(t_minishell *ms);
 
 //signal.c
 void		handle_signal(t_minishell *ms, int signum, t_sig flag);
