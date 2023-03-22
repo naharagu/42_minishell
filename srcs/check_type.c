@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 18:24:24 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 17:36:39 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/22 18:10:45 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ void	check_cmdtype(t_minishell *ms, char *str)
 		ms->exec->cmdtype = EXIT_CMD;
 	else if (len == 2 && !(ft_strncmp("LS", str, len)))
 		ms->exec->cmdtype = LS_CMD;
-	else if (len == 2 && !(ft_strncmp("$?", str, len)))
-		ms->exec->cmdtype = SPC_CMD;
 	else if (is_othercmd(ms, str, len))
 		ms->exec->cmdtype = OTHER_CMD;
 }

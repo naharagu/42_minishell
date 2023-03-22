@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/22 15:35:46 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/22 18:33:06 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	expansion(t_minishell *ms)
 			ms->exec->cmd = ms->exec->cmd->next;
 		}
 		ms->exec->cmd = startcmd;
+		error_expansion_cmd(ms);
 		startred = ms->exec->red;
 		while (ms->exec->red)
 		{
@@ -57,10 +58,11 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 		cmd->quote = D_QUOTE;
 	if (cmd->str && (cmd->quote == S_QUOTE || cmd->quote == D_QUOTE))
 		cmd->str = ft_strtrim(cmd->str, "\'\"");
-	if (cmd->str && *cmd->str == '$' && cmd->quote != S_QUOTE && \
-		ft_strncmp(cmd->str, "$?", ft_strlen(cmd->str)))
+	if (cmd->str && *cmd->str == '$' && cmd->quote != S_QUOTE)
 	{
 		cmd->str++;
+		if (!(ft_strncmp(cmd->str, "?", ft_strlen(cmd->str))))
+			cmd->str = ft_strdup(ft_itoa(ms->exit_status));
 		while (ms->exec->env)
 		{
 			assign_value_cmd (ms, cmd);
@@ -81,10 +83,11 @@ static void	expand_red(t_minishell *ms, t_redlist *red)
 		red->quote = D_QUOTE;
 	if (red->str && (red->quote == S_QUOTE || red->quote == D_QUOTE))
 		red->str = ft_strtrim(red->str, "\'\"");
-	if (red->str && *red->str == '$' && red->quote != S_QUOTE && \
-		ft_strncmp(red->str, "$?", ft_strlen(red->str)))
+	if (red->str && *red->str == '$' && red->quote != S_QUOTE)
 	{
 		red->str++;
+		if (!(ft_strncmp(red->str, "?", ft_strlen(red->str))))
+			red->str = ft_strdup(ft_itoa(ms->exit_status));
 		while (ms->exec->env)
 		{
 			assign_value_red (ms, red);
@@ -136,7 +139,7 @@ static void	assign_value_red(t_minishell *ms, t_redlist *red)
 				add_redlist(ms, split[i]);
 				i++;
 			}
-			error_expansion(ms, ms->exec, i);
+			error_expansion_red(ms, i);
 		}
 	}
 }
