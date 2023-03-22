@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/19 23:57:18 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/22 18:33:06 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	expansion(t_minishell *ms)
 			ms->exec->cmd = ms->exec->cmd->next;
 		}
 		ms->exec->cmd = startcmd;
+		error_expansion_cmd(ms);
 		startred = ms->exec->red;
 		while (ms->exec->red)
 		{
@@ -60,6 +61,8 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 	if (cmd->str && *cmd->str == '$' && cmd->quote != S_QUOTE)
 	{
 		cmd->str++;
+		if (!(ft_strncmp(cmd->str, "?", ft_strlen(cmd->str))))
+			cmd->str = ft_strdup(ft_itoa(ms->exit_status));
 		while (ms->exec->env)
 		{
 			assign_value_cmd (ms, cmd);
@@ -83,6 +86,8 @@ static void	expand_red(t_minishell *ms, t_redlist *red)
 	if (red->str && *red->str == '$' && red->quote != S_QUOTE)
 	{
 		red->str++;
+		if (!(ft_strncmp(red->str, "?", ft_strlen(red->str))))
+			red->str = ft_strdup(ft_itoa(ms->exit_status));
 		while (ms->exec->env)
 		{
 			assign_value_red (ms, red);
@@ -102,7 +107,7 @@ static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd)
 	ft_strlen(ms->exec->env->key))))
 	{
 		if (cmd->quote == D_QUOTE)
-			cmd->str = ms->exec->env->value;
+			cmd->str = ft_strdup(ms->exec->env->value);
 		else
 		{
 			split = ft_split(ms->exec->env->value, ' ');
@@ -134,7 +139,7 @@ static void	assign_value_red(t_minishell *ms, t_redlist *red)
 				add_redlist(ms, split[i]);
 				i++;
 			}
-			error_expansion(ms, ms->exec, i);
+			error_expansion_red(ms, i);
 		}
 	}
 }

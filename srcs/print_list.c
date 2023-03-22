@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 20:09:48 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/22 17:40:45 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	print_cmdline(t_minishell *ms)
 				ms->exec->cmdline[i], ft_strlen(ms->exec->cmdline[i]));
 			i++;
 		}
+		printf("[exec:%zu]cmdtype= %d\n", j, ms->exec->cmdtype);
+		printf("[exec:%zu]cmdtype= %d\n", j, ms->exec->redtype);
 		ms->exec = ms->exec->next;
 		j++;
 	}
@@ -72,6 +74,8 @@ void	print_execlist(t_minishell *ms)
 		startred = ms->exec->red;
 		startenv = ms->exec->env;
 		i = 0;
+		printf("[exec:%zu]cmdtype= %d\n", j, ms->exec->cmdtype);
+		printf("[exec:%zu]cmdtype= %d\n", j, ms->exec->redtype);
 		printf("cmdsize= %d\n", cmd_lstsize(ms->exec->cmd));
 		while (ms->exec->cmd && ms->exec->cmd->str)
 		{

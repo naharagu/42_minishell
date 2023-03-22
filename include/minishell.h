@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/21 10:48:01 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/22 10:40:17 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ typedef enum e_cmd
 	ENV_CMD,
 	EXIT_CMD,
 	LS_CMD,
-	SPC_CMD,
 	OTHER_CMD
 }	t_cmd;
 
@@ -257,7 +256,8 @@ int			env_lstsize(t_envlist *lst);
 void		error_lexer(t_minishell *ms);
 void		error_parser_mslist(t_minishell *ms);
 void		error_parser_execlist(t_minishell *ms);
-void		error_expansion(t_minishell *ms, t_execlist *exec, size_t i);
+void		error_expansion_cmd(t_minishell *ms);
+void		error_expansion_red(t_minishell *ms, size_t i);
 
 //print_error.c
 void		exit_error(t_minishell *ms, char *location);
