@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/19 23:57:18 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/22 15:35:46 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 		cmd->quote = D_QUOTE;
 	if (cmd->str && (cmd->quote == S_QUOTE || cmd->quote == D_QUOTE))
 		cmd->str = ft_strtrim(cmd->str, "\'\"");
-	if (cmd->str && *cmd->str == '$' && cmd->quote != S_QUOTE)
+	if (cmd->str && *cmd->str == '$' && cmd->quote != S_QUOTE && \
+		ft_strncmp(cmd->str, "$?", ft_strlen(cmd->str)))
 	{
 		cmd->str++;
 		while (ms->exec->env)
@@ -80,7 +81,8 @@ static void	expand_red(t_minishell *ms, t_redlist *red)
 		red->quote = D_QUOTE;
 	if (red->str && (red->quote == S_QUOTE || red->quote == D_QUOTE))
 		red->str = ft_strtrim(red->str, "\'\"");
-	if (red->str && *red->str == '$' && red->quote != S_QUOTE)
+	if (red->str && *red->str == '$' && red->quote != S_QUOTE && \
+		ft_strncmp(red->str, "$?", ft_strlen(red->str)))
 	{
 		red->str++;
 		while (ms->exec->env)
@@ -102,7 +104,7 @@ static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd)
 	ft_strlen(ms->exec->env->key))))
 	{
 		if (cmd->quote == D_QUOTE)
-			cmd->str = ms->exec->env->value;
+			cmd->str = ft_strdup(ms->exec->env->value);
 		else
 		{
 			split = ft_split(ms->exec->env->value, ' ');
