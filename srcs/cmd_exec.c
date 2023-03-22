@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 11:55:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 16:08:27 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/22 18:27:54 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,8 @@ void	cmd_exec(t_minishell *ms)
 	startexec = ms->exec;
 	while (ms->exec)
 	{
-		if (ms->exec->cmdtype == ECHO_CMD && ms->exec->cmd->next)
-			printf("%s\n", ms->exec->cmd->next->str);
-		if (ms->exec->cmdtype == SPC_CMD)
-			other_error(ms, ft_itoa(ms->exit_status), "command not found", 1);
+		// if (ms->exec->cmdtype == ECHO_CMD && ms->exec->cmd->next)
+		// 	printf("%s\n", ms->exec->cmd->next->str);
 		if (ms->exec->cmdtype == EXIT_CMD)
 		{
 			ms->argv = list_to_argv(ms, ms->exec);

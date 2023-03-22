@@ -1,27 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/28 06:19:05 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/04 21:35:34 by naharagu         ###   ########.fr       */
+/*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
+/*   Updated: 2023/03/20 23:06:05 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/minishell.h"
 
-char	*ft_strtrim(char const *s1, char const *set)
+int	ft_pwd(int argc, char **argv)
 {
-	size_t	i;
+	char *pwd;
 
-	if (!s1 || !set)
-		return (NULL);
-	while (*s1 && ft_strchr(set, *s1))
-		++s1;
-	i = ft_strlen(s1);
-	while (i && ft_strchr(set, s1[i]))
-		--i;
-	return (ft_substr(s1, 0, i + 1));
+	(void) argc;
+	(void) argv;
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (EXIT_FAILURE);
+	else
+		ft_putstr_fd(pwd, 1);
+	ft_putchar_fd('\n', STDOUT_FILENO);
+	return (EXIT_SUCCESS);
 }
+
+// int	main(int argc, char **argv, char **env)
+// {
+// 	(void) env;
+// 	ft_pwd(argc, argv);
+// 	return (EXIT_SUCCESS);
+// }

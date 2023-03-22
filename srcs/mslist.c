@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mslist.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:01:38 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 15:26:52 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 12:21:20 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

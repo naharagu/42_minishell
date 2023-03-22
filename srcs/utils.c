@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 13:28:02 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 13:10:06 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_minishell	*init_ms(void)
 	if (!ms)
 		exit_error(ms, "malloc");
 	ms->exit_status = 0;
+	ms->cmd_size = 0;
 	ms->line = NULL;
 	ms->quote = NO_QUOTE;
 	ms->list = NULL;

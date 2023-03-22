@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 11:34:10 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/20 13:09:57 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,24 @@ void	parser(t_minishell *ms)
 {
 	t_mslist	*start;
 	t_mslist	*first;
-	size_t		num;
 
 	start = ms->list;
 	first = ms->list;
-	num = 0;
+	ms->cmd_size = 0;
 	while (ms->list)
 	{
 		check_pipe(ms, ms->list->str);
 		if (ms->list->pipe != NO_PIPE)
 		{
-			add_execlist(ms, first, num);
+			add_execlist(ms, first, ms->cmd_size);
 			first = ms->list->next;
-			num = 0;
+			ms->cmd_size = 0;
 		}
 		else
-			num++;
+			ms->cmd_size++;
 		ms->list = ms->list->next;
 	}
-	add_execlist(ms, first, num);
+	add_execlist(ms, first, ms->cmd_size);
 	ms->list = start;
 	check_execlist(ms);
 	error_parser_mslist(ms);

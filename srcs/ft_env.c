@@ -1,27 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/28 06:19:05 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/04 21:35:34 by naharagu         ###   ########.fr       */
+/*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
+/*   Updated: 2023/03/20 23:04:44 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/minishell.h"
 
-char	*ft_strtrim(char const *s1, char const *set)
+int	ft_env(int argc, char **argv, char **env)
 {
-	size_t	i;
+	(void)	argc;
+	(void)	argv;
 
-	if (!s1 || !set)
-		return (NULL);
-	while (*s1 && ft_strchr(set, *s1))
-		++s1;
-	i = ft_strlen(s1);
-	while (i && ft_strchr(set, s1[i]))
-		--i;
-	return (ft_substr(s1, 0, i + 1));
+	int i;
+
+	i = 0;
+	while (env[i])
+	{
+		printf("%s\n", env[i]);
+		i++;
+	}
+	return (EXIT_SUCCESS);
 }
+
+// int	main(int argc, char **argv, char **env)
+// {
+// 	ft_env(argc, argv, env);
+// 	return (EXIT_SUCCESS);
+// }
+
+//echo -n -n -nnn hello
+// > hello
