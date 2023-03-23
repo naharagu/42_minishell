@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/21 10:48:26 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/23 11:30:34 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	execute_child_process_helper(t_minishell *ms, t_execlist *exec)
 		path = search_path(ms, path);
 		// printf("path is %s\n", path);//
 		if (!path)
-			return ;
+			exit(127); //shoule be 127
 		if (access(path, F_OK) < 0)
 			return (free(path));
 		if (execve(path, args, environ) == -1)
