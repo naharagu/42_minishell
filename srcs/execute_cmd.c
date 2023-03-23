@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/23 21:05:16 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/23 22:35:27 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ int	execute_cmd(t_minishell *ms)
 	pid_t	last_pid;
 	int		status;
 
-	if (check_redirect(ms) == -1)
-		return 1; // exit statusを調整
 	if (ms->exec->cmd == NULL)
 		return 1;
 	//シグナルの調整が必要

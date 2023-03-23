@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/23 21:14:23 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/23 22:40:07 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	minishell(t_minishell *ms)
 		//print_cmdline(ms);//
 		expansion(ms);
 		print_execlist(ms);//
-		// redirect(ms);
+		prepare_redirect(ms);
 		// cmd_exec(ms);//
 		ms->exit_status = execute_cmd(ms);
 		free(line);

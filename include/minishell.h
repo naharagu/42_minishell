@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/23 22:01:09 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/23 23:05:02 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ typedef struct s_redlist
 	char				*str;
 	t_quote				quote;
 	t_redirect			type;
+	int					fd_target;
+	int					fd_file;
+	int					fd_stashed;
 	struct s_redlist	*next;
 }	t_redlist;
 
@@ -181,7 +184,7 @@ void		check_redtype(t_minishell *ms, char *str);
 void		expansion(t_minishell *ms);
 
 //redirect.c
-void		redirect(t_minishell *ms);
+void		prepare_redirect(t_minishell *ms);
 int	check_redirect(t_minishell *ms);
 
 //cmd_exec.c
