@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/23 11:30:34 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/23 11:57:32 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ int	execute_cmd(t_minishell *ms)
 	pid_t	last_pid;
 	int		status;
 
+	if (ms->exec->cmd == NULL)
+		return 1;
 	//シグナルの調整が必要
 	// if (ms->list->pipe == NO_PIPE)
 	// 	status = execute_single_cmd(ms);

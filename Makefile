@@ -6,7 +6,7 @@
 #    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/21 10:49:47 by naharagu         ###   ########.fr        #
+#    Updated: 2023/03/23 11:46:12 by naharagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ SRCS		= 	main.c          \
 				create_args_array.c \
 				execute_cmd.c	\
 				path.c			\
-				pipe.c		
+				pipe.c
 OBJS_DIR	=	./obj/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
 LIB_DIR		= 	./libft
