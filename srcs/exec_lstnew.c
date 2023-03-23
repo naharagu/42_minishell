@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 18:54:12 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/23 22:01:55 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 	}
 	new->cmdtype = NO_CMD;
 	new->redtype = NO_REDIRECT;
-	new->std_fd = STD_OUT;
-	new->err_fd = STD_ERR;
+	new->std_fd = STDOUT_FILENO;
+	new->err_fd = STDERR_FILENO;
 	new->cmd = NULL;
 	new->red = NULL;
 	new->env = NULL;

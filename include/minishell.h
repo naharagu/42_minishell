@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/23 11:35:42 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/23 22:01:09 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,6 @@ typedef enum e_cmd
 	OTHER_CMD
 }	t_cmd;
 
-typedef enum e_fd
-{
-	STD_IN,
-	STD_OUT,
-	STD_ERR,
-	FILE_1,
-	FILE_2
-}	t_fd;
-
 typedef enum e_sig
 {
 	DEFAULT,
@@ -111,6 +102,7 @@ typedef struct s_redlist
 {
 	char				*str;
 	t_quote				quote;
+	t_redirect			type;
 	struct s_redlist	*next;
 }	t_redlist;
 
@@ -190,18 +182,7 @@ void		expansion(t_minishell *ms);
 
 //redirect.c
 void		redirect(t_minishell *ms);
-
-//red_out.c
-void		red_out(t_minishell *ms, t_execlist *exec, t_redlist *red);
-
-//red_append.c
-void		red_append(t_minishell *ms, t_execlist	*exec, t_redlist *red);
-
-//red_in.c
-void		red_in(t_minishell *ms, t_redlist *red);
-
-//red_heredoc.c
-void		red_heredoc(t_minishell *ms, t_execlist *exec, t_redlist *red);
+int	check_redirect(t_minishell *ms);
 
 //cmd_exec.c
 void		cmd_exec(t_minishell *ms);
@@ -246,6 +227,7 @@ int			cmd_lstsize(t_cmdlist *lst);
 
 //add_redlist.c
 void		add_redlist(t_minishell *ms, char *str);
+void		add_exec_redlist(t_minishell *ms, char *str);
 int			red_lstsize(t_redlist *lst);
 
 //add_envlist.c

@@ -6,7 +6,7 @@
 #    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/23 11:46:12 by naharagu         ###   ########.fr        #
+#    Updated: 2023/03/23 22:00:53 by naharagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,6 @@ SRCS		= 	main.c          \
 				check_type.c    \
 				expansion.c     \
 				redirect.c      \
-				red_out.c       \
-				red_append.c    \
-				red_heredoc.c   \
-				red_in.c        \
 				cmd_exec.c      \
 				utils.c         \
 				mslist.c 	    \

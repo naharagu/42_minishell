@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:09:56 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 11:53:39 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/23 22:03:36 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,17 +44,17 @@ void	ft_exit(t_minishell *ms, int argc, char **argv)
 void	normal_exit(t_minishell *ms, int status)
 {
 	ms->exit_status = status;
-	ft_putendl_fd("exit", STD_ERR);
+	ft_putendl_fd("exit", STDERR_FILENO);
 	exit(ms->exit_status);
 }
 
 void	numeric_error(t_minishell *ms, char *location, char *msg, int status)
 {
 	ms->exit_status = status;
-	ft_putendl_fd("exit", STD_ERR);
-	ft_putstr_fd("minishell: exit: ", STD_ERR);
-	ft_putstr_fd(location, STD_ERR);
-	ft_putstr_fd(": ", STD_ERR);
-	ft_putendl_fd(msg, STD_ERR);
+	ft_putendl_fd("exit", STDERR_FILENO);
+	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+	ft_putstr_fd(location, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putendl_fd(msg, STDERR_FILENO);
 	exit(ms->exit_status);
 }
