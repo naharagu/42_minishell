@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 12:42:43 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/24 16:12:21 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,6 @@ typedef enum e_sig
 	HEREDOC
 }	t_sig;
 
-typedef enum e_env
-{
-	NO_ENV,
-	ENV_STR
-}	t_env;
-
 typedef struct s_mslist
 {
 	char				*str;
@@ -110,7 +104,6 @@ typedef struct s_cmdlist
 {
 	char				*str;
 	t_quote				quote;
-	t_env				env;
 	struct s_cmdlist	*next;
 }	t_cmdlist;
 
@@ -118,7 +111,6 @@ typedef struct s_redlist
 {
 	char				*str;
 	t_quote				quote;
-	t_env				env;
 	struct s_redlist	*next;
 }	t_redlist;
 

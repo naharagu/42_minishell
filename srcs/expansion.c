@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 11:48:32 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/24 13:53:09 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	expansion(t_minishell *ms)
 	t_cmdlist	*startcmd;
 	t_redlist	*startred;
 
-	add_envlist(ms, "KEY", "hoge fuga");//
+	//add_envlist(ms, "KEY", "hoge fuga");//
 	startexec = ms->exec;
 	while (ms->exec)
 	{

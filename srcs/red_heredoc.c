@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:01:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/16 11:58:04 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/24 16:07:45 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,37 @@ int	read_heredoc(t_minishell *ms, t_heredoc *heredoc)
 	return (pfd[0]);
 }
 
+char	*expand_heredoc(t_minishell *ms, t_heredoc *heredoc)
+{
+	char		*docline;
+	size_t		len;
+
+	docline = ft_strdup(heredoc->docline);
+	while (*docline)
+	{
+		len = 0;
+		while (*docline && *docline != '$')
+		{
+			docline++;
+			len++;
+		}
+		if (!heredoc->expand)
+			heredoc->expand = ft_substr(heredoc->docline, 0, len);
+		else
+			heredoc->expand = ft_strjoin(heredoc->expand, \
+			ft_substr(heredoc->docline, 0, len));
+		heredoc->docline += len;
+		if (*heredoc->docline == '$')
+		{
+			while (*heredoc->docline && *heredoc->docline == '$')
+				heredoc->docline++;
+			heredoc->docline += assign_value(ms, heredoc);
+		}
+		docline++;
+	}
+	return (heredoc->expand);
+}
+
 size_t	assign_value(t_minishell *ms, t_heredoc *heredoc)
 {
 	t_execlist	*startexec;
@@ -110,30 +141,4 @@ size_t	assign_value(t_minishell *ms, t_heredoc *heredoc)
 	}
 	ms->exec = startexec;
 	return (0);
-}
-
-char	*expand_heredoc(t_minishell *ms, t_heredoc *heredoc)
-{
-	size_t		len;
-
-	while (*heredoc->docline)
-	{
-		len = 0;
-		while (*heredoc->docline && *heredoc->docline != '$')
-			len++;
-		if (!heredoc->expand)
-			heredoc->expand = ft_substr(heredoc->docline, 0, len);
-		else
-			heredoc->expand = ft_strjoin(heredoc->expand, \
-			ft_substr(heredoc->docline, 0, len));
-		heredoc->docline += len;
-		if (*heredoc->docline == '$')
-		{
-			while (*heredoc->docline && *heredoc->docline == '$')
-				heredoc->docline++;
-			heredoc->docline += assign_value(ms, heredoc);
-		}
-		heredoc->docline++;
-	}
-	return (heredoc->expand);
 }

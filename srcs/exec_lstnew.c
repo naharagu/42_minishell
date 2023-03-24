@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 12:50:31 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/24 15:55:29 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 	new->cmd = NULL;
 	new->red = NULL;
 	new->env = NULL;
-	new->heredoc = NULL;
+	new->heredoc = heredoc_lstnew(ms);
 	new->pipe_in[0] = STDIN_FILENO;
 	new->pipe_in[1] = -1;
 	new->pipe_out[0] = -1;
