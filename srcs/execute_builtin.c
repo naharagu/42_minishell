@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_cmd.c                                      :+:      :+:    :+:   */
+/*   execute_builtin.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 21:01:53y naharagu         ###   ########.fr       */
+/*   Created: 2023/03/24 22:04:43 by naharagu          #+#    #+#             */
+/*   Updated: 2023/03/24 22:04:46 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int execute_builtin(t_execlist *exec, size_t argc, char ** argv)
+int	execute_builtin(t_execlist *exec, size_t argc, char **argv)
 {
 	extern char	**environ;
 
@@ -32,12 +32,12 @@ int execute_builtin(t_execlist *exec, size_t argc, char ** argv)
 		return (ft_env(argc, argv, environ));
 	// if (exec->cmdtype == EXIT_CMD)
 	// 	ft_exit(ms, argc, argv);
-	return EXIT_FAILURE;
+	return (EXIT_FAILURE);
 }
 
-int execute_parent_process(t_minishell *ms)
+int	execute_parent_process(t_minishell *ms)
 {
-	int status;
+	int		status;
 	size_t	argc;
 	char	**argv;
 
@@ -50,5 +50,5 @@ int execute_parent_process(t_minishell *ms)
 	status = execute_builtin(ms->exec, argc, argv);
 	if (ms->exec->redtype != NO_REDIRECT)
 		reset_redirect(ms->exec->red);
-	return status;
+	return (status);
 }

@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 11:11:10 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/24 22:03:06 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	stash_fd(int fd_target)
 	fd_stashed = 42;
 	while (is_valid_fd(fd_stashed))
 	{
-		printf("%d\n", fd_stashed);
+		// printf("%d\n", fd_stashed);//
 		fd_stashed++;
 	}
 	fd_stashed = dup2(fd_target, fd_stashed);
