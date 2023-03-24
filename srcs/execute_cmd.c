@@ -6,17 +6,11 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/23 22:35:27 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/24 10:13:17 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	set_redirect(t_execlist *exec)
-{
-	(void)exec;
-	return ;
-}
 
 static void	execute_child_process_helper(t_minishell *ms, t_execlist *exec)
 {
@@ -24,22 +18,27 @@ static void	execute_child_process_helper(t_minishell *ms, t_execlist *exec)
 	char		*path;
 	char		**args;
 
-	set_redirect(exec);
+	if (exec->redtype != NO_REDIRECT)
+		set_redirect(exec->red);
 	path = exec->cmd->str;
 	args = create_args_array(exec);
 	if (!(ft_strchr(path, '/')))
 	{
 		path = search_path(ms, path);
-		// printf("path is %s\n", path);//
 		if (!path)
 			exit(127); //shoule be 127
 		if (access(path, F_OK) < 0)
 			return (free(path));
 		if (execve(path, args, environ) == -1)
 			return (free(path));
+		if (exec->redtype != NO_REDIRECT)
+			reset_redirect(exec->red);
 	}
 	else if (execve(path, args, environ) == -1)
-		return ;
+	{
+		if (exec->redtype != NO_REDIRECT)
+			reset_redirect(exec->red);
+	}
 }
 
 static pid_t	execute_child_process(t_minishell *ms, t_execlist *exec)
@@ -99,12 +98,7 @@ int	execute_cmd(t_minishell *ms)
 	int		status;
 
 	if (ms->exec->cmd == NULL)
-		return 1;
-	//シグナルの調整が必要
-	// if (ms->list->pipe == NO_PIPE)
-	// 	status = execute_single_cmd(ms);
-	// else
-	// printf("test1!\n");
+		return (1);
 	last_pid = execute_child_process(ms, ms->exec);
 	status = wait_child_process(ms, last_pid);
 	return (status);

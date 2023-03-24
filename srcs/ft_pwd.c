@@ -14,10 +14,10 @@
 
 int	ft_pwd(int argc, char **argv)
 {
-	char *pwd;
+	char	*pwd;
 
-	(void) argc;
-	(void) argv;
+	(void)argc;
+	(void)argv;
 	pwd = getcwd(NULL, 0);
 	if (!pwd)
 		return (EXIT_FAILURE);

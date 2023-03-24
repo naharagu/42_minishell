@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 08:02:41 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/24 10:07:32 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,8 @@ void		expansion(t_minishell *ms);
 //redirect.c
 void		prepare_redirect(t_minishell *ms);
 int	check_redirect(t_minishell *ms);
+void	set_redirect(t_redlist *red);
+void	reset_redirect(t_redlist *red);
 
 //cmd_exec.c
 void		cmd_exec(t_minishell *ms);

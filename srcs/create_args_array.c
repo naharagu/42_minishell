@@ -38,7 +38,7 @@ char	**create_args_array(t_execlist *exec)
 	args_size = get_args_size(exec);
 	// printf("args size is %lu\n", args_size);//
 	if (args_size == 0)
-		return NULL;
+		return (NULL);
 	args = ft_calloc(args_size + 1, sizeof(char *));
 	if (!args)
 		return (NULL);
