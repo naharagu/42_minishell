@@ -6,7 +6,7 @@
 #    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/24 10:18:22 by naharagu         ###   ########.fr        #
+#    Updated: 2023/03/24 20:07:23 by naharagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRCS		= 	main.c          \
 				execute_cmd.c	\
 				path.c			\
 				pipe.c			\
+				heredoc.c			\
 				redirect_check.c		\
 				redirect_prepare.c		\
 				redirect_set.c
