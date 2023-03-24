@@ -14,11 +14,10 @@
 
 int	ft_env(int argc, char **argv, char **env)
 {
-	(void)	argc;
-	(void)	argv;
+	int	i;
 
-	int i;
-
+	(void)argc;
+	(void)argv;
 	i = 0;
 	while (env[i])
 	{

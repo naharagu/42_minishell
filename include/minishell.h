@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/22 18:18:37 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/23 11:35:42 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,14 +281,18 @@ void		print_cmdline(t_minishell *ms);
 void		print_execlist(t_minishell *ms);
 
 //create_args_array.c
-char	**create_args_array(t_execlist *exec);
+char		**create_args_array(t_execlist *exec);
 
 //execute_cmd.c
-int	execute_cmd(t_minishell *ms);
+int			execute_cmd(t_minishell *ms);
+
+//path.c
+void		free_path(char **path);
+char		*search_path(t_minishell *ms, char *file);
 
 //pipe.c
-void	setup_pipe(t_execlist *exec);
-void	setup_child_pipe(t_execlist *exec);
-void	setup_parent_pipe(t_execlist *exec);
+void		setup_pipe(t_execlist *exec);
+void		setup_child_pipe(t_execlist *exec);
+void		setup_parent_pipe(t_execlist *exec);
 
 #endif
