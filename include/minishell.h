@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/23 11:35:42 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/24 12:42:43 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,12 @@ typedef enum e_sig
 	HEREDOC
 }	t_sig;
 
+typedef enum e_env
+{
+	NO_ENV,
+	ENV_STR
+}	t_env;
+
 typedef struct s_mslist
 {
 	char				*str;
@@ -104,6 +110,7 @@ typedef struct s_cmdlist
 {
 	char				*str;
 	t_quote				quote;
+	t_env				env;
 	struct s_cmdlist	*next;
 }	t_cmdlist;
 
@@ -111,6 +118,7 @@ typedef struct s_redlist
 {
 	char				*str;
 	t_quote				quote;
+	t_env				env;
 	struct s_redlist	*next;
 }	t_redlist;
 
@@ -223,33 +231,29 @@ void		ms_lstclear(t_mslist **lst);
 
 //exec_listnew.c
 t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num);
-t_cmdlist	*cmd_lstnew(t_minishell *ms, char *str);
-t_redlist	*red_lstnew(t_minishell *ms, char *str);
-t_envlist	*env_lstnew(t_minishell *ms, char *key, char *value);
-
-//execlist.c
-void		exec_lstadd_back(t_execlist **lst, t_execlist *new);
-int			exec_lstsize(t_execlist *lst);
-int			red_lstsize(t_redlist *lst);
-int			cmd_lstsize(t_cmdlist *lst);
+t_heredoc	*heredoc_lstnew(t_minishell *ms);
 
 //exec_lstclear.c
 void		exec_lstclear(t_execlist **lst);
 
 //add_execlist.c
 void		add_execlist(t_minishell *ms, t_mslist	*first, size_t num);
+void		exec_lstadd_back(t_execlist **lst, t_execlist *new);
 int			exec_lstsize(t_execlist *lst);
 
 //add_cmdlist.c
 void		add_cmdlist(t_minishell *ms, char *str);
+t_cmdlist	*cmd_lstnew(t_minishell *ms, char *str);
 int			cmd_lstsize(t_cmdlist *lst);
 
 //add_redlist.c
 void		add_redlist(t_minishell *ms, char *str);
+t_redlist	*red_lstnew(t_minishell *ms, char *str);
 int			red_lstsize(t_redlist *lst);
 
 //add_envlist.c
 void		add_envlist(t_minishell *ms, char *key, char *value);
+t_envlist	*env_lstnew(t_minishell *ms, char *key, char *value);
 int			env_lstsize(t_envlist *lst);
 
 //error.c

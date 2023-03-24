@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 11:35:50 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/24 11:48:32 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	expansion(t_minishell *ms)
 			ms->exec->cmd = ms->exec->cmd->next;
 		}
 		ms->exec->cmd = startcmd;
-		// error_expansion_cmd(ms);
+		error_expansion_cmd(ms);
 		startred = ms->exec->red;
 		while (ms->exec->red)
 		{
