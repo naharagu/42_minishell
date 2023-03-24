@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 15:56:49 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 19:05:04 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/24 12:35:14 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,21 @@ void	add_envlist(t_minishell *ms, char *key, char *value)
 
 	tmp = env_lstnew(ms, key, value);
 	env_lstadd_back(&ms->exec->env, tmp);
+}
+
+t_envlist	*env_lstnew(t_minishell *ms, char *key, char *value)
+{
+	t_envlist	*env;
+
+	env = (t_envlist *)malloc(sizeof(t_envlist) * 1);
+	if (!env)
+		exit_error (ms, "malloc");
+	if (key)
+		env->key = ft_strdup(key);
+	if (value)
+		env->value = ft_strdup(value);
+	env->next = NULL;
+	return (env);
 }
 
 void	env_lstadd_back(t_envlist **lst, t_envlist *new)
