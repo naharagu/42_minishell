@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 13:09:57 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/24 22:56:05 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	parser(t_minishell *ms)
 	ms->list = start;
 	check_execlist(ms);
 	error_parser_mslist(ms);
-	error_parser_execlist(ms);
+	//error_parser_execlist(ms);
 }
 
 static void	check_execlist(t_minishell *ms)
@@ -53,7 +53,7 @@ static void	check_execlist(t_minishell *ms)
 	while (ms->exec)
 	{
 		i = 0;
-		while (ms->exec && ms->exec->cmdline[i])
+		while (ms->exec->cmdline[i])
 		{
 			upchar = toupper_char(ms->exec->cmdline[i]);
 			check_cmdtype(ms, upchar);
@@ -69,12 +69,12 @@ static void	check_execlist(t_minishell *ms)
 
 static void	copy_cmd_red_list(t_minishell *ms, char *str)
 {
-	if (ms->exec->redtype == NO_REDIRECT)
-	{
-		add_cmdlist(ms, str);
-	}
-	else if (ms->exec->redtype != NO_REDIRECT)
+	if (ms->exec->redtype != NO_REDIRECT && ms->exec->cmdtype == NO_CMD)
 	{
 		add_redlist(ms, str);
+	}
+	else if (ms->exec->cmdtype != NO_CMD)
+	{
+		add_cmdlist(ms, str);
 	}
 }
