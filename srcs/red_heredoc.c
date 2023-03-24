@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:01:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 16:07:45 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/24 16:42:57 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	dup_heredoc(t_minishell *ms, t_heredoc *heredoc);
 int		read_heredoc(t_minishell *ms, t_heredoc *heredoc);
 size_t	assign_value(t_minishell *ms, t_heredoc *heredoc);
-char	*expand_heredoc(t_minishell *ms, t_heredoc *heredoc);
+char	*expand_heredoc(t_minishell *ms, t_heredoc *heredoc, char *docline);
 
 void	red_heredoc(t_minishell *ms, t_execlist	*exec, t_redlist *red)
 {
@@ -76,7 +76,7 @@ int	read_heredoc(t_minishell *ms, t_heredoc *heredoc)
 		}
 		if (heredoc->docline && ft_strchr(heredoc->docline, '$') \
 			&& heredoc->quote == NO_QUOTE)
-			heredoc->docline = expand_heredoc(ms, heredoc);
+			heredoc->docline = expand_heredoc(ms, heredoc, heredoc->docline);
 		ft_putendl_fd(heredoc->docline, pfd[1]);
 		free(heredoc->docline);
 	}
@@ -85,12 +85,10 @@ int	read_heredoc(t_minishell *ms, t_heredoc *heredoc)
 	return (pfd[0]);
 }
 
-char	*expand_heredoc(t_minishell *ms, t_heredoc *heredoc)
+char	*expand_heredoc(t_minishell *ms, t_heredoc *heredoc, char *docline)
 {
-	char		*docline;
 	size_t		len;
 
-	docline = ft_strdup(heredoc->docline);
 	while (*docline)
 	{
 		len = 0;
@@ -104,12 +102,10 @@ char	*expand_heredoc(t_minishell *ms, t_heredoc *heredoc)
 		else
 			heredoc->expand = ft_strjoin(heredoc->expand, \
 			ft_substr(heredoc->docline, 0, len));
-		heredoc->docline += len;
-		if (*heredoc->docline == '$')
+		if (*docline == '$')
 		{
-			while (*heredoc->docline && *heredoc->docline == '$')
-				heredoc->docline++;
-			heredoc->docline += assign_value(ms, heredoc);
+			docline++;
+			docline += assign_value(ms, heredoc);
 		}
 		docline++;
 	}
