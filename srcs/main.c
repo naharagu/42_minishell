@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/22 17:55:58 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/24 11:36:00 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 void		minishell(t_minishell *ms);
 
-int	main(int argc, char **argv, char **env)
+int	main(void)
 {
 	t_minishell	*ms;
 
-	(void)argc;
-	(void)argv;
-	(void)env;
 	ms = init_ms();
 	minishell(ms);
 	free (ms);
@@ -47,9 +44,9 @@ void	minishell(t_minishell *ms)
 		parser(ms);
 		//print_cmdline(ms);//
 		expansion(ms);
-		//print_execlist(ms);//
-		redirect(ms);
-		cmd_exec(ms);//
+		print_execlist(ms);//
+		// redirect(ms);
+		// cmd_exec(ms);//
 		ms->exit_status = execute_cmd(ms);
 		free(line);
 		clear_ms(ms);
