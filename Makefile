@@ -6,7 +6,7 @@
 #    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/23 22:59:26 by naharagu         ###   ########.fr        #
+#    Updated: 2023/03/24 10:18:22 by naharagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,6 @@ SRCS		= 	main.c          \
 				parser.c        \
 				check_type.c    \
 				expansion.c     \
-				redirect.c      \
 				cmd_exec.c      \
 				utils.c         \
 				mslist.c 	    \
@@ -45,7 +44,10 @@ SRCS		= 	main.c          \
 				create_args_array.c \
 				execute_cmd.c	\
 				path.c			\
-				pipe.c
+				pipe.c			\
+				redirect_check.c		\
+				redirect_prepare.c		\
+				redirect_set.c
 OBJS_DIR	=	./obj/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
 LIB_DIR		= 	./libft
