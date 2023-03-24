@@ -6,18 +6,17 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 10:17:39 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/24 11:11:47 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	open_redirect_file(t_redlist *red)
+static int	open_redirect_file(t_redlist *red)
 {
 	char	*file;
 
 	file = red->next->str;
-	// printf("file name is %s\n", file);//
 	if (red->type == OUTPUT)
 		return (open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644));
 	else if (red->type == INPUT)
@@ -28,7 +27,7 @@ int	open_redirect_file(t_redlist *red)
 	return (0);
 }
 
-int	open_and_assign_fd(t_minishell *ms)
+static int	open_and_assign_fd(t_minishell *ms)
 {
 	t_execlist	*tmp_exec;
 	t_redlist	*tmp_red;
@@ -40,7 +39,7 @@ int	open_and_assign_fd(t_minishell *ms)
 		while (tmp_red)
 		{
 			tmp_red->fd_file = open_redirect_file(tmp_red);
-			// printf("file fd is %d\n", tmp_red->fd_file);//
+			// fprintf(stderr, "open file fd is %d\n", tmp_red->fd_file);//
 			if (tmp_red->fd_file < 0)
 				return (-1);
 			tmp_red = tmp_red->next->next;

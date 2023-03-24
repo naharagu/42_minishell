@@ -6,13 +6,13 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 10:17:28 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/24 11:11:37 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	assign_redtype(t_redlist *red)
+static void	assign_redtype(t_redlist *red)
 {
 	if (red->str == NULL)
 		exit(258); //
@@ -40,16 +40,18 @@ void	assign_redtype(t_redlist *red)
 		exit(258); //
 }
 
-void	validate_red(t_redlist *red)
+static void	validate_redirect(t_redlist *red)
 {
 	t_redlist	*tmp_red;
 
 	tmp_red = red;
-	while (tmp_red && tmp_red->str)
+	// fprintf(stderr, "now\n");//
+	while (tmp_red)
 	{
 		if (tmp_red->next == NULL)
 			exit(258); //
 		assign_redtype(tmp_red);
+		// fprintf(stderr, "assigned type: %d\n", tmp_red->type);//
 		tmp_red = tmp_red->next;
 		if (tmp_red->str == NULL)
 			exit(258); //
@@ -65,8 +67,9 @@ int	check_redirect(t_minishell *ms)
 	tmp_exec = ms->exec;
 	while (tmp_exec)
 	{
-		if (ms->exec->redtype != NO_REDIRECT)
-			validate_red(tmp_exec->red);
+		// fprintf(stderr, "exec red type: %d\n", tmp_exec->redtype);//
+		if (tmp_exec->redtype != NO_REDIRECT)
+			validate_redirect(tmp_exec->red);
 		tmp_exec = tmp_exec->next;
 	}
 	return (0);

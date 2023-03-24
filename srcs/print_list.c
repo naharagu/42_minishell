@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/22 17:40:45 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/24 10:42:51 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	print_execlist(t_minishell *ms)
 	size_t		j;
 
 	startexec = ms->exec;
-	printf("execsize= %d\n", exec_lstsize(ms->exec));
+	printf("\x1b[32mexecsize= %d\n", exec_lstsize(ms->exec));
 	j = 0;
 	while (ms->exec)
 	{
@@ -111,4 +111,5 @@ void	print_execlist(t_minishell *ms)
 		j++;
 	}
 	ms->exec = startexec;
+	printf("\x1b[39m\n");
 }
