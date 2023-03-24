@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 10:13:17 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/24 21:01:53y naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,21 @@ int	wait_child_process(t_minishell *ms, pid_t last_pid)
 
 int	execute_cmd(t_minishell *ms)
 {
-	pid_t	last_pid;
 	int		status;
+	pid_t	last_pid;
 
 	if (ms->exec->cmd == NULL)
 		return (1);
-	last_pid = execute_child_process(ms, ms->exec);
-	status = wait_child_process(ms, last_pid);
+	if (ms->list->pipe == NO_PIPE && ms->exec->cmdtype != NO_CMD)
+	{
+		// printf("start parent process\n");//
+		status = execute_parent_process(ms);
+	}
+	else
+	{
+		last_pid = execute_child_process(ms, ms->exec);
+		status = wait_child_process(ms, last_pid);
+	}
 	return (status);
 	//シグナルの調整が必要
 }

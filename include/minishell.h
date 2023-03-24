@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 20:04:05 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/24 21:44:18 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,9 +275,22 @@ void		print_execlist(t_minishell *ms);
 
 //create_args_array.c
 char		**create_args_array(t_execlist *exec);
+size_t		get_args_size(t_execlist *exec);
 
 //execute_cmd.c
 int			execute_cmd(t_minishell *ms);
+
+//execute_builtin.c
+int			execute_parent_process(t_minishell *ms);
+
+//builtin
+int			ft_echo(size_t argc, char **argv);
+// int			ft_cd(size_t argc, char **argv);
+int			ft_pwd(size_t argc, char **argv);
+int			ft_export(size_t argc, char **argv);
+// int			ft_unset(size_t argc, char **argv);
+int			ft_env(size_t argc, char **argv, char **env);
+// void		ft_exit(t_minishell *ms, int argc, char **argv)
 
 //path.c
 void		free_path(char **path);
@@ -287,5 +300,6 @@ char		*search_path(t_minishell *ms, char *file);
 void		setup_pipe(t_execlist *exec);
 void		setup_child_pipe(t_execlist *exec);
 void		setup_parent_pipe(t_execlist *exec);
+
 
 #endif

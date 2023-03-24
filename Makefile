@@ -6,7 +6,7 @@
 #    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/24 20:07:23 by naharagu         ###   ########.fr        #
+#    Updated: 2023/03/24 21:42:19 by naharagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,15 +40,19 @@ SRCS		= 	main.c          \
 				ft_exit.c       \
 				ft_cd.c         \
 				list_to_argv.c  \
-				print_list.c \
+				print_list.c 	\
 				create_args_array.c \
 				execute_cmd.c	\
+				execute_builtin.c	\
 				path.c			\
 				pipe.c			\
-				heredoc.c			\
-				redirect_check.c		\
-				redirect_prepare.c		\
-				redirect_set.c
+				heredoc.c		\
+				redirect_check.c	\
+				redirect_prepare.c	\
+				redirect_set.c		\
+				ft_echo.c 		\
+				ft_pwd.c 		\
+				ft_env.c
 OBJS_DIR	=	./obj/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
 LIB_DIR		= 	./libft

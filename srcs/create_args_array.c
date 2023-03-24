@@ -6,13 +6,13 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 13:09:39 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/24 21:17:07 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static size_t	get_args_size(t_execlist *exec)
+size_t	get_args_size(t_execlist *exec)
 {
 	size_t		size;
 	t_cmdlist	*tmp_cmd;
