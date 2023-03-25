@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 13:53:09 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/25 11:11:34 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	expansion(t_minishell *ms)
 	t_cmdlist	*startcmd;
 	t_redlist	*startred;
 
-	//add_envlist(ms, "KEY", "hoge fuga");//
+	add_envlist(ms, "KEY", "hoge fuga");//
 	startexec = ms->exec;
 	while (ms->exec)
 	{
@@ -42,6 +42,7 @@ void	expansion(t_minishell *ms)
 			ms->exec->red = ms->exec->red->next;
 		}
 		ms->exec->red = startred;
+		//error_expansion_red(ms);
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;
@@ -65,6 +66,7 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 		{
 			cmd->str--;
 			cmd->str = ft_strdup(ft_itoa(ms->exit_status));
+			return ;
 		}
 		while (ms->exec->env)
 		{
@@ -78,10 +80,8 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd)
 {
 	char		**split;
-	size_t		i;
 
-	if (!(ft_strncmp(ms->exec->env->key, cmd->str, \
-	ft_strlen(ms->exec->env->key))))
+	if (!(ft_strncmp(ms->exec->env->key, cmd->str, ft_strlen(cmd->str))))
 	{
 		cmd->str--;
 		if (cmd->quote == D_QUOTE)
@@ -90,12 +90,9 @@ static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd)
 		{
 			split = ft_split(ms->exec->env->value, ' ');
 			cmd->str = ft_strdup(split[0]);
-			i = 0;
-			while (split[++i])
-				add_cmdlist(ms, split[i]);
 		}
 	}
-	else
+	else if (ft_strncmp(ms->exec->env->key, cmd->str, ft_strlen(cmd->str)))
 	{
 		cmd->str--;
 		cmd->str = ft_strdup("");
@@ -133,10 +130,9 @@ static void	expand_red(t_minishell *ms, t_redlist *red)
 static void	assign_value_red(t_minishell *ms, t_redlist *red)
 {
 	char		**split;
-	size_t		i;
 
 	if (!(ft_strncmp(ms->exec->env->key, red->str, \
-	ft_strlen(ms->exec->env->key))))
+	ft_strlen(red->str))))
 	{
 		red->str--;
 		if (red->quote == D_QUOTE)
@@ -145,10 +141,6 @@ static void	assign_value_red(t_minishell *ms, t_redlist *red)
 		{
 			split = ft_split(ms->exec->env->value, ' ');
 			red->str = ft_strdup(split[0]);
-			i = 0;
-			while (split[++i])
-				add_redlist(ms, split[i]);
-			error_expansion_red(ms, i);
 		}
 	}
 }

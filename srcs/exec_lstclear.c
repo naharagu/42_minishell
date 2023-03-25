@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 13:03:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 15:55:55 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/25 10:47:56 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ void	cmd_lstclear(t_cmdlist **lst)
 	{
 		tmp = *lst;
 		*lst = (*lst)->next;
-		free(tmp->str);
+		if (tmp->str)
+			free(tmp->str);
 		free(tmp);
 	}
 	*lst = NULL;
@@ -80,7 +81,8 @@ void	red_lstclear(t_redlist **lst)
 	{
 		tmp = *lst;
 		*lst = (*lst)->next;
-		free(tmp->str);
+		if (tmp->str)
+			free(tmp->str);
 		free(tmp);
 	}
 	*lst = NULL;
@@ -96,8 +98,10 @@ void	env_lstclear(t_envlist **lst)
 	{
 		tmp = *lst;
 		*lst = (*lst)->next;
-		free(tmp->key);
-		free(tmp->value);
+		if (tmp->key)
+			free(tmp->key);
+		if (tmp->value)
+			free(tmp->value);
 		free(tmp);
 	}
 	*lst = NULL;

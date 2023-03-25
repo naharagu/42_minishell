@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 22:05:23 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/25 11:07:09 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ void	error_expansion_cmd( t_minishell *ms)
 		other_error(ms, ms->exec->cmd->str, "command not found", 127);
 }
 
-void	error_expansion_red( t_minishell *ms, size_t i)
+void	error_expansion_red( t_minishell *ms)
 {
 	char		*env;
 
-	if (ms->exec->redtype == OUTPUT && i > 1)
+	if (ms->exec->redtype == OUTPUT && ft_strchr(ms->exec->red->next->str, ' '))
 	{
 		env = ft_strjoin("$", ms->exec->env->key);
 		other_error(ms, env, "ambiguous redirect", 1);
