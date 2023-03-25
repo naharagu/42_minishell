@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/25 08:31:11 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/25 18:17:12 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	expansion(t_minishell *ms)
 			ms->exec->cmd = ms->exec->cmd->next;
 		}
 		ms->exec->cmd = startcmd;
-		// error_expansion_cmd(ms);
+		// error_expansion_cmd(ms);//クラッシュする
 		startred = ms->exec->red;
 		while (ms->exec->red)
 		{
@@ -42,7 +42,7 @@ void	expansion(t_minishell *ms)
 			ms->exec->red = ms->exec->red->next;
 		}
 		ms->exec->red = startred;
-		//error_expansion_red(ms);
+		//error_expansion_red(ms);//クラッシュする
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;

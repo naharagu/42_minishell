@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/25 08:31:35 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/25 18:25:25 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 	fill_cmdline(ms, new, list, num);
 	new->cmdtype = NO_CMD;
 	new->redtype = NO_REDIRECT;
-	new->std_fd = STDOUT_FILENO;
-	new->err_fd = STDERR_FILENO;
 	new->cmd = NULL;
 	new->red = NULL;
 	new->env = NULL;

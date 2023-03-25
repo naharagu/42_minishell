@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/25 08:49:20 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/25 18:24:53 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct s_envlist
 {
 	char				*key;
 	char				*value;
+	bool				is_env;
 	struct s_envlist	*next;
 }	t_envlist;
 
@@ -129,15 +130,15 @@ typedef struct s_execlist
 	char				**cmdline;
 	t_cmd				cmdtype;
 	t_redirect			redtype;
-	int					std_fd;
-	int					err_fd;
+	// int					std_fd;//
+	// int					err_fd;//
 	t_cmdlist			*cmd;
 	t_redlist			*red;
 	t_envlist			*env;
 	t_heredoc			*heredoc;
-	struct s_execlist	*next;
 	int					pipe_in[2];
 	int					pipe_out[2];
+	struct s_execlist	*next;
 }	t_execlist;
 
 typedef struct s_argv
@@ -191,11 +192,6 @@ void	reset_redirect(t_redlist *red);
 
 //heredoc.c
 int run_heredoc(char *delimiter, t_redlist *red, t_minishell *ms);
-
-//cmd_exec.c
-void		cmd_exec(t_minishell *ms);
-void		exec_command(t_execlist	*exec);
-void		read_fd(t_minishell *ms, int fd);
 
 //utils.c
 t_minishell	*init_ms(void);

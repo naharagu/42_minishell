@@ -6,7 +6,7 @@
 #    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/25 08:49:26 by naharagu         ###   ########.fr        #
+#    Updated: 2023/03/25 18:25:05 by naharagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,6 @@ SRCS		= 	main.c          \
 				parser.c        \
 				check_type.c    \
 				expansion.c     \
-				cmd_exec.c      \
 				utils.c         \
 				mslist.c 	    \
 				exec_lstnew.c   \
