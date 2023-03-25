@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 10:42:51 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/25 08:31:03 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	print_execlist(t_minishell *ms)
 		startenv = ms->exec->env;
 		i = 0;
 		printf("[exec:%zu]cmdtype= %d\n", j, ms->exec->cmdtype);
-		printf("[exec:%zu]cmdtype= %d\n", j, ms->exec->redtype);
+		printf("[exec:%zu]redtype= %d\n", j, ms->exec->redtype);
 		printf("cmdsize= %d\n", cmd_lstsize(ms->exec->cmd));
 		while (ms->exec->cmd && ms->exec->cmd->str)
 		{

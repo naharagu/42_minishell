@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/14 16:04:12 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/24 16:23:26 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	lexer(t_minishell *ms)
 		if (is_metachara(*ms->line) || ft_isdigit(*ms->line))
 		{
 			while (*ms->line && (is_metachara(*ms->line) \
-			|| ft_isdigit(*ms->line) || ft_isalpha(*ms->line)))
+			|| ft_isdigit(*ms->line)))
 				ms->line++;
 			add_mslist(ms, start, ms->line);
 		}

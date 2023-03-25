@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 21:44:18 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/25 08:49:20 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,6 @@ typedef enum e_sig
 	HEREDOC
 }	t_sig;
 
-typedef enum e_env
-{
-	NO_ENV,
-	ENV_STR
-}	t_env;
-
 typedef struct s_mslist
 {
 	char				*str;
@@ -101,7 +95,6 @@ typedef struct s_cmdlist
 {
 	char				*str;
 	t_quote				quote;
-	t_env				env;
 	struct s_cmdlist	*next;
 }	t_cmdlist;
 
@@ -113,7 +106,6 @@ typedef struct s_redlist
 	int					fd_target;
 	int					fd_file;
 	int					fd_stashed;
-	t_env				env;
 	struct s_redlist	*next;
 }	t_redlist;
 
@@ -250,7 +242,7 @@ void		error_lexer(t_minishell *ms);
 void		error_parser_mslist(t_minishell *ms);
 void		error_parser_execlist(t_minishell *ms);
 void		error_expansion_cmd(t_minishell *ms);
-void		error_expansion_red(t_minishell *ms, size_t i);
+void		error_expansion_red(t_minishell *ms);
 
 //print_error.c
 void		exit_error(t_minishell *ms, char *location);
@@ -300,6 +292,5 @@ char		*search_path(t_minishell *ms, char *file);
 void		setup_pipe(t_execlist *exec);
 void		setup_child_pipe(t_execlist *exec);
 void		setup_parent_pipe(t_execlist *exec);
-
 
 #endif

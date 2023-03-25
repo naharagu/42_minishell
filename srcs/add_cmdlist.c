@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 15:27:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 12:33:39 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/24 16:12:54 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ t_cmdlist	*cmd_lstnew(t_minishell *ms, char *str)
 	if (str)
 		cmd->str = ft_strdup(str);
 	cmd->quote = NO_QUOTE;
-	cmd->env = NO_ENV;
 	cmd->next = NULL;
 	return (cmd);
 }

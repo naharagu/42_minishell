@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_lstclear.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 13:03:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 12:21:26 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/25 10:47:56 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ void	exec_lstclear(t_execlist **lst)
 		cmd_lstclear(&tmp->cmd);
 		red_lstclear(&tmp->red);
 		env_lstclear(&tmp->env);
-		if (tmp->heredoc)
-			free(tmp->heredoc);
+		free(tmp->heredoc);
 		free(tmp);
 	}
 	*lst = NULL;
@@ -65,7 +64,8 @@ void	cmd_lstclear(t_cmdlist **lst)
 	{
 		tmp = *lst;
 		*lst = (*lst)->next;
-		free(tmp->str);
+		if (tmp->str)
+			free(tmp->str);
 		free(tmp);
 	}
 	*lst = NULL;
@@ -81,7 +81,8 @@ void	red_lstclear(t_redlist **lst)
 	{
 		tmp = *lst;
 		*lst = (*lst)->next;
-		free(tmp->str);
+		if (tmp->str)
+			free(tmp->str);
 		free(tmp);
 	}
 	*lst = NULL;
@@ -97,8 +98,10 @@ void	env_lstclear(t_envlist **lst)
 	{
 		tmp = *lst;
 		*lst = (*lst)->next;
-		free(tmp->key);
-		free(tmp->value);
+		if (tmp->key)
+			free(tmp->key);
+		if (tmp->value)
+			free(tmp->value);
 		free(tmp);
 	}
 	*lst = NULL;

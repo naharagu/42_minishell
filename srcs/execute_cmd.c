@@ -106,6 +106,7 @@ int	execute_cmd(t_minishell *ms)
 	}
 	else
 	{
+		// printf("start child process\n");//
 		last_pid = execute_child_process(ms, ms->exec);
 		status = wait_child_process(ms, last_pid);
 	}

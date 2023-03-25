@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 15:35:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 12:34:53 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/24 16:13:04 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ t_redlist	*red_lstnew(t_minishell *ms, char *str)
 	if (str)
 		red->str = ft_strdup(str);
 	red->quote = NO_QUOTE;
-	red->env = NO_ENV;
 	red->next = NULL;
 	return (red);
 }

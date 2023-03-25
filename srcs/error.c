@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/22 18:34:38 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/25 11:07:09 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,19 @@ void	error_parser_execlist(t_minishell *ms)
 	startexec = ms->exec;
 	while (ms->exec)
 	{
-		if (ms->exec->redtype != NO_REDIRECT && \
-			ft_strnstr(ms->exec->red->str, ">>>>", 4))
-			syntax_error(ms, ">>", 1);
-		else if (ms->exec->redtype != NO_REDIRECT && \
-			ft_strnstr(ms->exec->red->str, ">>>", 3))
-			syntax_error(ms, ">", 1);
-		if (ms->exec->redtype != NO_REDIRECT && \
-			ft_strnstr(ms->exec->red->str, "<<<<", 4))
-			syntax_error(ms, "<", 1);
-		if (ms->exec->redtype != NO_REDIRECT && red_lstsize(ms->exec->red) < 2 \
-			&& !(ft_strnstr(ms->exec->red->str, ">&", \
-			ft_strlen(ms->exec->red->str))))
-			syntax_error(ms, "newline", 258);
+		if (ms->exec->redtype != NO_REDIRECT)
+		{
+			if (ft_strnstr(ms->exec->red->str, ">>>>", 4))
+				syntax_error(ms, ">>", 1);
+			else if (ft_strnstr(ms->exec->red->str, ">>>", 3))
+				syntax_error(ms, ">", 1);
+			else if (ft_strnstr(ms->exec->red->str, "<<<<", 4))
+				syntax_error(ms, "<", 1);
+			else if (red_lstsize(ms->exec->red) < 2 && \
+				!(ft_strnstr(ms->exec->red->str, ">&", \
+				ft_strlen(ms->exec->red->str))))
+				syntax_error(ms, "newline", 258);
+		}
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;
@@ -67,11 +67,11 @@ void	error_expansion_cmd( t_minishell *ms)
 		other_error(ms, ms->exec->cmd->str, "command not found", 127);
 }
 
-void	error_expansion_red( t_minishell *ms, size_t i)
+void	error_expansion_red( t_minishell *ms)
 {
 	char		*env;
 
-	if (ms->exec->redtype == OUTPUT && i > 1)
+	if (ms->exec->redtype == OUTPUT && ft_strchr(ms->exec->red->next->str, ' '))
 	{
 		env = ft_strjoin("$", ms->exec->env->key);
 		other_error(ms, env, "ambiguous redirect", 1);
