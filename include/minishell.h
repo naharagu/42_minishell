@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 18:02:41 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 18:24:52 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,7 @@ int			ft_cd(t_minishell *ms, char *newdir);
 int			ft_pwd(void);
 int			ft_export(t_minishell *ms, size_t argc, char **argv);
 int			ft_unset(t_minishell *ms, size_t argc, char **argv);
-int			ft_env(size_t argc, char **argv, char **env);
+int			ft_env(t_minishell *ms);
 void		ft_exit(t_minishell *ms, int argc, char **argv);
 
 //path.c

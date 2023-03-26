@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 22:04:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/26 18:04:05 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 18:24:40 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,9 @@
 
 int	execute_builtin(t_minishell *ms, size_t argc, char **argv)
 {
-	char	**env;
-
 	printf("\x1b[32mbuiltin"); //
 	printf("\x1b[39m\n"); //
 	// printf("cmdtype: %d\n", exec->cmdtype);//
-	env = create_env_array(ms->env);
 	if (ms->exec->cmdtype == ECHO_CMD)
 		return (ft_echo(argc, argv));
 	if (ms->exec->cmdtype == CD_CMD)
@@ -31,7 +28,7 @@ int	execute_builtin(t_minishell *ms, size_t argc, char **argv)
 	if (ms->exec->cmdtype == UNSET_CMD)
 		return (ft_unset(ms, argc, argv));
 	if (ms->exec->cmdtype == ENV_CMD)
-		return (ft_env(argc, argv, env));
+		return (ft_env(ms));
 	if (ms->exec->cmdtype == EXIT_CMD)
 		ft_exit(ms, argc, argv);
 	return (EXIT_FAILURE);

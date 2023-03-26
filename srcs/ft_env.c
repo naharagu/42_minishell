@@ -6,23 +6,24 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/26 17:42:36 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 18:31:02 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_env(size_t argc, char **argv, char **env)
+int	ft_env(t_minishell *ms)
 {
-	int	i;
+	t_envlist *tmp_env;
 
-	(void)argc;
-	(void)argv;
-	i = 0;
-	while (env[i])
+	tmp_env = ms->env;
+	while (tmp_env)
 	{
-		printf("%s\n", env[i]);
-		i++;
+		if (!tmp_env->key || !tmp_env->value)
+			continue;
+		else
+			printf("%s=%s\n", tmp_env->key, tmp_env->value);
+		tmp_env = tmp_env->next;
 	}
 	return (EXIT_SUCCESS);
 }
