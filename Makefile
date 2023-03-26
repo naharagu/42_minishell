@@ -6,7 +6,7 @@
 #    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/26 12:12:44 by naharagu         ###   ########.fr        #
+#    Updated: 2023/03/26 17:40:32 by naharagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,6 @@ SRCS		= 	main.c          \
 				add_envlist.c   \
 				error.c         \
 				print_error.c   \
-				ft_exit.c       \
-				ft_cd.c         \
 				list_to_argv.c  \
 				print_list.c 	\
 				create_array.c \
@@ -52,7 +50,11 @@ SRCS		= 	main.c          \
 				redirect_set.c		\
 				ft_echo.c 		\
 				ft_pwd.c 		\
-				ft_env.c
+				ft_env.c 		\
+				ft_export.c 		\
+				ft_unset.c 		\
+				ft_exit.c       \
+				ft_cd.c
 OBJS_DIR	=	./obj/
 OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
 LIB_DIR		= 	./libft

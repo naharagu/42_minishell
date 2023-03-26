@@ -12,17 +12,17 @@
 
 #include "minishell.h"
 
-char **create_env_array(t_envlist *env)
+char	**create_env_array(t_envlist *env)
 {
-	char **env_array;
-	char *env_str;
-	char *tmp_str;
-	int	size;
-	int i;
+	char	**env_array;
+	char	*env_str;
+	char	*tmp_str;
+	int		size;
+	int		i;
 
 	size = env_lstsize(env);
 	if (size == 0)
-		return NULL;
+		return (NULL);
 	env_array = ft_calloc(size + 1, sizeof(char *));
 	if (!env_array)
 		return (NULL);
@@ -31,11 +31,11 @@ char **create_env_array(t_envlist *env)
 	{
 		tmp_str = ft_strjoin(env->key, "=");
 		if (!tmp_str)
-			return NULL;
+			return (NULL);
 		env_str = ft_strjoin(tmp_str, env->value);
 		free(tmp_str);
 		if (!env_str)
-			return NULL;
+			return (NULL);
 		env_array[i] = env_str;
 		// printf("envstr: %s\n", env_str);//
 		i++;

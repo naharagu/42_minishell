@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/26 10:06:54 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 17:42:36 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,3 @@ int	ft_env(size_t argc, char **argv, char **env)
 	}
 	return (EXIT_SUCCESS);
 }
-
-// int	main(int argc, char **argv, char **env)
-// {
-// 	ft_env(argc, argv, env);
-// 	return (EXIT_SUCCESS);
-// }
-
-//echo -n -n -nnn hello
-// > hello

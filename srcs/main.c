@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 12:33:54 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 17:35:28 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	minishell(t_minishell *ms)
 		// print_cmdline(ms);//
 		// printf("---before expansion---\n");//
 		// print_execlist(ms);//
+		init_env(ms);
 		expansion(ms);
 		// printf("---after expansion---\n");//
 		// print_execlist(ms);//
@@ -53,5 +54,6 @@ void	minishell(t_minishell *ms)
 		free(line);
 		clear_ms(ms);
 	}
+	env_lstclear(&ms->env);
 	exit(ms->exit_status);
 }

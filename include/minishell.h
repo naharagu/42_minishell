@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 12:32:20 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 18:02:41 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,9 +183,9 @@ void		expansion(t_minishell *ms);
 
 //redirect.c
 void		prepare_redirect(t_minishell *ms);
-int	check_redirect(t_minishell *ms);
-void	set_redirect(t_redlist *red);
-void	reset_redirect(t_redlist *red);
+int			check_redirect(t_minishell *ms);
+void		set_redirect(t_redlist *red);
+void		reset_redirect(t_redlist *red);
 
 //heredoc.c
 int run_heredoc(char *delimiter, t_redlist *red, t_minishell *ms);
@@ -243,12 +243,6 @@ void		exit_error(t_minishell *ms, char *location);
 void		syntax_error(t_minishell *ms, char *location, int status);
 void		other_error(t_minishell *ms, char *location, char *msg, int status);
 
-//ft_exit.c
-void		ft_exit(t_minishell *ms, int argc, char **argv);
-
-//ft_cd.c
-void		ft_cd(t_minishell *ms, char *newdir);
-
 //list_to_argv.c
 t_argv		*list_to_argv(t_minishell *ms, t_execlist *exec);
 t_argv		*init_argv(t_minishell *ms);
@@ -272,12 +266,12 @@ int			execute_parent_process(t_minishell *ms);
 
 //builtin
 int			ft_echo(size_t argc, char **argv);
-// int			ft_cd(size_t argc, char **argv);
-int			ft_pwd(size_t argc, char **argv);
-int			ft_export(size_t argc, char **argv);
-// int			ft_unset(size_t argc, char **argv);
+int			ft_cd(t_minishell *ms, char *newdir);
+int			ft_pwd(void);
+int			ft_export(t_minishell *ms, size_t argc, char **argv);
+int			ft_unset(t_minishell *ms, size_t argc, char **argv);
 int			ft_env(size_t argc, char **argv, char **env);
-// void		ft_exit(t_minishell *ms, int argc, char **argv)
+void		ft_exit(t_minishell *ms, int argc, char **argv);
 
 //path.c
 void		free_path(char **path);

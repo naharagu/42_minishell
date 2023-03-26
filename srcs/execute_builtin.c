@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 22:04:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/26 14:28:27 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 18:04:05 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,26 @@
 
 int	execute_builtin(t_minishell *ms, size_t argc, char **argv)
 {
-	// printf("builtin\n");//
+	char	**env;
+
+	printf("\x1b[32mbuiltin"); //
+	printf("\x1b[39m\n"); //
 	// printf("cmdtype: %d\n", exec->cmdtype);//
-	char **env = create_env_array(ms->env);
+	env = create_env_array(ms->env);
 	if (ms->exec->cmdtype == ECHO_CMD)
 		return (ft_echo(argc, argv));
-	// if (exec->cmdtype == CD_CMD)
-	// 	return (ft_cd(argc, argv));
+	if (ms->exec->cmdtype == CD_CMD)
+		return (ft_cd(ms, ms->exec->cmd->next->str));
 	if (ms->exec->cmdtype == PWD_CMD)
-		return (ft_pwd(argc, argv));
-	// if (exec->cmdtype == EXPORT_CMD)
-	// 	return (ft_export(argc, argv));
-	// if (exec->cmdtype == UNSET_CMD)
-	// 	return (ft_unset(argc, argv));
+		return (ft_pwd());
+	if (ms->exec->cmdtype == EXPORT_CMD)
+		return (ft_export(ms, argc, argv));
+	if (ms->exec->cmdtype == UNSET_CMD)
+		return (ft_unset(ms, argc, argv));
 	if (ms->exec->cmdtype == ENV_CMD)
 		return (ft_env(argc, argv, env));
-	// if (exec->cmdtype == EXIT_CMD)
-	// 	ft_exit(ms, argc, argv);
+	if (ms->exec->cmdtype == EXIT_CMD)
+		ft_exit(ms, argc, argv);
 	return (EXIT_FAILURE);
 }
 
