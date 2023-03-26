@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 11:28:56 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 12:32:20 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,8 @@ void		print_mslist(t_minishell *ms);
 void		print_cmdline(t_minishell *ms);
 void		print_execlist(t_minishell *ms);
 
-//create_args_array.c
+//create_array.c
+char 		**create_env_array(t_envlist *env);
 char		**create_args_array(t_execlist *exec);
 size_t		get_args_size(t_execlist *exec);
 

@@ -14,14 +14,17 @@
 
 static void	execute_child_process_helper(t_minishell *ms, t_execlist *exec)
 {
-	extern char	**environ;
+	char		**env;
 	char		*path;
 	char		**args;
 
 	if (exec->redtype != NO_REDIRECT)
 		set_redirect(exec->red);
 	path = exec->cmd->str;
+	env = create_env_array(ms->env);
 	args = create_args_array(exec);
+	if (!env || !args)
+		exit_error(ms, "execute");
 	if (!(ft_strchr(path, '/')))
 	{
 		path = search_path(ms, path);
@@ -29,12 +32,12 @@ static void	execute_child_process_helper(t_minishell *ms, t_execlist *exec)
 			exit(127); //shoule be 127
 		if (access(path, F_OK) < 0)
 			return (free(path));
-		if (execve(path, args, environ) == -1)
+		if (execve(path, args, env) == -1)
 			return (free(path));
 		if (exec->redtype != NO_REDIRECT)
 			reset_redirect(exec->red);
 	}
-	else if (execve(path, args, environ) == -1)
+	else if (execve(path, args, env) == -1)
 	{
 		if (exec->redtype != NO_REDIRECT)
 			reset_redirect(exec->red);
@@ -44,7 +47,6 @@ static void	execute_child_process_helper(t_minishell *ms, t_execlist *exec)
 static pid_t	execute_child_process(t_minishell *ms, t_execlist *exec)
 {
 	pid_t		pid;
-	extern char	**environ;
 
 	setup_pipe(exec);
 	pid = fork();

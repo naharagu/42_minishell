@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 20:03:37 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 11:30:13 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	open_and_assign_fd(t_minishell *ms)
 		}
 		tmp_exec = tmp_exec->next;
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 void	prepare_redirect(t_minishell *ms)

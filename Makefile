@@ -6,7 +6,7 @@
 #    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/26 10:10:11 by naharagu         ###   ########.fr        #
+#    Updated: 2023/03/26 12:12:44 by naharagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ SRCS		= 	main.c          \
 				ft_cd.c         \
 				list_to_argv.c  \
 				print_list.c 	\
-				create_args_array.c \
+				create_array.c \
 				execute_cmd.c	\
 				execute_builtin.c	\
 				path.c			\

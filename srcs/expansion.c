@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 10:01:25 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 11:58:46 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	expansion(t_minishell *ms)
 	t_cmdlist	*startcmd;
 	t_redlist	*startred;
 
+	init_env(ms);
 	startexec = ms->exec;
 	while (ms->exec)
 	{
