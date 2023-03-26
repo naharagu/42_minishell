@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 22:04:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/26 18:24:40 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 21:50:39 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int	execute_builtin(t_minishell *ms, size_t argc, char **argv)
 {
-	printf("\x1b[32mbuiltin"); //
-	printf("\x1b[39m\n"); //
+	// printf("\x1b[32mbuiltin"); //
+	// printf("\x1b[39m\n"); //
 	// printf("cmdtype: %d\n", exec->cmdtype);//
 	if (ms->exec->cmdtype == ECHO_CMD)
 		return (ft_echo(argc, argv));
 	if (ms->exec->cmdtype == CD_CMD)
-		return (ft_cd(ms, ms->exec->cmd->next->str));
+		return (ft_cd(ms, argc, argv));
 	if (ms->exec->cmdtype == PWD_CMD)
 		return (ft_pwd());
 	if (ms->exec->cmdtype == EXPORT_CMD)

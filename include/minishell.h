@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 20:25:00 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 21:52:12 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,7 +266,7 @@ int			execute_parent_process(t_minishell *ms);
 
 //builtin
 int			ft_echo(size_t argc, char **argv);
-int			ft_cd(t_minishell *ms, char *newdir);
+int			ft_cd(t_minishell *ms, size_t argc, char **argv);
 int			ft_pwd(void);
 int			ft_export(t_minishell *ms, size_t argc, char **argv);
 int			ft_unset(t_minishell *ms, size_t argc, char **argv);
