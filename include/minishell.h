@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 09:33:48 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 09:57:11 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,7 @@ t_heredoc	*heredoc_lstnew(t_minishell *ms);
 
 //exec_lstclear.c
 void		exec_lstclear(t_execlist **lst);
+void		env_lstclear(t_envlist **lst);
 
 //add_execlist.c
 void		add_execlist(t_minishell *ms, t_mslist	*first, size_t num);

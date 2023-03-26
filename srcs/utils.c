@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 09:48:26 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 09:56:41 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ void	clear_ms(t_minishell *ms)
 	ms->quote = NO_QUOTE;
 	ms_lstclear(&ms->list);
 	exec_lstclear(&ms->exec);
+	env_lstclear(&ms->env);
 	free_argv(&ms->argv);
 }
