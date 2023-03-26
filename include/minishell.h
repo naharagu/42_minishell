@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 18:24:52 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 20:25:00 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,5 +284,6 @@ void		setup_parent_pipe(t_execlist *exec);
 
 //environ.c
 void	init_env(t_minishell *ms);
+bool	is_valid_env_key(char *key);
 
 #endif

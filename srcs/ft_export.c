@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/26 17:42:19 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 18:51:46 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,31 @@ void	update_env_value(t_minishell *ms)
 	return ;
 }
 
-void	print_all_env(t_minishell *ms)
+static int	print_all_env(t_minishell *ms)
 {
-	(void)ms;
-	return ;
+	t_envlist	*tmp_env;
+
+	tmp_env = ms->env;
+	while (tmp_env)
+	{
+		if (!tmp_env->key || !tmp_env->value)
+			;
+		else
+			printf("declare -x %s=\"%s\"\n", tmp_env->key, tmp_env->value);
+		tmp_env = tmp_env->next;
+	}
+	return (EXIT_SUCCESS);
 }
 
 int	ft_export(t_minishell *ms, size_t argc, char **argv)
 {
-	int		status;
 	size_t	i;
 
-	(void)argc;
-	status = EXIT_SUCCESS;
-	if (!argv)
+	if (argc == 1)
+	{
 		print_all_env(ms);
+		return (EXIT_SUCCESS);
+	}
 	i = 0;
 	while (argv[i])
 	{
@@ -52,5 +62,5 @@ int	ft_export(t_minishell *ms, size_t argc, char **argv)
 			return (EXIT_FAILURE);
 		i++;
 	}
-	return (status);
+	return (EXIT_SUCCESS);
 }

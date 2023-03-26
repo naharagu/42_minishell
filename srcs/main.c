@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 17:35:28 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 20:43:55 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	minishell(t_minishell *ms)
 	rl_outstream = stderr;
 	handle_signal(ms, SIGINT, DEFAULT);
 	ignore_signal(ms, SIGQUIT);
+	init_env(ms);
 	while (1)
 	{
 		line = readline("minishell$ ");
@@ -45,7 +46,6 @@ void	minishell(t_minishell *ms)
 		// print_cmdline(ms);//
 		// printf("---before expansion---\n");//
 		// print_execlist(ms);//
-		init_env(ms);
 		expansion(ms);
 		// printf("---after expansion---\n");//
 		// print_execlist(ms);//
