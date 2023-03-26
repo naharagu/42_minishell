@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_envlist.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 15:56:49 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 12:35:14 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/26 09:42:43 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	add_envlist(t_minishell *ms, char *key, char *value)
 	t_envlist	*tmp;
 
 	tmp = env_lstnew(ms, key, value);
-	env_lstadd_back(&ms->exec->env, tmp);
+	env_lstadd_back(&ms->env, tmp);
 }
 
 t_envlist	*env_lstnew(t_minishell *ms, char *key, char *value)
@@ -34,6 +34,7 @@ t_envlist	*env_lstnew(t_minishell *ms, char *key, char *value)
 		env->key = ft_strdup(key);
 	if (value)
 		env->value = ft_strdup(value);
+	env->is_env = true;
 	env->next = NULL;
 	return (env);
 }

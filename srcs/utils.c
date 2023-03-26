@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 13:10:06 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 09:48:26 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_minishell	*init_ms(void)
 	ms->list = NULL;
 	ms->exec = NULL;
 	ms->argv = init_argv(ms);
+	ms->env = NULL;
 	return (ms);
 }
 

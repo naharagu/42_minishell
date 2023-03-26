@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/25 18:24:53 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 09:33:48 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,16 +128,13 @@ typedef struct s_heredoc
 typedef struct s_execlist
 {
 	char				**cmdline;
-	t_cmd				cmdtype;
-	t_redirect			redtype;
-	// int					std_fd;//
-	// int					err_fd;//
-	t_cmdlist			*cmd;
-	t_redlist			*red;
-	t_envlist			*env;
-	t_heredoc			*heredoc;
 	int					pipe_in[2];
 	int					pipe_out[2];
+	t_cmd				cmdtype;
+	t_redirect			redtype;
+	t_cmdlist			*cmd;
+	t_redlist			*red;
+	t_heredoc			*heredoc;
 	struct s_execlist	*next;
 }	t_execlist;
 
@@ -156,6 +153,7 @@ typedef struct s_minishell
 	t_mslist			*list;
 	t_execlist			*exec;
 	t_argv				*argv;
+	t_envlist			*env;
 }	t_minishell;
 
 // main.c

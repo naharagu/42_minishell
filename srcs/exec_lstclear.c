@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_lstclear.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 13:03:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/25 10:47:56 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/26 09:42:12 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	exec_lstclear(t_execlist **lst)
 		tmp->redtype = NO_REDIRECT;
 		cmd_lstclear(&tmp->cmd);
 		red_lstclear(&tmp->red);
-		env_lstclear(&tmp->env);
 		free(tmp->heredoc);
 		free(tmp);
 	}
