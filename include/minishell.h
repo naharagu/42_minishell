@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 09:57:11 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 11:28:56 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ typedef struct s_envlist
 {
 	char				*key;
 	char				*value;
-	bool				is_env;
 	struct s_envlist	*next;
 }	t_envlist;
 
@@ -287,5 +286,8 @@ char		*search_path(t_minishell *ms, char *file);
 void		setup_pipe(t_execlist *exec);
 void		setup_child_pipe(t_execlist *exec);
 void		setup_parent_pipe(t_execlist *exec);
+
+//environ.c
+void	init_env(t_minishell *ms);
 
 #endif
