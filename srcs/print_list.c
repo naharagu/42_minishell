@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 21:52:39 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/26 09:43:45 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ void	print_execlist(t_minishell *ms)
 	size_t		j;
 
 	startexec = ms->exec;
-	printf("execsize= %d\n", exec_lstsize(ms->exec));
+	printf("\x1b[32mexecsize= %d\n", exec_lstsize(ms->exec));
 	j = 0;
 	while (ms->exec)
 	{
 		startcmd = ms->exec->cmd;
 		startred = ms->exec->red;
-		startenv = ms->exec->env;
+		startenv = ms->env;
 		i = 0;
 		printf("[exec:%zu]cmdtype= %d\n", j, ms->exec->cmdtype);
 		printf("[exec:%zu]redtype= %d\n", j, ms->exec->redtype);
@@ -95,20 +95,21 @@ void	print_execlist(t_minishell *ms)
 			i++;
 		}
 		i = 0;
-		printf("envsize= %d\n", env_lstsize(ms->exec->env));
-		while (ms->exec->env && ms->exec->env->key && ms->exec->env->value)
+		printf("envsize= %d\n", env_lstsize(ms->env));
+		while (ms->env && ms->env->key && ms->env->value)
 		{
 			printf("[exec:%zu]KEY[%zu]= %s(%zu) VALUE[%zu]= %s(%zu)\n", \
-			j, i, ms->exec->env->key, ft_strlen(ms->exec->env->key), \
-			i, ms->exec->env->value, ft_strlen(ms->exec->env->value));
-			ms->exec->env = ms->exec->env->next;
+			j, i, ms->env->key, ft_strlen(ms->env->key), \
+			i, ms->env->value, ft_strlen(ms->env->value));
+			ms->env = ms->env->next;
 			i++;
 		}
 		ms->exec->cmd = startcmd;
 		ms->exec->red = startred;
-		ms->exec->env = startenv;
+		ms->env = startenv;
 		ms->exec = ms->exec->next;
 		j++;
 	}
 	ms->exec = startexec;
+	printf("\x1b[39m\n");
 }

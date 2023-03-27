@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/25 07:58:11 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/26 20:43:55 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		minishell(t_minishell *ms);
+void	minishell(t_minishell *ms);
 
 int	main(void)
 {
@@ -31,6 +31,7 @@ void	minishell(t_minishell *ms)
 	rl_outstream = stderr;
 	handle_signal(ms, SIGINT, DEFAULT);
 	ignore_signal(ms, SIGQUIT);
+	init_env(ms);
 	while (1)
 	{
 		line = readline("minishell$ ");
@@ -42,17 +43,17 @@ void	minishell(t_minishell *ms)
 		lexer(ms);
 		//print_mslist(ms);//
 		parser(ms);
-		//print_cmdline(ms);//
-		printf("---before expansion---\n");//
-		print_execlist(ms);//
+		// print_cmdline(ms);//
+		// printf("---before expansion---\n");//
+		// print_execlist(ms);//
 		expansion(ms);
-		printf("---after expansion---\n");//
-		print_execlist(ms);//
-		//redirect(ms);
-		//cmd_exec(ms);//
+		// printf("---after expansion---\n");//
+		// print_execlist(ms);//
+		prepare_redirect(ms);
 		ms->exit_status = execute_cmd(ms);
 		free(line);
 		clear_ms(ms);
 	}
+	env_lstclear(&ms->env);
 	exit(ms->exit_status);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/25 11:01:19 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/26 21:52:12 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,6 @@ typedef enum e_cmd
 	OTHER_CMD
 }	t_cmd;
 
-typedef enum e_fd
-{
-	STD_IN,
-	STD_OUT,
-	STD_ERR,
-	FILE_1,
-	FILE_2
-}	t_fd;
-
 typedef enum e_sig
 {
 	DEFAULT,
@@ -111,6 +102,10 @@ typedef struct s_redlist
 {
 	char				*str;
 	t_quote				quote;
+	t_redirect			type;
+	int					fd_target;
+	int					fd_file;
+	int					fd_stashed;
 	struct s_redlist	*next;
 }	t_redlist;
 
@@ -132,17 +127,14 @@ typedef struct s_heredoc
 typedef struct s_execlist
 {
 	char				**cmdline;
-	t_cmd				cmdtype;
-	t_redirect			redtype;
-	int					std_fd;
-	int					err_fd;
-	t_cmdlist			*cmd;
-	t_redlist			*red;
-	t_envlist			*env;
-	t_heredoc			*heredoc;
-	struct s_execlist	*next;
 	int					pipe_in[2];
 	int					pipe_out[2];
+	t_cmd				cmdtype;
+	t_redirect			redtype;
+	t_cmdlist			*cmd;
+	t_redlist			*red;
+	t_heredoc			*heredoc;
+	struct s_execlist	*next;
 }	t_execlist;
 
 typedef struct s_argv
@@ -160,6 +152,7 @@ typedef struct s_minishell
 	t_mslist			*list;
 	t_execlist			*exec;
 	t_argv				*argv;
+	t_envlist			*env;
 }	t_minishell;
 
 // main.c
@@ -189,24 +182,13 @@ void		check_redtype(t_minishell *ms, char *str);
 void		expansion(t_minishell *ms);
 
 //redirect.c
-void		redirect(t_minishell *ms);
+void		prepare_redirect(t_minishell *ms);
+int			check_redirect(t_minishell *ms);
+void		set_redirect(t_redlist *red);
+void		reset_redirect(t_redlist *red);
 
-//red_out.c
-void		red_out(t_minishell *ms, t_execlist *exec, t_redlist *red);
-
-//red_append.c
-void		red_append(t_minishell *ms, t_execlist	*exec, t_redlist *red);
-
-//red_in.c
-void		red_in(t_minishell *ms, t_redlist *red);
-
-//red_heredoc.c
-void		red_heredoc(t_minishell *ms, t_execlist *exec, t_redlist *red);
-
-//cmd_exec.c
-void		cmd_exec(t_minishell *ms);
-void		exec_command(t_execlist	*exec);
-void		read_fd(t_minishell *ms, int fd);
+//heredoc.c
+int run_heredoc(char *delimiter, t_redlist *red, t_minishell *ms);
 
 //utils.c
 t_minishell	*init_ms(void);
@@ -227,6 +209,7 @@ t_heredoc	*heredoc_lstnew(t_minishell *ms);
 
 //exec_lstclear.c
 void		exec_lstclear(t_execlist **lst);
+void		env_lstclear(t_envlist **lst);
 
 //add_execlist.c
 void		add_execlist(t_minishell *ms, t_mslist	*first, size_t num);
@@ -260,12 +243,6 @@ void		exit_error(t_minishell *ms, char *location);
 void		syntax_error(t_minishell *ms, char *location, int status);
 void		other_error(t_minishell *ms, char *location, char *msg, int status);
 
-//ft_exit.c
-void		ft_exit(t_minishell *ms, int argc, char **argv);
-
-//ft_cd.c
-void		ft_cd(t_minishell *ms, char *newdir);
-
 //list_to_argv.c
 t_argv		*list_to_argv(t_minishell *ms, t_execlist *exec);
 t_argv		*init_argv(t_minishell *ms);
@@ -276,11 +253,25 @@ void		print_mslist(t_minishell *ms);
 void		print_cmdline(t_minishell *ms);
 void		print_execlist(t_minishell *ms);
 
-//create_args_array.c
+//create_array.c
+char 		**create_env_array(t_envlist *env);
 char		**create_args_array(t_execlist *exec);
+size_t		get_args_size(t_execlist *exec);
 
 //execute_cmd.c
 int			execute_cmd(t_minishell *ms);
+
+//execute_builtin.c
+int			execute_parent_process(t_minishell *ms);
+
+//builtin
+int			ft_echo(size_t argc, char **argv);
+int			ft_cd(t_minishell *ms, size_t argc, char **argv);
+int			ft_pwd(void);
+int			ft_export(t_minishell *ms, size_t argc, char **argv);
+int			ft_unset(t_minishell *ms, size_t argc, char **argv);
+int			ft_env(t_minishell *ms);
+void		ft_exit(t_minishell *ms, int argc, char **argv);
 
 //path.c
 void		free_path(char **path);
@@ -290,5 +281,9 @@ char		*search_path(t_minishell *ms, char *file);
 void		setup_pipe(t_execlist *exec);
 void		setup_child_pipe(t_execlist *exec);
 void		setup_parent_pipe(t_execlist *exec);
+
+//environ.c
+void	init_env(t_minishell *ms);
+bool	is_valid_env_key(char *key);
 
 #endif

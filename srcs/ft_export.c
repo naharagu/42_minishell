@@ -6,40 +6,47 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/20 23:11:15 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 22:27:32 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "minishell.h"
 
-bool	is_valid_key_name(char *key)
+static void	print_all_env(t_minishell *ms)
 {
-	bool	res;
+	t_envlist	*tmp_env;
 
-	res = true;
-	//
-	return (res);
+	tmp_env = ms->env;
+	while (tmp_env)
+	{
+		if (!tmp_env->key || !tmp_env->value)
+			;
+		else
+			printf("declare -x %s=\"%s\"\n", tmp_env->key, tmp_env->value);
+		tmp_env = tmp_env->next;
+	}
+	return ;
 }
 
 void	update_env_value(t_minishell *ms)
 {
+	(void)ms;
 	return ;
 }
 
-int	ft_export(t_minishell *ms, t_execlist *exe)
+int	ft_export(t_minishell *ms, size_t argc, char **argv)
 {
-	char	**args;
-	int		status;
 	size_t	i;
 
-	args = create_args_array(ms);
-	status = EXIT_SUCCESS;
-	if (!args)
-		return (EXIT_FAILURE);
-	i = 0;
-	while (args[i])
+	if (argc == 1)
 	{
-		if (is_valid_key_name(args[i]))
+		print_all_env(ms);
+		return (EXIT_SUCCESS);
+	}
+	i = 0;
+	while (argv[i])
+	{
+		if (is_valid_env_key(argv[i]))
 			update_env_value(ms);
 		else
 			return (EXIT_FAILURE);

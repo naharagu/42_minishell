@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_lstnew.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 15:55:29 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/26 09:42:03 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,8 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 	fill_cmdline(ms, new, list, num);
 	new->cmdtype = NO_CMD;
 	new->redtype = NO_REDIRECT;
-	new->std_fd = STD_OUT;
-	new->err_fd = STD_ERR;
 	new->cmd = NULL;
 	new->red = NULL;
-	new->env = NULL;
 	new->heredoc = heredoc_lstnew(ms);
 	new->pipe_in[0] = STDIN_FILENO;
 	new->pipe_in[1] = -1;

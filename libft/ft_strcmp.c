@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/26 18:04:17 by naharagu         ###   ########.fr       */
+/*   Created: 2022/04/29 16:13:20 by naharagu          #+#    #+#             */
+/*   Updated: 2023/03/24 20:01:19 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	ft_pwd(void)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	char	*pwd;
+	size_t	i;
 
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
-		return (EXIT_FAILURE);
-	ft_putstr_fd(pwd, STDOUT_FILENO);
-	ft_putchar_fd('\n', STDOUT_FILENO);
-	return (EXIT_SUCCESS);
+	i = 0;
+	while (1)
+	{
+		if ((s1[i] - s2[i]) != 0)
+			return s1[i] - s2[i];
+		if (!s1[i] && !s2[i])
+			break ;
+		i++;
+	}
+	return (0);
 }

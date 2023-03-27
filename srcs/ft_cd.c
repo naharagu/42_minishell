@@ -3,24 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:54:26 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 16:35:33 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/26 21:51:54 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_cd(t_minishell *ms, char *newdir)
+int	ft_cd(t_minishell *ms, size_t argc, char **argv)
 {
 	char	*cwd;
+	char	*newdir;
 
+	if (argc < 2)
+		return (EXIT_FAILURE);
+	if (!argv[1])
+		return (EXIT_FAILURE);
+	newdir = argv[1];
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
+	{
 		exit_error(ms, "getcwd");
+		return (EXIT_FAILURE);
+	}
 	if (chdir(newdir) < 0)
+	{
 		other_error(ms, "cd", ft_strjoin(newdir, \
 		": No such file or directory"), 1);
+		return (EXIT_FAILURE);
+	}
 	cwd = getcwd(NULL, 0);
+	return (EXIT_SUCCESS);
 }

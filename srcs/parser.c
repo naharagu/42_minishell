@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 23:00:24 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/25 16:28:24 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ static void	copy_cmd_red_list(t_minishell *ms, char *str)
 	{
 		add_redlist(ms, str);
 	}
-	else if (ms->exec->cmdtype != NO_CMD)
+	// else if (ms->exec->cmdtype != NO_CMD)
+	else
 	{
 		add_cmdlist(ms, str);
 	}

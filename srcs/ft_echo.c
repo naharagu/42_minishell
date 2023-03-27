@@ -6,13 +6,11 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/20 23:02:24 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/26 17:42:45 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "minishell.h"
-#include "../include/minishell.h"
-#include <stdbool.h>
+#include "minishell.h"
 
 static bool	is_all_n(char *s)
 {
@@ -63,16 +61,3 @@ int	ft_echo(size_t argc, char **argv)
 		write(1, "\n", 1);
 	return (EXIT_SUCCESS);
 }
-
-// int	main(int argc, char **argv, char **env)
-// {
-// 	(void) env;
-// 	if (argc > 1)
-// 	{
-// 		ft_echo((size_t)argc, argv);
-// 	}
-// 	return (EXIT_SUCCESS);
-// }
-
-//echo -n -n -nnn hello
-// > hello
