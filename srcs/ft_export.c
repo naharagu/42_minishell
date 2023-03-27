@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/26 22:27:32 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/27 23:39:35 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,71 @@ static void	print_all_env(t_minishell *ms)
 	return ;
 }
 
-void	update_env_value(t_minishell *ms)
+void	put_error_nonvalid_env(char *cmd, char *key)
 {
-	(void)ms;
-	return ;
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(key, STDERR_FILENO);
+	ft_putstr_fd(": not a valid identifier\n", STDERR_FILENO);
+}
+
+static int update_env_value(t_minishell *ms, char *arg)
+{
+	char *after_key;
+	char *key;
+	char *value;
+
+	after_key = ft_strchr(arg, '=');
+	if (!after_key)
+	{
+		key = ft_strdup(arg);
+		if (!key)
+			exit_error(ms, "malloc");
+		value = NULL;
+	}
+	else
+	{
+		key = ft_substr(arg, 0, after_key - arg);
+		if (!key)
+			exit_error(ms, "malloc");
+		printf("key: %s\n", key);
+		if (!is_valid_env_key(key))
+		{
+			free(key);
+			return (EXIT_FAILURE);
+		}
+		value = ft_strdup(after_key + 1);
+		if (!value)
+		{
+			free(key);
+			exit_error(ms, "malloc");
+		}
+	}
+	add_envlist(ms, key, value);
+	return (EXIT_SUCCESS);
 }
 
 int	ft_export(t_minishell *ms, size_t argc, char **argv)
 {
 	size_t	i;
+	int		status;
 
+	status = EXIT_SUCCESS;
 	if (argc == 1)
 	{
 		print_all_env(ms);
-		return (EXIT_SUCCESS);
+		return (status);
 	}
-	i = 0;
+	i = 1;
 	while (argv[i])
 	{
-		if (is_valid_env_key(argv[i]))
-			update_env_value(ms);
-		else
-			return (EXIT_FAILURE);
+		if (update_env_value(ms, argv[i]) == EXIT_FAILURE)
+		{
+			put_error_nonvalid_env("export", argv[i]);
+			status = EXIT_FAILURE;
+		}
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (status);
 }

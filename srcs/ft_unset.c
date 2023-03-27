@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/26 21:27:54 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/27 23:46:54 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,15 @@ static void	delete_env(t_minishell *ms, char *arg_str)
 	t_envlist	*env_curr;
 	t_envlist	*env_prev;
 
-	env_curr = ms->env;
-	env_prev = env_curr;
+	env_curr = ms->env->next;
+	env_prev = ms->env;
 	while (env_curr)
 	{
+		if (!env_curr->key)
+			return ;
 		if (ft_strcmp(env_curr->key, arg_str) == 0)
 		{
-			if (env_curr == env_prev)
-				ms->env = env_curr->next;
-			else
-				env_prev->next = env_curr->next;
+			env_prev->next = env_curr->next;
 			free(env_curr->key);
 			free(env_curr->value);
 			free(env_curr);
@@ -41,18 +40,22 @@ static void	delete_env(t_minishell *ms, char *arg_str)
 int	ft_unset(t_minishell *ms, size_t argc, char **argv)
 {
 	size_t	i;
+	int		status;
 
-	(void)argc;
-	if (!argv)
-		return (EXIT_FAILURE);
+	status = EXIT_SUCCESS;
+	if (argc == 1)
+		return (status);
 	i = 1;
-	while (argv[i])
+	while (i < argc)
 	{
 		if (is_valid_env_key(argv[i]))
 			delete_env(ms, argv[i]);
 		else
-			return (EXIT_FAILURE);
+		{
+			put_error_nonvalid_env("unset", argv[i]);
+			status = EXIT_FAILURE;
+		}
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (status);
 }

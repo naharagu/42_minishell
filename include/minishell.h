@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 21:52:12 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/27 23:55:47 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,6 +263,7 @@ int			execute_cmd(t_minishell *ms);
 
 //execute_builtin.c
 int			execute_parent_process(t_minishell *ms);
+int			execute_builtin(t_minishell *ms, t_execlist *exec);
 
 //builtin
 int			ft_echo(size_t argc, char **argv);
@@ -272,6 +273,7 @@ int			ft_export(t_minishell *ms, size_t argc, char **argv);
 int			ft_unset(t_minishell *ms, size_t argc, char **argv);
 int			ft_env(t_minishell *ms);
 void		ft_exit(t_minishell *ms, int argc, char **argv);
+void		put_error_nonvalid_env(char *cmd, char *key);
 
 //path.c
 void		free_path(char **path);
