@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 23:00:24 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/27 20:17:42 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,28 @@ static void	check_execlist(t_minishell *ms)
 
 static void	copy_cmd_red_list(t_minishell *ms, char *str)
 {
-	if (ms->exec->redtype != NO_REDIRECT && ms->exec->cmdtype == NO_CMD)
+	if (cmd_lstsize(ms->exec->cmd) == 0 && red_lstsize(ms->exec->red) == 0)
 	{
+		if (ms->exec->cmdtype != NO_CMD)
+			add_cmdlist(ms, str);
+		if (ms->exec->redtype != NO_REDIRECT)
+			add_redlist(ms, str);
+	}
+	else if (cmd_lstsize(ms->exec->cmd) > 0 && red_lstsize(ms->exec->red) == 0)
+	{
+		if (ms->exec->redtype == NO_REDIRECT)
+			add_cmdlist(ms, str);
+		if (ms->exec->redtype != NO_REDIRECT)
+			add_redlist(ms, str);
+	}
+	else if (cmd_lstsize(ms->exec->cmd) == 0 && red_lstsize(ms->exec->red) > 0)
+	{
+		if (ms->exec->cmdtype == NO_CMD)
+			add_redlist(ms, str);
+		if (ms->exec->cmdtype != NO_CMD)
+			add_cmdlist(ms, str);
+	}
+	else if (cmd_lstsize(ms->exec->cmd) > 0 && red_lstsize(ms->exec->red) > 0 \
+		&& ms->exec->redtype != NO_REDIRECT)
 		add_redlist(ms, str);
-	}
-	else if (ms->exec->cmdtype != NO_CMD)
-	{
-		add_cmdlist(ms, str);
-	}
 }
