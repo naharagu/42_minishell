@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 09:43:45 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/27 23:34:46 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	print_cmdline(t_minishell *ms)
 			i++;
 		}
 		printf("[exec:%zu]cmdtype= %d\n", j, ms->exec->cmdtype);
-		printf("[exec:%zu]cmdtype= %d\n", j, ms->exec->redtype);
+		printf("[exec:%zu]redtype= %d\n", j, ms->exec->redtype);
 		ms->exec = ms->exec->next;
 		j++;
 	}

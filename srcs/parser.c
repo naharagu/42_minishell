@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/25 16:28:24 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/27 23:29:36 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,8 @@ void	parser(t_minishell *ms)
 	}
 	add_execlist(ms, first, ms->cmd_size);
 	ms->list = start;
-	check_execlist(ms);
 	error_parser_mslist(ms);
-	error_parser_execlist(ms);
+	check_execlist(ms);
 }
 
 static void	check_execlist(t_minishell *ms)
@@ -62,6 +61,7 @@ static void	check_execlist(t_minishell *ms)
 			copy_cmd_red_list(ms, ms->exec->cmdline[i]);
 			i++;
 		}
+		//error_parser_execlist(ms);
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;
@@ -69,13 +69,28 @@ static void	check_execlist(t_minishell *ms)
 
 static void	copy_cmd_red_list(t_minishell *ms, char *str)
 {
-	if (ms->exec->redtype != NO_REDIRECT && ms->exec->cmdtype == NO_CMD)
+	if (cmd_lstsize(ms->exec->cmd) == 0 && red_lstsize(ms->exec->red) == 0)
 	{
+		if (ms->exec->cmdtype != NO_CMD)
+			add_cmdlist(ms, str);
+		if (ms->exec->redtype != NO_REDIRECT)
+			add_redlist(ms, str);
+	}
+	else if (cmd_lstsize(ms->exec->cmd) > 0 && red_lstsize(ms->exec->red) == 0)
+	{
+		if (ms->exec->redtype == NO_REDIRECT)
+			add_cmdlist(ms, str);
+		if (ms->exec->redtype != NO_REDIRECT)
+			add_redlist(ms, str);
+	}
+	else if (ms->exec->cmdtype != NO_CMD)
+	{
+		if (ms->exec->cmdtype == NO_CMD)
+			add_redlist(ms, str);
+		if (ms->exec->cmdtype != NO_CMD)
+			add_cmdlist(ms, str);
+	}
+	else if (cmd_lstsize(ms->exec->cmd) > 0 && red_lstsize(ms->exec->red) > 0 \
+		&& ms->exec->redtype != NO_REDIRECT)
 		add_redlist(ms, str);
-	}
-	// else if (ms->exec->cmdtype != NO_CMD)
-	else
-	{
-		add_cmdlist(ms, str);
-	}
 }
