@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 14:28:39 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/27 18:38:50 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char	**create_env_array(t_envlist *env)
 	i = 0;
 	while (env)
 	{
+		if (!env->key && !env->value)
+			env = env->next;
 		tmp_str = ft_strjoin(env->key, "=");
 		if (!tmp_str)
 			return (NULL);
