@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 18:19:53 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 21:13:00 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,9 @@ char	**create_env_array(t_minishell *ms, t_envlist *env)
 	char	**env_array;
 	char	*env_str;
 	char	*tmp_str;
-	int		size;
 	int		i;
 
-	size = env_lstsize(env);
-	if (size == 0)
-		return (NULL);
-	env_array = ft_calloc(size + 1, sizeof(char *));
+	env_array = ft_calloc(env_lstsize(env) + 1, sizeof(char *));
 	if (!env_array)
 		exit_error(ms, "malloc");
 	i = 0;
@@ -68,14 +64,12 @@ char	**create_args_array(t_minishell *ms, t_execlist *exec)
 	t_cmdlist	*tmp_cmd;
 
 	args_size = get_args_size(exec);
-	if (args_size == 0)
-		return (NULL);
 	args = ft_calloc(args_size + 1, sizeof(char *));
 	if (!args)
 		exit_error(ms, "malloc");
 	i = 0;
 	tmp_cmd = exec->cmd;
-	while (i < args_size)
+	while (args_size && i < args_size)
 	{
 		args[i] = ft_strdup(tmp_cmd->str);
 		if (!args[i])
@@ -92,8 +86,9 @@ char	**create_args_array(t_minishell *ms, t_execlist *exec)
 
 void	free_arg_array(size_t argc, char **argv)
 {
-	size_t i = 0;
+	size_t	i;
 
+	i = 0;
 	while (i < argc)
 	{
 		free(argv[i]);

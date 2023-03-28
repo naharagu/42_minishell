@@ -6,11 +6,20 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/27 23:46:54 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 20:59:48 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	put_error_nonvalid_env(char *cmd, char *key)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(key, STDERR_FILENO);
+	ft_putstr_fd(": not a valid identifier\n", STDERR_FILENO);
+}
 
 static void	delete_env(t_minishell *ms, char *arg_str)
 {
