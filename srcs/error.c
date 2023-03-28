@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 14:55:36 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/28 15:06:17 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	error_parser_execlist(t_minishell *ms)
 	}
 	ms->exec->red = startred;
 }
-//修正必要
+
 void	error_expansion_red( t_minishell *ms)
 {
 	char		*env;

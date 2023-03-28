@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/27 23:27:21 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/28 15:05:39 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,10 @@ static void	assign_value_red(t_minishell *ms, t_redlist *red)
 	{
 		red->str--;
 		if (red->quote == D_QUOTE)
+		{
 			red->str = ms->exec->env->value;
+			error_expansion_red(ms);
+		}
 		else
 		{
 			split = ft_split(ms->exec->env->value, ' ');
