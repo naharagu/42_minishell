@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 15:48:30 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 18:28:03 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,9 @@
 # include <stdbool.h>
 # include "../libft/libft.h"
 
-#define CMD_NOT_EXECUTABLE 126
-#define CMD_NOT_FOUND 127
+#define EXIT_CMD_NOT_EXECUTABLE 126
+#define EXIT_CMD_NOT_FOUND 127
+#define EXIT_ERROR 128
 
 typedef enum e_quote
 {
@@ -242,6 +243,7 @@ void		error_expansion_red(t_minishell *ms);
 
 //print_error.c
 void		exit_error(t_minishell *ms, char *location);
+void		exit_error_with_status(char *location, char *message, int status);
 void		syntax_error(t_minishell *ms, char *location, int status);
 void		other_error(t_minishell *ms, char *location, char *msg, int status);
 
@@ -256,12 +258,12 @@ void		print_cmdline(t_minishell *ms);
 void		print_execlist(t_minishell *ms);
 
 //create_array.c
-char 		**create_env_array(t_envlist *env);
-char		**create_args_array(t_execlist *exec);
+char		**create_env_array(t_minishell *ms, t_envlist *env);
+char		**create_args_array(t_minishell *ms, t_execlist *exec);
 size_t		get_args_size(t_execlist *exec);
 void		free_arg_array(size_t argc, char **argv);
 
-//execute_cmd.c
+//execute.c
 int			execute(t_minishell *ms);
 
 //execute_builtin.c
@@ -281,6 +283,7 @@ void		put_error_nonvalid_env(char *cmd, char *key);
 //path.c
 void		free_path(char **path);
 char		*search_path(t_minishell *ms, char *file);
+int			validate_path(char *path, t_execlist *exec);
 
 //pipe.c
 void		setup_pipe(t_execlist *exec);

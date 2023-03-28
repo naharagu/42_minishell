@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:17:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/23 22:03:00 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 18:28:30 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@ void	exit_error(t_minishell *ms, char *location)
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	perror(location);
 	exit(EXIT_FAILURE);
+}
+
+void	exit_error_with_status(char *location, char *message, int status)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(location, STDERR_FILENO);
+	ft_putstr_fd(" : ", STDERR_FILENO);
+	ft_putstr_fd(message, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	exit(status);
 }
 
 void	syntax_error(t_minishell *ms, char *location, int status)

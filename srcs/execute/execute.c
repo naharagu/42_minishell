@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:53:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/28 15:47:14 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 18:26:33 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,16 @@ static void	execute_non_builtin(t_minishell *ms, t_execlist *exec)
 	if (exec->redtype != NO_REDIRECT)
 		set_redirect(exec->red);
 	if (!exec->cmd)
-		exit(CMD_NOT_FOUND);
+		exit(EXIT_CMD_NOT_FOUND);
 	path = exec->cmd->str;
-	env = create_env_array(ms->env);
-	args = create_args_array(exec);
-	if (!env || !args)
-		exit_error(ms, "execute");
+	env = create_env_array(ms, ms->env);
+	args = create_args_array(ms, exec);
 	if (!(ft_strchr(path, '/')))
-	{
 		path = search_path(ms, path);
-		if (!path)
-			exit(127); //shoule be 127
-		if (access(path, F_OK) < 0)
-			return (free(path));
-		if (execve(path, args, env) == -1)
-			return (free(path));
-		if (exec->redtype != NO_REDIRECT)
-			reset_redirect(exec->red);
-	}
-	else if (execve(path, args, env) == -1)
-	{
-		if (exec->redtype != NO_REDIRECT)
-			reset_redirect(exec->red);
-	}
+	validate_path(path, exec);
+	execve(path, args, env);
+	if (exec->redtype != NO_REDIRECT)
+		reset_redirect(exec->red);
 }
 
 static pid_t	execute_child_process(t_minishell *ms, t_execlist *exec)
@@ -80,7 +67,7 @@ int	wait_child_process(t_minishell *ms, pid_t last_pid)
 		if (wait_result == last_pid)
 		{
 			if (WIFSIGNALED(wstatus))
-				status = 128 + WTERMSIG(wstatus);
+				status = EXIT_ERROR + WTERMSIG(wstatus);
 			else
 				status = WEXITSTATUS(wstatus);
 		}
