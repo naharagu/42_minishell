@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/27 23:43:38 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/28 21:49:35 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,27 +47,23 @@ void	error_parser_execlist(t_minishell *ms)
 	{
 		while (ms->exec->red)
 		{
-			if (ft_strnstr(ms->exec->red->str, ">>>>", 4))
+			if (ft_strnstr(ms->exec->red->str, ">>>>", \
+				ft_strlen(ms->exec->red->str)))
 				syntax_error(ms, ">>", 1);
-			else if (ft_strnstr(ms->exec->red->str, ">>>", 3))
+			else if (ft_strnstr(ms->exec->red->str, ">>>", \
+				ft_strlen(ms->exec->red->str)))
 				syntax_error(ms, ">", 1);
-			else if (ft_strnstr(ms->exec->red->str, "<<<<", 4))
+			else if (ft_strnstr(ms->exec->red->str, "<<<<", \
+				ft_strlen(ms->exec->red->str)))
 				syntax_error(ms, "<", 1);
-			else if (ms->exec->redtype != OUTPUT && \
-			ft_strnstr(ms->exec->red->str, ">", ft_strlen(ms->exec->red->str)) \
-			&& !(ms->exec->red->next->str))
+			else if (ft_strnstr(ms->exec->red->str, ">", \
+				ft_strlen(ms->exec->red->str)) && !(ms->exec->red->next))
 				syntax_error(ms, "newline", 258);
+			ms->exec->red = ms->exec->red->next;
 		}
-		ms->exec->red = ms->exec->red->next;
 	}
 	ms->exec->red = startred;
 }
-
-// void	error_expansion_cmd( t_minishell *ms)
-// {
-// 	if (ms->exec->cmdtype == NO_CMD && ms->exec->redtype == NO_REDIRECT)
-// 		other_error(ms, ms->exec->cmd->str, "command not found", 127);
-// }
 
 void	error_expansion_red( t_minishell *ms)
 {
