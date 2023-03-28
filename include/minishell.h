@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 19:08:31 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 19:32:50 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,9 @@
 # include <readline/history.h>
 # include <stdbool.h>
 # include "../libft/libft.h"
-
-#define EXIT_CMD_NOT_EXECUTABLE 126
-#define EXIT_CMD_NOT_FOUND 127
-#define EXIT_ERROR 128
+# define NOT_EXECUTABLE 126
+# define NOT_FOUND 127
+# define EXIT_ERROR 128
 
 typedef enum e_quote
 {
@@ -191,7 +190,7 @@ void		set_redirect(t_redlist *red);
 void		reset_redirect(t_redlist *red);
 
 //heredoc.c
-int run_heredoc(char *delimiter, t_redlist *red, t_minishell *ms);
+int			run_heredoc(char *delimiter, t_redlist *red, t_minishell *ms);
 
 //utils.c
 t_minishell	*init_ms(void);
@@ -294,6 +293,7 @@ void		setup_parent_pipe(t_execlist *exec);
 void		init_env(t_minishell *ms);
 bool		is_valid_env_key(char *key);
 t_envlist	*get_env_from_key(t_minishell *ms, char *key);
-char 		*get_value_from_key(t_minishell *ms, char *key);
+char		*get_value_from_key(t_minishell *ms, char *key);
+int			update_env_value(t_minishell *ms, char *arg);
 
 #endif

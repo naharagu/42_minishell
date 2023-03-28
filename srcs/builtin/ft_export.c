@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/28 19:03:31 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 19:15:22 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ void	put_error_nonvalid_env(char *cmd, char *key)
 	ft_putstr_fd(": not a valid identifier\n", STDERR_FILENO);
 }
 
-static int	update_env_value(t_minishell *ms, char *arg)
+int	update_env_value(t_minishell *ms, char *arg)
 {
-	char	*equal_ptr;
-	char	*key;
-	char	*value;
-	t_envlist *tmp_env;
+	char		*equal_ptr;
+	char		*key;
+	char		*value;
+	t_envlist	*tmp_env;
 
 	equal_ptr = ft_strchr(arg, '=');
 	if (!equal_ptr)
