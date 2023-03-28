@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 18:27:40 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 19:09:51 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ char	*search_path(t_minishell *ms, char *file)
 	char	*res;
 	size_t	i;
 
-	value = getenv("PATH"); //should fix
+	value = get_value_from_key(ms, "PATH");
 	path = ft_split(value, ':');
+	if (!path)
+		return (NULL);
 	i = 0;
 	while (path[i])
 	{

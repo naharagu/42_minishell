@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/27 23:39:35 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 19:03:31 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ void	put_error_nonvalid_env(char *cmd, char *key)
 
 static int	update_env_value(t_minishell *ms, char *arg)
 {
-	char	*after_key;
+	char	*equal_ptr;
 	char	*key;
 	char	*value;
+	t_envlist *tmp_env;
 
-	after_key = ft_strchr(arg, '=');
-	if (!after_key)
+	equal_ptr = ft_strchr(arg, '=');
+	if (!equal_ptr)
 	{
 		key = ft_strdup(arg);
 		if (!key)
@@ -53,23 +54,34 @@ static int	update_env_value(t_minishell *ms, char *arg)
 	}
 	else
 	{
-		key = ft_substr(arg, 0, after_key - arg);
+		key = ft_substr(arg, 0, equal_ptr - arg);
 		if (!key)
 			exit_error(ms, "malloc");
-		printf("key: %s\n", key);
+		// printf("key: %s\n", key);
 		if (!is_valid_env_key(key))
 		{
 			free(key);
 			return (EXIT_FAILURE);
 		}
-		value = ft_strdup(after_key + 1);
+		value = ft_strdup(equal_ptr + 1);
 		if (!value)
 		{
 			free(key);
 			exit_error(ms, "malloc");
 		}
 	}
-	add_envlist(ms, key, value);
+	tmp_env = get_env_from_key(ms, key);
+	if (tmp_env == NULL)
+	{
+		add_envlist(ms, key, value);
+		free(key);
+	}
+	else
+	{
+		if (tmp_env->value)
+			free(tmp_env->value);
+		tmp_env->value = value;
+	}
 	return (EXIT_SUCCESS);
 }
 

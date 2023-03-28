@@ -13,6 +13,7 @@ SRCS		= 	srcs/main.c							\
 				srcs/builtin/ft_pwd.c				\
 				srcs/builtin/ft_unset.c				\
 				srcs/environ/create_array.c			\
+				srcs/environ/env_util.c				\
 				srcs/environ/environ.c				\
 				srcs/execute/execute.c				\
 				srcs/execute/execute_builtin.c		\
