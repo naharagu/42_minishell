@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 22:04:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/28 14:38:23 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:46:35 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int	execute_builtin(t_minishell *ms, t_execlist *exec)
 	char	**argv;
 	int		status;
 
-	// printf("\x1b[32mbuiltin");
-	// printf("\x1b[39m\n");
 	argc = get_args_size(exec);
 	argv = create_args_array(exec);
 	status = EXIT_SUCCESS;
@@ -37,15 +35,7 @@ int	execute_builtin(t_minishell *ms, t_execlist *exec)
 		status = ft_unset(ms, argc, argv);
 	else if (exec->cmdtype == ENV_CMD)
 		status = ft_env(ms);
-
-	size_t i = 0;
-
-	while (i < argc)
-	{
-		free(argv[i]);
-		i++;
-	}
-	free(argv);
+	free_arg_array(argc, argv);
 	return (status);
 }
 
@@ -53,6 +43,8 @@ int	execute_parent_process(t_minishell *ms)
 {
 	int	status;
 
+	if (ms->exec->redtype != NO_REDIRECT)
+		set_redirect(ms->exec->red);
 	status = execute_builtin(ms, ms->exec);
 	if (ms->exec->redtype != NO_REDIRECT)
 		reset_redirect(ms->exec->red);

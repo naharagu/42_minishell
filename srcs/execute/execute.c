@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:53:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/28 13:46:47 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:47:14 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static pid_t	execute_child_process(t_minishell *ms, t_execlist *exec)
 
 	setup_pipe(exec);
 	pid = fork();
-	// printf("fork pid: %d\n", pid);
 	if (pid < 0)
 		exit_error(ms, "pipe");
 	else if (pid == 0)
@@ -66,7 +65,6 @@ static pid_t	execute_child_process(t_minishell *ms, t_execlist *exec)
 	setup_parent_pipe(exec);
 	if (exec->next)
 		return (execute_child_process(ms, exec->next));
-	// printf("last pid: %d\n", pid);
 	return (pid);
 }
 
@@ -99,25 +97,21 @@ int	wait_child_process(t_minishell *ms, pid_t last_pid)
 	return (status);
 }
 
-int	execute_cmd(t_minishell *ms)
+int	execute(t_minishell *ms)
 {
 	int		status;
 	pid_t	last_pid;
 
 	if (ms->exec->cmd == NULL)
 		return (1);
-	// printf("nextexec: %p, CMDTYPE: %d\n", ms->exec->next, ms->exec->cmdtype);
 	if (ms->exec->cmdtype != NO_CMD && ms->exec->next == NULL)
 	{
-		// printf("start parent process\n");//
 		status = execute_parent_process(ms);
 	}
 	else
 	{
-		// printf("start child process\n");//
 		last_pid = execute_child_process(ms, ms->exec);
 		status = wait_child_process(ms, last_pid);
 	}
 	return (status);
-	//シグナルの調整が必要
 }

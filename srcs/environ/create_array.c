@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 14:26:25 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 14:48:35 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,15 @@ char	**create_args_array(t_execlist *exec)
 	return (args);
 }
 
-// void	free_args(t_minishell *ms, char **args)
-// {
-// 	free(args[0]);
-// 	free(args);
-// }
+void	free_arg_array(size_t argc, char **argv)
+{
+	size_t i = 0;
+
+	while (i < argc)
+	{
+		free(argv[i]);
+		i++;
+	}
+	free(argv);
+	return ;
+}

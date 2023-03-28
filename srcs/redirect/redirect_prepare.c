@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 11:30:13 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:40:22 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static int	open_and_assign_fd(t_minishell *ms)
 		while (tmp_red)
 		{
 			tmp_red->fd_file = open_redirect_file(tmp_red, ms);
-			// fprintf(stderr, "open file fd is %d\n", tmp_red->fd_file);//
 			if (tmp_red->fd_file < 0)
 				return (-1);
 			tmp_red = tmp_red->next->next;

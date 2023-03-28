@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 11:40:29 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:48:30 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 # include <dirent.h>
 # include <sys/ioctl.h>
 # include <termios.h>
-// # include <termcap.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
@@ -260,9 +259,10 @@ void		print_execlist(t_minishell *ms);
 char 		**create_env_array(t_envlist *env);
 char		**create_args_array(t_execlist *exec);
 size_t		get_args_size(t_execlist *exec);
+void		free_arg_array(size_t argc, char **argv);
 
 //execute_cmd.c
-int			execute_cmd(t_minishell *ms);
+int			execute(t_minishell *ms);
 
 //execute_builtin.c
 int			execute_parent_process(t_minishell *ms);
@@ -288,7 +288,7 @@ void		setup_child_pipe(t_execlist *exec);
 void		setup_parent_pipe(t_execlist *exec);
 
 //environ.c
-void	init_env(t_minishell *ms);
-bool	is_valid_env_key(char *key);
+void		init_env(t_minishell *ms);
+bool		is_valid_env_key(char *key);
 
 #endif

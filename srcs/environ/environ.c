@@ -6,29 +6,29 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/28 14:35:14 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:59:36 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	convert_to_envlist(t_minishell *ms, char *str_envrion)
+void	convert_to_envlist(t_minishell *ms, char *env_str)
 {
-	char	*after_key;
+	char	*equal_ptr;
 	char	*key;
 	char	*value;
 
-	after_key = ft_strchr(str_envrion, '=');
-	if (!after_key)
-		add_envlist(ms, str_envrion, NULL);
+	equal_ptr = ft_strchr(env_str, '=');
+	if (!equal_ptr)
+		add_envlist(ms, env_str, NULL);
 	else
 	{
-		key = ft_substr(str_envrion, 0, after_key - str_envrion);
+		key = ft_substr(env_str, 0, equal_ptr - env_str);
 		if (!key)
 			exit_error(ms, "malloc");
-		value = ft_strdup(after_key + 1);
-		// if (!value)
-		// 	exit_error(ms, "malloc");
+		value = ft_strdup(equal_ptr + 1);
+		if (!value)
+			exit_error(ms, "malloc");
 		add_envlist(ms, key, value);
 		free(key);
 		free(value);
