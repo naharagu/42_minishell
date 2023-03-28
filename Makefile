@@ -6,67 +6,59 @@
 #    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/28 09:54:24 by naharagu         ###   ########.fr        #
+#    Updated: 2023/03/28 10:48:34 by naharagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 CC			=	gcc
-# C_FLAGS 	=	-Wall -Werror -Wextra -g -fsanitize=address
-# C_FLAGS 	=	-Wall -Werror -Wextra
 RL_FLAGS 	=	-lreadline -lhistory -L$(shell brew --prefix readline)/lib -L/usr/local/Cellar/readline/8.2.1/lib -L/usr/local/opt/readline/lib
 INCLUDE		=   -I include -I $(LIB_DIR) -I $(shell brew --prefix readline)/include -I/usr/local/opt/readline/include
-# RL_FLAGS 	=	-I $(shell brew --prefix readline)/include -lreadline -lhistory -L$(shell brew --prefix readline)/lib
-# INCLUDE		=   -I include -I $(LIB_DIR)
-VPATH 		=   srcs
-SRCS		= 	main.c          \
-				signal.c        \
-				lexer.c         \
-				bool.c          \
-				parser.c        \
-				check_type.c    \
-				expansion.c     \
-				utils.c         \
-				mslist.c 	    \
-				exec_lstnew.c   \
-				exec_lstclear.c \
-				add_execlist.c  \
-				add_cmdlist.c   \
-				add_redlist.c   \
-				add_envlist.c   \
-				error.c         \
-				print_error.c   \
-				list_to_argv.c  \
-				print_list.c 	\
-				create_array.c \
-				execute_cmd.c	\
-				execute_builtin.c	\
-				path.c			\
-				pipe.c			\
-				heredoc.c		\
-				environ.c		\
-				redirect_check.c	\
-				redirect_prepare.c	\
-				redirect_set.c		\
-				ft_echo.c 		\
-				ft_pwd.c 		\
-				ft_env.c 		\
-				ft_export.c 		\
-				ft_unset.c 		\
-				ft_exit.c       \
-				ft_cd.c
-OBJS_DIR	=	./obj/
-OBJS		=	$(SRCS:%.c=$(OBJS_DIR)%.o)
+CFLAGS 		=	-Wall -Werror -Wextra -g -fsanitize=address $(INCLUDE)
+# CFLAGS 	=	-Wall -Werror -Wextra $(INCLUDE)
+SRCS		= 	srcs/main.c							\
+				srcs/builtin/ft_cd.c				\
+				srcs/builtin/ft_echo.c				\
+				srcs/builtin/ft_env.c				\
+				srcs/builtin/ft_exit.c				\
+				srcs/builtin/ft_export.c			\
+				srcs/builtin/ft_pwd.c				\
+				srcs/builtin/ft_unset.c				\
+				srcs/environ/add_envlist.c			\
+				srcs/environ/create_array.c			\
+				srcs/environ/environ.c				\
+				srcs/execute/execute.c				\
+				srcs/execute/execute_builtin.c		\
+				srcs/execute/path.c					\
+				srcs/execute/pipe.c					\
+				srcs/lexer/bool.c					\
+				srcs/lexer/error.c					\
+				srcs/lexer/lexer.c					\
+				srcs/lexer/mslist.c					\
+				srcs/parser/add_cmdlist.c			\
+				srcs/parser/add_execlist.c			\
+				srcs/parser/check_type.c			\
+				srcs/parser/exec_lstnew.c			\
+				srcs/parser/expansion.c				\
+				srcs/parser/parser.c				\
+				srcs/redirect/add_redlist.c		    \
+				srcs/redirect/heredoc.c			    \
+				srcs/redirect/redirect_check.c		\
+				srcs/redirect/redirect_prepare.c	\
+				srcs/redirect/redirect_set.c		\
+				srcs/test/print_error.c			    \
+				srcs/test/print_list.c				\
+				srcs/utils/exec_lstclear.c			\
+				srcs/utils/list_to_argv.c			\
+				srcs/utils/signal.c				    \
+				srcs/utils/utils.c
+OBJS		=	$(SRCS:%.c=%.o)
 LIB_DIR		= 	./libft
 LIB			=	./libft/libft.a
 
 $(NAME): $(OBJS)
 	make -C $(LIB_DIR)
-	$(CC) $(C_FLAGS) $(RL_FLAGS) $(OBJS) -o $(NAME) $(LIB)
-
-$(OBJS_DIR)%.o: %.c
-		mkdir -p $(OBJS_DIR)
-		$(CC) $(C_FLAGS) $(INCLUDE) -o $@ -c $<
+	$(CC) $(CFLAGS) $^ $(RL_FLAGS) $(LIB) -o $(NAME)
 
 all: $(NAME)
 
