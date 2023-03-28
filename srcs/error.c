@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 21:49:35 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/28 22:17:58 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	error_expansion_red( t_minishell *ms)
 {
 	char		*env;
 
-	if (ms->exec->redtype == OUTPUT && ft_strchr(ms->exec->red->next->str, ' '))
+	if (ms->exec->redtype == OUTPUT && ft_strchr(ms->exec->red->str, ' '))
 	{
 		env = ft_strjoin("$", ms->env->key);
 		other_error(ms, env, "ambiguous redirect", 1);
