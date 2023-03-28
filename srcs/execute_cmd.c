@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:53:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/27 23:57:38 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 09:28:33 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static void	execute_child_process_helper(t_minishell *ms, t_execlist *exec)
 
 	if (exec->redtype != NO_REDIRECT)
 		set_redirect(exec->red);
+	if (!exec->cmd)
+		exit(127); //
 	path = exec->cmd->str;
 	env = create_env_array(ms->env);
 	args = create_args_array(exec);
@@ -59,7 +61,7 @@ static pid_t	execute_child_process(t_minishell *ms, t_execlist *exec)
 		if (exec->cmdtype == NO_CMD)
 			execute_child_process_helper(ms, exec);
 		else
-			execute_builtin(ms, exec);
+			exit(execute_builtin(ms, exec));
 	}
 	// printf("pid is %d exec is %s\n", pid, exec->cmd->str);//
 	setup_parent_pipe(exec);
@@ -104,7 +106,8 @@ int	execute_cmd(t_minishell *ms)
 
 	if (ms->exec->cmd == NULL)
 		return (1);
-	if (ms->list->pipe == NO_PIPE && ms->exec->cmdtype != NO_CMD)
+	// printf("nextexec: %p, CMDTYPE: %d\n", ms->exec->next, ms->exec->cmdtype);
+	if (ms->exec->cmdtype != NO_CMD && ms->exec->next == NULL)
 	{
 		// printf("start parent process\n");//
 		status = execute_parent_process(ms);

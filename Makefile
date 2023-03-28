@@ -6,13 +6,13 @@
 #    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/26 17:40:32 by naharagu         ###   ########.fr        #
+#    Updated: 2023/03/28 09:54:24 by naharagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 CC			=	gcc
-C_FLAGS 	=	-Wall -Werror -Wextra -g -fsanitize=address
+# C_FLAGS 	=	-Wall -Werror -Wextra -g -fsanitize=address
 # C_FLAGS 	=	-Wall -Werror -Wextra
 RL_FLAGS 	=	-lreadline -lhistory -L$(shell brew --prefix readline)/lib -L/usr/local/Cellar/readline/8.2.1/lib -L/usr/local/opt/readline/lib
 INCLUDE		=   -I include -I $(LIB_DIR) -I $(shell brew --prefix readline)/include -I/usr/local/opt/readline/include
