@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_cmd.c                                      :+:      :+:    :+:   */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:53:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/28 09:28:33 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 13:46:47 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	execute_child_process_helper(t_minishell *ms, t_execlist *exec)
+static void	execute_non_builtin(t_minishell *ms, t_execlist *exec)
 {
 	char		**env;
 	char		*path;
@@ -21,7 +21,7 @@ static void	execute_child_process_helper(t_minishell *ms, t_execlist *exec)
 	if (exec->redtype != NO_REDIRECT)
 		set_redirect(exec->red);
 	if (!exec->cmd)
-		exit(127); //
+		exit(CMD_NOT_FOUND);
 	path = exec->cmd->str;
 	env = create_env_array(ms->env);
 	args = create_args_array(exec);
@@ -52,21 +52,21 @@ static pid_t	execute_child_process(t_minishell *ms, t_execlist *exec)
 
 	setup_pipe(exec);
 	pid = fork();
+	// printf("fork pid: %d\n", pid);
 	if (pid < 0)
 		exit_error(ms, "pipe");
 	else if (pid == 0)
 	{
-		// printf("pid is %d\n", pid);//
 		setup_child_pipe(exec);
 		if (exec->cmdtype == NO_CMD)
-			execute_child_process_helper(ms, exec);
+			execute_non_builtin(ms, exec);
 		else
 			exit(execute_builtin(ms, exec));
 	}
-	// printf("pid is %d exec is %s\n", pid, exec->cmd->str);//
 	setup_parent_pipe(exec);
 	if (exec->next)
 		return (execute_child_process(ms, exec->next));
+	// printf("last pid: %d\n", pid);
 	return (pid);
 }
 

@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 08:43:45 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 11:40:29 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,14 @@
 # include <dirent.h>
 # include <sys/ioctl.h>
 # include <termios.h>
-# include <termcap.h>
+// # include <termcap.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
 # include "../libft/libft.h"
+
+#define CMD_NOT_EXECUTABLE 126
+#define CMD_NOT_FOUND 127
 
 typedef enum e_quote
 {

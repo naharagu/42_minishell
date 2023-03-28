@@ -37,11 +37,11 @@ void	put_error_nonvalid_env(char *cmd, char *key)
 	ft_putstr_fd(": not a valid identifier\n", STDERR_FILENO);
 }
 
-static int update_env_value(t_minishell *ms, char *arg)
+static int	update_env_value(t_minishell *ms, char *arg)
 {
-	char *after_key;
-	char *key;
-	char *value;
+	char	*after_key;
+	char	*key;
+	char	*value;
 
 	after_key = ft_strchr(arg, '=');
 	if (!after_key)

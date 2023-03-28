@@ -1,20 +1,8 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/28 11:22:59 by naharagu         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME		=	minishell
 CC			=	gcc
 RL_FLAGS 	=	-lreadline -lhistory -L$(shell brew --prefix readline)/lib -L/usr/local/Cellar/readline/8.2.1/lib -L/usr/local/opt/readline/lib
 INCLUDE		=   -I include -I $(LIB_DIR) -I $(shell brew --prefix readline)/include -I/usr/local/opt/readline/include
-# CFLAGS 		=	-Wall -Werror -Wextra -g -fsanitize=address $(INCLUDE)
+# CFLAGS 		=	-Wall -Werror -Wextra -g -fsanitize=address -fno-omit-frame-pointer $(INCLUDE)
 CFLAGS 	=	-Wall -Werror -Wextra $(INCLUDE)
 SRCS		= 	srcs/main.c							\
 				srcs/builtin/ft_cd.c				\

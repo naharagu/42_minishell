@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 22:04:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/28 08:59:30 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 14:38:23 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,14 @@
 
 int	execute_builtin(t_minishell *ms, t_execlist *exec)
 {
-	// printf("\x1b[32mbuiltin"); //
-	// printf("\x1b[39m\n"); //
-	// printf("cmdtype: %d\n", exec->cmdtype);//
-	size_t argc;
-	char **argv;
-	int	status;
+	size_t	argc;
+	char	**argv;
+	int		status;
 
-	// if (exec->redtype != NO_REDIRECT)
-	// t_redirect(exec->red);
-	argc = get_args_size(ms->exec);
-	argv = create_args_array(ms->exec);
+	// printf("\x1b[32mbuiltin");
+	// printf("\x1b[39m\n");
+	argc = get_args_size(exec);
+	argv = create_args_array(exec);
 	status = EXIT_SUCCESS;
 	if (exec->cmdtype == EXIT_CMD)
 		ft_exit(ms, argc, argv);
@@ -40,12 +37,21 @@ int	execute_builtin(t_minishell *ms, t_execlist *exec)
 		status = ft_unset(ms, argc, argv);
 	else if (exec->cmdtype == ENV_CMD)
 		status = ft_env(ms);
+
+	size_t i = 0;
+
+	while (i < argc)
+	{
+		free(argv[i]);
+		i++;
+	}
+	free(argv);
 	return (status);
 }
 
 int	execute_parent_process(t_minishell *ms)
 {
-	int		status;
+	int	status;
 
 	status = execute_builtin(ms, ms->exec);
 	if (ms->exec->redtype != NO_REDIRECT)

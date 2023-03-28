@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/28 09:54:55 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 14:35:14 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,29 +27,31 @@ void	convert_to_envlist(t_minishell *ms, char *str_envrion)
 		if (!key)
 			exit_error(ms, "malloc");
 		value = ft_strdup(after_key + 1);
-		if (!value)
-			exit_error(ms, "malloc");
+		// if (!value)
+		// 	exit_error(ms, "malloc");
 		add_envlist(ms, key, value);
+		free(key);
+		free(value);
 	}
 }
 
-// void	set_shelvl(t_minishell *ms)
-// {
-// 	char	*shlvl_str;
-// 	int		shlvl_int;
+void	set_shelvl(t_minishell *ms)
+{
+	char	*shlvl_str;
+	int		shlvl_int;
 
-// 	shlvl_str = getenv("SHLVL");
-// 	if (!shlvl_str)
-// 		ms->env = env_lstnew(ms, "SHLVL", ft_strdup("1"));
-// 	else
-// 	{
-// 		shlvl_int = ft_atoi(shlvl_str);
-// 		shlvl_int++;
-// 		if (shlvl_int > 100)
-// 			shlvl_int = 1;
-// 		ms->env = env_lstnew(ms, "SHLVL", ft_itoa(shlvl_int));
-// 	}
-// }
+	shlvl_str = getenv("SHLVL");
+	if (!shlvl_str)
+		ms->env = env_lstnew(ms, "SHLVL", ft_strdup("1"));
+	else
+	{
+		shlvl_int = ft_atoi(shlvl_str);
+		shlvl_int++;
+		if (shlvl_int > 100)
+			shlvl_int = 1;
+		ms->env = env_lstnew(ms, "SHLVL", ft_itoa(shlvl_int));
+	}
+}
 
 void	init_env(t_minishell *ms)
 {
