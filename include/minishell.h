@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 19:32:50 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 21:15:43 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@
 # define NOT_EXECUTABLE 126
 # define NOT_FOUND 127
 # define EXIT_ERROR 128
+# define SYNTAX_ERROR 128
 
 typedef enum e_quote
 {

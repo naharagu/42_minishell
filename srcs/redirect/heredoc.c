@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:01:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/24 20:03:45 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 21:19:59 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void	heredoc_loop(int fd_heredoc[2], char *delimiter)
 			free(line);
 			break ;
 		}
-		// printf("%s\n", line);//
 		write(fd_heredoc[1], line, ft_strlen(line));
 		write(fd_heredoc[1], "\n", 1);
 		free(line);

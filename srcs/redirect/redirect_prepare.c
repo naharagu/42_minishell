@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 15:40:22 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 21:22:07 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	open_redirect_file(t_redlist *red, t_minishell *ms)
 		return (open(arg, O_CREAT | O_WRONLY | O_APPEND, 0644));
 	else if (red->type == HERE_DOC)
 		return (run_heredoc(arg, red, ms));
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 static int	open_and_assign_fd(t_minishell *ms)
@@ -52,7 +52,7 @@ static int	open_and_assign_fd(t_minishell *ms)
 void	prepare_redirect(t_minishell *ms)
 {
 	if (check_redirect(ms) == -1)
-		return ; //exit status
+		syntax_error(ms, "redirect", SYNTAX_ERROR);
 	if (open_and_assign_fd(ms) == -1)
-		return ; //exit status
+		syntax_error(ms, "redirect", SYNTAX_ERROR);
 }
