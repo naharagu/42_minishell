@@ -6,7 +6,7 @@
 #    By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 11:05:34 by shimakaori        #+#    #+#              #
-#    Updated: 2023/03/28 10:48:34 by naharagu         ###   ########.fr        #
+#    Updated: 2023/03/28 11:22:59 by naharagu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ NAME		=	minishell
 CC			=	gcc
 RL_FLAGS 	=	-lreadline -lhistory -L$(shell brew --prefix readline)/lib -L/usr/local/Cellar/readline/8.2.1/lib -L/usr/local/opt/readline/lib
 INCLUDE		=   -I include -I $(LIB_DIR) -I $(shell brew --prefix readline)/include -I/usr/local/opt/readline/include
-CFLAGS 		=	-Wall -Werror -Wextra -g -fsanitize=address $(INCLUDE)
-# CFLAGS 	=	-Wall -Werror -Wextra $(INCLUDE)
+# CFLAGS 		=	-Wall -Werror -Wextra -g -fsanitize=address $(INCLUDE)
+CFLAGS 	=	-Wall -Werror -Wextra $(INCLUDE)
 SRCS		= 	srcs/main.c							\
 				srcs/builtin/ft_cd.c				\
 				srcs/builtin/ft_echo.c				\
@@ -24,7 +24,6 @@ SRCS		= 	srcs/main.c							\
 				srcs/builtin/ft_export.c			\
 				srcs/builtin/ft_pwd.c				\
 				srcs/builtin/ft_unset.c				\
-				srcs/environ/add_envlist.c			\
 				srcs/environ/create_array.c			\
 				srcs/environ/environ.c				\
 				srcs/execute/execute.c				\
@@ -34,21 +33,22 @@ SRCS		= 	srcs/main.c							\
 				srcs/lexer/bool.c					\
 				srcs/lexer/error.c					\
 				srcs/lexer/lexer.c					\
-				srcs/lexer/mslist.c					\
-				srcs/parser/add_cmdlist.c			\
-				srcs/parser/add_execlist.c			\
+				srcs/list/add_cmdlist.c				\
+				srcs/list/add_envlist.c				\
+				srcs/list/add_execlist.c			\
+				srcs/list/add_redlist.c		    	\
+				srcs/list/exec_lstnew.c				\
+				srcs/list/exec_lstclear.c			\
+				srcs/list/mslist.c					\
 				srcs/parser/check_type.c			\
-				srcs/parser/exec_lstnew.c			\
 				srcs/parser/expansion.c				\
 				srcs/parser/parser.c				\
-				srcs/redirect/add_redlist.c		    \
 				srcs/redirect/heredoc.c			    \
 				srcs/redirect/redirect_check.c		\
 				srcs/redirect/redirect_prepare.c	\
 				srcs/redirect/redirect_set.c		\
 				srcs/test/print_error.c			    \
 				srcs/test/print_list.c				\
-				srcs/utils/exec_lstclear.c			\
 				srcs/utils/list_to_argv.c			\
 				srcs/utils/signal.c				    \
 				srcs/utils/utils.c
