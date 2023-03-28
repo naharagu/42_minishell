@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 15:47:27 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 22:17:43 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ void	minishell(t_minishell *ms);
 
 int	main(void)
 {
-	t_minishell	*ms;
+	t_minishell	ms;
 
-	ms = init_ms();
-	minishell(ms);
-	free (ms);
+	init_ms(&ms);
+	minishell(&ms);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/28 19:25:18 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 22:45:21 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,31 +30,6 @@ void	convert_to_envlist(t_minishell *ms, char *env_str)
 		if (!value)
 			exit_error(ms, "malloc");
 		add_envlist(ms, key, value);
-		free(key);
-		free(value);
-	}
-}
-
-void	set_shelvl(t_minishell *ms)
-{
-	t_envlist	*tmp_env;
-	int			shlvl_int;
-
-	tmp_env = get_env_from_key(ms, "SHLVL");
-	if (!tmp_env)
-		add_envlist(ms, "SHLVL", "1");
-	else if (!tmp_env->value)
-		add_envlist(ms, "SHLVL", "1");
-	else
-	{
-		shlvl_int = ft_atoi(tmp_env->value);
-		if (shlvl_int < 0 || 99 < shlvl_int)
-			shlvl_int = 0;
-		shlvl_int++;
-		free(tmp_env->value);
-		tmp_env->value = ft_itoa(shlvl_int);
-		if (!tmp_env->value)
-			exit_error(ms, "malloc");
 	}
 }
 
@@ -75,7 +50,6 @@ void	init_env(t_minishell *ms)
 		convert_to_envlist(ms, environ[i]);
 		i++;
 	}
-	set_shelvl(ms);
 	return ;
 }
 

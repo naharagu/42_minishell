@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 21:15:43 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 22:18:22 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,17 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <string.h>
-# include <limits.h>
 # include <stdbool.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <signal.h>
+# include <stdbool.h>
 # include <sys/types.h>
 # include <sys/stat.h>
-# include <sys/wait.h>
-# include <sys/time.h>
-# include <sys/resource.h>
-# include <signal.h>
-# include <dirent.h>
-# include <sys/ioctl.h>
-# include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <stdbool.h>
 # include "../libft/libft.h"
+
 # define NOT_EXECUTABLE 126
 # define NOT_FOUND 127
 # define EXIT_ERROR 128
@@ -194,7 +187,7 @@ void		reset_redirect(t_redlist *red);
 int			run_heredoc(char *delimiter, t_redlist *red, t_minishell *ms);
 
 //utils.c
-t_minishell	*init_ms(void);
+void		init_ms(t_minishell *ms);
 char		*toupper_char(char *str);
 void		check_pipe(t_minishell *ms, char *str);
 void		clear_ms(t_minishell *ms);

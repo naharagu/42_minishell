@@ -6,11 +6,12 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:29:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 13:10:02 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 22:19:26 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+volatile sig_atomic_t	g_sig;
 
 void	default_handler(int signum)
 {
@@ -23,14 +24,10 @@ void	default_handler(int signum)
 
 void	heredoc_handler(int signum)
 {
-	t_minishell	*ms;
-
 	(void)signum;
-	ms = init_ms();
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	ft_putchar_fd('\n', STDOUT_FILENO);
-	minishell(ms);
 }
 
 void	handle_signal(t_minishell *ms, int signum, t_sig flag)

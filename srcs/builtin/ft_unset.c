@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/28 20:59:48 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 22:49:33 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static void	delete_env(t_minishell *ms, char *arg_str)
 		{
 			env_prev->next = env_curr->next;
 			free(env_curr->key);
-			free(env_curr->value);
+			if (env_curr->value)
+				free(env_curr->value);
 			free(env_curr);
 			return ;
 		}

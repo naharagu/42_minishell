@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/28 21:06:01 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 22:47:08 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	print_all_env(t_minishell *ms)
 	return ;
 }
 
-void	split_at_equal(t_minishell *ms, char *arg, char **key, char **value)
+static void	split_at_equal(t_minishell *ms, char *arg, char **key, char **value)
 {
 	char	*equal_ptr;
 
@@ -54,11 +54,23 @@ void	split_at_equal(t_minishell *ms, char *arg, char **key, char **value)
 	}
 }
 
-int	update_env_value(t_minishell *ms, char *arg)
+static void	update_env(t_minishell *ms, t_envlist *env, char *key, char *value)
+{
+	if (env == NULL)
+		add_envlist(ms, key, value);
+	else
+	{
+		free(key);
+		if (env->value)
+			free(env->value);
+		env->value = value;
+	}
+}
+
+static int	export_arg(t_minishell *ms, char *arg)
 {
 	char		*key;
 	char		*value;
-	t_envlist	*tmp_env;
 
 	split_at_equal(ms, arg, &key, &value);
 	if (!is_valid_env_key((key)))
@@ -68,18 +80,7 @@ int	update_env_value(t_minishell *ms, char *arg)
 			free(value);
 		return (EXIT_FAILURE);
 	}
-	tmp_env = get_env_from_key(ms, key);
-	if (tmp_env == NULL)
-	{
-		add_envlist(ms, key, value);
-		free(key);
-	}
-	else
-	{
-		if (tmp_env->value)
-			free(tmp_env->value);
-		tmp_env->value = value;
-	}
+	update_env(ms, get_env_from_key(ms, key), key, value);
 	return (EXIT_SUCCESS);
 }
 
@@ -97,7 +98,7 @@ int	ft_export(t_minishell *ms, size_t argc, char **argv)
 	i = 1;
 	while (argv[i])
 	{
-		if (update_env_value(ms, argv[i]) == EXIT_FAILURE)
+		if (export_arg(ms, argv[i]) == EXIT_FAILURE)
 		{
 			put_error_nonvalid_env("export", argv[i]);
 			status = EXIT_FAILURE;

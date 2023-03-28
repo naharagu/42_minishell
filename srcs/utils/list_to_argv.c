@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   list_to_argv.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 21:17:59 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/20 14:43:58 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/28 21:34:07 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+//関数の使途を確認
 
 t_argv	*list_to_argv(t_minishell *ms, t_execlist *exec)
 {
