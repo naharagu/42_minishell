@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 21:13:00 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/29 12:30:54 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,22 @@
 char	**create_env_array(t_minishell *ms, t_envlist *env)
 {
 	char	**env_array;
-	char	*env_str;
-	char	*tmp_str;
 	int		i;
 
 	env_array = ft_calloc(env_lstsize(env) + 1, sizeof(char *));
 	if (!env_array)
-		exit_error(ms, "malloc");
+		exit_error(ms, "env");
 	i = 0;
 	while (env)
 	{
-		if (!env->key && !env->value)
+		if (!env->key)
+		{
 			env = env->next;
-		tmp_str = ft_strjoin(env->key, "=");
-		if (!tmp_str)
-			exit_error(ms, "malloc");
-		env_str = ft_strjoin(tmp_str, env->value);
-		free(tmp_str);
-		if (!env_str)
-			exit_error(ms, "malloc");
-		env_array[i] = env_str;
-		i++;
+			continue ;
+		}
+		env_array[i] = create_str_from_envlist(ms, env);
 		env = env->next;
+		i++;
 	}
 	return (env_array);
 }

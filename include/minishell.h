@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 22:18:22 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/29 12:30:40 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,5 +289,6 @@ bool		is_valid_env_key(char *key);
 t_envlist	*get_env_from_key(t_minishell *ms, char *key);
 char		*get_value_from_key(t_minishell *ms, char *key);
 int			update_env_value(t_minishell *ms, char *arg);
+char		 *create_str_from_envlist(t_minishell *ms, t_envlist *env);
 
 #endif
