@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/29 12:30:40 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/29 18:56:30 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,6 @@ typedef struct s_argv
 
 typedef struct s_minishell
 {
-	int					exit_status;
 	char				*line;
 	size_t				cmd_size;
 	t_quote				quote;

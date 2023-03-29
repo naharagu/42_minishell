@@ -6,15 +6,16 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 22:17:26 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/29 18:58:00 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+extern volatile sig_atomic_t g_status;
 
 void	init_ms(t_minishell *ms)
 {
-	ms->exit_status = 0;
+	g_status = 0;
 	ms->cmd_size = 0;
 	ms->line = NULL;
 	ms->quote = NO_QUOTE;

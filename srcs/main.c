@@ -6,12 +6,13 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 22:17:43 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/29 18:57:14 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+volatile sig_atomic_t g_status;
 void	minishell(t_minishell *ms);
 
 int	main(void)
@@ -49,10 +50,10 @@ void	minishell(t_minishell *ms)
 		// printf("---after expansion---\n");//
 		// print_execlist(ms);//
 		prepare_redirect(ms);
-		ms->exit_status = execute(ms);
+		g_status = execute(ms);
 		free(line);
 		clear_ms(ms);
 	}
 	env_lstclear(&ms->env);
-	exit(ms->exit_status);
+	exit(g_status);
 }

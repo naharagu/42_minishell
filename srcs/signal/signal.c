@@ -6,20 +6,22 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:29:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/29 09:23:59 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/29 18:30:34by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-volatile sig_atomic_t	g_sig;
+extern volatile sig_atomic_t g_status;
 
 void	default_handler(int signum)
 {
 	(void)signum;
+
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	ft_putchar_fd('\n', STDOUT_FILENO);
 	rl_redisplay();
+	g_status = 1;
 }
 
 void	heredoc_handler(int signum)
@@ -52,7 +54,7 @@ void	ignore_signal(t_minishell *ms, int signum)
 	sa.sa_handler = SIG_IGN;
 	if (sigemptyset(&sa.sa_mask) < 0)
 		exit_error(ms, "sigemptyset");
-	sa.sa_flags = 0; // what does 0 mean?
+	sa.sa_flags = 0;
 	if (sigaction(signum, &sa, NULL) < 0)
 		exit_error(ms, "sigaction");
 }

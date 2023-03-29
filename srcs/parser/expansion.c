@@ -6,12 +6,13 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 15:29:50 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/29 18:57:33 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+extern volatile sig_atomic_t g_status;
 static void	expand_cmd(t_minishell *ms, t_cmdlist *cmd);
 static void	expand_red(t_minishell *ms, t_redlist *red);
 static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd);
@@ -64,7 +65,7 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 		if (!(ft_strncmp(cmd->str, "?", ft_strlen(cmd->str))))
 		{
 			cmd->str--;
-			cmd->str = ft_strdup(ft_itoa(ms->exit_status));
+			cmd->str = ft_strdup(ft_itoa(g_status));
 			return ;
 		}
 		while (ms->env)
@@ -115,7 +116,7 @@ static void	expand_red(t_minishell *ms, t_redlist *red)
 		if (!(ft_strncmp(red->str, "?", ft_strlen(red->str))))
 		{
 			red->str--;
-			red->str = ft_strdup(ft_itoa(ms->exit_status));
+			red->str = ft_strdup(ft_itoa(g_status));
 		}
 		while (ms->env)
 		{
