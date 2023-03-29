@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 21:19:19 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/29 09:34:14 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	validate_redirect(t_minishell *ms, t_redlist *red)
 		if (tmp_red->next == NULL)
 			syntax_error(ms, "redirect", SYNTAX_ERROR);
 		assign_redtype(ms, tmp_red);
+		tmp_red = tmp_red->next;
 		if (tmp_red->str == NULL)
 			syntax_error(ms, "redirect", SYNTAX_ERROR);
 		tmp_red = tmp_red->next;
