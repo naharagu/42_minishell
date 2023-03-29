@@ -6,12 +6,13 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:17:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/29 18:57:52 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/29 19:12:19 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-extern volatile sig_atomic_t g_status;
+
+extern volatile sig_atomic_t	g_status;
 
 void	exit_error(t_minishell *ms, char *location)
 {

@@ -6,17 +6,17 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:29:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/29 18:30:34by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/29 19:03:45 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-extern volatile sig_atomic_t g_status;
+
+extern volatile sig_atomic_t	g_status;
 
 void	default_handler(int signum)
 {
 	(void)signum;
-
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	ft_putchar_fd('\n', STDOUT_FILENO);
