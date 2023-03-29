@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/29 18:56:30 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/29 21:48:24 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,8 @@ void		minishell(t_minishell *ms);
 void		handle_signal(t_minishell *ms, int signum, t_sig flag);
 void		ignore_signal(t_minishell *ms, int signum);
 void		init_signal(t_minishell *ms, int signum);
+void		set_signal_handlers_for_execution(t_minishell *ms);
+void		set_signal_handlers_for_waiting_child(t_minishell *ms);
 
 //lexer.c
 void		lexer(t_minishell *ms);

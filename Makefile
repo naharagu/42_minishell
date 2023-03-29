@@ -36,10 +36,11 @@ SRCS		= 	srcs/main.c							\
 				srcs/redirect/redirect_check.c		\
 				srcs/redirect/redirect_prepare.c	\
 				srcs/redirect/redirect_set.c		\
-				srcs/signal/signal.c				    \
+				srcs/signal/signal.c				\
+				srcs/signal/signal_exec.c			\
 				srcs/test/print_list.c				\
 				srcs/utils/list_to_argv.c			\
-				srcs/utils/print_error.c			    \
+				srcs/utils/print_error.c			\
 				srcs/utils/utils.c
 OBJS		=	$(SRCS:%.c=%.o)
 LIB_DIR		= 	./libft
