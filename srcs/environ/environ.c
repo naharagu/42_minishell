@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/28 22:45:21 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/29 08:50:55 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,3 +71,22 @@ bool	is_valid_env_key(char *key)
 	}
 	return (true);
 }
+
+/*
+void	set_shelvl(t_minishell *ms)
+{
+	char	*shlvl_str;
+	int		shlvl_int;
+
+	shlvl_str = getenv("SHLVL");
+	if (!shlvl_str)
+		ms->env = env_lstnew(ms, "SHLVL", ft_strdup("1"));
+	else
+	{
+		shlvl_int = ft_atoi(shlvl_str);
+		shlvl_int++;
+		if (shlvl_int > 100)
+			shlvl_int = 1;
+		ms->env = env_lstnew(ms, "SHLVL", ft_itoa(shlvl_int));
+	}
+} */
