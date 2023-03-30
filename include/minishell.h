@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/30 16:59:47 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/30 17:53:29 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ int			env_lstsize(t_envlist *lst);
 void		error_lexer(t_minishell *ms);
 void		error_parser_mslist(t_minishell *ms);
 void		error_parser_execlist(t_minishell *ms);
-void		error_expansion_red(t_minishell *ms, t_envlist *env);
+void		error_expansion_red(t_minishell *ms, char *tmp);
 
 //print_error.c
 void		exit_error(t_minishell *ms, char *location);
@@ -261,7 +261,7 @@ void		print_cmdline(t_minishell *ms);
 void		print_execlist(t_minishell *ms);
 
 //create_array.c
-char 		**create_env_array(t_envlist *env);
+char		**create_env_array(t_envlist *env);
 char		**create_args_array(t_execlist *exec);
 size_t		get_args_size(t_execlist *exec);
 
@@ -290,7 +290,7 @@ void		setup_child_pipe(t_execlist *exec);
 void		setup_parent_pipe(t_execlist *exec);
 
 //environ.c
-void	init_env(t_minishell *ms);
-bool	is_valid_env_key(char *key);
+void		init_env(t_minishell *ms);
+bool		is_valid_env_key(char *key);
 
 #endif

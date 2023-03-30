@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/30 16:10:45 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/30 18:02:35 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd)
 	else if (ft_strncmp(ms->env->key, cmd->str, ft_strlen(cmd->str)))
 	{
 		cmd->str--;
-		cmd->str = ft_strdup("");
+		cmd->str = NULL;
 	}
 }
 
@@ -118,7 +118,6 @@ static void	expand_red(t_minishell *ms, t_redlist *red)
 		while (ms->env)
 		{
 			assign_value_red (ms, red);
-			error_expansion_red(ms, ms->env);
 			ms->env = ms->env->next;
 		}
 	}
@@ -128,13 +127,18 @@ static void	expand_red(t_minishell *ms, t_redlist *red)
 static void	assign_value_red(t_minishell *ms, t_redlist *red)
 {
 	char		**split;
+	char		*tmp;
 
-	if (!(ft_strncmp(ms->env->key, red->str, \
-	ft_strlen(red->str))))
+	tmp = red->str;
+	if (!(ft_strncmp(ms->env->key, red->str, ft_strlen(red->str))))
 	{
 		red->str--;
 		if (red->quote == D_QUOTE)
+		{
 			red->str = ft_strdup(ms->env->value);
+			if (ft_strchr(red->str, ' '))
+				error_expansion_red(ms, tmp);
+		}
 		else
 		{
 			split = ft_split(ms->env->value, ' ');
@@ -144,6 +148,7 @@ static void	assign_value_red(t_minishell *ms, t_redlist *red)
 	else if (ft_strncmp(ms->env->key, red->str, ft_strlen(red->str)))
 	{
 		red->str--;
-		red->str = ft_strdup("");
+		red->str = NULL;
+		error_expansion_red(ms, tmp);
 	}
 }
