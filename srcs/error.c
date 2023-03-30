@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 22:17:58 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/30 17:11:31 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,15 @@ void	error_parser_execlist(t_minishell *ms)
 	ms->exec->red = startred;
 }
 
-void	error_expansion_red( t_minishell *ms)
+void	error_expansion_red( t_minishell *ms, t_envlist *env)
 {
-	char		*env;
+	char		*key;
 
-	if (ms->exec->redtype == OUTPUT && ft_strchr(ms->exec->red->str, ' '))
+	if (ms->exec->redtype == OUTPUT && (!(ms->exec->red->str) || \
+		ft_strchr(ms->exec->red->str, ' ')))
 	{
-		env = ft_strjoin("$", ms->env->key);
-		other_error(ms, env, "ambiguous redirect", 1);
-		free(env);
+		key = ft_strjoin("$", env->key);
+		other_error(ms, key, "ambiguous redirect", 1);
+		free(key);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 22:14:58 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/30 16:10:45 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	expansion(t_minishell *ms)
 		while (ms->exec->red)
 		{
 			expand_red(ms, ms->exec->red);
-			error_expansion_red(ms);
 			ms->exec->red = ms->exec->red->next;
 		}
 		ms->exec->red = startred;
@@ -119,6 +118,7 @@ static void	expand_red(t_minishell *ms, t_redlist *red)
 		while (ms->env)
 		{
 			assign_value_red (ms, red);
+			error_expansion_red(ms, ms->env);
 			ms->env = ms->env->next;
 		}
 	}
@@ -134,14 +134,16 @@ static void	assign_value_red(t_minishell *ms, t_redlist *red)
 	{
 		red->str--;
 		if (red->quote == D_QUOTE)
-		{
 			red->str = ft_strdup(ms->env->value);
-			//error_expansion_red(ms);
-		}
 		else
 		{
 			split = ft_split(ms->env->value, ' ');
 			red->str = ft_strdup(split[0]);
 		}
+	}
+	else if (ft_strncmp(ms->env->key, red->str, ft_strlen(red->str)))
+	{
+		red->str--;
+		red->str = ft_strdup("");
 	}
 }

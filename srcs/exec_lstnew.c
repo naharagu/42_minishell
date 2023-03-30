@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_lstnew.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 09:42:03 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/30 17:00:22 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 
 	new = (t_execlist *)malloc(sizeof(t_execlist) * 1);
 	fill_cmdline(ms, new, list, num);
+	new->flag = NO_FIRST;
 	new->cmdtype = NO_CMD;
 	new->redtype = NO_REDIRECT;
 	new->cmd = NULL;

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 21:29:30 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/30 16:59:47 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,13 @@ typedef enum e_sig
 	HEREDOC
 }	t_sig;
 
+typedef enum e_exec
+{
+	NO_FIRST,
+	CMD_FIRST,
+	RED_FIRST
+}	t_exec;
+
 typedef struct s_mslist
 {
 	char				*str;
@@ -129,6 +136,7 @@ typedef struct s_execlist
 	char				**cmdline;
 	int					pipe_in[2];
 	int					pipe_out[2];
+	t_exec				flag;
 	t_cmd				cmdtype;
 	t_redirect			redtype;
 	t_cmdlist			*cmd;
@@ -188,7 +196,7 @@ void		set_redirect(t_redlist *red);
 void		reset_redirect(t_redlist *red);
 
 //heredoc.c
-int run_heredoc(char *delimiter, t_redlist *red, t_minishell *ms);
+int			run_heredoc(char *delimiter, t_redlist *red, t_minishell *ms);
 
 //utils.c
 t_minishell	*init_ms(void);
@@ -235,7 +243,7 @@ int			env_lstsize(t_envlist *lst);
 void		error_lexer(t_minishell *ms);
 void		error_parser_mslist(t_minishell *ms);
 void		error_parser_execlist(t_minishell *ms);
-void		error_expansion_red(t_minishell *ms);
+void		error_expansion_red(t_minishell *ms, t_envlist *env);
 
 //print_error.c
 void		exit_error(t_minishell *ms, char *location);
