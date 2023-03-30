@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/29 21:48:24 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/30 23:15:23 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ void		minishell(t_minishell *ms);
 void		handle_signal(t_minishell *ms, int signum, t_sig flag);
 void		ignore_signal(t_minishell *ms, int signum);
 void		init_signal(t_minishell *ms, int signum);
+void		set_signal_handlers_for_shell_prompt(t_minishell *ms);
 void		set_signal_handlers_for_execution(t_minishell *ms);
 void		set_signal_handlers_for_waiting_child(t_minishell *ms);
 
@@ -179,7 +180,7 @@ void		check_redtype(t_minishell *ms, char *str);
 void		expansion(t_minishell *ms);
 
 //redirect.c
-void		prepare_redirect(t_minishell *ms);
+int			prepare_redirect(t_minishell *ms);
 int			check_redirect(t_minishell *ms);
 void		set_redirect(t_redlist *red);
 void		reset_redirect(t_redlist *red);

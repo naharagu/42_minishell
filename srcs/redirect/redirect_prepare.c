@@ -6,11 +6,13 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 21:22:07 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/30 23:11:38 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern volatile sig_atomic_t	g_status;
 
 static int	open_redirect_file(t_redlist *red, t_minishell *ms)
 {
@@ -49,10 +51,33 @@ static int	open_and_assign_fd(t_minishell *ms)
 	return (EXIT_SUCCESS);
 }
 
-void	prepare_redirect(t_minishell *ms)
+static bool	is_heredoc(t_minishell *ms)
+{
+	t_execlist	*tmp_exec;
+	t_redlist	*tmp_red;
+
+	tmp_exec = ms->exec;
+	while (tmp_exec)
+	{
+		tmp_red = tmp_exec->red;
+		while (tmp_red)
+		{
+			if (tmp_red->type == HERE_DOC)
+				return (true);
+			tmp_red = tmp_red->next->next;
+		}
+		tmp_exec = tmp_exec->next;
+	}
+	return (false);
+}
+
+int	prepare_redirect(t_minishell *ms)
 {
 	if (check_redirect(ms) == -1)
 		syntax_error(ms, "redirect", SYNTAX_ERROR);
 	if (open_and_assign_fd(ms) == -1)
 		syntax_error(ms, "redirect", SYNTAX_ERROR);
+	if (is_heredoc(ms) && g_status == 1)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

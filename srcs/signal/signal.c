@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:29:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/29 20:17:50 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/30 23:14:38 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ void	default_handler(int signum)
 void	heredoc_handler(int signum)
 {
 	(void)signum;
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	ft_putchar_fd('\n', STDOUT_FILENO);
 	g_status = 1;
 }
 
