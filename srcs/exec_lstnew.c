@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/30 17:00:22 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/31 16:24:26 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num)
 
 	new = (t_execlist *)malloc(sizeof(t_execlist) * 1);
 	fill_cmdline(ms, new, list, num);
-	new->flag = NO_FIRST;
+	new->flag = CMD_FIRST;
 	new->cmdtype = NO_CMD;
 	new->redtype = NO_REDIRECT;
 	new->cmd = NULL;

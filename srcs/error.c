@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/30 18:03:01 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/31 16:45:52 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,8 @@ void	error_parser_execlist(t_minishell *ms)
 {
 	t_redlist	*startred;
 
-	if (ms->exec->cmdtype == NO_CMD && ms->exec->redtype == NO_REDIRECT)
-		other_error(ms, ms->exec->cmd->str, "command not found", 127);
 	startred = ms->exec->red;
-	if (ms->exec->redtype != NO_REDIRECT)
+	if (ms->exec->redtype != NO_REDIRECT && ms->exec->red)
 	{
 		while (ms->exec->red)
 		{
@@ -72,4 +70,10 @@ void	error_expansion_red( t_minishell *ms, char *tmp)
 	key = ft_strjoin("$", tmp);
 	other_error(ms, key, "ambiguous redirect", 1);
 	free(key);
+}
+
+void	error_command( t_minishell *ms)
+{
+	if (ms->exec->cmdtype == NO_CMD && ms->exec->redtype == NO_REDIRECT)
+		other_error(ms, ms->exec->cmdline[0], "command not found", 127);
 }
