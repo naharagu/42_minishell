@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 10:09:32 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:38:04 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 		}
 		while (ms->env)
 		{
-			if (cmd->str)
+			if (cmd->str && ms->env->key)
 				assign_value_cmd (ms, cmd);
 			ms->env = ms->env->next;
 		}
@@ -80,7 +80,7 @@ static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd)
 {
 	char		**split;
 
-	if (!(ft_strncmp(ms->env->key, cmd->str, ft_strlen(cmd->str))))
+	if (!(ft_strcmp(ms->env->key, cmd->str)))
 	{
 		cmd->str--;
 		if (cmd->quote == D_QUOTE)
@@ -91,7 +91,7 @@ static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd)
 			cmd->str = ft_strdup(split[0]);
 		}
 	}
-	else if (ft_strncmp(ms->env->key, cmd->str, ft_strlen(cmd->str)))
+	else if (ft_strcmp(ms->env->key, cmd->str))
 	{
 		cmd->str--;
 		cmd->str = NULL;

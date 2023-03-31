@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/29 12:30:54 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 11:18:50 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ size_t	get_args_size(t_execlist *exec)
 	return (size);
 }
 
+void	allocate_args_memory(char ***args, size_t args_size, t_minishell *ms)
+{
+	*args = ft_calloc(args_size + 1, sizeof(char *));
+	if (!args)
+		exit_error(ms, "malloc");
+}
+
 char	**create_args_array(t_minishell *ms, t_execlist *exec)
 {
 	char		**args;
@@ -58,13 +65,13 @@ char	**create_args_array(t_minishell *ms, t_execlist *exec)
 	t_cmdlist	*tmp_cmd;
 
 	args_size = get_args_size(exec);
-	args = ft_calloc(args_size + 1, sizeof(char *));
-	if (!args)
-		exit_error(ms, "malloc");
+	allocate_args_memory(&args, args_size, ms);
 	i = 0;
 	tmp_cmd = exec->cmd;
 	while (args_size && i < args_size)
 	{
+		if (!tmp_cmd->str)
+			break ;
 		args[i] = ft_strdup(tmp_cmd->str);
 		if (!args[i])
 		{
@@ -74,7 +81,7 @@ char	**create_args_array(t_minishell *ms, t_execlist *exec)
 		tmp_cmd = tmp_cmd->next;
 		i++;
 	}
-	args[args_size] = NULL;
+	args[i] = NULL;
 	return (args);
 }
 
