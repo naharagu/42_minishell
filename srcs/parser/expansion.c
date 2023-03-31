@@ -6,13 +6,13 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/29 19:08:27 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:09:32 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern volatile sig_atomic_t g_status;
+extern volatile sig_atomic_t	g_status;
 static void	expand_cmd(t_minishell *ms, t_cmdlist *cmd);
 static void	expand_red(t_minishell *ms, t_redlist *red);
 static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd);
@@ -34,7 +34,6 @@ void	expansion(t_minishell *ms)
 			ms->exec->cmd = ms->exec->cmd->next;
 		}
 		ms->exec->cmd = startcmd;
-		// error_expansion_cmd(ms);//クラッシュする
 		startred = ms->exec->red;
 		while (ms->exec->red)
 		{
@@ -42,7 +41,6 @@ void	expansion(t_minishell *ms)
 			ms->exec->red = ms->exec->red->next;
 		}
 		ms->exec->red = startred;
-		//error_expansion_red(ms);//クラッシュする
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;
@@ -70,7 +68,8 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 		}
 		while (ms->env)
 		{
-			assign_value_cmd (ms, cmd);
+			if (cmd->str)
+				assign_value_cmd (ms, cmd);
 			ms->env = ms->env->next;
 		}
 	}
@@ -95,7 +94,7 @@ static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd)
 	else if (ft_strncmp(ms->env->key, cmd->str, ft_strlen(cmd->str)))
 	{
 		cmd->str--;
-		cmd->str = ft_strdup("");
+		cmd->str = NULL;
 	}
 }
 
@@ -120,7 +119,8 @@ static void	expand_red(t_minishell *ms, t_redlist *red)
 		}
 		while (ms->env)
 		{
-			assign_value_red (ms, red);
+			if (red->str)
+				assign_value_red (ms, red);
 			ms->env = ms->env->next;
 		}
 	}
@@ -130,17 +130,28 @@ static void	expand_red(t_minishell *ms, t_redlist *red)
 static void	assign_value_red(t_minishell *ms, t_redlist *red)
 {
 	char		**split;
+	char		*tmp;
 
-	if (!(ft_strncmp(ms->env->key, red->str, \
-	ft_strlen(red->str))))
+	tmp = red->str;
+	if (!(ft_strncmp(ms->env->key, red->str, ft_strlen(red->str))))
 	{
 		red->str--;
 		if (red->quote == D_QUOTE)
-			red->str = ms->env->value;
+		{
+			red->str = ft_strdup(ms->env->value);
+			if (ft_strchr(red->str, ' '))
+				error_expansion_red(ms, tmp);
+		}
 		else
 		{
 			split = ft_split(ms->env->value, ' ');
 			red->str = ft_strdup(split[0]);
 		}
+	}
+	else if (ft_strncmp(ms->env->key, red->str, ft_strlen(red->str)))
+	{
+		red->str--;
+		red->str = NULL;
+		error_expansion_red(ms, tmp);
 	}
 }

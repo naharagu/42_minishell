@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 09:43:07 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:07:05 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,43 +38,36 @@ void	error_parser_mslist(t_minishell *ms)
 
 void	error_parser_execlist(t_minishell *ms)
 {
-	t_execlist	*startexec;
+	t_redlist	*startred;
 
-	startexec = ms->exec;
-	while (ms->exec)
+	startred = ms->exec->red;
+	if (ms->exec->redtype != NO_REDIRECT)
 	{
-		if (ms->exec->redtype != NO_REDIRECT)
+		while (ms->exec->red)
 		{
-			if (ft_strnstr(ms->exec->red->str, ">>>>", 4))
+			if (ft_strnstr(ms->exec->red->str, ">>>>", \
+				ft_strlen(ms->exec->red->str)))
 				syntax_error(ms, ">>", 1);
-			else if (ft_strnstr(ms->exec->red->str, ">>>", 3))
+			else if (ft_strnstr(ms->exec->red->str, ">>>", \
+				ft_strlen(ms->exec->red->str)))
 				syntax_error(ms, ">", 1);
-			else if (ft_strnstr(ms->exec->red->str, "<<<<", 4))
+			else if (ft_strnstr(ms->exec->red->str, "<<<<", \
+				ft_strlen(ms->exec->red->str)))
 				syntax_error(ms, "<", 1);
-			else if (red_lstsize(ms->exec->red) < 2 && \
-				!(ft_strnstr(ms->exec->red->str, ">&", \
-				ft_strlen(ms->exec->red->str))))
+			else if (ft_strnstr(ms->exec->red->str, ">", \
+				ft_strlen(ms->exec->red->str)) && !(ms->exec->red->next))
 				syntax_error(ms, "newline", 258);
+			ms->exec->red = ms->exec->red->next;
 		}
-		ms->exec = ms->exec->next;
 	}
-	ms->exec = startexec;
+	ms->exec->red = startred;
 }
 
-void	error_expansion_cmd( t_minishell *ms)
+void	error_expansion_red( t_minishell *ms, char *tmp)
 {
-	if (ms->exec->cmdtype == NO_CMD && ms->exec->redtype == NO_REDIRECT)
-		other_error(ms, ms->exec->cmd->str, "command not found", 127);
-}
+	char		*key;
 
-void	error_expansion_red( t_minishell *ms)
-{
-	char		*env;
-
-	if (ms->exec->redtype == OUTPUT && ft_strchr(ms->exec->red->next->str, ' '))
-	{
-		env = ft_strjoin("$", ms->env->key);
-		other_error(ms, env, "ambiguous redirect", 1);
-		free(env);
-	}
+	key = ft_strjoin("$", tmp);
+	other_error(ms, key, "ambiguous redirect", 1);
+	free(key);
 }
