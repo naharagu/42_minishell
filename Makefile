@@ -36,8 +36,8 @@ SRCS		= 	srcs/main.c							\
 				srcs/redirect/redirect_check.c		\
 				srcs/redirect/redirect_prepare.c	\
 				srcs/redirect/redirect_set.c		\
-				srcs/signal/signal.c				\
-				srcs/signal/signal_exec.c			\
+				srcs/signal/signal_handler.c		\
+				srcs/signal/signal_set.c			\
 				srcs/test/print_list.c				\
 				srcs/utils/list_to_argv.c			\
 				srcs/utils/print_error.c			\

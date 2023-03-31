@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 10:07:24 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:28:26 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,3 @@ static void	copy_cmd_red_list(t_minishell *ms, char *str)
 			add_cmdlist(ms, str);
 	}
 }
-

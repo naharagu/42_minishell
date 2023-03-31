@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 09:59:00 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:25:38 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,12 +162,14 @@ typedef struct s_minishell
 void		minishell(t_minishell *ms);
 
 //signal.c
-void		handle_signal(t_minishell *ms, int signum, t_sig flag);
-void		ignore_signal(t_minishell *ms, int signum);
-void		init_signal(t_minishell *ms, int signum);
 void		set_signal_handlers_for_shell_prompt(t_minishell *ms);
+void		set_signal_handlers_for_heredoc(t_minishell *ms);
 void		set_signal_handlers_for_execution(t_minishell *ms);
 void		set_signal_handlers_for_waiting_child(t_minishell *ms);
+void		prompt_handler(int signum);
+void		heredoc_handler(int signum);
+void		assign_dfl_handler(int signum, t_minishell *ms);
+void		assign_ign_handler(int signum, t_minishell *ms);
 
 //lexer.c
 void		lexer(t_minishell *ms);

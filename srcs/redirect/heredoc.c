@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:01:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/30 22:56:23 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:24:39 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	run_heredoc(char *delimiter, t_redlist *red, t_minishell *ms)
 		return (-1);
 	pipe(fd_heredoc);
 	g_status = 0;
-	handle_signal(ms, SIGINT, HEREDOC);
+	set_signal_handlers_for_heredoc(ms);
 	rl_event_hook = monitor_sigint;
 	heredoc_loop(fd_heredoc, delimiter);
 	close(fd_heredoc[1]);
