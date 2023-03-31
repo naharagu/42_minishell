@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/29 08:50:55 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 11:27:53 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,6 @@ void	init_env(t_minishell *ms)
 		i++;
 	}
 	return ;
-}
-
-bool	is_valid_env_key(char *key)
-{
-	size_t	i;
-
-	i = 0;
-	if (!key)
-		return (false);
-	if (!(key[i] == '_' || ft_isalpha(key[i])))
-		return (false);
-	i++;
-	while (key[i])
-	{
-		if (!(key[i] == '_' || ft_isalnum(key[i])))
-			return (false);
-		i++;
-	}
-	return (true);
 }
 
 /*

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_util.c                                         :+:      :+:    :+:   */
+/*   env_getter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 18:35:40 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/29 12:31:05 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 11:28:45 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,23 @@ char	*get_value_from_key(t_minishell *ms, char *key)
 		return (NULL);
 	else
 		return (tmp_env->value);
+}
+
+bool	is_valid_env_key(char *key)
+{
+	size_t	i;
+
+	i = 0;
+	if (!key)
+		return (false);
+	if (!(key[i] == '_' || ft_isalpha(key[i])))
+		return (false);
+	i++;
+	while (key[i])
+	{
+		if (!(key[i] == '_' || ft_isalnum(key[i])))
+			return (false);
+		i++;
+	}
+	return (true);
 }

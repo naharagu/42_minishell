@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 10:25:38 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:06:12 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,10 +162,10 @@ typedef struct s_minishell
 void		minishell(t_minishell *ms);
 
 //signal.c
-void		set_signal_handlers_for_shell_prompt(t_minishell *ms);
-void		set_signal_handlers_for_heredoc(t_minishell *ms);
-void		set_signal_handlers_for_execution(t_minishell *ms);
-void		set_signal_handlers_for_waiting_child(t_minishell *ms);
+void		set_signal_for_shell_prompt(t_minishell *ms);
+void		set_signal_for_heredoc(t_minishell *ms);
+void		set_signal_for_execution(t_minishell *ms);
+void		set_signal_for_waiting_child(t_minishell *ms);
 void		prompt_handler(int signum);
 void		heredoc_handler(int signum);
 void		assign_dfl_handler(int signum, t_minishell *ms);
@@ -196,7 +196,6 @@ void		set_redirect(t_redlist *red);
 void		reset_redirect(t_redlist *red);
 
 //heredoc.c
-int			run_heredoc(char *delimiter, t_redlist *red, t_minishell *ms);
 int			run_heredoc(char *delimiter, t_redlist *red, t_minishell *ms);
 
 //utils.c
@@ -286,7 +285,6 @@ void		ft_exit(t_minishell *ms, int argc, char **argv);
 void		put_error_nonvalid_env(char *cmd, char *key);
 
 //path.c
-void		free_path(char **path);
 char		*search_path(t_minishell *ms, char *file);
 int			validate_path(char *path, t_execlist *exec);
 
@@ -301,6 +299,6 @@ bool		is_valid_env_key(char *key);
 t_envlist	*get_env_from_key(t_minishell *ms, char *key);
 char		*get_value_from_key(t_minishell *ms, char *key);
 int			update_env_value(t_minishell *ms, char *arg);
-char		 *create_str_from_envlist(t_minishell *ms, t_envlist *env);
+char		*create_str_from_envlist(t_minishell *ms, t_envlist *env);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:29:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 10:26:43 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 11:58:45 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_signal_handlers_for_shell_prompt(t_minishell *ms)
+void	set_signal_for_shell_prompt(t_minishell *ms)
 {
 	struct sigaction	sa;
 
@@ -25,7 +25,7 @@ void	set_signal_handlers_for_shell_prompt(t_minishell *ms)
 	assign_dfl_handler(SIGQUIT, ms);
 }
 
-void	set_signal_handlers_for_heredoc(t_minishell *ms)
+void	set_signal_for_heredoc(t_minishell *ms)
 {
 	struct sigaction	sa;
 
@@ -38,13 +38,13 @@ void	set_signal_handlers_for_heredoc(t_minishell *ms)
 	assign_dfl_handler(SIGQUIT, ms);
 }
 
-void	set_signal_handlers_for_execution(t_minishell *ms)
+void	set_signal_for_execution(t_minishell *ms)
 {
 	assign_dfl_handler(SIGQUIT, ms);
 	assign_dfl_handler(SIGINT, ms);
 }
 
-void	set_signal_handlers_for_waiting_child(t_minishell *ms)
+void	set_signal_for_waiting_child(t_minishell *ms)
 {
 	assign_ign_handler(SIGQUIT, ms);
 	assign_ign_handler(SIGINT, ms);

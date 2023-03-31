@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 10:38:04 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 11:51:05 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 extern volatile sig_atomic_t	g_status;
 static void	expand_cmd(t_minishell *ms, t_cmdlist *cmd);
 static void	expand_red(t_minishell *ms, t_redlist *red);
-static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd);
+static int	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd);
 static void	assign_value_red(t_minishell *ms, t_redlist *red);
 
 void	expansion(t_minishell *ms)
@@ -68,34 +68,43 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 		}
 		while (ms->env)
 		{
-			if (cmd->str && ms->env->key)
-				assign_value_cmd (ms, cmd);
+			// printf("key: %s\n", ms->env->key);
+			if (ms->env->key)
+			{
+				if (assign_value_cmd (ms, cmd) == EXIT_SUCCESS)
+					break;
+			}
 			ms->env = ms->env->next;
 		}
 	}
 	ms->env = startenv;
 }
 
-static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd)
+static int	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd)
 {
-	char		**split;
+	// char		**split;
 
 	if (!(ft_strcmp(ms->env->key, cmd->str)))
 	{
+		// printf("key: %s\n", ms->env->key);
 		cmd->str--;
 		if (cmd->quote == D_QUOTE)
 			cmd->str = ft_strdup(ms->env->value);
 		else
 		{
-			split = ft_split(ms->env->value, ' ');
-			cmd->str = ft_strdup(split[0]);
+			// split = ft_split(ms->env->value, ' ');
+			// cmd->str = ft_strdup(split[0]);
+			cmd->str = ft_strdup(ms->env->value);
 		}
+		// printf("key: %s\n", cmd->str);
+		return (EXIT_SUCCESS);
 	}
-	else if (ft_strcmp(ms->env->key, cmd->str))
-	{
-		cmd->str--;
-		cmd->str = NULL;
-	}
+	// else if (ft_strcmp(ms->env->key, cmd->str))
+	// {
+	// 	cmd->str--;
+	// 	cmd->str = NULL;
+	// }
+	return (EXIT_FAILURE);
 }
 
 static void	expand_red(t_minishell *ms, t_redlist *red)

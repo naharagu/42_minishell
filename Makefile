@@ -2,8 +2,7 @@ NAME		=	minishell
 CC			=	gcc
 RL_FLAGS 	=	-lreadline -lhistory -L$(shell brew --prefix readline)/lib -L/usr/local/Cellar/readline/8.2.1/lib -L/usr/local/opt/readline/lib
 INCLUDE		=   -I include -I $(LIB_DIR) -I $(shell brew --prefix readline)/include -I/usr/local/opt/readline/include
-CFLAGS 		=	-Wall -Werror -Wextra -g -fsanitize=address -fno-omit-frame-pointer $(INCLUDE)
-# CFLAGS 	=	-Wall -Werror -Wextra $(INCLUDE)
+CFLAGS 	=	-Wall -Werror -Wextra $(INCLUDE)
 SRCS		= 	srcs/main.c							\
 				srcs/builtin/ft_cd.c				\
 				srcs/builtin/ft_echo.c				\
@@ -13,7 +12,7 @@ SRCS		= 	srcs/main.c							\
 				srcs/builtin/ft_pwd.c				\
 				srcs/builtin/ft_unset.c				\
 				srcs/environ/create_array.c			\
-				srcs/environ/env_util.c				\
+				srcs/environ/env_getter.c			\
 				srcs/environ/environ.c				\
 				srcs/execute/execute.c				\
 				srcs/execute/execute_builtin.c		\
@@ -62,4 +61,7 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+sanitize: CFLAGS += -g -fsanitize=address
+sanitize: re
+
+.PHONY: all clean fclean re sanitize

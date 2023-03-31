@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:53:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/29 21:47:46 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:02:33 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,20 @@ static pid_t	execute_child_process(t_minishell *ms, t_execlist *exec)
 	else if (pid == 0)
 	{
 		setup_child_pipe(exec);
-		set_signal_handlers_for_execution(ms);
+		set_signal_for_execution(ms);
 		if (exec->cmdtype == NO_CMD)
 			execute_non_builtin(ms, exec);
 		else
 			exit(execute_builtin(ms, exec));
 	}
-	set_signal_handlers_for_waiting_child(ms);
+	set_signal_for_waiting_child(ms);
 	setup_parent_pipe(exec);
 	if (exec->next)
 		return (execute_child_process(ms, exec->next));
 	return (pid);
 }
 
-int	wait_child_process(t_minishell *ms, pid_t last_pid)
+static int	wait_child_process(t_minishell *ms, pid_t last_pid)
 {
 	pid_t	wait_result;
 	int		status;
@@ -94,9 +94,7 @@ int	execute(t_minishell *ms)
 	if (ms->exec->cmd == NULL)
 		return (1);
 	if (ms->exec->cmdtype != NO_CMD && ms->exec->next == NULL)
-	{
 		status = execute_parent_process(ms);
-	}
 	else
 	{
 		last_pid = execute_child_process(ms, ms->exec);
