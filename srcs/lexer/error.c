@@ -6,11 +6,12 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 10:07:05 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:51:38 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 void	error_lexer(t_minishell *ms)
 {
@@ -41,7 +42,7 @@ void	error_parser_execlist(t_minishell *ms)
 	t_redlist	*startred;
 
 	startred = ms->exec->red;
-	if (ms->exec->redtype != NO_REDIRECT)
+	if (ms->exec->redtype != NO_REDIRECT && ms->exec->red)
 	{
 		while (ms->exec->red)
 		{

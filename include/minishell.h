@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 12:06:12 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:46:04 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ typedef enum e_sig
 
 typedef enum e_exec
 {
-	NO_FIRST,
 	CMD_FIRST,
 	RED_FIRST
 }	t_exec;
@@ -244,6 +243,7 @@ void		error_lexer(t_minishell *ms);
 void		error_parser_mslist(t_minishell *ms);
 void		error_parser_execlist(t_minishell *ms);
 void		error_expansion_red(t_minishell *ms, char *tmp);
+void		error_command( t_minishell *ms);
 
 //print_error.c
 void		exit_error(t_minishell *ms, char *location);

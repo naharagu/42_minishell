@@ -6,13 +6,11 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 18:24:24 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 09:31:08 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:49:21 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-bool	is_othercmd(t_minishell *ms, char *str, size_t len);
 
 void	check_cmdtype(t_minishell *ms, char *str)
 {
