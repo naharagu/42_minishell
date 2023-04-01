@@ -38,7 +38,7 @@ SRCS		= 	srcs/main.c							\
 				srcs/signal/signal_handler.c		\
 				srcs/signal/signal_set.c			\
 				srcs/test/print_list.c				\
-				srcs/utils/list_to_argv.c			\
+				srcs/utils/argv.c					\
 				srcs/utils/print_error.c			\
 				srcs/utils/utils.c
 OBJS		=	$(SRCS:%.c=%.o)

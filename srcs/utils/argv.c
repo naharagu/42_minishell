@@ -6,36 +6,11 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 21:17:59 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 21:34:07 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/01 07:28:12 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//関数の使途を確認
-
-t_argv	*list_to_argv(t_minishell *ms, t_execlist *exec)
-{
-	t_cmdlist	*startcmd;
-	t_argv		*argv;
-	int			i;
-
-	argv = init_argv(ms);
-	i = 0;
-	argv->argc = cmd_lstsize(exec->cmd);
-	argv->argv = ft_calloc(sizeof(char *), (argv->argc + 1));
-	if (!argv->argv)
-		exit_error(ms, "malloc");
-	startcmd = exec->cmd;
-	while (i < argv->argc)
-	{
-		argv->argv[i] = ft_strdup(ms->exec->cmd->str);
-		ms->exec->cmd = ms->exec->cmd->next;
-		i++;
-	}
-	ms->exec->cmd = startcmd;
-	return (argv);
-}
 
 t_argv	*init_argv(t_minishell *ms)
 {
