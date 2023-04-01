@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:09:56 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/29 19:06:27 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/01 09:18:51 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,26 @@ void	numeric_error(char *location, char *msg, int status);
 void	ft_exit(t_minishell *ms, int argc, char **argv)
 {
 	char	*arg;
+	int		status;
 
 	if (argc == 1)
-		normal_exit(EXIT_SUCCESS);
+		normal_exit(g_status);
 	else if (argc > 1)
 	{
 		arg = argv[1];
 		while (*arg)
 		{
 			if (!(ft_isdigit(*arg)))
-				numeric_error(argv[1], "numeric argument required", 255);
+				numeric_error(argv[1], "numeric argument required", OUTSIDE_ERROR);
 			arg++;
 		}
+		status = ft_atoi(argv[1]);
 		if (argc == 2 && (ft_atoi(argv[1]) || ft_atoi(argv[1]) == 0))
 			normal_exit(ft_atoi(argv[1]));
 		if (!(ft_atoi(argv[1])) && ft_atoi(argv[1]) != 0)
-			numeric_error(argv[1], "numeric argument required", 255);
+			numeric_error(argv[1], "numeric argument required", OUTSIDE_ERROR);
 		if (argc > 2)
-			other_error(ms, "exit", "too many arguments", 1);
+			other_error(ms, "exit", "too many arguments", EXIT_FAILURE);
 	}
 	else
 		return ;
