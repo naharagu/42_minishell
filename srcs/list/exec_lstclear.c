@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_lstclear.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 13:03:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 09:42:12 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/01 14:41:40 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

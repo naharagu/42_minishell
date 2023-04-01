@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 12:46:04 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/01 16:07:27 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,7 +242,7 @@ int			env_lstsize(t_envlist *lst);
 void		error_lexer(t_minishell *ms);
 void		error_parser_mslist(t_minishell *ms);
 void		error_parser_execlist(t_minishell *ms);
-void		error_expansion_red(t_minishell *ms, char *tmp);
+void		error_expandedred(t_minishell *ms, t_redlist *red, char *original);
 void		error_command( t_minishell *ms);
 
 //print_error.c
