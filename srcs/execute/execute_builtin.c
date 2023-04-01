@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 22:04:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/28 18:21:36 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/01 07:56:52 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	execute_builtin(t_minishell *ms, t_execlist *exec)
 	else if (exec->cmdtype == UNSET_CMD)
 		status = ft_unset(ms, argc, argv);
 	else if (exec->cmdtype == ENV_CMD)
-		status = ft_env(ms);
+		status = ft_env(ms, argc);
 	free_arg_array(argc, argv);
 	return (status);
 }
