@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 17:01:30 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/01 14:26:31 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	error_expansion_red( t_minishell *ms, char *tmp)
 	free(key);
 }
 
-// void	error_command( t_minishell *ms)
-// {
-// 	if (ms->exec->cmdtype == NO_CMD && ms->exec->redtype == NO_REDIRECT)
-// 		other_error(ms, ms->exec->cmdline[0], "command not found", 127);
-// }
+void	error_command( t_minishell *ms)
+{
+	if (ms->exec->cmdtype == NO_CMD && ms->exec->redtype == NO_REDIRECT)
+		other_error(ms, ms->exec->cmdline[0], "command not found", 127);
+}

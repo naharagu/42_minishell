@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_cmd.c                                      :+:      :+:    :+:   */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:53:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/26 17:53:50 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:02:33 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	execute_child_process_helper(t_minishell *ms, t_execlist *exec)
+static void	execute_non_builtin(t_minishell *ms, t_execlist *exec)
 {
 	char		**env;
 	char		*path;
@@ -20,28 +20,17 @@ static void	execute_child_process_helper(t_minishell *ms, t_execlist *exec)
 
 	if (exec->redtype != NO_REDIRECT)
 		set_redirect(exec->red);
+	if (!exec->cmd)
+		exit(NOT_FOUND);
 	path = exec->cmd->str;
-	env = create_env_array(ms->env);
-	args = create_args_array(exec);
-	if (!env || !args)
-		exit_error(ms, "execute");
+	env = create_env_array(ms, ms->env);
+	args = create_args_array(ms, exec);
 	if (!(ft_strchr(path, '/')))
-	{
 		path = search_path(ms, path);
-		if (!path)
-			exit(127); //shoule be 127
-		if (access(path, F_OK) < 0)
-			return (free(path));
-		if (execve(path, args, env) == -1)
-			return (free(path));
-		if (exec->redtype != NO_REDIRECT)
-			reset_redirect(exec->red);
-	}
-	else if (execve(path, args, env) == -1)
-	{
-		if (exec->redtype != NO_REDIRECT)
-			reset_redirect(exec->red);
-	}
+	validate_path(path, exec);
+	execve(path, args, env);
+	if (exec->redtype != NO_REDIRECT)
+		reset_redirect(exec->red);
 }
 
 static pid_t	execute_child_process(t_minishell *ms, t_execlist *exec)
@@ -54,18 +43,21 @@ static pid_t	execute_child_process(t_minishell *ms, t_execlist *exec)
 		exit_error(ms, "pipe");
 	else if (pid == 0)
 	{
-		// printf("pid is %d\n", pid);//
 		setup_child_pipe(exec);
-		execute_child_process_helper(ms, exec);
+		set_signal_for_execution(ms);
+		if (exec->cmdtype == NO_CMD)
+			execute_non_builtin(ms, exec);
+		else
+			exit(execute_builtin(ms, exec));
 	}
-	// printf("pid is %d exec is %s\n", pid, exec->cmd->str);//
+	set_signal_for_waiting_child(ms);
 	setup_parent_pipe(exec);
 	if (exec->next)
 		return (execute_child_process(ms, exec->next));
 	return (pid);
 }
 
-int	wait_child_process(t_minishell *ms, pid_t last_pid)
+static int	wait_child_process(t_minishell *ms, pid_t last_pid)
 {
 	pid_t	wait_result;
 	int		status;
@@ -77,7 +69,7 @@ int	wait_child_process(t_minishell *ms, pid_t last_pid)
 		if (wait_result == last_pid)
 		{
 			if (WIFSIGNALED(wstatus))
-				status = 128 + WTERMSIG(wstatus);
+				status = EXIT_ERROR + WTERMSIG(wstatus);
 			else
 				status = WEXITSTATUS(wstatus);
 		}
@@ -94,24 +86,19 @@ int	wait_child_process(t_minishell *ms, pid_t last_pid)
 	return (status);
 }
 
-int	execute_cmd(t_minishell *ms)
+int	execute(t_minishell *ms)
 {
 	int		status;
 	pid_t	last_pid;
 
 	if (ms->exec->cmd == NULL)
 		return (1);
-	if (ms->list->pipe == NO_PIPE && ms->exec->cmdtype != NO_CMD)
-	{
-		// printf("start parent process\n");//
+	if (ms->exec->cmdtype != NO_CMD && ms->exec->next == NULL)
 		status = execute_parent_process(ms);
-	}
 	else
 	{
-		// printf("start child process\n");//
 		last_pid = execute_child_process(ms, ms->exec);
 		status = wait_child_process(ms, last_pid);
 	}
 	return (status);
-	//シグナルの調整が必要
 }

@@ -6,11 +6,13 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 11:30:13 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/30 23:11:38 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern volatile sig_atomic_t	g_status;
 
 static int	open_redirect_file(t_redlist *red, t_minishell *ms)
 {
@@ -25,7 +27,7 @@ static int	open_redirect_file(t_redlist *red, t_minishell *ms)
 		return (open(arg, O_CREAT | O_WRONLY | O_APPEND, 0644));
 	else if (red->type == HERE_DOC)
 		return (run_heredoc(arg, red, ms));
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 static int	open_and_assign_fd(t_minishell *ms)
@@ -40,7 +42,6 @@ static int	open_and_assign_fd(t_minishell *ms)
 		while (tmp_red)
 		{
 			tmp_red->fd_file = open_redirect_file(tmp_red, ms);
-			// fprintf(stderr, "open file fd is %d\n", tmp_red->fd_file);//
 			if (tmp_red->fd_file < 0)
 				return (-1);
 			tmp_red = tmp_red->next->next;
@@ -50,10 +51,33 @@ static int	open_and_assign_fd(t_minishell *ms)
 	return (EXIT_SUCCESS);
 }
 
-void	prepare_redirect(t_minishell *ms)
+static bool	is_heredoc(t_minishell *ms)
+{
+	t_execlist	*tmp_exec;
+	t_redlist	*tmp_red;
+
+	tmp_exec = ms->exec;
+	while (tmp_exec)
+	{
+		tmp_red = tmp_exec->red;
+		while (tmp_red)
+		{
+			if (tmp_red->type == HERE_DOC)
+				return (true);
+			tmp_red = tmp_red->next->next;
+		}
+		tmp_exec = tmp_exec->next;
+	}
+	return (false);
+}
+
+int	prepare_redirect(t_minishell *ms)
 {
 	if (check_redirect(ms) == -1)
-		return ; //exit status
+		syntax_error(ms, "redirect", SYNTAX_ERROR);
 	if (open_and_assign_fd(ms) == -1)
-		return ; //exit status
+		syntax_error(ms, "redirect", SYNTAX_ERROR);
+	if (is_heredoc(ms) && g_status == 1)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

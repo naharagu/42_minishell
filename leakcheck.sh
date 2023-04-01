@@ -1,4 +1,4 @@
 while [ 1 ];
-do leaks -q minishell;
+do leaks minishell;
 sleep 1;
 done

@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/30 18:28:27 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/31 12:41:18 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+extern volatile sig_atomic_t	g_status;
 static void	expand_cmd(t_minishell *ms, t_cmdlist *cmd);
 static void	expand_red(t_minishell *ms, t_redlist *red);
 static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd);
@@ -62,12 +63,12 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 		if (!(ft_strncmp(cmd->str, "?", ft_strlen(cmd->str))))
 		{
 			cmd->str--;
-			cmd->str = ft_strdup(ft_itoa(ms->exit_status));
+			cmd->str = ft_strdup(ft_itoa(g_status));
 			return ;
 		}
 		while (ms->env)
 		{
-			if (cmd->str)
+			if (cmd->str && ms->env->key)
 				assign_value_cmd (ms, cmd);
 			ms->env = ms->env->next;
 		}
@@ -114,7 +115,7 @@ static void	expand_red(t_minishell *ms, t_redlist *red)
 		if (!(ft_strncmp(red->str, "?", ft_strlen(red->str))))
 		{
 			red->str--;
-			red->str = ft_strdup(ft_itoa(ms->exit_status));
+			red->str = ft_strdup(ft_itoa(g_status));
 		}
 		while (ms->env)
 		{

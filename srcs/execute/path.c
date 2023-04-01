@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_path.c                                     :+:      :+:    :+:   */
+/*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/21 10:45:32 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:03:03 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_path(char **path)
+static void	free_path(char **path)
 {
 	size_t	i;
 
@@ -32,14 +32,14 @@ char	*search_path(t_minishell *ms, char *file)
 	char	*res;
 	size_t	i;
 
-	value = getenv("PATH");
+	value = get_value_from_key(ms, "PATH");
 	path = ft_split(value, ':');
 	i = 0;
-	while (path[i])
+	while (path && path[i])
 	{
 		path[i] = ft_strjoin(path[i], "/");
 		path[i] = ft_strjoin(path[i], file);
-		if (!(access(path[i], X_OK)))
+		if (!(access(path[i], F_OK)))
 		{
 			res = ft_strdup(path[i]);
 			if (!res)
@@ -49,6 +49,24 @@ char	*search_path(t_minishell *ms, char *file)
 		}
 		i++;
 	}
-	free_path(path);
+	if (path)
+		free_path(path);
 	return (NULL);
+}
+
+int	validate_path(char *path, t_execlist *exec)
+{
+	char	*location;
+
+	if (!exec->cmd->str)
+		location = "";
+	else
+		location = exec->cmd->str;
+	if (!path)
+		exit_error_with_status(location, "command not found", NOT_FOUND);
+	if (access(path, F_OK) < 0)
+		exit_error_with_status(location, "command not found", NOT_FOUND);
+	if (access(path, X_OK) < 0)
+		exit_error_with_status(location, "permission denied", NOT_EXECUTABLE);
+	return (EXIT_SUCCESS);
 }

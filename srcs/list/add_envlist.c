@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 15:56:49 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 11:29:06 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 22:40:17 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,8 @@ t_envlist	*env_lstnew(t_minishell *ms, char *key, char *value)
 	env = (t_envlist *)malloc(sizeof(t_envlist) * 1);
 	if (!env)
 		exit_error (ms, "malloc");
-	if (key)
-		env->key = ft_strdup(key);
-	if (value)
-		env->value = ft_strdup(value);
+	env->key = key;
+	env->value = value;
 	env->next = NULL;
 	return (env);
 }

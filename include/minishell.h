@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 16:46:19 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/31 12:46:04 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,21 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <string.h>
-# include <limits.h>
 # include <stdbool.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <signal.h>
+# include <stdbool.h>
 # include <sys/types.h>
 # include <sys/stat.h>
-# include <sys/wait.h>
-# include <sys/time.h>
-# include <sys/resource.h>
-# include <signal.h>
-# include <dirent.h>
-# include <sys/ioctl.h>
-# include <termios.h>
-# include <termcap.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include <stdbool.h>
 # include "../libft/libft.h"
+
+# define NOT_EXECUTABLE 126
+# define NOT_FOUND 127
+# define EXIT_ERROR 128
+# define SYNTAX_ERROR 128
 
 typedef enum e_quote
 {
@@ -152,7 +148,6 @@ typedef struct s_argv
 
 typedef struct s_minishell
 {
-	int					exit_status;
 	char				*line;
 	size_t				cmd_size;
 	t_quote				quote;
@@ -166,9 +161,14 @@ typedef struct s_minishell
 void		minishell(t_minishell *ms);
 
 //signal.c
-void		handle_signal(t_minishell *ms, int signum, t_sig flag);
-void		ignore_signal(t_minishell *ms, int signum);
-void		init_signal(t_minishell *ms, int signum);
+void		set_signal_for_shell_prompt(t_minishell *ms);
+void		set_signal_for_heredoc(t_minishell *ms);
+void		set_signal_for_execution(t_minishell *ms);
+void		set_signal_for_waiting_child(t_minishell *ms);
+void		prompt_handler(int signum);
+void		heredoc_handler(int signum);
+void		assign_dfl_handler(int signum, t_minishell *ms);
+void		assign_ign_handler(int signum, t_minishell *ms);
 
 //lexer.c
 void		lexer(t_minishell *ms);
@@ -189,7 +189,7 @@ void		check_redtype(t_minishell *ms, char *str);
 void		expansion(t_minishell *ms);
 
 //redirect.c
-void		prepare_redirect(t_minishell *ms);
+int			prepare_redirect(t_minishell *ms);
 int			check_redirect(t_minishell *ms);
 void		set_redirect(t_redlist *red);
 void		reset_redirect(t_redlist *red);
@@ -198,7 +198,7 @@ void		reset_redirect(t_redlist *red);
 int			run_heredoc(char *delimiter, t_redlist *red, t_minishell *ms);
 
 //utils.c
-t_minishell	*init_ms(void);
+void		init_ms(t_minishell *ms);
 char		*toupper_char(char *str);
 void		check_pipe(t_minishell *ms, char *str);
 void		clear_ms(t_minishell *ms);
@@ -247,6 +247,7 @@ void		error_command( t_minishell *ms);
 
 //print_error.c
 void		exit_error(t_minishell *ms, char *location);
+void		exit_error_with_status(char *location, char *message, int status);
 void		syntax_error(t_minishell *ms, char *location, int status);
 void		other_error(t_minishell *ms, char *location, char *msg, int status);
 
@@ -261,15 +262,17 @@ void		print_cmdline(t_minishell *ms);
 void		print_execlist(t_minishell *ms);
 
 //create_array.c
-char		**create_env_array(t_envlist *env);
-char		**create_args_array(t_execlist *exec);
+char		**create_env_array(t_minishell *ms, t_envlist *env);
+char		**create_args_array(t_minishell *ms, t_execlist *exec);
 size_t		get_args_size(t_execlist *exec);
+void		free_arg_array(size_t argc, char **argv);
 
-//execute_cmd.c
-int			execute_cmd(t_minishell *ms);
+//execute.c
+int			execute(t_minishell *ms);
 
 //execute_builtin.c
 int			execute_parent_process(t_minishell *ms);
+int			execute_builtin(t_minishell *ms, t_execlist *exec);
 
 //builtin
 int			ft_echo(size_t argc, char **argv);
@@ -279,10 +282,11 @@ int			ft_export(t_minishell *ms, size_t argc, char **argv);
 int			ft_unset(t_minishell *ms, size_t argc, char **argv);
 int			ft_env(t_minishell *ms);
 void		ft_exit(t_minishell *ms, int argc, char **argv);
+void		put_error_nonvalid_env(char *cmd, char *key);
 
 //path.c
-void		free_path(char **path);
 char		*search_path(t_minishell *ms, char *file);
+int			validate_path(char *path, t_execlist *exec);
 
 //pipe.c
 void		setup_pipe(t_execlist *exec);
@@ -292,5 +296,9 @@ void		setup_parent_pipe(t_execlist *exec);
 //environ.c
 void		init_env(t_minishell *ms);
 bool		is_valid_env_key(char *key);
+t_envlist	*get_env_from_key(t_minishell *ms, char *key);
+char		*get_value_from_key(t_minishell *ms, char *key);
+int			update_env_value(t_minishell *ms, char *arg);
+char		*create_str_from_envlist(t_minishell *ms, t_envlist *env);
 
 #endif

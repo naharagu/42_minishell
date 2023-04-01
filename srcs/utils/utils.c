@@ -6,20 +6,17 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/26 17:35:23 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/29 19:10:07 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_minishell	*init_ms(void)
-{
-	t_minishell	*ms;
+extern volatile sig_atomic_t	g_status;
 
-	ms = malloc(sizeof(t_minishell));
-	if (!ms)
-		exit_error(ms, "malloc");
-	ms->exit_status = 0;
+void	init_ms(t_minishell *ms)
+{
+	g_status = 0;
 	ms->cmd_size = 0;
 	ms->line = NULL;
 	ms->quote = NO_QUOTE;
@@ -27,7 +24,7 @@ t_minishell	*init_ms(void)
 	ms->exec = NULL;
 	ms->env = NULL;
 	ms->argv = init_argv(ms);
-	return (ms);
+	return ;
 }
 
 char	*toupper_char(char *str)

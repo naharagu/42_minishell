@@ -3,37 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 16:47:23 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/31 12:45:58 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+volatile sig_atomic_t	g_status;
 void	minishell(t_minishell *ms);
 
 int	main(void)
 {
-	t_minishell	*ms;
+	t_minishell	ms;
 
-	ms = init_ms();
-	minishell(ms);
-	free (ms);
-	return (0);
+	init_ms(&ms);
+	minishell(&ms);
 }
 
 void	minishell(t_minishell *ms)
 {
 	char	*line;
 
-	rl_outstream = stderr;
-	handle_signal(ms, SIGINT, DEFAULT);
-	ignore_signal(ms, SIGQUIT);
 	init_env(ms);
 	while (1)
 	{
+		set_signal_for_shell_prompt(ms);
 		line = readline("minishell$ ");
 		if (!line)
 			break ;
@@ -41,19 +38,18 @@ void	minishell(t_minishell *ms)
 			add_history(line);
 		ms->line = line;
 		lexer(ms);
-		//print_mslist(ms);//
 		parser(ms);
 		//print_cmdline(ms);//
-		//printf("---before expansion---\n");//
-		//print_execlist(ms);//
+		// printf("---before expansion---\n");//
+		// print_execlist(ms);//
 		expansion(ms);
-		//printf("---after expansion---\n");//
-		print_execlist(ms);//
-		prepare_redirect(ms);
-		ms->exit_status = execute_cmd(ms);
+		// printf("---after expansion---\n");//
+		// print_execlist(ms);//
+		if (prepare_redirect(ms) == EXIT_SUCCESS)
+			g_status = execute(ms);
 		free(line);
 		clear_ms(ms);
 	}
 	env_lstclear(&ms->env);
-	exit(ms->exit_status);
+	exit(g_status);
 }

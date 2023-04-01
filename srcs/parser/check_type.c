@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   check_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 18:24:24 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 16:40:13 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/03/31 12:49:21 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-bool	is_othercmd(t_minishell *ms, char *str, size_t len);
 
 void	check_cmdtype(t_minishell *ms, char *str)
 {
@@ -33,22 +31,7 @@ void	check_cmdtype(t_minishell *ms, char *str)
 		ms->exec->cmdtype = ENV_CMD;
 	else if (len == 4 && !(ft_strncmp("EXIT", str, len)))
 		ms->exec->cmdtype = EXIT_CMD;
-	// else if (ms->exec->redtype == NO_REDIRECT)
-	// 	ms->exec->cmdtype = OTHER_CMD;
 }
-
-// bool	is_othercmd(t_minishell *ms, char *str, size_t len)
-// {
-// 	(void)ms;
-// 	if ((len == 7 && !(ft_strncmp("/BIN/LS", str, len))) || \
-// 		(len == 8 && !(ft_strncmp("/BIN/PWD", str, len))) || \
-// 		(len == 9 && !(ft_strncmp("/BIN/ECHO", str, len))) || \
-// 		(len == 7 && !(ft_strncmp("./A.OUT", str, len))) || \
-// 		(len == 3 && !(ft_strncmp("CAT", str, len))))
-// 		return (true);
-// 	else
-// 		return (false);
-// }
 
 void	check_redtype(t_minishell *ms, char *str)
 {

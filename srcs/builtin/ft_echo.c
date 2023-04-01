@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/26 17:42:45 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/03/28 12:04:21 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,15 @@ int	ft_echo(size_t argc, char **argv)
 	bool	n_option;
 
 	i = 1;
+	n_option = skip_n_option(argv, &i);
 	while (i < argc)
 	{
-		n_option = skip_n_option(argv, &i);
 		ft_putstr_fd(argv[i], 1);
 		if (i != argc - 1)
-			write(1, " ", 1);
+			write(STDOUT_FILENO, " ", 1);
 		i++;
 	}
 	if (!n_option)
-		write(1, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 	return (EXIT_SUCCESS);
 }
