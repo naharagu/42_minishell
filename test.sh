@@ -72,33 +72,33 @@ assert() {
 }
 
 # # Empty line (EOF)
-assert ''
+# assert ''
 
-assert '/bin/pwd'
-assert '/bin/ls'
-assert '/bin/echo'
+# assert '/bin/pwd'
+# assert '/bin/ls'
+# assert '/bin/echo'
 
 # # Search command path without args
-assert 'pwd'
-assert 'echo'
-assert 'ls'
-assert './a.out'
+# assert 'pwd'
+# assert 'echo'
+# assert 'ls'
+# assert './a.out'
 
-# ## no such command
+# # no such command
 # assert 'a.out'
 # assert 'nosuchfile'
 
-## exit command
-assert 'exit'
-assert 'exit 42'
-assert 'exit 256'
-assert 'exit 999'
-assert 'exit 99999999999999999999'
-assert 'exit hello'
-assert 'exit 42Tokyo'
-assert 'exit 42 41 40'
-assert 'exit 42 hello'
-assert 'exit hello 42'
+# # exit command
+# assert 'exit'
+# assert 'exit 42'
+# assert 'exit 256'
+# assert 'exit 999'
+# assert 'exit 99999999999999999999'
+# assert 'exit hello'
+# assert 'exit 42Tokyo'
+# assert 'exit 42 41 40'
+# assert 'exit 42 hello'
+# assert 'exit hello 42'
 
 # # Tokenize
 # ## unquoted word
@@ -152,5 +152,159 @@ assert 'exit hello 42'
 # assert 'echo $USER'
 # assert 'echo $USER$PATH$TERM'
 # assert 'echo "$USER  $PATH   $TERM"'
+
+# review
+## simple command
+assert '/bin/pwd'
+assert '/bin/ls'
+assert '/bin/echo'
+assert '/bin/filethatdoesntexist'
+assert '' #empty
+assert ' ' #space
+assert '	' #tab
+
+## argumant
+assert 'cat Makefile'
+
+##echo
+assert 'echo aa'
+assert 'echo -n aa'
+
+# exit command
+assert 'exit'
+assert 'exit 42'
+assert 'exit 99999999999999999999'
+assert 'exit hello'
+assert 'exit 42Tokyo'
+assert 'exit 42 41 40'
+assert 'exit 42 hello'
+assert 'exit hello 42'
+
+# # signal
+# $ ./minishell
+# $ 
+# 1. Ctrl-\ 
+# 2. Ctrl-C
+# 3. Ctrl-D
+#
+# $ ./minishell
+# $ hogehoge
+# 1. Ctrl-\ 
+# 2. Ctrl-C
+# 3. Ctrl-D
+#
+# $ ./minishell
+# $ cat <<EOF
+# >
+# 1. Ctrl-\ 
+# 2. Ctrl-C
+# 3. Ctrl-D
+#
+# $ ./minishell
+# $ cat <<EOF
+# > hoge
+# > fuga
+# 1. Ctrl-\ 
+# 2. Ctrl-C
+# 3. Ctrl-D
+
+# double quote
+assert 'echo "cat main.c | cat > main.c"'
+assert 'echo "hello   world" "42Tokyo"'
+assert "echo \"'hello   world'\" \"42Tokyo\""
+
+# single quote
+assert 'echo '''
+assert 'echo '$USER''
+assert 'echo ' ''
+assert 'echo '|''
+assert 'echo '>''
+assert 'echo 'hello   world' '42Tokyo''
+assert 'echo '\"hello   world\"' '42Tokyo''
+
+# env
+assert 'env'
+
+# export
+assert 'export $KEY="hoge fuga"'
+assert 'env'
+
+# unset
+assert 'export $KEY="hoge"'
+assert 'env'
+assert 'unset $KEY'
+assert 'env'
+
+# cd & pwd
+assert 'cd'
+assert 'pwd'
+assert 'cd srcs'
+assert 'pwd'
+assert 'cd .'
+assert 'pwd'
+assert 'cd ..'
+assert 'pwd'
+assert 'cd /../../../././.././'
+
+# relative path
+assert 'cat srcs/builtin/ft_cd.c'
+
+# environment path
+assert 'unset $PATH'
+assert 'ls'
+assert 'export PATH=/Library/Frameworks/Python.framework/Versions/3.9/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/Apple/usr/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Library/Frameworks/Python.framework/Versions/3.9/bin'
+assert 'ls'
+
+# Redirect
+## Redirecting output
+assert 'echo hello >hello.txt' 'hello.txt'
+assert 'echo hello >f1>f2>f3' 'f1' 'f2' 'f3'
+
+## Redirecting input
+assert 'cat <Makefile'
+echo hello >f1
+echo world >f2
+echo 42Tokyo >f3
+assert 'cat <f1<f2<f3'
+rm -f f1 f2 f3
+assert 'cat <hoge'
+
+## Appending Redirected output
+assert 'pwd >>pwd.txt' 'pwd.txt'
+assert 'pwd >>pwd.txt \n pwd >>pwd.txt' 'pwd.txt'
+
+## Here Document
+assert 'cat <<EOF\nhello\nworld\nEOF\nNOPRINT'
+assert 'cat <<EOF<<eof\nhello\nworld\nEOF\neof\nNOPRINT'
+assert 'cat <<EOF\nhello\nworld'
+assert 'cat <<E"O"F\nhello\nworld\nEOF\nNOPRINT'
+
+# Pipe
+assert 'cat Makefile | grep minishell > file'
+
+# GoCrazy & History
+# $ ./minishell
+# $ hogehoge
+# Ctrl-C
+# return
+
+# UP
+# DOWN
+
+assert 'dsbksdgbksdghsd'
+assert 'cat | cat | cat | ls'
+
+# Expand Variable
+assert 'echo $USER'
+assert 'echo $PATH'
+assert 'echo $USER$PATH$TERM'
+assert 'echo "$USER"'
+
+# BONUS
+assert 'echo "'$USER'"'
+assert 'echo '"$USER"''
+
+
+
 
 cleanup
