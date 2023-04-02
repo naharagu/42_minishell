@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 12:41:18 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/02 21:10:46 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 extern volatile sig_atomic_t	g_status;
 static void	expand_cmd(t_minishell *ms, t_cmdlist *cmd);
 static void	expand_red(t_minishell *ms, t_redlist *red);
-static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd);
-static void	assign_value_red(t_minishell *ms, t_redlist *red);
+static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original);
+static void	assign_value_red(t_minishell *ms, t_redlist *red, char **original);
 
 void	expansion(t_minishell *ms)
 {
@@ -48,110 +48,94 @@ void	expansion(t_minishell *ms)
 
 static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 {
-	t_envlist	*startenv;
+	char		*original;
 
-	startenv = ms->env;
+	original = cmd->str;
 	if (cmd->str && *cmd->str == '\'')
 		cmd->quote = S_QUOTE;
 	else if (cmd->str && *cmd->str == '\"')
 		cmd->quote = D_QUOTE;
 	if (cmd->str && (cmd->quote == S_QUOTE || cmd->quote == D_QUOTE))
 		cmd->str = ft_strtrim(cmd->str, "\'\"");
-	if (cmd->str && *cmd->str == '$' && cmd->quote != S_QUOTE)
+	if (cmd->str && *cmd->str == '$' && cmd->quote != S_QUOTE \
+		&& ft_strlen(cmd->str) > 1)
 	{
-		cmd->str++;
-		if (!(ft_strncmp(cmd->str, "?", ft_strlen(cmd->str))))
-		{
-			cmd->str--;
-			cmd->str = ft_strdup(ft_itoa(g_status));
-			return ;
-		}
-		while (ms->env)
-		{
-			if (cmd->str && ms->env->key)
-				assign_value_cmd (ms, cmd);
-			ms->env = ms->env->next;
-		}
-	}
-	ms->env = startenv;
-}
-
-static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd)
-{
-	char		**split;
-
-	if (!(ft_strncmp(ms->env->key, cmd->str, ft_strlen(cmd->str))))
-	{
-		cmd->str--;
-		if (cmd->quote == D_QUOTE)
-			cmd->str = ft_strdup(ms->env->value);
-		else
-		{
-			split = ft_split(ms->env->value, ' ');
-			cmd->str = ft_strdup(split[0]);
-		}
-	}
-	else if (ft_strncmp(ms->env->key, cmd->str, ft_strlen(cmd->str)))
-	{
-		cmd->str--;
-		cmd->str = NULL;
+		assign_value_cmd (ms, cmd, &original);
 	}
 }
 
-static void	expand_red(t_minishell *ms, t_redlist *red)
+static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)
 {
 	t_envlist	*startenv;
 
 	startenv = ms->env;
+	cmd->str++;
+	if (cmd->str && !(ft_strncmp(cmd->str, "?", ft_strlen(cmd->str))))
+	{
+		free(*original);
+		cmd->str = ft_itoa(g_status);
+		return ;
+	}
+	while (cmd->str && ms->env)
+	{
+		ms->env = ms->env->next;
+		if (!(ft_strncmp(ms->env->key, cmd->str, ft_strlen(cmd->str))))
+		{
+			printf("%s\n", cmd->str);//
+			free(*original);
+			cmd->str = ft_strdup(ms->env->value);
+			ms->env = startenv;
+			return ;
+		}
+	}
+	ms->env = startenv;
+	free(*original);
+	cmd->str = NULL;
+}
+
+static void	expand_red(t_minishell *ms, t_redlist *red)
+{
+	char		*original;
+
+	original = red->str;
 	if (red->str && *red->str == '\'')
 		red->quote = S_QUOTE;
 	else if (red->str && *red->str == '\"')
 		red->quote = D_QUOTE;
 	if (red->str && (red->quote == S_QUOTE || red->quote == D_QUOTE))
 		red->str = ft_strtrim(red->str, "\'\"");
-	if (red->str && *red->str == '$' && red->quote != S_QUOTE)
+	if (red->str && *red->str == '$' && red->quote != S_QUOTE \
+		&& ft_strlen(red->str) > 1)
 	{
-		red->str++;
-		if (!(ft_strncmp(red->str, "?", ft_strlen(red->str))))
+		assign_value_red (ms, red, &original);
+		error_expandedred(ms, red, original);
+	}
+}
+
+static void	assign_value_red(t_minishell *ms, t_redlist *red, char **original)
+{
+	t_envlist	*startenv;
+
+	startenv = ms->env;
+	red->str++;
+	if (red->str && !(ft_strncmp(red->str, "?", ft_strlen(red->str))))
+	{
+		free(*original);
+		red->str = ft_itoa(g_status);
+		return ;
+	}
+	while (red->str && ms->env)
+	{
+		ms->env = ms->env->next;
+		if (!(ft_strncmp(ms->env->key, red->str, ft_strlen(red->str))))
 		{
-			red->str--;
-			red->str = ft_strdup(ft_itoa(g_status));
-		}
-		while (ms->env)
-		{
-			if (red->str)
-				assign_value_red (ms, red);
-			ms->env = ms->env->next;
+			free(*original);
+			red->str = ft_strdup(ms->env->value);
+			ms->env = startenv;
+			return ;
 		}
 	}
 	ms->env = startenv;
-}
-
-static void	assign_value_red(t_minishell *ms, t_redlist *red)
-{
-	char		**split;
-	char		*tmp;
-
-	tmp = red->str;
-	if (!(ft_strncmp(ms->env->key, red->str, ft_strlen(red->str))))
-	{
-		red->str--;
-		if (red->quote == D_QUOTE)
-		{
-			red->str = ft_strdup(ms->env->value);
-			if (ft_strchr(red->str, ' '))
-				error_expansion_red(ms, tmp);
-		}
-		else
-		{
-			split = ft_split(ms->env->value, ' ');
-			red->str = ft_strdup(split[0]);
-		}
-	}
-	else if (ft_strncmp(ms->env->key, red->str, ft_strlen(red->str)))
-	{
-		red->str--;
-		red->str = NULL;
-		error_expansion_red(ms, tmp);
-	}
+	free(*original);
+	red->str = NULL;
 }

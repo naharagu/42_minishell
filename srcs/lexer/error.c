@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 12:51:38 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/01 16:11:50 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	error_lexer(t_minishell *ms)
 {
@@ -64,11 +63,14 @@ void	error_parser_execlist(t_minishell *ms)
 	ms->exec->red = startred;
 }
 
-void	error_expansion_red( t_minishell *ms, char *tmp)
+void	error_expandedred(t_minishell *ms, t_redlist *red, char *original)
 {
-	char		*key;
+	if (!(red->str) || ft_strchr(red->str, ' '))
+		other_error(ms, original, "ambiguous redirect", 1);
+}
 
-	key = ft_strjoin("$", tmp);
-	other_error(ms, key, "ambiguous redirect", 1);
-	free(key);
+void	error_command( t_minishell *ms)
+{
+	if (ms->exec->cmdtype == NO_CMD && ms->exec->redtype == NO_REDIRECT)
+		other_error(ms, ms->exec->cmdline[0], "command not found", 127);
 }
