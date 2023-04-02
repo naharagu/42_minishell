@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:09:56 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/01 09:18:51 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/02 20:53:17 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	numeric_error(char *location, char *msg, int status);
 void	ft_exit(t_minishell *ms, int argc, char **argv)
 {
 	char	*arg;
-	int		status;
 
 	if (argc == 1)
 		normal_exit(g_status);
@@ -32,10 +31,12 @@ void	ft_exit(t_minishell *ms, int argc, char **argv)
 				numeric_error(argv[1], "numeric argument required", OUTSIDE_ERROR);
 			arg++;
 		}
-		status = ft_atoi(argv[1]);
-		if (argc == 2 && (ft_atoi(argv[1]) || ft_atoi(argv[1]) == 0))
-			normal_exit(ft_atoi(argv[1]));
-		if (!(ft_atoi(argv[1])) && ft_atoi(argv[1]) != 0)
+		errno = 0;
+		ft_atol(argv[1]);
+		printf("errno: %d\n", errno);
+		if (argc == 2 && (ft_atol(argv[1]) || ft_atol(argv[1]) == 0) && !errno)
+			normal_exit(ft_atol(argv[1]));
+		if (errno)
 			numeric_error(argv[1], "numeric argument required", OUTSIDE_ERROR);
 		if (argc > 2)
 			other_error(ms, "exit", "too many arguments", EXIT_FAILURE);
