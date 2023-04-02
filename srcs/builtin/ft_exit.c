@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:09:56 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/02 20:53:17 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/02 20:57:46 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,14 @@ void	ft_exit(t_minishell *ms, int argc, char **argv)
 		while (*arg)
 		{
 			if (!(ft_isdigit(*arg)))
-				numeric_error(argv[1], "numeric argument required", OUTSIDE_ERROR);
+				numeric_error(argv[1], "numeric argument required", 255);
 			arg++;
 		}
 		errno = 0;
-		ft_atol(argv[1]);
-		printf("errno: %d\n", errno);
 		if (argc == 2 && (ft_atol(argv[1]) || ft_atol(argv[1]) == 0) && !errno)
 			normal_exit(ft_atol(argv[1]));
 		if (errno)
-			numeric_error(argv[1], "numeric argument required", OUTSIDE_ERROR);
+			numeric_error(argv[1], "numeric argument required", 255);
 		if (argc > 2)
 			other_error(ms, "exit", "too many arguments", EXIT_FAILURE);
 	}
