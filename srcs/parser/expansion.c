@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/01 16:18:03 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/02 21:10:46 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 extern volatile sig_atomic_t	g_status;
 static void	expand_cmd(t_minishell *ms, t_cmdlist *cmd);
 static void	expand_red(t_minishell *ms, t_redlist *red);
-static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *original);
-static void	assign_value_red(t_minishell *ms, t_redlist *red, char *original);
+static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original);
+static void	assign_value_red(t_minishell *ms, t_redlist *red, char **original);
 
 void	expansion(t_minishell *ms)
 {
@@ -60,35 +60,36 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 	if (cmd->str && *cmd->str == '$' && cmd->quote != S_QUOTE \
 		&& ft_strlen(cmd->str) > 1)
 	{
-		cmd->str++;
-		assign_value_cmd (ms, cmd, original);
+		assign_value_cmd (ms, cmd, &original);
 	}
 }
 
-static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *original)
+static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)
 {
 	t_envlist	*startenv;
 
 	startenv = ms->env;
+	cmd->str++;
 	if (cmd->str && !(ft_strncmp(cmd->str, "?", ft_strlen(cmd->str))))
 	{
-		free(original);
+		free(*original);
 		cmd->str = ft_itoa(g_status);
 		return ;
 	}
-	while (ms->env && cmd->str)
+	while (cmd->str && ms->env)
 	{
+		ms->env = ms->env->next;
 		if (!(ft_strncmp(ms->env->key, cmd->str, ft_strlen(cmd->str))))
 		{
-			free(original);
+			printf("%s\n", cmd->str);//
+			free(*original);
 			cmd->str = ft_strdup(ms->env->value);
 			ms->env = startenv;
 			return ;
 		}
-		ms->env = ms->env->next;
 	}
 	ms->env = startenv;
-	free(original);
+	free(*original);
 	cmd->str = NULL;
 }
 
@@ -106,35 +107,35 @@ static void	expand_red(t_minishell *ms, t_redlist *red)
 	if (red->str && *red->str == '$' && red->quote != S_QUOTE \
 		&& ft_strlen(red->str) > 1)
 	{
-		red->str++;
-		assign_value_red (ms, red, original);
+		assign_value_red (ms, red, &original);
 		error_expandedred(ms, red, original);
 	}
 }
 
-static void	assign_value_red(t_minishell *ms, t_redlist *red, char *original)
+static void	assign_value_red(t_minishell *ms, t_redlist *red, char **original)
 {
 	t_envlist	*startenv;
 
 	startenv = ms->env;
-	if (!(ft_strncmp(red->str, "?", ft_strlen(red->str))))
+	red->str++;
+	if (red->str && !(ft_strncmp(red->str, "?", ft_strlen(red->str))))
 	{
-		free(original);
+		free(*original);
 		red->str = ft_itoa(g_status);
 		return ;
 	}
-	while (ms->env && red->str)
+	while (red->str && ms->env)
 	{
+		ms->env = ms->env->next;
 		if (!(ft_strncmp(ms->env->key, red->str, ft_strlen(red->str))))
 		{
-			free(original);
+			free(*original);
 			red->str = ft_strdup(ms->env->value);
 			ms->env = startenv;
 			return ;
 		}
-		ms->env = ms->env->next;
 	}
 	ms->env = startenv;
-	free(original);
+	free(*original);
 	red->str = NULL;
 }
