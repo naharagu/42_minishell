@@ -54,8 +54,8 @@ assert() {
 	done
 
 	# bashとminishellの出力を比較
-	diff cmp out >/dev/null && echo -e -n "  diff $OK" || echo -e -n "  diff $NG"
-	# diff cmp out && echo -e -n "  diff $OK" || echo -e -n "  diff $NG"
+	# diff cmp out >/dev/null && echo -e -n "  diff $OK" || echo -e -n "  diff $NG"
+	diff cmp out && echo -e -n "  diff $OK" || echo -e -n "  diff $NG"
 
 	# bashとminishellのexit statusを比較
 	if [ "$actual" = "$expected" ]; then
@@ -90,12 +90,12 @@ assert 'echo -n aa'
 # exit command
 assert 'exit'
 assert 'exit 42'
-assert 'exit 99999999999999999999'
-assert 'exit hello'
-assert 'exit 42Tokyo'
-assert 'exit 42 41 40'
-assert 'exit 42 hello'
-assert 'exit hello 42'
+assert 'exit 99999999999999999999' #numeric argument required
+assert 'exit hello' #numeric argument required
+assert 'exit 42Tokyo' #numeric argument required
+assert 'exit 42 41 40' #too many arguments
+assert 'exit 42 hello' #too many arguments
+assert 'exit hello 42' #numeric argument required
 
 # # signal
 # $ ./minishell
