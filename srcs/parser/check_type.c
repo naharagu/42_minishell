@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 18:24:24 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/03 21:37:16 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/03 22:21:56 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,17 @@ void	check_cmdtype(t_minishell *ms, char *str)
 
 void	check_redtype(t_minishell *ms, char *str)
 {
-	if (ft_strnstr(str, ">>", ft_strlen(str)))
-		ms->exec->redtype = APPEND;
-	else if (ft_strnstr(str, ">", ft_strlen(str)) \
-		&& ms->exec->redtype != APPEND)
-		ms->exec->redtype = OUTPUT;
-	else if (ft_strnstr(str, "<<", ft_strlen(str)))
-		ms->exec->redtype = HERE_DOC;
-	else if (ft_strnstr(str, "<", ft_strlen(str)) \
-		&& ms->exec->redtype != HERE_DOC)
-		ms->exec->redtype = INPUT;
+	if (*str != '\'' && *str != '\"')
+	{
+		if (ft_strnstr(str, ">>", ft_strlen(str)))
+			ms->exec->redtype = APPEND;
+		else if (ft_strnstr(str, ">", ft_strlen(str)) \
+			&& ms->exec->redtype != APPEND)
+			ms->exec->redtype = OUTPUT;
+		else if (ft_strnstr(str, "<<", ft_strlen(str)))
+			ms->exec->redtype = HERE_DOC;
+		else if (ft_strnstr(str, "<", ft_strlen(str)) \
+			&& ms->exec->redtype != HERE_DOC)
+			ms->exec->redtype = INPUT;
+	}
 }
