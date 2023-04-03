@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 18:24:24 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 12:49:21 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/03 21:37:16 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,14 @@ void	check_cmdtype(t_minishell *ms, char *str)
 
 void	check_redtype(t_minishell *ms, char *str)
 {
-	if (ft_strnstr(str, ">>", 2))
+	if (ft_strnstr(str, ">>", ft_strlen(str)))
 		ms->exec->redtype = APPEND;
-	else if (ft_strnstr(str, ">", 1) && ms->exec->redtype != APPEND)
+	else if (ft_strnstr(str, ">", ft_strlen(str)) \
+		&& ms->exec->redtype != APPEND)
 		ms->exec->redtype = OUTPUT;
-	else if (ft_strnstr(str, "<<", 2))
+	else if (ft_strnstr(str, "<<", ft_strlen(str)))
 		ms->exec->redtype = HERE_DOC;
-	else if (ft_strnstr(str, "<", 1) && ms->exec->redtype != HERE_DOC)
+	else if (ft_strnstr(str, "<", ft_strlen(str)) \
+		&& ms->exec->redtype != HERE_DOC)
 		ms->exec->redtype = INPUT;
 }
