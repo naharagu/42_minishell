@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:29:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 11:58:45 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/03 17:29:30 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	set_signal_for_shell_prompt(t_minishell *ms)
 	sa.sa_flags = 0;
 	if (sigaction(SIGINT, &sa, NULL) < 0)
 		exit_error(ms, "sigaction");
-	assign_dfl_handler(SIGQUIT, ms);
+	assign_ign_handler(SIGQUIT, ms);
 }
 
 void	set_signal_for_heredoc(t_minishell *ms)
@@ -35,17 +35,17 @@ void	set_signal_for_heredoc(t_minishell *ms)
 	sa.sa_flags = 0;
 	if (sigaction(SIGINT, &sa, NULL) < 0)
 		exit_error(ms, "sigaction");
-	assign_dfl_handler(SIGQUIT, ms);
+	assign_ign_handler(SIGQUIT, ms);
 }
 
 void	set_signal_for_execution(t_minishell *ms)
 {
-	assign_dfl_handler(SIGQUIT, ms);
 	assign_dfl_handler(SIGINT, ms);
+	assign_dfl_handler(SIGQUIT, ms);
 }
 
 void	set_signal_for_waiting_child(t_minishell *ms)
 {
-	assign_ign_handler(SIGQUIT, ms);
 	assign_ign_handler(SIGINT, ms);
+	assign_ign_handler(SIGQUIT, ms);
 }
