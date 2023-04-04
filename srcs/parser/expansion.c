@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 15:55:35 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 18:17:14 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,24 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 	char	*tmp;
 
 	original = cmd->str;
-	copy = ft_strdup(cmd->str);
-	tmp = copy;
+	tmp = ft_strdup(cmd->str);
+	copy = tmp;
 	while (*tmp)
 	{
 		if (*tmp == '\'' && cmd->quote != D_QUOTE)
 		{
 			cmd->quote = S_QUOTE;
-			ms_strtrim(cmd, &original, '\'');
+			ms_strtrim(cmd, '\'', &original);
 		}
 		else if (*tmp == '\"' && cmd->quote != S_QUOTE)
 		{
 			cmd->quote = D_QUOTE;
-			ms_strtrim(cmd, &original, '\"');
+			ms_strtrim(cmd, '\"', &original);
 		}
 		tmp++;
 	}
 	free(copy);
+	original = cmd->str;
 	if (cmd->str && *cmd->str == '$' && cmd->quote != S_QUOTE \
 		&& ft_strlen(cmd->str) > 1)
 		assign_value_cmd (ms, cmd, &original);

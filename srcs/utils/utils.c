@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 16:33:45 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 17:57:24 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,27 +59,31 @@ void	clear_ms(t_minishell *ms)
 	free_argv(&ms->argv);
 }
 
-void	ms_strtrim(t_cmdlist *cmd, char **original, char c)
+void	ms_strtrim(t_cmdlist *cmd, char c, char **original)
 {
 	char	**split;
 	char	*tmp;
-	char	*first;
+	char	*result;
+	char	*old;
 	size_t	i;
 
 	i = 1;
 	split = ft_split(cmd->str, c);
-	tmp = ft_strdup(split[0]);
-	first = tmp;
-	free(split[0]);
+	tmp = split[0];
+	result = NULL;
 	while (split[i] && split[i][0] != '\0')
 	{
-		tmp = ft_strjoin(tmp, split[i]);
+		old = ft_strdup(tmp);
+		if (result)
+			free(result);
+		tmp = ft_strjoin(old, split[i]);
+		result = tmp;
+		free(old);
 		free(split[i]);
 		i++;
 	}
+	free(split[0]);
 	free(split);
-	free(first);
 	free(*original);
 	cmd->str = ft_strdup(tmp);
-	free(tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 15:56:15 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 17:57:43 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ void		init_ms(t_minishell *ms);
 char		*toupper_char(char *str);
 void		check_pipe(t_minishell *ms, char *str);
 void		clear_ms(t_minishell *ms);
-void		ms_strtrim(t_cmdlist *cmd, char **original, char c);
+void		ms_strtrim(t_cmdlist *cmd, char c, char **original);
 
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);
