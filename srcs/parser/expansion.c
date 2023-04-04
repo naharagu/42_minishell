@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 12:43:54 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 15:34:22 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,26 +49,29 @@ void	expansion(t_minishell *ms)
 static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 {
 	char	*original;
+	char	*copy;
 	char	*tmp;
 
 	original = cmd->str;
-	tmp = cmd->str;
+	copy = ft_strdup(cmd->str);
+	tmp = copy;
 	while (*tmp)
 	{
 		if (*tmp == '\'' && cmd->quote != D_QUOTE)
 		{
 			cmd->quote = S_QUOTE;
-			free(original);
-			cmd->str = ms_strtrim(cmd->str, '\'');
+			copy = ms_strtrim(copy, '\'');
 		}
 		else if (*tmp == '\"' && cmd->quote != S_QUOTE)
 		{
 			cmd->quote = D_QUOTE;
-			free(original);
-			cmd->str = ms_strtrim(cmd->str, '\"');
+			copy = ms_strtrim(copy, '\"');
 		}
 		tmp++;
 	}
+	free(original);
+	cmd->str = ft_strdup(copy);
+	free(copy);
 	if (cmd->str && *cmd->str == '$' && cmd->quote != S_QUOTE \
 		&& ft_strlen(cmd->str) > 1)
 	{
@@ -93,7 +96,6 @@ static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)
 		ms->env = ms->env->next;
 		if (!(ft_strncmp(ms->env->key, cmd->str, ft_strlen(cmd->str))))
 		{
-			//printf("%s\n", cmd->str);//
 			free(*original);
 			cmd->str = ft_strdup(ms->env->value);
 			ms->env = startenv;

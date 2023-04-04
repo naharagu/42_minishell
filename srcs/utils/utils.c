@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 12:38:54 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 15:25:33 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	*ms_strtrim(char const *s1, char c)
 	i = 0;
 	tmp = NULL;
 	split = ft_split(s1, c);
-	while (split[i])
+	while (split[i] && split[i][0] != '\0')
 	{
 		if (!tmp)
 			tmp = ft_strdup(split[i]);
