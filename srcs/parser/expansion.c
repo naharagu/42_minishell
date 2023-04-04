@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 15:34:22 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 15:55:35 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,23 +60,19 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 		if (*tmp == '\'' && cmd->quote != D_QUOTE)
 		{
 			cmd->quote = S_QUOTE;
-			copy = ms_strtrim(copy, '\'');
+			ms_strtrim(cmd, &original, '\'');
 		}
 		else if (*tmp == '\"' && cmd->quote != S_QUOTE)
 		{
 			cmd->quote = D_QUOTE;
-			copy = ms_strtrim(copy, '\"');
+			ms_strtrim(cmd, &original, '\"');
 		}
 		tmp++;
 	}
-	free(original);
-	cmd->str = ft_strdup(copy);
 	free(copy);
 	if (cmd->str && *cmd->str == '$' && cmd->quote != S_QUOTE \
 		&& ft_strlen(cmd->str) > 1)
-	{
 		assign_value_cmd (ms, cmd, &original);
-	}
 }
 
 static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)

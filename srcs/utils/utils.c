@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 15:25:33 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 16:33:45 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@ void	init_ms(t_minishell *ms)
 
 char	*toupper_char(char *str)
 {
-	char	*tmp;
+	char	*result;
 	char	*start;
 
-	tmp = ft_strdup(str);
-	start = tmp;
-	while (*tmp != '\0')
+	result = ft_strdup(str);
+	start = result;
+	while (*result != '\0')
 	{
-		*tmp = ft_toupper(*tmp);
-		tmp++;
+		*result = ft_toupper(*result);
+		result++;
 	}
 	return (start);
 }
@@ -59,29 +59,27 @@ void	clear_ms(t_minishell *ms)
 	free_argv(&ms->argv);
 }
 
-char	*ms_strtrim(char const *s1, char c)
+void	ms_strtrim(t_cmdlist *cmd, char **original, char c)
 {
 	char	**split;
-	char	*result;
 	char	*tmp;
+	char	*first;
 	size_t	i;
 
-	if (!s1 || !c)
-		return (NULL);
-	i = 0;
-	tmp = NULL;
-	split = ft_split(s1, c);
+	i = 1;
+	split = ft_split(cmd->str, c);
+	tmp = ft_strdup(split[0]);
+	first = tmp;
+	free(split[0]);
 	while (split[i] && split[i][0] != '\0')
 	{
-		if (!tmp)
-			tmp = ft_strdup(split[i]);
-		else
-			tmp = ft_strjoin(tmp, split[i]);
+		tmp = ft_strjoin(tmp, split[i]);
 		free(split[i]);
 		i++;
 	}
 	free(split);
-	result = ft_strdup(tmp);
-	free (tmp);
-	return (result);
+	free(first);
+	free(*original);
+	cmd->str = ft_strdup(tmp);
+	free(tmp);
 }
