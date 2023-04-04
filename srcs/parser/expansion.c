@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 22:43:56 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 22:55:26 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,23 +78,23 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)
 {
 	t_envlist	*startenv;
+	char		*tmp;
 
 	startenv = ms->env;
-	cmd->str++;
-	if (cmd->str && !(ft_strncmp(cmd->str, "?", ft_strlen(cmd->str))))
+	tmp = cmd->str;
+	tmp++;
+	if (tmp && !(ft_strncmp(tmp, "?", ft_strlen(tmp))))
 	{
 		free(*original);
-		cmd->str--;
 		cmd->str = ft_itoa(g_status);
 		return ;
 	}
 	ms->env = ms->env->next;
-	while (cmd->str && ms->env)
+	while (tmp && ms->env)
 	{
-		if (!(ft_strncmp(ms->env->key, cmd->str, ft_strlen(cmd->str))))
+		if (!(ft_strncmp(ms->env->key, tmp, ft_strlen(tmp))))
 		{
 			free(*original);
-			cmd->str--;
 			cmd->str = ft_strdup(ms->env->value);
 			ms->env = startenv;
 			return ;
