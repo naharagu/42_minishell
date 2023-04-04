@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/03 22:08:00 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 08:35:16 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	minishell(t_minishell *ms)
 			add_history(line);
 		ms->line = line;
 		lexer(ms);
-		print_mslist(ms);//
+		// print_mslist(ms);//
 		parser(ms);
-		print_cmdline(ms);//
-		print_execlist(ms);//
+		// print_cmdline(ms);//
+		// print_execlist(ms);//
 		expansion(ms);
 		//print_execlist(ms);//
 		if (prepare_redirect(ms) == EXIT_SUCCESS)
