@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:54:26 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/01 07:52:18 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/04 09:13:08 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ int	ft_cd(t_minishell *ms, size_t argc, char **argv)
 	}
 	if (chdir(newdir) < 0)
 	{
-		other_error(ms, "cd", ft_strjoin(newdir, \
-		": No such file or directory"), 1);
+		perror(newdir);
 		return (EXIT_FAILURE);
 	}
 	cwd = getcwd(NULL, 0);
