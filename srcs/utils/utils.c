@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 17:57:24 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 22:08:26 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,27 +63,23 @@ void	ms_strtrim(t_cmdlist *cmd, char c, char **original)
 {
 	char	**split;
 	char	*tmp;
-	char	*result;
 	char	*old;
 	size_t	i;
 
 	i = 1;
 	split = ft_split(cmd->str, c);
 	tmp = split[0];
-	result = NULL;
 	while (split[i] && split[i][0] != '\0')
 	{
 		old = ft_strdup(tmp);
-		if (result)
-			free(result);
+		free(tmp);
 		tmp = ft_strjoin(old, split[i]);
-		result = tmp;
 		free(old);
 		free(split[i]);
 		i++;
 	}
-	free(split[0]);
-	free(split);
 	free(*original);
 	cmd->str = ft_strdup(tmp);
+	free(tmp);
+	free(split);
 }

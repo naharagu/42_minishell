@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 18:17:14 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 21:15:11 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 	copy = tmp;
 	while (*tmp)
 	{
-		if (*tmp == '\'' && cmd->quote != D_QUOTE)
+		if (*tmp == '\'' && cmd->quote == NO_QUOTE)
 		{
 			cmd->quote = S_QUOTE;
 			ms_strtrim(cmd, '\'', &original);
 		}
-		else if (*tmp == '\"' && cmd->quote != S_QUOTE)
+		else if (*tmp == '\"' && cmd->quote == NO_QUOTE)
 		{
 			cmd->quote = D_QUOTE;
 			ms_strtrim(cmd, '\"', &original);
