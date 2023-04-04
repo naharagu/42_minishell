@@ -64,4 +64,9 @@ re: fclean all
 sanitize: CFLAGS += -g -fsanitize=address
 sanitize: re
 
-.PHONY: all clean fclean re sanitize
+norm:
+	norminette $(SRCS)
+normall:
+	norminette $(SRCS) $(LIB_DIR)/*.c $(LIB_DIR)/*.h include/*.h
+
+.PHONY: all clean fclean re sanitize norm normall
