@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 22:13:20 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 22:43:56 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,22 @@ static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)
 	if (cmd->str && !(ft_strncmp(cmd->str, "?", ft_strlen(cmd->str))))
 	{
 		free(*original);
+		cmd->str--;
 		cmd->str = ft_itoa(g_status);
 		return ;
 	}
+	ms->env = ms->env->next;
 	while (cmd->str && ms->env)
 	{
-		ms->env = ms->env->next;
 		if (!(ft_strncmp(ms->env->key, cmd->str, ft_strlen(cmd->str))))
 		{
 			free(*original);
+			cmd->str--;
 			cmd->str = ft_strdup(ms->env->value);
 			ms->env = startenv;
 			return ;
 		}
+		ms->env = ms->env->next;
 	}
 	ms->env = startenv;
 	free(*original);
