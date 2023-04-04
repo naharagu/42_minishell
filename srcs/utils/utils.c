@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/29 19:10:07 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/04 12:38:54 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,31 @@ void	clear_ms(t_minishell *ms)
 	ms_lstclear(&ms->list);
 	exec_lstclear(&ms->exec);
 	free_argv(&ms->argv);
+}
+
+char	*ms_strtrim(char const *s1, char c)
+{
+	char	**split;
+	char	*result;
+	char	*tmp;
+	size_t	i;
+
+	if (!s1 || !c)
+		return (NULL);
+	i = 0;
+	tmp = NULL;
+	split = ft_split(s1, c);
+	while (split[i])
+	{
+		if (!tmp)
+			tmp = ft_strdup(split[i]);
+		else
+			tmp = ft_strjoin(tmp, split[i]);
+		free(split[i]);
+		i++;
+	}
+	free(split);
+	result = ft_strdup(tmp);
+	free (tmp);
+	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 10:33:36 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 12:43:54 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,17 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 	tmp = cmd->str;
 	while (*tmp)
 	{
-		if (*tmp == '\'')
+		if (*tmp == '\'' && cmd->quote != D_QUOTE)
 		{
 			cmd->quote = S_QUOTE;
-			cmd->str = ft_strtrim(cmd->str, "\'");
+			free(original);
+			cmd->str = ms_strtrim(cmd->str, '\'');
 		}
-		else if (*tmp == '\"')
+		else if (*tmp == '\"' && cmd->quote != S_QUOTE)
 		{
 			cmd->quote = D_QUOTE;
-			cmd->str = ft_strtrim(cmd->str, "\"");
+			free(original);
+			cmd->str = ms_strtrim(cmd->str, '\"');
 		}
 		tmp++;
 	}
@@ -91,7 +93,7 @@ static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)
 		ms->env = ms->env->next;
 		if (!(ft_strncmp(ms->env->key, cmd->str, ft_strlen(cmd->str))))
 		{
-			printf("%s\n", cmd->str);//
+			//printf("%s\n", cmd->str);//
 			free(*original);
 			cmd->str = ft_strdup(ms->env->value);
 			ms->env = startenv;

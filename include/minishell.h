@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 10:33:46 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 12:25:38 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,6 @@ void		parser(t_minishell *ms);
 //check_type.c
 void		check_cmdtype(t_minishell *ms, char *str);
 void		check_redtype(t_minishell *ms, char *str);
-//void		check_quotetype(t_minishell *ms, t_cmdlist *cmd);
 
 //expansion.c
 void		expansion(t_minishell *ms);
@@ -203,6 +202,7 @@ void		init_ms(t_minishell *ms);
 char		*toupper_char(char *str);
 void		check_pipe(t_minishell *ms, char *str);
 void		clear_ms(t_minishell *ms);
+char		*ms_strtrim(char const *s1, char c);
 
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);
