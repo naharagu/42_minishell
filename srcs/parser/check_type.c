@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 18:24:24 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/03 22:21:56 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 10:33:43 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,3 +49,24 @@ void	check_redtype(t_minishell *ms, char *str)
 			ms->exec->redtype = INPUT;
 	}
 }
+
+// void	check_quotetype(t_minishell *ms, t_cmdlist *cmd)
+// {
+// 	char	*tmp;
+
+// 	tmp = cmd->str;
+// 	while (*tmp)
+// 	{
+// 		if (*tmp == '\'')
+// 		{
+// 			cmd->quote = S_QUOTE;
+// 			cmd->str = ft_strtrim(cmd->str, "\'");
+// 		}
+// 		else if (*tmp == '\"')
+// 		{
+// 			cmd->quote = D_QUOTE;
+// 			cmd->str = ft_strtrim(cmd->str, "\"");
+// 		}
+// 		tmp++;
+// 	}
+// }

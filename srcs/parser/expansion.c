@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/02 21:10:46 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 10:33:36 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,25 @@ void	expansion(t_minishell *ms)
 
 static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 {
-	char		*original;
+	char	*original;
+	char	*tmp;
 
 	original = cmd->str;
-	if (cmd->str && *cmd->str == '\'')
-		cmd->quote = S_QUOTE;
-	else if (cmd->str && *cmd->str == '\"')
-		cmd->quote = D_QUOTE;
-	if (cmd->str && (cmd->quote == S_QUOTE || cmd->quote == D_QUOTE))
-		cmd->str = ft_strtrim(cmd->str, "\'\"");
+	tmp = cmd->str;
+	while (*tmp)
+	{
+		if (*tmp == '\'')
+		{
+			cmd->quote = S_QUOTE;
+			cmd->str = ft_strtrim(cmd->str, "\'");
+		}
+		else if (*tmp == '\"')
+		{
+			cmd->quote = D_QUOTE;
+			cmd->str = ft_strtrim(cmd->str, "\"");
+		}
+		tmp++;
+	}
 	if (cmd->str && *cmd->str == '$' && cmd->quote != S_QUOTE \
 		&& ft_strlen(cmd->str) > 1)
 	{
