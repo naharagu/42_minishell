@@ -116,7 +116,7 @@ assert 'exit hello 42' #numeric argument required
 ## Brock command (cat / grep a)
 # ctrl-C → 新しいプロンプト、新しい行 (今：改行されない)
 # ctrl-\ → 新しいプロンプト、新しい行　(今：改行されない)
-# ctrl-D → 新しいプロンプト、新しい行
+# ctr-D → 新しいプロンプト、新しい行
 
 # double quote
 assert 'echo "cat main.c | cat > main.c"'
