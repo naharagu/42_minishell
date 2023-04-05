@@ -30,8 +30,8 @@ SRCS		= 	srcs/main.c							\
 				srcs/list/mslist.c					\
 				srcs/parser/check_type.c			\
 				srcs/parser/expansion.c				\
-				srcs/parser/expand_cmd.c			\
-				srcs/parser/expand_red.c			\
+				srcs/parser/expand_cmd_utils.c		\
+				srcs/parser/expand_red_utils.c		\
 				srcs/parser/parser.c				\
 				srcs/redirect/heredoc.c			    \
 				srcs/redirect/redirect_check.c		\

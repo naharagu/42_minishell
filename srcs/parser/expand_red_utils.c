@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_red.c                                       :+:      :+:    :+:   */
+/*   expand_red_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 12:15:12 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/05 12:50:53 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,6 @@ static void	ms_strtrim_red(t_redlist *red, char c, char **original);
 static void	assign_value_red(t_minishell *ms, t_redlist *red, char **original);
 static void	expand_env_red(t_minishell *ms, t_redlist *red, char *tmp, \
 			char **original);
-
-void	expand_red(t_minishell *ms, t_redlist *red)
-{
-	char	*original;
-	char	*copy;
-	char	*tmp;
-
-	original = red->str;
-	tmp = ft_strdup(red->str);
-	copy = tmp;
-	while (*tmp)
-	{
-		trim_quote_red(red, *tmp, &original);
-		tmp++;
-	}
-	free(copy);
-	original = red->str;
-	if (red->str && *red->str == '$' && red->quote != S_QUOTE \
-		&& ft_strlen(red->str) > 1)
-	{
-		assign_value_red (ms, red, &original);
-		error_expandedred(ms, red, original);
-	}
-}
 
 static void	trim_quote_red(t_redlist *red, char c, char **original)
 {
