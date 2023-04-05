@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 17:30:45 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/05 18:23:37 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	assign_value_red(t_minishell *ms, t_redlist *red, char **original)
 		red->str = ft_itoa(g_status);
 		return ;
 	}
-	expand_env_red(ms, red, tmp, original);
+	else
+		expand_env_red(ms, red, tmp, original);
 }
 
 static void	ms_strtrim_red(t_redlist *red, char c, char **original)

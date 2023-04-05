@@ -116,7 +116,7 @@ assert 'exit hello 42' #numeric argument required
 ## Brock command (cat / grep a)
 # ctrl-C → 新しいプロンプト、新しい行 (今：改行されない)
 # ctrl-\ → 新しいプロンプト、新しい行　(今：改行されない)
-# ctr-D → 新しいプロンプト、新しい行
+# ctrl-D → 新しいプロンプト、新しい行
 
 # double quote
 assert 'echo "cat main.c | cat > main.c"'
@@ -136,13 +136,13 @@ assert 'echo '\"hello   world\"' '42Tokyo''
 assert 'env'
 
 # export
-assert 'export $KEY="hoge fuga"'
+assert 'export KEY="hoge fuga"'
 # assert 'env'
 
 # unset
-assert 'export $KEY="hoge"'
+assert 'export KEY="hoge"'
 # assert 'env'
-assert 'unset $KEY'
+assert 'unset KEY'
 # assert 'env'
 
 # cd & pwd
