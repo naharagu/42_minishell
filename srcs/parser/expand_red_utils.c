@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 18:23:37 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/05 20:53:49 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	assign_value_red(t_minishell *ms, t_redlist *red, char **original)
 {
 	char		*tmp;
 
+	if (red->str && *red->str == '$' && red->quote != S_QUOTE \
+		&& ft_strlen(red->str) > 1)
 	tmp = red->str;
 	tmp++;
 	if (tmp && !(ft_strncmp(tmp, "?", ft_strlen(tmp))))

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 18:23:23 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/05 21:37:29 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,31 @@ void	trim_quote_cmd(t_cmdlist *cmd, char c, char **original)
 
 void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)
 {
-	char		*tmp;
+	char	**split;
+	char	*tmp;
+	char	*old;
+	size_t	i;
 
-	tmp = cmd->str;
-	tmp++;
-	if (tmp && !(ft_strncmp(tmp, "?", ft_strlen(tmp))))
-	{
-		free(*original);
-		cmd->str = ft_itoa(g_status);
+	i = 0;
+	// if (ft_strnstr(cmd->str, "$", ft_strlen(cmd->str)) && cmd->quote != S_QUOTE)
+	if (ft_strnstr(cmd->str, "$", ft_strlen(cmd->str)))
+		split = make_split_cmd(cmd, '$', original);
+	if (!split)
 		return ;
+	while (split[i] && split[i][0] != '\0')
+	{
+		tmp = expand_env_cmd(ms, cmd, split[i], original);
+		old = ft_strdup(tmp);
+		free(tmp);
+		tmp = ft_strjoin(old, split[i]);
+		free(old);
+		free(split[i]);
+		i++;
 	}
-	else
-		expand_env_cmd(ms, cmd, tmp, original);
+	free(*original);
+	cmd->str = ft_strdup(tmp);
+	free(tmp);
+	free(split);
 }
 
 static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original)
@@ -98,6 +111,11 @@ void	expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *tmp, \
 	ms->env = ms->env->next;
 	while (tmp && ms->env)
 	{
+		if (old && !(ft_strncmp(old, "?", ft_strlen(old))))
+		{
+			free(*original);
+			cmd->str = ft_itoa(g_status);
+		}
 		if (!(ft_strncmp(ms->env->key, tmp, ft_strlen(tmp))))
 		{
 			free(*original);
