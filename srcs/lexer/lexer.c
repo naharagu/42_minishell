@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 12:14:17 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/05 14:58:33 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ void	lexer(t_minishell *ms)
 		start = ms->line;
 		while (*ms->line && is_quoted(*ms->line, ms))
 			ms->line++;
-		// add_mslist(ms, start, ms->line);
-		// start = ms->line;
-		// && *ms->line != '\'' && *ms->line != '\"' 
+		add_mslist(ms, start, ms->line);
+		start = ms->line;
 		while (*ms->line \
 			&& !(is_space(*ms->line)) && !(is_metachara(*ms->line)))
 			ms->line++;
+		add_mslist(ms, start, ms->line);
+		start = ms->line;
 		while (*ms->line && ft_isdigit(*ms->line))
 				ms->line++;
 		while (*ms->line && is_metachara(*ms->line))
