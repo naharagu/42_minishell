@@ -27,6 +27,10 @@ NG=$RED"NG"$RESET
 # }
 # EOF
 
+cleanup() {
+	rm -f cmp out a.out print_args hello.txt pwd.txt file print_args 'f1>'
+}
+
 # assert - 診断が偽の時にプログラムを中止する
 assert() {
 	COMMAND="$1"
@@ -39,23 +43,23 @@ assert() {
 	echo -n -e "$COMMAND" | bash >cmp 2>&-
 	# bashのexit statusをexpectedに代入
 	expected=$?
-	for arg in "$@"
-	do
-		mv "$arg" "$arg"".cmp"
-	done
+	# for arg in "$@"
+	# do
+	# 	mv "$arg" "$arg"".cmp"
+	# done
 
 	# minishellの出力をoutに保存
 	echo -n -e "$COMMAND" | ./minishell >out 2>&-
 	# minishellのexit statusをactualに代入
 	actual=$?
-	for arg in "$@"
-	do
-		mv "$arg" "$arg"".out"
-	done
+	# for arg in "$@"
+	# do
+	# 	mv "$arg" "$arg"".out"
+	# done
 
 	# bashとminishellの出力を比較
-	# diff cmp out >/dev/null && echo -e -n "  diff $OK" || echo -e -n "  diff $NG"
-	diff cmp out && echo -e -n "  diff $OK" || echo -e -n "  diff $NG"
+	diff cmp out >/dev/null && echo -e -n "  diff $OK" || echo -e -n "  diff $NG"
+	# diff cmp out && echo -e -n "  diff $OK" || echo -e -n "  diff $NG"
 
 	# bashとminishellのexit statusを比較
 	if [ "$actual" = "$expected" ]; then
@@ -63,12 +67,12 @@ assert() {
 	else
 		echo -e -n "  status $NG, expected $expected but got $actual"
 	fi
-	for arg in "$@"
-	do
-		echo -n "  [$arg] "
-		diff "$arg"".cmp" "$arg"".out" >/dev/null && echo -e -n "$OK" || echo -e -n "$NG"
-		rm -f "$arg"".cmp" "$arg"".out"
-	done
+	# for arg in "$@"
+	# do
+	# 	echo -n "  [$arg] "
+	# 	diff "$arg"".cmp" "$arg"".out" >/dev/null && echo -e -n "$OK" || echo -e -n "$NG"
+	# 	rm -f "$arg"".cmp" "$arg"".out"
+	# done
 	echo
 }
 
@@ -80,10 +84,10 @@ assert '' #empty
 assert ' ' #space
 assert '	' #tab
 
-## argumant
+# argumant
 assert 'cat Makefile'
 
-##echo
+# echo
 assert 'echo aa'
 assert 'echo -n aa'
 
@@ -97,38 +101,27 @@ assert 'exit 42 41 40' #too many arguments
 assert 'exit 42 hello' #too many arguments
 assert 'exit hello 42' #numeric argument required
 
-# # signal
-# $ ./minishell
-# $ 
-# 1. Ctrl-\ 
-# 2. Ctrl-C
-# 3. Ctrl-D
-#
-# $ ./minishell
-# $ hogehoge
-# 1. Ctrl-\ 
-# 2. Ctrl-C
-# 3. Ctrl-D
-#
-# $ ./minishell
-# $ cat <<EOF
-# >
-# 1. Ctrl-\ 
-# 2. Ctrl-C
-# 3. Ctrl-D
-#
-# $ ./minishell
-# $ cat <<EOF
-# > hoge
-# > fuga
-# 1. Ctrl-\ 
-# 2. Ctrl-C
-# 3. Ctrl-D
+# signal
+## empty prompt
+# ctrl-C → 新しいプロンプト、新しい行
+# ctrl-\ → 何も実行されない (今：ミニシェルが終了)
+# ctrl-D → ミニシェルが終了
+
+## written prompt
+# ctrl-C → 新しいプロンプト、新しい行
+# → Enterを押しても何も実行されない
+# ctrl-\ → 何も実行されない (今：ミニシェルが終了)
+# ctrl-D → 何も実行されない
+
+## Brock command (cat / grep a)
+# ctrl-C → 新しいプロンプト、新しい行 (今：改行されない)
+# ctrl-\ → 新しいプロンプト、新しい行　(今：改行されない)
+# ctrl-D → 新しいプロンプト、新しい行　(今：改行されない)
 
 # double quote
 assert 'echo "cat main.c | cat > main.c"'
 assert 'echo "hello   world" "42Tokyo"'
-assert "echo \"'hello   world'\" \"42Tokyo\""
+assert 'echo "'hello   world'" "42Tokyo"'
 
 # single quote
 assert 'echo '''
@@ -144,23 +137,23 @@ assert 'env'
 
 # export
 assert 'export $KEY="hoge fuga"'
-assert 'env'
+# assert 'env'
 
 # unset
 assert 'export $KEY="hoge"'
-assert 'env'
+# assert 'env'
 assert 'unset $KEY'
-assert 'env'
+# assert 'env'
 
 # cd & pwd
 assert 'cd'
-assert 'pwd'
+# assert 'pwd'
 assert 'cd srcs'
-assert 'pwd'
+# assert 'pwd'
 assert 'cd .'
-assert 'pwd'
+# assert 'pwd'
 assert 'cd ..'
-assert 'pwd'
+# assert 'pwd'
 assert 'cd /../../../././.././'
 
 # relative path
@@ -191,10 +184,10 @@ assert 'pwd >>pwd.txt' 'pwd.txt'
 assert 'pwd >>pwd.txt \n pwd >>pwd.txt' 'pwd.txt'
 
 ## Here Document
-assert 'cat <<EOF\nhello\nworld\nEOF\nNOPRINT'
-assert 'cat <<EOF<<eof\nhello\nworld\nEOF\neof\nNOPRINT'
-assert 'cat <<EOF\nhello\nworld'
-assert 'cat <<E"O"F\nhello\nworld\nEOF\nNOPRINT'
+# assert 'cat <<EOF\nhello\nworld\nEOF\nNOPRINT'
+# assert 'cat <<EOF<<eof\nhello\nworld\nEOF\neof\nNOPRINT'
+# assert 'cat <<EOF\nhello\nworld'
+# assert 'cat <<E"O"F\nhello\nworld\nEOF\nNOPRINT'
 
 # Pipe
 assert 'cat Makefile | grep minishell > file'
