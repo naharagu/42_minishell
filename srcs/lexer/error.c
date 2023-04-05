@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 11:03:34 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/05 09:46:49 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,11 @@
 void	error_lexer(t_minishell *ms)
 {
 	if (!(ms->list))
+	{
+		clear_ms(ms);
+		env_lstclear(&ms->env);
 		minishell(ms);
+	}
 	if (ms->list && *ms->list->str == '|')
 		syntax_error(ms, "|", 258);
 	if (ms->quote == S_QUOTE || ms->quote == D_QUOTE)
