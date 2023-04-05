@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/26 18:04:17 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/05 08:36:33 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@ int	ft_pwd(void)
 		return (EXIT_FAILURE);
 	ft_putstr_fd(pwd, STDOUT_FILENO);
 	ft_putchar_fd('\n', STDOUT_FILENO);
+	if (pwd)
+		free(pwd);
 	return (EXIT_SUCCESS);
 }
