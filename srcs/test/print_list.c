@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/02 20:30:17 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/04 15:26:26 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,20 +95,20 @@ void	print_execlist(t_minishell *ms)
 			i++;
 		}
 		i = 0;
-		printf("envsize= %d\n", env_lstsize(ms->env));
-		while (ms->env)
-		{
-			if (!ms->env->key)
-			{
-				ms->env = ms->env->next;
-				continue ;
-			}
-			printf("[exec:%zu]KEY[%zu]= %s(%zu) VALUE[%zu]= %s(%zu)\n", \
-			j, i, ms->env->key, ft_strlen(ms->env->key), \
-			i, ms->env->value, ft_strlen(ms->env->value));
-			ms->env = ms->env->next;
-			i++;
-		}
+		// printf("envsize= %d\n", env_lstsize(ms->env));
+		// while (ms->env)
+		// {
+		// 	if (!ms->env->key)
+		// 	{
+		// 		ms->env = ms->env->next;
+		// 		continue ;
+		// 	}
+		// 	printf("[exec:%zu]KEY[%zu]= %s(%zu) VALUE[%zu]= %s(%zu)\n", \
+		// 	j, i, ms->env->key, ft_strlen(ms->env->key), \
+		// 	i, ms->env->value, ft_strlen(ms->env->value));
+		// 	ms->env = ms->env->next;
+		// 	i++;
+		// }
 		ms->exec->cmd = startcmd;
 		ms->exec->red = startred;
 		ms->env = startenv;
