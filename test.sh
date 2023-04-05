@@ -114,8 +114,8 @@ assert 'exit hello 42' #numeric argument required
 # ctrl-D → 何も実行されない
 
 ## Brock command (cat / grep a)
-# ctrl-C → 新しいプロンプト、新しい行 (今：改行されない)
-# ctrl-\ → 新しいプロンプト、新しい行　(今：改行されない)
+# ctrl-C → 新しいプロンプト、新しい行
+# ctrl-\ → 新しいプロンプト、新しい行
 # ctrl-D → 新しいプロンプト、新しい行
 
 # double quote
@@ -184,10 +184,10 @@ assert 'pwd >>pwd.txt' 'pwd.txt'
 assert 'pwd >>pwd.txt \n pwd >>pwd.txt' 'pwd.txt'
 
 ## Here Document
-# assert 'cat <<EOF\nhello\nworld\nEOF\nNOPRINT'
-# assert 'cat <<EOF<<eof\nhello\nworld\nEOF\neof\nNOPRINT'
+# assert 'cat <<EOF\nhello\nworld\nEOF'
+# assert 'cat <<EOF<<eof\nhello\nworld\nEOF\neof\n'
 # assert 'cat <<EOF\nhello\nworld'
-# assert 'cat <<E"O"F\nhello\nworld\nEOF\nNOPRINT'
+# assert 'cat <<E"O"F\nhello\nworld\nEOF\n'
 
 # Pipe
 assert 'cat Makefile | grep minishell > file'
