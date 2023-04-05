@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 12:50:37 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/05 17:30:47 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)
 		return ;
 	}
 	expand_env_cmd(ms, cmd, tmp, original);
-	free(*original);
-	cmd->str = NULL;
 }
 
 static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original)
@@ -109,4 +107,6 @@ void	expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *tmp, \
 		ms->env = ms->env->next;
 	}
 	ms->env = startenv;
+	free(*original);
+	cmd->str = NULL;
 }
