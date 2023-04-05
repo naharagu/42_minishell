@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:54:26 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 13:38:53 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/05 09:22:43 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ int	ft_cd(t_minishell *ms, size_t argc, char **argv)
 	char	*newdir;
 
 	newdir = get_newdir(ms, argc, argv);
-	cwd = getcwd(NULL, 0);
-	if (!cwd)
-	{
-		exit_error(ms, "getcwd");
-		return (EXIT_FAILURE);
-	}
 	if (chdir(newdir) < 0)
 	{
 		perror(newdir);
 		return (EXIT_FAILURE);
 	}
 	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		perror("getcwd");
+		return (EXIT_FAILURE);
+	}
+	free(cwd);
 	return (EXIT_SUCCESS);
 }
