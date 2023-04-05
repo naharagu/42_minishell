@@ -6,20 +6,19 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 12:50:53 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/05 12:55:36 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern volatile sig_atomic_t	g_status;
-static void	trim_quote_red(t_redlist *red, char c, char **original);
 static void	ms_strtrim_red(t_redlist *red, char c, char **original);
-static void	assign_value_red(t_minishell *ms, t_redlist *red, char **original);
+static char	**make_split_red(t_redlist *red, char c, char **original);
 static void	expand_env_red(t_minishell *ms, t_redlist *red, char *tmp, \
 			char **original);
 
-static void	trim_quote_red(t_redlist *red, char c, char **original)
+void	trim_quote_red(t_redlist *red, char c, char **original)
 {
 	if (c == '\'' && red->quote == NO_QUOTE)
 	{
@@ -33,6 +32,23 @@ static void	trim_quote_red(t_redlist *red, char c, char **original)
 	}
 }
 
+void	assign_value_red(t_minishell *ms, t_redlist *red, char **original)
+{
+	char		*tmp;
+
+	tmp = red->str;
+	tmp++;
+	if (tmp && !(ft_strncmp(tmp, "?", ft_strlen(tmp))))
+	{
+		free(*original);
+		red->str = ft_itoa(g_status);
+		return ;
+	}
+	expand_env_red(ms, red, tmp, original);
+	free(*original);
+	red->str = NULL;
+}
+
 static void	ms_strtrim_red(t_redlist *red, char c, char **original)
 {
 	char	**split;
@@ -41,7 +57,9 @@ static void	ms_strtrim_red(t_redlist *red, char c, char **original)
 	size_t	i;
 
 	i = 1;
-	split = ft_split(red->str, c);
+	split = make_split_red(red, c, original);
+	if (!split)
+		return ;
 	tmp = split[0];
 	while (split[i] && split[i][0] != '\0')
 	{
@@ -58,21 +76,18 @@ static void	ms_strtrim_red(t_redlist *red, char c, char **original)
 	free(split);
 }
 
-static void	assign_value_red(t_minishell *ms, t_redlist *red, char **original)
+char	**make_split_red(t_redlist *red, char c, char **original)
 {
-	char		*tmp;
+	char	**split;
 
-	tmp = red->str;
-	tmp++;
-	if (tmp && !(ft_strncmp(tmp, "?", ft_strlen(tmp))))
+	split = ft_split(red->str, c);
+	if (!split || !split[0])
 	{
 		free(*original);
-		red->str = ft_itoa(g_status);
-		return ;
+		red->str = NULL;
+		return (NULL);
 	}
-	expand_env_red(ms, red, tmp, original);
-	free(*original);
-	red->str = NULL;
+	return (split);
 }
 
 void	expand_env_red(t_minishell *ms, t_redlist *red, char *tmp, \
