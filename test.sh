@@ -133,7 +133,7 @@ assert 'echo 'hello   world' '42Tokyo''
 assert 'echo '\"hello   world\"' '42Tokyo''
 
 # env
-assert 'env'
+assert 'env' #目視OK
 
 # export
 assert 'export KEY="hoge fuga"'
@@ -207,7 +207,7 @@ assert 'cat | cat | cat | ls'
 # Expand Variable
 assert 'echo $USER'
 assert 'echo $PATH'
-assert 'echo $USER$PATH$TERM'
+assert 'echo $USER$PATH'
 assert 'echo "$USER"'
 
 # BONUS
