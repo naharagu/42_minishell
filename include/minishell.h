@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 12:52:47 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/05 10:14:56 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ void		set_signal_for_execution(t_minishell *ms);
 void		set_signal_for_waiting_child(t_minishell *ms);
 void		prompt_handler(int signum);
 void		heredoc_handler(int signum);
+void		waitchild_handler(int signum);
 void		assign_dfl_handler(int signum, t_minishell *ms);
 void		assign_ign_handler(int signum, t_minishell *ms);
 

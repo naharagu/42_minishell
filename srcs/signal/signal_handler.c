@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:29:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 10:27:04 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/05 10:21:01 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ void	heredoc_handler(int signum)
 {
 	(void)signum;
 	g_status = 1;
+}
+
+void	waitchild_handler(int signum)
+{
+	ft_putchar_fd('\n', STDOUT_FILENO);
+	g_status = EXIT_ERROR + signum;
 }
 
 void	assign_dfl_handler(int signum, t_minishell *ms)

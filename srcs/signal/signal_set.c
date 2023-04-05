@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:29:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 10:03:52 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/05 10:21:54 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ void	set_signal_for_execution(t_minishell *ms)
 
 void	set_signal_for_waiting_child(t_minishell *ms)
 {
-	assign_ign_handler(SIGINT, ms);
-	assign_ign_handler(SIGQUIT, ms);
+	struct sigaction	sa;
+
+	if (sigemptyset(&sa.sa_mask) < 0)
+		exit_error(ms, "sigemptyset");
+	sa.sa_handler = waitchild_handler;
+	sa.sa_flags = 0;
+	if (sigaction(SIGINT, &sa, NULL) < 0)
+		exit_error(ms, "sigaction");
+	if (sigaction(SIGQUIT, &sa, NULL) < 0)
+		exit_error(ms, "sigaction");
 }
