@@ -104,19 +104,19 @@ assert 'exit hello 42' #numeric argument required
 # signal
 ## empty prompt
 # ctrl-C → 新しいプロンプト、新しい行
-# ctrl-\ → 何も実行されない (今：ミニシェルが終了)
+# ctrl-\ → 何も実行されない
 # ctrl-D → ミニシェルが終了
 
 ## written prompt
 # ctrl-C → 新しいプロンプト、新しい行
 # → Enterを押しても何も実行されない
-# ctrl-\ → 何も実行されない (今：ミニシェルが終了)
+# ctrl-\ → 何も実行されない
 # ctrl-D → 何も実行されない
 
 ## Brock command (cat / grep a)
 # ctrl-C → 新しいプロンプト、新しい行 (今：改行されない)
 # ctrl-\ → 新しいプロンプト、新しい行　(今：改行されない)
-# ctrl-D → 新しいプロンプト、新しい行　(今：改行されない)
+# ctrl-D → 新しいプロンプト、新しい行
 
 # double quote
 assert 'echo "cat main.c | cat > main.c"'
