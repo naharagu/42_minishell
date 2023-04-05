@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_prepare.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 15:12:37 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/05 08:26:16 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,10 @@ int	prepare_redirect(t_minishell *ms)
 	if (check_redirect(ms) == -1)
 		syntax_error(ms, "redirect", SYNTAX_ERROR);
 	if (open_and_assign_fd(ms) == -1)
-		syntax_error(ms, "redirect", SYNTAX_ERROR);
+	{
+		perror("minishell");
+		return (EXIT_FAILURE);
+	}
 	if (is_heredoc(ms) && g_status == 1)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
