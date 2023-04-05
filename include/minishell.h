@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 21:14:04 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/05 12:05:07 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,12 @@ void		check_redtype(t_minishell *ms, char *str);
 //expansion.c
 void		expansion(t_minishell *ms);
 
+//expand_cmd.c
+void		expand_cmd( t_minishell *ms, t_cmdlist *cmd);
+
+//expand_red.c
+void		expand_red(t_minishell *ms, t_redlist *red);
+
 //redirect.c
 int			prepare_redirect(t_minishell *ms);
 int			check_redirect(t_minishell *ms);
@@ -202,7 +208,6 @@ void		init_ms(t_minishell *ms);
 char		*toupper_char(char *str);
 void		check_pipe(t_minishell *ms, char *str);
 void		clear_ms(t_minishell *ms);
-void		ms_strtrim(t_cmdlist *cmd, char c, char **original);
 
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);

@@ -6,17 +6,13 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 11:31:46 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/05 11:40:09 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern volatile sig_atomic_t	g_status;
-static void	expand_cmd(t_minishell *ms, t_cmdlist *cmd);
-static void	expand_red(t_minishell *ms, t_redlist *red);
-static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original);
-static void	assign_value_red(t_minishell *ms, t_redlist *red, char **original);
 
 void	expansion(t_minishell *ms)
 {
@@ -44,113 +40,4 @@ void	expansion(t_minishell *ms)
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;
-}
-
-static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
-{
-	char	*original;
-	char	*copy;
-	char	*tmp;
-
-	original = cmd->str;
-	tmp = ft_strdup(cmd->str);
-	copy = tmp;
-	while (*tmp)
-	{
-		printf("c= %c\n", *tmp);//
-		if (*tmp == '\'' && cmd->quote == NO_QUOTE)
-		{
-			cmd->quote = S_QUOTE;
-			ms_strtrim(cmd, '\'', &original);
-		}
-		else if (*tmp == '\"' && cmd->quote == NO_QUOTE)
-		{
-			cmd->quote = D_QUOTE;
-			ms_strtrim(cmd, '\"', &original);
-		}
-		tmp++;
-	}
-	free(copy);
-	original = cmd->str;
-	if (cmd->str && *cmd->str == '$' && cmd->quote != S_QUOTE \
-		&& ft_strlen(cmd->str) > 1)
-		assign_value_cmd (ms, cmd, &original);
-}
-
-static void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)
-{
-	t_envlist	*startenv;
-	char		*tmp;
-
-	startenv = ms->env;
-	tmp = cmd->str;
-	tmp++;
-	if (tmp && !(ft_strncmp(tmp, "?", ft_strlen(tmp))))
-	{
-		free(*original);
-		cmd->str = ft_itoa(g_status);
-		return ;
-	}
-	ms->env = ms->env->next;
-	while (tmp && ms->env)
-	{
-		if (!(ft_strncmp(ms->env->key, tmp, ft_strlen(tmp))))
-		{
-			free(*original);
-			cmd->str = ft_strdup(ms->env->value);
-			ms->env = startenv;
-			return ;
-		}
-		ms->env = ms->env->next;
-	}
-	ms->env = startenv;
-	free(*original);
-	cmd->str = NULL;
-}
-
-static void	expand_red(t_minishell *ms, t_redlist *red)
-{
-	char		*original;
-
-	original = red->str;
-	if (red->str && *red->str == '\'')
-		red->quote = S_QUOTE;
-	else if (red->str && *red->str == '\"')
-		red->quote = D_QUOTE;
-	if (red->str && (red->quote == S_QUOTE || red->quote == D_QUOTE))
-		red->str = ft_strtrim(red->str, "\'\"");
-	if (red->str && *red->str == '$' && red->quote != S_QUOTE \
-		&& ft_strlen(red->str) > 1)
-	{
-		assign_value_red (ms, red, &original);
-		error_expandedred(ms, red, original);
-	}
-}
-
-static void	assign_value_red(t_minishell *ms, t_redlist *red, char **original)
-{
-	t_envlist	*startenv;
-
-	startenv = ms->env;
-	red->str++;
-	if (red->str && !(ft_strncmp(red->str, "?", ft_strlen(red->str))))
-	{
-		free(*original);
-		red->str = ft_itoa(g_status);
-		return ;
-	}
-	while (red->str && ms->env)
-	{
-		ms->env = ms->env->next;
-		if (!(ft_strncmp(ms->env->key, red->str, ft_strlen(red->str))))
-		{
-			free(*original);
-			red->str = ft_strdup(ms->env->value);
-			ms->env = startenv;
-			return ;
-		}
-	}
-	ms->env = startenv;
-	free(*original);
-	red->str = NULL;
 }
