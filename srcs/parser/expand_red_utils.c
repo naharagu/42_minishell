@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 20:08:22 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 20:28:01 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	assign_value_red(t_minishell *ms, t_redlist *red, char **original)
 	i = 1;
 	split = NULL;
 	tmp = NULL;
-	if (ft_strnstr(red->str, "$", ft_strlen(red->str)) \
-		&& red->quote != S_QUOTE)
+	if (red->str && red->quote != S_QUOTE \
+		&& ft_strnstr(red->str, "$", ft_strlen(red->str)))
 		split = make_split_red(red, '$', original);
 	if (!split || !split[0])
 		return ;
@@ -67,7 +67,8 @@ static void	ms_strtrim_red(t_redlist *red, char c, char **original)
 	split = make_split_red(red, c, original);
 	if (!split || !split[0])
 		return ;
-	tmp = split[0];
+	tmp = ft_strdup(split[0]);
+	free(split[0]);
 	while (split[i] && split[i][0] != '\0')
 	{
 		old = ft_strdup(tmp);
@@ -90,6 +91,8 @@ static char	**make_split_red(t_redlist *red, char c, char **original)
 	split = ft_split(red->str, c);
 	if (!split || !split[0])
 	{
+		free(split[0]);
+		free(split);
 		free(*original);
 		red->str = NULL;
 		return (NULL);

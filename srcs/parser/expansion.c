@@ -6,12 +6,13 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 20:10:44 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 20:14:13 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+volatile sig_atomic_t	g_status;
 static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd);
 static void	expand_red(t_minishell *ms, t_redlist *red);
 

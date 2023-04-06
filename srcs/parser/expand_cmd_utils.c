@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 20:08:54 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 20:27:16 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)
 	i = 1;
 	split = NULL;
 	tmp = NULL;
-	if (ft_strnstr(cmd->str, "$", ft_strlen(cmd->str)) \
-		&& cmd->quote != S_QUOTE)
+	if (cmd->str && cmd->quote != S_QUOTE \
+		&& ft_strnstr(cmd->str, "$", ft_strlen(cmd->str)))
 		split = make_split_cmd(cmd, '$', original);
 	if (!split || !split[0])
 		return ;
@@ -65,9 +65,10 @@ static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original)
 
 	i = 1;
 	split = make_split_cmd(cmd, c, original);
-	if (!split)
+	if (!split || !split[0])
 		return ;
-	tmp = split[0];
+	tmp = ft_strdup(split[0]);
+	free(split[0]);
 	while (split[i] && split[i][0] != '\0')
 	{
 		old = ft_strdup(tmp);
@@ -90,6 +91,8 @@ static char	**make_split_cmd(t_cmdlist *cmd, char c, char **original)
 	split = ft_split(cmd->str, c);
 	if (!split || !split[0])
 	{
+		free(split[0]);
+		free(split);
 		free(*original);
 		cmd->str = NULL;
 		return (NULL);
