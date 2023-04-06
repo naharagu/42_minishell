@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 09:42:21 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 15:27:19 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,10 @@ void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)
 	i = 1;
 	split = NULL;
 	tmp = NULL;
-	if (ft_strnstr(cmd->str, "$", ft_strlen(cmd->str)) \
-		&& cmd->quote != S_QUOTE)
-		split = make_split_cmd(cmd, '$', original);
+	// if (ft_strnstr(cmd->str, "$", ft_strlen(cmd->str)) \
+	// 	&& cmd->quote != S_QUOTE)
+	// 	split = make_split_cmd(cmd, '$', original);
+	split = lexer_cmd(cmd, original);
 	if (!split)
 		return ;
 	tmp = expand_env_cmd(ms, split[0]);

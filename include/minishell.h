@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 09:43:08 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 15:21:33 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,9 @@ void		assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original);
 //expand_red_utils.c
 void		trim_quote_red(t_redlist *red, char c, char **original);
 void		assign_value_red(t_minishell *ms, t_redlist *red, char **original);
+
+//lexer_in_parser.c
+char		**lexer_cmd(t_cmdlist *cmd, char **original);
 
 //redirect.c
 int			prepare_redirect(t_minishell *ms);
