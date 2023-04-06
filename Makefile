@@ -32,7 +32,6 @@ SRCS		= 	srcs/main.c							\
 				srcs/parser/expansion.c				\
 				srcs/parser/expand_cmd_utils.c		\
 				srcs/parser/expand_red_utils.c		\
-				srcs/parser/lexer_in_parser.c		\
 				srcs/parser/parser.c				\
 				srcs/redirect/heredoc.c			    \
 				srcs/redirect/redirect_check.c		\

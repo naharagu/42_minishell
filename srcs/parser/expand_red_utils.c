@@ -6,13 +6,12 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 19:56:10 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 20:08:22 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern volatile sig_atomic_t	g_status;
 static void	ms_strtrim_red(t_redlist *red, char c, char **original);
 static char	**make_split_red(t_redlist *red, char c, char **original);
 

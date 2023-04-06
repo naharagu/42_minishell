@@ -6,16 +6,14 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 20:03:16 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 20:08:54 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern volatile sig_atomic_t	g_status;
 static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original);
 static char	**make_split_cmd(t_cmdlist *cmd, char c, char **original);
-
 
 void	trim_quote_cmd(t_cmdlist *cmd, char c, char **original)
 {
