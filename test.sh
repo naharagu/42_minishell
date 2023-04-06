@@ -114,8 +114,8 @@ assert 'exit hello 42' #numeric argument required
 # ctrl-D → 何も実行されない
 
 ## Brock command (cat / grep a)
-# ctrl-C → 新しいプロンプト、新しい行 (今：改行されない)
-# ctrl-\ → 新しいプロンプト、新しい行　(今：改行されない)
+# ctrl-C → 新しいプロンプト、新しい行
+# ctrl-\ → 新しいプロンプト、新しい行
 # ctrl-D → 新しいプロンプト、新しい行
 
 # double quote
