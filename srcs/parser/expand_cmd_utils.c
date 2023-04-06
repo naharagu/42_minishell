@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_cmd_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 18:23:23 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 07:25:09 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	**make_split_cmd(t_cmdlist *cmd, char c, char **original)
 	char	**split;
 
 	split = ft_split(cmd->str, c);
-	if (!split || !split[0])
+	if (!split)
 	{
 		free(*original);
 		cmd->str = NULL;
