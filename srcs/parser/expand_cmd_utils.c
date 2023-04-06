@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 09:42:21 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 19:56:02 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 extern volatile sig_atomic_t	g_status;
 static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original);
-static char	*expand_env_cmd(t_minishell *ms, char *tmp);
+static char	**make_split_cmd(t_cmdlist *cmd, char c, char **original);
+
 
 void	trim_quote_cmd(t_cmdlist *cmd, char c, char **original)
 {
@@ -34,8 +35,6 @@ void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)
 {
 	char	**split;
 	char	*tmp;
-	char	*old;
-	char	*new;
 	size_t	i;
 
 	i = 1;
@@ -44,19 +43,13 @@ void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)
 	if (ft_strnstr(cmd->str, "$", ft_strlen(cmd->str)) \
 		&& cmd->quote != S_QUOTE)
 		split = make_split_cmd(cmd, '$', original);
-	if (!split)
+	if (!split || !split[0])
 		return ;
-	tmp = expand_env_cmd(ms, split[0]);
+	tmp = expand_env(ms, split[0]);
 	free(split[0]);
 	while (split[i] && split[i][0] != '\0')
 	{
-		old = ft_strdup(tmp);
-		free(tmp);
-		new = expand_env_cmd(ms, split[i]);
-		tmp = ft_strjoin(old, new);
-		free(old);
-		free(new);
-		free(split[i]);
+		tmp = joinstr(ms, &split[i], &tmp);
 		i++;
 	}
 	free(*original);
@@ -92,29 +85,16 @@ static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original)
 	free(split);
 }
 
-static char	*expand_env_cmd(t_minishell *ms, char *tmp)
+static char	**make_split_cmd(t_cmdlist *cmd, char c, char **original)
 {
-	t_envlist	*startenv;
-	char		*result;
+	char	**split;
 
-	startenv = ms->env;
-	ms->env = ms->env->next;
-	while (tmp && ms->env)
+	split = ft_split(cmd->str, c);
+	if (!split || !split[0])
 	{
-		if (!(ft_strncmp(tmp, "?", ft_strlen(tmp))))
-		{
-			result = ft_itoa(g_status);
-			ms->env = startenv;
-			return (result);
-		}
-		else if (!(ft_strncmp(ms->env->key, tmp, ft_strlen(tmp))))
-		{
-			result = ft_strdup(ms->env->value);
-			ms->env = startenv;
-			return (result);
-		}
-		ms->env = ms->env->next;
+		free(*original);
+		cmd->str = NULL;
+		return (NULL);
 	}
-	ms->env = startenv;
-	return (NULL);
+	return (split);
 }

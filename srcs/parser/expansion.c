@@ -6,15 +6,15 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 09:42:43 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 19:49:12 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 extern volatile sig_atomic_t	g_status;
-void	expand_cmd( t_minishell *ms, t_cmdlist *cmd);
-void	expand_red(t_minishell *ms, t_redlist *red);
+static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd);
+static void	expand_red(t_minishell *ms, t_redlist *red);
 
 void	expansion(t_minishell *ms)
 {
@@ -64,20 +64,6 @@ void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 	assign_value_cmd (ms, cmd, &original);
 }
 
-char	**make_split_cmd(t_cmdlist *cmd, char c, char **original)
-{
-	char	**split;
-
-	split = ft_split(cmd->str, c);
-	if (!split || !split[0])
-	{
-		free(*original);
-		cmd->str = NULL;
-		return (NULL);
-	}
-	return (split);
-}
-
 void	expand_red(t_minishell *ms, t_redlist *red)
 {
 	char	*original;
@@ -98,16 +84,44 @@ void	expand_red(t_minishell *ms, t_redlist *red)
 	error_expandedred(ms, red, original);
 }
 
-char	**make_split_red(t_redlist *red, char c, char **original)
+char	*expand_env(t_minishell *ms, char *tmp)
 {
-	char	**split;
+	t_envlist	*startenv;
+	char		*result;
 
-	split = ft_split(red->str, c);
-	if (!split || !split[0])
+	startenv = ms->env;
+	ms->env = ms->env->next;
+	while (tmp && ms->env)
 	{
-		free(*original);
-		red->str = NULL;
-		return (NULL);
+		if (!(ft_strncmp(tmp, "?", ft_strlen(tmp))))
+		{
+			result = ft_itoa(g_status);
+			ms->env = startenv;
+			return (result);
+		}
+		else if (!(ft_strncmp(ms->env->key, tmp, ft_strlen(tmp))))
+		{
+			result = ft_strdup(ms->env->value);
+			ms->env = startenv;
+			return (result);
+		}
+		ms->env = ms->env->next;
 	}
-	return (split);
+	ms->env = startenv;
+	return (NULL);
+}
+
+char	*joinstr(t_minishell *ms, char **split, char **tmp)
+{
+	char	*old;
+	char	*new;
+
+	old = ft_strdup(*tmp);
+	free(*tmp);
+	new = expand_env(ms, *split);
+	*tmp = ft_strjoin(old, new);
+	free(old);
+	free(new);
+	free(*split);
+	return (*tmp);
 }
