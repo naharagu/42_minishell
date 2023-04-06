@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 09:07:27 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 09:43:52 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 extern volatile sig_atomic_t	g_status;
 static void	ms_strtrim_red(t_redlist *red, char c, char **original);
-static char	**make_split_red(t_redlist *red, char c, char **original);
 static void	expand_env_red(t_minishell *ms, t_redlist *red, char *tmp, \
 			char **original);
 
@@ -76,20 +75,6 @@ static void	ms_strtrim_red(t_redlist *red, char c, char **original)
 	red->str = ft_strdup(tmp);
 	free(tmp);
 	free(split);
-}
-
-char	**make_split_red(t_redlist *red, char c, char **original)
-{
-	char	**split;
-
-	split = ft_split(red->str, c);
-	if (!split || !split[0])
-	{
-		free(*original);
-		red->str = NULL;
-		return (NULL);
-	}
-	return (split);
 }
 
 void	expand_env_red(t_minishell *ms, t_redlist *red, char *tmp, \

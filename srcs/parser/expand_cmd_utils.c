@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 09:25:25 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 09:42:21 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 extern volatile sig_atomic_t	g_status;
 static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original);
-static char	**make_split_cmd(t_cmdlist *cmd, char c, char **original);
 static char	*expand_env_cmd(t_minishell *ms, char *tmp);
 
 void	trim_quote_cmd(t_cmdlist *cmd, char c, char **original)
@@ -91,20 +90,6 @@ static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original)
 	cmd->str = ft_strdup(tmp);
 	free(tmp);
 	free(split);
-}
-
-static char	**make_split_cmd(t_cmdlist *cmd, char c, char **original)
-{
-	char	**split;
-
-	split = ft_split(cmd->str, c);
-	if (!split || !split[0])
-	{
-		free(*original);
-		cmd->str = NULL;
-		return (NULL);
-	}
-	return (split);
 }
 
 static char	*expand_env_cmd(t_minishell *ms, char *tmp)

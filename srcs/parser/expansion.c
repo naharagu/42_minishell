@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 21:54:34 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 09:42:43 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,20 @@ void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 	assign_value_cmd (ms, cmd, &original);
 }
 
+char	**make_split_cmd(t_cmdlist *cmd, char c, char **original)
+{
+	char	**split;
+
+	split = ft_split(cmd->str, c);
+	if (!split || !split[0])
+	{
+		free(*original);
+		cmd->str = NULL;
+		return (NULL);
+	}
+	return (split);
+}
+
 void	expand_red(t_minishell *ms, t_redlist *red)
 {
 	char	*original;
@@ -82,4 +96,18 @@ void	expand_red(t_minishell *ms, t_redlist *red)
 	original = red->str;
 	assign_value_red (ms, red, &original);
 	error_expandedred(ms, red, original);
+}
+
+char	**make_split_red(t_redlist *red, char c, char **original)
+{
+	char	**split;
+
+	split = ft_split(red->str, c);
+	if (!split || !split[0])
+	{
+		free(*original);
+		red->str = NULL;
+		return (NULL);
+	}
+	return (split);
 }
