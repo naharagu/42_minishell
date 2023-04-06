@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_cmd_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 07:25:09 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/06 16:31:42 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original)
 
 	i = 1;
 	split = make_split_cmd(cmd, c, original);
-	if (!split)
+	if (!split || !split[0])
 		return ;
 	tmp = split[0];
 	while (split[i] && split[i][0] != '\0')
@@ -80,7 +80,7 @@ char	**make_split_cmd(t_cmdlist *cmd, char c, char **original)
 	char	**split;
 
 	split = ft_split(cmd->str, c);
-	if (!split)
+	if (!split || !split[0])
 	{
 		free(*original);
 		cmd->str = NULL;

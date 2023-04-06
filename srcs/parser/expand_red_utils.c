@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 18:23:37 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 16:33:11 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	ms_strtrim_red(t_redlist *red, char c, char **original)
 
 	i = 1;
 	split = make_split_red(red, c, original);
-	if (!split)
+	if (!split || !split[0])
 		return ;
 	tmp = split[0];
 	while (split[i] && split[i][0] != '\0')
