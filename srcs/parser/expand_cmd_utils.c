@@ -6,17 +6,14 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 16:31:42 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 20:35:12 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern volatile sig_atomic_t	g_status;
 static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original);
 static char	**make_split_cmd(t_cmdlist *cmd, char c, char **original);
-static void	expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *tmp, \
-			char **original);
 
 void	trim_quote_cmd(t_cmdlist *cmd, char c, char **original)
 {
@@ -34,18 +31,29 @@ void	trim_quote_cmd(t_cmdlist *cmd, char c, char **original)
 
 void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)
 {
-	char		*tmp;
+	char	**split;
+	char	*tmp;
+	size_t	i;
 
-	tmp = cmd->str;
-	tmp++;
-	if (tmp && !(ft_strncmp(tmp, "?", ft_strlen(tmp))))
-	{
-		free(*original);
-		cmd->str = ft_itoa(g_status);
+	i = 1;
+	split = NULL;
+	tmp = NULL;
+	if (cmd->str && cmd->quote != S_QUOTE \
+		&& ft_strnstr(cmd->str, "$", ft_strlen(cmd->str)))
+		split = make_split_cmd(cmd, '$', original);
+	if (!split || !split[0])
 		return ;
+	tmp = expand_env(ms, split[0]);
+	free(split[0]);
+	while (split[i] && split[i][0] != '\0')
+	{
+		tmp = joinstr(ms, &split[i], &tmp);
+		i++;
 	}
-	else
-		expand_env_cmd(ms, cmd, tmp, original);
+	free(*original);
+	cmd->str = ft_strdup(tmp);
+	free(tmp);
+	free(split);
 }
 
 static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original)
@@ -59,7 +67,8 @@ static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original)
 	split = make_split_cmd(cmd, c, original);
 	if (!split || !split[0])
 		return ;
-	tmp = split[0];
+	tmp = ft_strdup(split[0]);
+	free(split[0]);
 	while (split[i] && split[i][0] != '\0')
 	{
 		old = ft_strdup(tmp);
@@ -75,39 +84,18 @@ static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original)
 	free(split);
 }
 
-char	**make_split_cmd(t_cmdlist *cmd, char c, char **original)
+static char	**make_split_cmd(t_cmdlist *cmd, char c, char **original)
 {
 	char	**split;
 
 	split = ft_split(cmd->str, c);
 	if (!split || !split[0])
 	{
+		free(split[0]);
+		free(split);
 		free(*original);
 		cmd->str = NULL;
 		return (NULL);
 	}
 	return (split);
-}
-
-void	expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *tmp, \
-		char **original)
-{
-	t_envlist	*startenv;
-
-	startenv = ms->env;
-	ms->env = ms->env->next;
-	while (tmp && ms->env)
-	{
-		if (!(ft_strncmp(ms->env->key, tmp, ft_strlen(tmp))))
-		{
-			free(*original);
-			cmd->str = ft_strdup(ms->env->value);
-			ms->env = startenv;
-			return ;
-		}
-		ms->env = ms->env->next;
-	}
-	ms->env = startenv;
-	free(*original);
-	cmd->str = NULL;
 }

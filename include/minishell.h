@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 10:14:56 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/06 20:00:58 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,8 +188,8 @@ void		check_redtype(t_minishell *ms, char *str);
 
 //expansion.c
 void		expansion(t_minishell *ms);
-void		expand_cmd( t_minishell *ms, t_cmdlist *cmd);
-void		expand_red(t_minishell *ms, t_redlist *red);
+char		*expand_env(t_minishell *ms, char *tmp);
+char		*joinstr(t_minishell *ms, char **split, char **tmp);
 
 //expand_cmd_utils.c
 void		trim_quote_cmd(t_cmdlist *cmd, char c, char **original);
@@ -198,6 +198,9 @@ void		assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original);
 //expand_red_utils.c
 void		trim_quote_red(t_redlist *red, char c, char **original);
 void		assign_value_red(t_minishell *ms, t_redlist *red, char **original);
+
+//lexer_in_parser.c
+char		**lexer_cmd(t_cmdlist *cmd, char **original);
 
 //redirect.c
 int			prepare_redirect(t_minishell *ms);
