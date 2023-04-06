@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 19:49:12 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/06 20:03:50 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,19 @@ void	expansion(t_minishell *ms)
 void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 {
 	char	*original;
-	char	*copy;
-	char	*tmp;
+	//char	*copy;
+	//char	*tmp;
 
 	(void)ms;
-	original = cmd->str;
-	tmp = ft_strdup(cmd->str);
-	copy = tmp;
-	while (*tmp)
-	{
-		trim_quote_cmd(cmd, *tmp, &original);
-		tmp++;
-	}
-	free(copy);
+	// original = cmd->str;
+	// tmp = ft_strdup(cmd->str);
+	// copy = tmp;
+	// while (*tmp)
+	// {
+	// 	trim_quote_cmd(cmd, *tmp, &original);
+	// 	tmp++;
+	// }
+	// free(copy);
 	original = cmd->str;
 	assign_value_cmd (ms, cmd, &original);
 }
