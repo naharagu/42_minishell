@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 08:26:16 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/06 04:56:27 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	prepare_redirect(t_minishell *ms)
 	if (open_and_assign_fd(ms) == -1)
 	{
 		perror("minishell");
+		g_status = EXIT_FAILURE;
 		return (EXIT_FAILURE);
 	}
 	if (is_heredoc(ms) && g_status == 1)
