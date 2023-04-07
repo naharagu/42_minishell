@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 12:21:15 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 12:49:52 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,16 +238,16 @@ t_envlist	*env_lstnew(t_minishell *ms, char *key, char *value);
 int			env_lstsize(t_envlist *lst);
 
 //error.c
-void		error_lexer(t_minishell *ms);
+int			error_lexer(t_minishell *ms);
 void		error_parser_mslist(t_minishell *ms);
-void		error_parser_execlist(t_minishell *ms);
+int			error_parser_execlist(t_minishell *ms);
 void		error_expandedred(t_minishell *ms, t_redlist *red, char *original);
 void		error_command( t_minishell *ms);
 
 //print_error.c
 void		exit_error(t_minishell *ms, char *location);
 void		exit_error_with_status(char *location, char *message, int status);
-void		syntax_error(t_minishell *ms, char *location, int status);
+int			syntax_error(char *location, int status);
 void		other_error(t_minishell *ms, char *location, char *msg, int status);
 
 //print_list.c (for test)

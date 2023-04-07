@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   redirect_check.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 15:11:42 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/07 12:52:10 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	assign_redtype(t_minishell *ms, t_redlist *red)
+static int	assign_redtype(t_redlist *red)
 {
 	if (red->str == NULL)
-		syntax_error(ms, "redirect", SYNTAX_ERROR);
+		return (syntax_error( "redirect", SYNTAX_ERROR));
 	if (ft_strnstr(red->str, ">>", ft_strlen(red->str)))
 	{
 		red->type = APPEND;
@@ -37,10 +37,11 @@ static void	assign_redtype(t_minishell *ms, t_redlist *red)
 		red->fd_target = STDIN_FILENO;
 	}
 	else
-		syntax_error(ms, "redirect", SYNTAX_ERROR);
+		return (syntax_error( "redirect", SYNTAX_ERROR));
+	return (EXIT_SUCCESS);
 }
 
-static void	validate_redirect(t_minishell *ms, t_redlist *red)
+static int	validate_redirect(t_redlist *red)
 {
 	t_redlist	*tmp_red;
 
@@ -48,14 +49,14 @@ static void	validate_redirect(t_minishell *ms, t_redlist *red)
 	while (tmp_red)
 	{
 		if (tmp_red->next == NULL)
-			syntax_error(ms, "redirect", SYNTAX_ERROR);
-		assign_redtype(ms, tmp_red);
+			return (syntax_error( "redirect", SYNTAX_ERROR));
+		assign_redtype(tmp_red);
 		tmp_red = tmp_red->next;
 		if (tmp_red->str == NULL)
-			syntax_error(ms, "redirect", SYNTAX_ERROR);
+			return (syntax_error( "redirect", SYNTAX_ERROR));
 		tmp_red = tmp_red->next;
 	}
-	return ;
+	return (EXIT_SUCCESS);
 }
 
 int	check_redirect(t_minishell *ms)
@@ -66,7 +67,10 @@ int	check_redirect(t_minishell *ms)
 	while (tmp_exec)
 	{
 		if (tmp_exec->redtype != NO_REDIRECT)
-			validate_redirect(ms, tmp_exec->red);
+		{
+			if (validate_redirect(tmp_exec->red) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+		}
 		tmp_exec = tmp_exec->next;
 	}
 	return (EXIT_SUCCESS);

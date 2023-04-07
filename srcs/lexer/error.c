@@ -6,24 +6,21 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 09:46:49 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 12:50:46 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error_lexer(t_minishell *ms)
+int	error_lexer(t_minishell *ms)
 {
 	if (!(ms->list))
-	{
-		clear_ms(ms);
-		env_lstclear(&ms->env);
-		minishell(ms);
-	}
+		return (EXIT_FAILURE);
 	if (ms->list && *ms->list->str == '|')
-		syntax_error(ms, "|", 258);
+		return (syntax_error( "|", 258));
 	if (ms->quote == S_QUOTE || ms->quote == D_QUOTE)
-		syntax_error(ms, "unclosed quotes", 2);
+		return (syntax_error( "unclosed quotes", 2));
+	return (EXIT_SUCCESS);
 }
 
 void	error_parser_mslist(t_minishell *ms)
@@ -40,7 +37,7 @@ void	error_parser_mslist(t_minishell *ms)
 	ms->list = start;
 }
 
-void	error_parser_execlist(t_minishell *ms)
+int	error_parser_execlist(t_minishell *ms)
 {
 	t_redlist	*startred;
 
@@ -51,20 +48,21 @@ void	error_parser_execlist(t_minishell *ms)
 		{
 			if (ft_strnstr(ms->exec->red->str, ">>>>", \
 				ft_strlen(ms->exec->red->str)))
-				syntax_error(ms, ">>", 1);
+				return (syntax_error( ">>", 1));
 			else if (ft_strnstr(ms->exec->red->str, ">>>", \
 				ft_strlen(ms->exec->red->str)))
-				syntax_error(ms, ">", 1);
+				return (syntax_error( ">", 1));
 			else if (ft_strnstr(ms->exec->red->str, "<<<<", \
 				ft_strlen(ms->exec->red->str)))
-				syntax_error(ms, "<", 1);
+				return (syntax_error( "<", 1));
 			else if (ft_strnstr(ms->exec->red->str, ">", \
 				ft_strlen(ms->exec->red->str)) && !(ms->exec->red->next))
-				syntax_error(ms, "newline", 258);
+				return (syntax_error( "newline", 258));
 			ms->exec->red = ms->exec->red->next;
 		}
 	}
 	ms->exec->red = startred;
+	return (EXIT_SUCCESS);
 }
 
 void	error_expandedred(t_minishell *ms, t_redlist *red, char *original)

@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 04:56:27 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 12:53:31 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ static bool	is_heredoc(t_minishell *ms)
 
 int	prepare_redirect(t_minishell *ms)
 {
-	if (check_redirect(ms) == -1)
-		syntax_error(ms, "redirect", SYNTAX_ERROR);
+	if (check_redirect(ms) == EXIT_FAILURE)
+		return (syntax_error( "redirect", SYNTAX_ERROR));
 	if (open_and_assign_fd(ms) == -1)
 	{
 		perror("minishell");
