@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 12:31:49 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:01:00 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	minishell(t_minishell *ms)
 {
 	char	*line;
 
+	rl_outstream = stderr;//
 	init_env(ms);
 	while (1)
 	{
