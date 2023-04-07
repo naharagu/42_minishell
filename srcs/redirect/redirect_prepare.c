@@ -74,7 +74,7 @@ static bool	is_heredoc(t_minishell *ms)
 int	prepare_redirect(t_minishell *ms)
 {
 	if (check_redirect(ms) == EXIT_FAILURE)
-		return (syntax_error( "redirect", SYNTAX_ERROR));
+		return (syntax_error("redirect", SYNTAX_ERROR));
 	if (open_and_assign_fd(ms) == -1)
 	{
 		perror("minishell");

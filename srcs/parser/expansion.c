@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 13:47:50 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:18:29 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,33 @@
 
 volatile sig_atomic_t	g_status;
 static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd);
-static void	expand_red(t_minishell *ms, t_redlist *red);
+static int	expand_red(t_minishell *ms, t_redlist *red);
 
-void	expansion(t_minishell *ms)
+int	expansion(t_minishell *ms)
 {
-	t_execlist	*startexec;
-	t_cmdlist	*startcmd;
-	t_redlist	*startred;
+	t_execlist	*tmp_exec;
+	t_cmdlist	*tmp_cmd;
+	t_redlist	*tmp_red;
 
-	startexec = ms->exec;
-	while (ms->exec)
+	tmp_exec = ms->exec;
+	while (tmp_exec)
 	{
-		startcmd = ms->exec->cmd;
-		while (ms->exec->cmd)
+		tmp_cmd = tmp_exec->cmd;
+		while (tmp_cmd)
 		{
-			expand_cmd(ms, ms->exec->cmd);
-			ms->exec->cmd = ms->exec->cmd->next;
+			expand_cmd(ms, tmp_cmd);
+			tmp_cmd = tmp_cmd->next;
 		}
-		ms->exec->cmd = startcmd;
-		startred = ms->exec->red;
-		while (ms->exec->red)
+		tmp_red = tmp_exec->red;
+		while (tmp_red)
 		{
-			expand_red(ms, ms->exec->red);
-			ms->exec->red = ms->exec->red->next;
+			if (expand_red(ms, tmp_red) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+			tmp_red = tmp_red->next;
 		}
-		ms->exec->red = startred;
-		ms->exec = ms->exec->next;
+		tmp_exec = tmp_exec->next;
 	}
-	ms->exec = startexec;
+	return (EXIT_SUCCESS);
 }
 
 void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
@@ -64,7 +63,7 @@ void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 	assign_value_cmd (ms, cmd, &original);
 }
 
-void	expand_red(t_minishell *ms, t_redlist *red)
+static int	expand_red(t_minishell *ms, t_redlist *red)
 {
 	char	*original;
 	char	*copy;
@@ -81,7 +80,7 @@ void	expand_red(t_minishell *ms, t_redlist *red)
 	free(copy);
 	original = red->str;
 	assign_value_red (ms, red, &original);
-	error_expandedred(red, original);
+	return (error_expandedred(red, original));
 }
 
 char	*expand_env(t_minishell *ms, char *tmp)

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static int check_execlist(t_minishell *ms);
+static int	check_execlist(t_minishell *ms);
 static void	copy_cmd_red_list(t_minishell *ms, char *str);
 
 int	parser(t_minishell *ms)

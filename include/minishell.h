@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 14:02:22 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:12:14 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void		check_cmdtype(t_minishell *ms, char *str);
 void		check_redtype(t_minishell *ms, char *str);
 
 //expansion.c
-void		expansion(t_minishell *ms);
+int			expansion(t_minishell *ms);
 char		*expand_env(t_minishell *ms, char *tmp);
 char		*joinstr(t_minishell *ms, char **split, char **tmp);
 
@@ -241,7 +241,7 @@ int			env_lstsize(t_envlist *lst);
 int			error_lexer(t_minishell *ms);
 int			errror_parser_mslist(t_minishell *ms);
 int			error_parser_execlist(t_minishell *ms);
-void		error_expandedred(t_redlist *red, char *original);
+int			error_expandedred(t_redlist *red, char *original);
 
 //print_error.c
 void		exit_error(t_minishell *ms, char *location);
