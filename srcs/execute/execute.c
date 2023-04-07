@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:53:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/31 12:02:33 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 12:19:50 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	execute_non_builtin(t_minishell *ms, t_execlist *exec)
 	char		**env;
 	char		*path;
 	char		**args;
+	size_t		argc;
 
 	if (exec->redtype != NO_REDIRECT)
 		set_redirect(exec->red);
@@ -25,12 +26,15 @@ static void	execute_non_builtin(t_minishell *ms, t_execlist *exec)
 	path = exec->cmd->str;
 	env = create_env_array(ms, ms->env);
 	args = create_args_array(ms, exec);
+	argc = get_args_size(exec);
 	if (!(ft_strchr(path, '/')))
 		path = search_path(ms, path);
 	validate_path(path, exec);
 	execve(path, args, env);
 	if (exec->redtype != NO_REDIRECT)
 		reset_redirect(exec->red);
+	free_arg_array(argc, args);
+	exit_error(ms, "execve");
 }
 
 static pid_t	execute_child_process(t_minishell *ms, t_execlist *exec)
