@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 20:14:13 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/07 13:47:50 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	expand_red(t_minishell *ms, t_redlist *red)
 	free(copy);
 	original = red->str;
 	assign_value_red (ms, red, &original);
-	error_expandedred(ms, red, original);
+	error_expandedred(red, original);
 }
 
 char	*expand_env(t_minishell *ms, char *tmp)

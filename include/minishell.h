@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 13:45:07 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:46:58 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,7 +242,6 @@ int			check_error_lexer(t_minishell *ms);
 void		error_parser_mslist(t_minishell *ms);
 int			check_error_parser_execlist(t_minishell *ms);
 void		error_expandedred(t_redlist *red, char *original);
-void		error_command( t_minishell *ms);
 
 //print_error.c
 void		exit_error(t_minishell *ms, char *location);
