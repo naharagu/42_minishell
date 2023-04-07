@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 14:34:13 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 15:22:37 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ typedef struct s_minishell
 	t_envlist			*env;
 }	t_minishell;
 
-
 //signal.c
 void		set_signal_for_shell_prompt(void);
 void		set_signal_for_heredoc(void);
@@ -272,7 +271,7 @@ int			ft_pwd(void);
 int			ft_export(t_minishell *ms, size_t argc, char **argv);
 int			ft_unset(t_minishell *ms, size_t argc, char **argv);
 int			ft_env(t_minishell *ms, size_t argc);
-void		ft_exit(int argc, char **argv);
+int			ft_exit(int argc, char **argv);
 void		put_error_nonvalid_env(char *cmd, char *key);
 
 //path.c
