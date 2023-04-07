@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 12:44:09 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/07 12:10:39 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	init_ms(t_minishell *ms)
 	ms->list = NULL;
 	ms->exec = NULL;
 	ms->env = NULL;
-	ms->argv = init_argv(ms);
 	return ;
 }
 
@@ -56,5 +55,4 @@ void	clear_ms(t_minishell *ms)
 	ms->quote = NO_QUOTE;
 	ms_lstclear(&ms->list);
 	exec_lstclear(&ms->exec);
-	free_argv(&ms->argv);
 }

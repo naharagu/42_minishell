@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 20:00:58 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/07 12:09:49 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,12 +140,6 @@ typedef struct s_execlist
 	struct s_execlist	*next;
 }	t_execlist;
 
-typedef struct s_argv
-{
-	int					argc;
-	char				**argv;
-}	t_argv;
-
 typedef struct s_minishell
 {
 	char				*line;
@@ -153,7 +147,6 @@ typedef struct s_minishell
 	t_quote				quote;
 	t_mslist			*list;
 	t_execlist			*exec;
-	t_argv				*argv;
 	t_envlist			*env;
 }	t_minishell;
 
@@ -264,10 +257,6 @@ void		exit_error(t_minishell *ms, char *location);
 void		exit_error_with_status(char *location, char *message, int status);
 void		syntax_error(t_minishell *ms, char *location, int status);
 void		other_error(t_minishell *ms, char *location, char *msg, int status);
-
-//list_to_argv.c
-t_argv		*init_argv(t_minishell *ms);
-void		free_argv(t_argv **argv);
 
 //print_list.c (for test)
 void		print_mslist(t_minishell *ms);
