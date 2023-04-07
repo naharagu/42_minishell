@@ -6,14 +6,15 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 16:23:36 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 12:31:49 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 volatile sig_atomic_t	g_status;
-void	minishell(t_minishell *ms);
+void		minishell(t_minishell *ms);
+static void	prompt_helper(t_minishell *ms, char *line);
 
 int	main(void)
 {
@@ -37,14 +38,20 @@ void	minishell(t_minishell *ms)
 		if (*line)
 			add_history(line);
 		ms->line = line;
-		lexer(ms);
-		parser(ms);
-		expansion(ms);
-		if (prepare_redirect(ms) == EXIT_SUCCESS)
-			g_status = execute(ms);
-		free(line);
+		prompt_helper(ms, line);
 		clear_ms(ms);
 	}
 	env_lstclear(&ms->env);
 	exit(g_status);
+}
+
+static void	prompt_helper(t_minishell *ms, char *line)
+{
+	lexer(ms);
+	parser(ms);
+	expansion(ms);
+	if (prepare_redirect(ms) == EXIT_SUCCESS)
+		g_status = execute(ms);
+	free(line);
+	return ;
 }
