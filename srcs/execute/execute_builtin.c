@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 22:04:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/04/07 13:43:27 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:24:44 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	execute_builtin(t_minishell *ms, t_execlist *exec)
 	int		status;
 
 	argc = get_args_size(exec);
-	argv = create_args_array(ms, exec);
+	argv = create_args_array(exec);
 	status = EXIT_SUCCESS;
 	if (exec->cmdtype == EXIT_CMD)
 		ft_exit(argc, argv);

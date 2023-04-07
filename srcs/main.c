@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 14:13:27 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:31:11 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	minishell(t_minishell *ms)
 	init_env(ms);
 	while (1)
 	{
-		set_signal_for_shell_prompt(ms);
+		set_signal_for_shell_prompt();
 		line = readline("minishell$ ");
 		if (!line)
 			break ;

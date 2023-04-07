@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 14:12:14 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:30:50 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,15 +146,15 @@ typedef struct s_minishell
 void		minishell(t_minishell *ms);
 
 //signal.c
-void		set_signal_for_shell_prompt(t_minishell *ms);
-void		set_signal_for_heredoc(t_minishell *ms);
-void		set_signal_for_execution(t_minishell *ms);
-void		set_signal_for_waiting_child(t_minishell *ms);
+void		set_signal_for_shell_prompt(void);
+void		set_signal_for_heredoc(void);
+void		set_signal_for_execution(void);
+void		set_signal_for_waiting_child(void);
 void		prompt_handler(int signum);
 void		heredoc_handler(int signum);
 void		waitchild_handler(int signum);
-void		assign_dfl_handler(int signum, t_minishell *ms);
-void		assign_ign_handler(int signum, t_minishell *ms);
+void		assign_dfl_handler(int signum);
+void		assign_ign_handler(int signum);
 
 //lexer.c
 int			lexer(t_minishell *ms);
@@ -210,8 +210,8 @@ int			ms_lstsize(t_mslist *lst);
 void		ms_lstclear(t_mslist **lst);
 
 //exec_listnew.c
-t_execlist	*exec_lstnew(t_minishell *ms, t_mslist *list, size_t num);
-t_heredoc	*heredoc_lstnew(t_minishell *ms);
+t_execlist	*exec_lstnew(t_mslist *list, size_t num);
+t_heredoc	*heredoc_lstnew(void);
 
 //exec_lstclear.c
 void		exec_lstclear(t_execlist **lst);
@@ -224,17 +224,17 @@ int			exec_lstsize(t_execlist *lst);
 
 //add_cmdlist.c
 void		add_cmdlist(t_minishell *ms, char *str);
-t_cmdlist	*cmd_lstnew(t_minishell *ms, char *str);
+t_cmdlist	*cmd_lstnew(char *str);
 int			cmd_lstsize(t_cmdlist *lst);
 
 //add_redlist.c
 void		add_redlist(t_minishell *ms, char *str);
-t_redlist	*red_lstnew(t_minishell *ms, char *str);
+t_redlist	*red_lstnew(char *str);
 int			red_lstsize(t_redlist *lst);
 
 //add_envlist.c
 void		add_envlist(t_minishell *ms, char *key, char *value);
-t_envlist	*env_lstnew(t_minishell *ms, char *key, char *value);
+t_envlist	*env_lstnew(char *key, char *value);
 int			env_lstsize(t_envlist *lst);
 
 //error.c
@@ -244,7 +244,7 @@ int			error_parser_execlist(t_minishell *ms);
 int			error_expandedred(t_redlist *red, char *original);
 
 //print_error.c
-void		exit_error(t_minishell *ms, char *location);
+void		exit_error(char *location);
 void		exit_error_with_status(char *location, char *message, int status);
 int			syntax_error(char *location, int status);
 int			other_error(char *location, char *msg, int status);
@@ -255,8 +255,8 @@ void		print_cmdline(t_minishell *ms);
 void		print_execlist(t_minishell *ms);
 
 //create_array.c
-char		**create_env_array(t_minishell *ms, t_envlist *env);
-char		**create_args_array(t_minishell *ms, t_execlist *exec);
+char		**create_env_array(t_envlist *env);
+char		**create_args_array(t_execlist *exec);
 size_t		get_args_size(t_execlist *exec);
 void		free_arg_array(size_t argc, char **argv);
 
@@ -292,6 +292,6 @@ bool		is_valid_env_key(char *key);
 t_envlist	*get_env_from_key(t_minishell *ms, char *key);
 char		*get_value_from_key(t_minishell *ms, char *key);
 int			update_env_value(t_minishell *ms, char *arg);
-char		*create_str_from_envlist(t_minishell *ms, t_envlist *env);
+char		*create_str_from_envlist(t_envlist *env);
 
 #endif

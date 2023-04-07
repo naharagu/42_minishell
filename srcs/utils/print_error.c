@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:17:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 13:42:13 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:21:00 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 extern volatile sig_atomic_t	g_status;
 
-void	exit_error(t_minishell *ms, char *location)
+void	exit_error(char *location)
 {
-	(void)ms;
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	perror(location);
 	exit(EXIT_FAILURE);
