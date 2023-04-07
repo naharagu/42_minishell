@@ -6,14 +6,14 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 14:31:11 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:34:00 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 volatile sig_atomic_t	g_status;
-void		minishell(t_minishell *ms);
+static void	minishell(t_minishell *ms);
 static void	prompt_helper(t_minishell *ms, char *line);
 
 int	main(void)
@@ -24,7 +24,7 @@ int	main(void)
 	minishell(&ms);
 }
 
-void	minishell(t_minishell *ms)
+static void	minishell(t_minishell *ms)
 {
 	char	*line;
 

@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 14:30:50 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:34:13 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,6 @@ typedef struct s_minishell
 	t_envlist			*env;
 }	t_minishell;
 
-// main.c
-void		minishell(t_minishell *ms);
 
 //signal.c
 void		set_signal_for_shell_prompt(void);
