@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 12:49:52 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:19:17 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void		assign_dfl_handler(int signum, t_minishell *ms);
 void		assign_ign_handler(int signum, t_minishell *ms);
 
 //lexer.c
-void		lexer(t_minishell *ms);
+int			lexer(t_minishell *ms);
 
 //bool.c
 bool		is_quoted(char c, t_minishell *ms);
@@ -238,9 +238,9 @@ t_envlist	*env_lstnew(t_minishell *ms, char *key, char *value);
 int			env_lstsize(t_envlist *lst);
 
 //error.c
-int			error_lexer(t_minishell *ms);
+int			check_error_lexer(t_minishell *ms);
 void		error_parser_mslist(t_minishell *ms);
-int			error_parser_execlist(t_minishell *ms);
+int			check_error_parser_execlist(t_minishell *ms);
 void		error_expandedred(t_minishell *ms, t_redlist *red, char *original);
 void		error_command( t_minishell *ms);
 

@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 12:50:35 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:24:36 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	check_execlist(t_minishell *ms)
 			copy_cmd_red_list(ms, ms->exec->cmdline[i]);
 			i++;
 		}
-		error_parser_execlist(ms);
+		check_error_parser_execlist(ms);
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;

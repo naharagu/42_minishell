@@ -6,13 +6,13 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 13:11:17 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:18:39 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	error_lexer(t_minishell *ms)
+int	check_error_lexer(t_minishell *ms)
 {
 	if (!(ms->list))
 		return (EXIT_FAILURE);
@@ -37,7 +37,7 @@ void	error_parser_mslist(t_minishell *ms)
 	ms->list = start;
 }
 
-int	error_parser_execlist(t_minishell *ms)
+int	check_error_parser_execlist(t_minishell *ms)
 {
 	t_redlist	*tmp_red;
 

@@ -19,7 +19,6 @@ SRCS		= 	srcs/main.c							\
 				srcs/execute/path.c					\
 				srcs/execute/pipe.c					\
 				srcs/lexer/bool.c					\
-				srcs/lexer/error.c					\
 				srcs/lexer/lexer.c					\
 				srcs/list/add_cmdlist.c				\
 				srcs/list/add_envlist.c				\
@@ -39,6 +38,7 @@ SRCS		= 	srcs/main.c							\
 				srcs/redirect/redirect_set.c		\
 				srcs/signal/signal_handler.c		\
 				srcs/signal/signal_set.c			\
+				srcs/utils/check_error.c			\
 				srcs/utils/print_error.c			\
 				srcs/utils/utils.c
 OBJS		=	$(SRCS:%.c=%.o)
