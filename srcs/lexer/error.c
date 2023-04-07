@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 12:50:46 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 12:58:57 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,29 +39,32 @@ void	error_parser_mslist(t_minishell *ms)
 
 int	error_parser_execlist(t_minishell *ms)
 {
-	t_redlist	*startred;
+	t_execlist	*tmp_exec;
+	t_redlist	*tmp_red;
 
-	startred = ms->exec->red;
-	if (ms->exec->redtype != NO_REDIRECT && ms->exec->red)
+	tmp_exec = ms->exec;
+	tmp_red = ms->exec->red;
+	if (tmp_exec && tmp_exec->redtype != NO_REDIRECT)
 	{
-		while (ms->exec->red)
+		while (tmp_red)
 		{
-			if (ft_strnstr(ms->exec->red->str, ">>>>", \
-				ft_strlen(ms->exec->red->str)))
+			if (ft_strnstr(tmp_red ->str, ">>>>", \
+				ft_strlen(tmp_red ->str)))
 				return (syntax_error( ">>", 1));
-			else if (ft_strnstr(ms->exec->red->str, ">>>", \
-				ft_strlen(ms->exec->red->str)))
+			else if (ft_strnstr(tmp_red ->str, ">>>", \
+				ft_strlen(tmp_red->str)))
 				return (syntax_error( ">", 1));
-			else if (ft_strnstr(ms->exec->red->str, "<<<<", \
-				ft_strlen(ms->exec->red->str)))
+			else if (ft_strnstr(tmp_red->str, "<<<<", \
+				ft_strlen(tmp_red->str)))
 				return (syntax_error( "<", 1));
-			else if (ft_strnstr(ms->exec->red->str, ">", \
-				ft_strlen(ms->exec->red->str)) && !(ms->exec->red->next))
+			else if (ft_strnstr(tmp_red->str, ">", \
+				ft_strlen(tmp_red->str)) && !(tmp_red->next))
 				return (syntax_error( "newline", 258));
-			ms->exec->red = ms->exec->red->next;
+			tmp_red = tmp_red->next;
 		}
+		tmp_exec = tmp_exec->next;
+		tmp_red = tmp_exec->red;
 	}
-	ms->exec->red = startred;
 	return (EXIT_SUCCESS);
 }
 
