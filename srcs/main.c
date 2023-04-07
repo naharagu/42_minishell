@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 14:34:00 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 15:23:21 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	minishell(t_minishell *ms)
 {
 	char	*line;
 
-	rl_outstream = stderr;//
+	rl_outstream = stderr;//delete later
 	init_env(ms);
 	while (1)
 	{
@@ -50,14 +50,12 @@ static void	prompt_helper(t_minishell *ms, char *line)
 {
 	if (lexer(ms) == EXIT_FAILURE)
 		return ;
-	// dprintf(2, "lexer done...\n");//
 	if (parser(ms) == EXIT_FAILURE)
 		return ;
 	if (expansion(ms) == EXIT_FAILURE)
 		return ;
 	if (prepare_redirect(ms) == EXIT_FAILURE)
 		return ;
-	// dprintf(2,"executing...\n");//
 	g_status = execute(ms);
 	free(line);
 	return ;
