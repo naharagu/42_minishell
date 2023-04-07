@@ -6,13 +6,13 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 13:46:54 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:02:22 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_error_lexer(t_minishell *ms)
+int	error_lexer(t_minishell *ms)
 {
 	if (!(ms->list))
 		return (EXIT_FAILURE);
@@ -23,21 +23,24 @@ int	check_error_lexer(t_minishell *ms)
 	return (EXIT_SUCCESS);
 }
 
-void	error_parser_mslist(t_minishell *ms)
+int	errror_parser_mslist(t_minishell *ms)
 {
-	t_mslist	*start;
+	t_mslist	*tmp_list;
 
-	start = ms->list;
-	while (ms->list)
+	tmp_list = ms->list;
+	while (tmp_list)
 	{
-		if (*ms->list->str == '|' && ms->list->next == NULL)
+		if (*tmp_list->str == '|' && tmp_list->next == NULL)
+		{
 			other_error("error", "no command after pipe", 1);
-		ms->list = ms->list->next;
+			return (EXIT_FAILURE);
+		}
+		tmp_list = tmp_list->next;
 	}
-	ms->list = start;
+	return (EXIT_SUCCESS);
 }
 
-int	check_error_parser_execlist(t_minishell *ms)
+int	error_parser_execlist(t_minishell *ms)
 {
 	t_redlist	*tmp_red;
 

@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 13:19:28 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:02:07 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	lexer(t_minishell *ms)
 		while (*ms->line && is_space(*ms->line))
 			ms->line++;
 	}
-	return (check_error_lexer(ms));
+	return (error_lexer(ms));
 }
 
 void	add_mslist(t_minishell *ms, char *start, char *line)

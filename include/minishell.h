@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 13:46:58 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:02:22 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ bool		is_space(char c);
 bool		is_metachara(char c);
 
 //parser.c
-void		parser(t_minishell *ms);
+int			parser(t_minishell *ms);
 
 //check_type.c
 void		check_cmdtype(t_minishell *ms, char *str);
@@ -238,9 +238,9 @@ t_envlist	*env_lstnew(t_minishell *ms, char *key, char *value);
 int			env_lstsize(t_envlist *lst);
 
 //error.c
-int			check_error_lexer(t_minishell *ms);
-void		error_parser_mslist(t_minishell *ms);
-int			check_error_parser_execlist(t_minishell *ms);
+int			error_lexer(t_minishell *ms);
+int			errror_parser_mslist(t_minishell *ms);
+int			error_parser_execlist(t_minishell *ms);
 void		error_expandedred(t_redlist *red, char *original);
 
 //print_error.c
