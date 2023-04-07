@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 12:52:10 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:31:35 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static int	validate_redirect(t_redlist *red)
 	{
 		if (tmp_red->next == NULL)
 			return (syntax_error( "redirect", SYNTAX_ERROR));
-		assign_redtype(tmp_red);
+		if (assign_redtype(tmp_red) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 		tmp_red = tmp_red->next;
 		if (tmp_red->str == NULL)
 			return (syntax_error( "redirect", SYNTAX_ERROR));

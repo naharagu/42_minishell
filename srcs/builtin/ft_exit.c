@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:09:56 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/02 20:57:46 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:43:02 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ extern volatile sig_atomic_t	g_status;
 void	normal_exit(int status);
 void	numeric_error(char *location, char *msg, int status);
 
-void	ft_exit(t_minishell *ms, int argc, char **argv)
+void	ft_exit(int argc, char **argv)
 {
 	char	*arg;
 
@@ -37,10 +37,9 @@ void	ft_exit(t_minishell *ms, int argc, char **argv)
 		if (errno)
 			numeric_error(argv[1], "numeric argument required", 255);
 		if (argc > 2)
-			other_error(ms, "exit", "too many arguments", EXIT_FAILURE);
+			other_error("exit", "too many arguments", EXIT_FAILURE);
 	}
-	else
-		return ;
+	exit(g_status);
 }
 
 void	normal_exit(int status)

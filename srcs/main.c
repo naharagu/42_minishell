@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 13:26:44 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:45:34 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,12 @@ static void	prompt_helper(t_minishell *ms, char *line)
 {
 	if (lexer(ms) == EXIT_FAILURE)
 		return ;
+	// dprintf(2, "lexer done...\n");//
 	parser(ms);
 	expansion(ms);
 	if (prepare_redirect(ms) == EXIT_FAILURE)
 		return ;
-	dprintf(2,"executing...\n");
+	// dprintf(2,"executing...\n");//
 	g_status = execute(ms);
 	free(line);
 	return ;

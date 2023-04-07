@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 13:19:17 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:45:07 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,14 +241,14 @@ int			env_lstsize(t_envlist *lst);
 int			check_error_lexer(t_minishell *ms);
 void		error_parser_mslist(t_minishell *ms);
 int			check_error_parser_execlist(t_minishell *ms);
-void		error_expandedred(t_minishell *ms, t_redlist *red, char *original);
+void		error_expandedred(t_redlist *red, char *original);
 void		error_command( t_minishell *ms);
 
 //print_error.c
 void		exit_error(t_minishell *ms, char *location);
 void		exit_error_with_status(char *location, char *message, int status);
 int			syntax_error(char *location, int status);
-void		other_error(t_minishell *ms, char *location, char *msg, int status);
+int			other_error(char *location, char *msg, int status);
 
 //print_list.c (for test)
 void		print_mslist(t_minishell *ms);
@@ -275,7 +275,7 @@ int			ft_pwd(void);
 int			ft_export(t_minishell *ms, size_t argc, char **argv);
 int			ft_unset(t_minishell *ms, size_t argc, char **argv);
 int			ft_env(t_minishell *ms, size_t argc);
-void		ft_exit(t_minishell *ms, int argc, char **argv);
+void		ft_exit(int argc, char **argv);
 void		put_error_nonvalid_env(char *cmd, char *key);
 
 //path.c

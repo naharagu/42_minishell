@@ -6,13 +6,13 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:54:26 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 09:22:43 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:42:32 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_newdir(t_minishell *ms, size_t argc, char **argv)
+static char	*get_newdir(t_minishell *ms, size_t argc, char **argv)
 {
 	char	*newdir;
 
@@ -20,12 +20,13 @@ char	*get_newdir(t_minishell *ms, size_t argc, char **argv)
 	{
 		newdir = get_value_from_key(ms, "HOME");
 		if (!newdir)
-			other_error(ms, "cd", "HOME not set", EXIT_FAILURE);
+			other_error("cd", "HOME not set", EXIT_FAILURE);
+		return (NULL);
 	}
 	else
 		newdir = argv[1];
 	if (!newdir)
-		other_error(ms, "cd", "no such file or directory", EXIT_FAILURE);
+		other_error("cd", "no such file or directory", EXIT_FAILURE);
 	return (newdir);
 }
 

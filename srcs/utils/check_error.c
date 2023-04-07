@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   check_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 13:18:39 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:44:39 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	error_parser_mslist(t_minishell *ms)
 	while (ms->list)
 	{
 		if (*ms->list->str == '|' && ms->list->next == NULL)
-			other_error(ms, "error", "no command after pipe", 1);
+			other_error("error", "no command after pipe", 1);
 		ms->list = ms->list->next;
 	}
 	ms->list = start;
@@ -63,14 +63,14 @@ int	check_error_parser_execlist(t_minishell *ms)
 	return (EXIT_SUCCESS);
 }
 
-void	error_expandedred(t_minishell *ms, t_redlist *red, char *original)
+void	error_expandedred(t_redlist *red, char *original)
 {
 	if (!(red->str) || ft_strchr(red->str, ' '))
-		other_error(ms, original, "ambiguous redirect", 1);
+		other_error(original, "ambiguous redirect", 1);
 }
 
-void	error_command( t_minishell *ms)
+void	error_command(t_minishell *ms)
 {
 	if (ms->exec->cmdtype == NO_CMD && ms->exec->redtype == NO_REDIRECT)
-		other_error(ms, ms->exec->cmdline[0], "command not found", 127);
+		other_error(ms->exec->cmdline[0], "command not found", 127);
 }
