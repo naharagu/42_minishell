@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 14:02:07 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/08 14:30:39 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,24 @@ void	add_mslist(t_minishell *ms, char *start, char *line);
 
 int	lexer(t_minishell *ms)
 {
+	char		*tmp;
 	char		*start;
 
-	while (*ms->line)
+	tmp = ms->line;
+	while (*tmp)
 	{
-		start = ms->line;
-		while (*ms->line && !(is_space(*ms->line)) \
-		&& !(is_metachara(*ms->line)) && *ms->line != '\'' && *ms->line != '\"')
-			ms->line++;
-		while (*ms->line && is_quoted(*ms->line, ms))
-			ms->line++;
-		while (*ms->line && !(is_space(*ms->line)) \
-		&& !(is_metachara(*ms->line)) && *ms->line != '\'' && *ms->line != '\"')
-			ms->line++;
-		add_mslist(ms, start, ms->line);
-		start = ms->line;
-		while (*ms->line && ft_isdigit(*ms->line))
-			ms->line++;
-		while (*ms->line && is_metachara(*ms->line))
-			ms->line++;
-		add_mslist(ms, start, ms->line);
-		while (*ms->line && is_space(*ms->line))
-			ms->line++;
+		start = tmp;
+		while (*tmp && is_quoted(*tmp, ms))
+			tmp++;
+		while (*tmp && !(is_space(*tmp)) && !(is_metachara(*tmp)))
+			tmp++;
+		add_mslist(ms, start, tmp);
+		start = tmp;
+		if (*tmp && is_metachara(*tmp))
+			tmp++;
+		add_mslist(ms, start, tmp);
+		while (*tmp && is_space(*tmp))
+			tmp++;
 	}
 	return (error_lexer(ms));
 }

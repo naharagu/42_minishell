@@ -1,9 +1,10 @@
 NAME		=	minishell
 CC			=	gcc
-RL_FLAGS 	=	-lreadline -lhistory -L$(shell brew --prefix readline)/lib -L/usr/local/Cellar/readline/8.2.1/lib -L/usr/local/opt/readline/lib
+RL_FLAGS 	=	-lreadline -lhistory -L$(shell brew --prefix readline)/lib
 INCLUDE		=   -I include -I $(LIB_DIR) -I $(shell brew --prefix readline)/include -I/usr/local/opt/readline/include
 CFLAGS 		=	-Wall -Werror -Wextra $(INCLUDE)
 SRCS		= 	srcs/main.c							\
+				srcs/print_list.c					\
 				srcs/builtin/ft_cd.c				\
 				srcs/builtin/ft_echo.c				\
 				srcs/builtin/ft_env.c				\
