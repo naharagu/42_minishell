@@ -6,57 +6,61 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/06 20:35:12 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/08 18:25:23 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static bool	is_quoted_cmd(t_cmdlist *cmd, char c);
 static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original);
 static char	**make_split_cmd(t_cmdlist *cmd, char c, char **original);
 
-void	trim_quote_cmd(t_cmdlist *cmd, char c, char **original)
+char	*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 {
-	if (c == '\'' && cmd->quote == NO_QUOTE)
-	{
-		cmd->quote = S_QUOTE;
-		ms_strtrim_cmd(cmd, '\'', original);
-	}
-	else if (c == '\"' && cmd->quote == NO_QUOTE)
-	{
-		cmd->quote = D_QUOTE;
-		ms_strtrim_cmd(cmd, '\"', original);
-	}
-}
-
-void	assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original)
-{
-	char	**split;
+	char	*start;
 	char	*tmp;
-	size_t	i;
+	char	*old;
 
-	i = 1;
-	split = NULL;
-	tmp = NULL;
-	if (cmd->str && cmd->quote != S_QUOTE \
-		&& ft_strnstr(cmd->str, "$", ft_strlen(cmd->str)))
-		split = make_split_cmd(cmd, '$', original);
-	if (!split || !split[0])
-		return ;
-	tmp = expand_env(ms, split[0]);
-	free(split[0]);
-	while (split[i] && split[i][0] != '\0')
+	old = NULL;
+	while (*str)
 	{
-		tmp = joinstr(ms, &split[i], &tmp);
-		i++;
+		start = str;
+		while (*str && is_quoted_cmd(cmd, *str))
+			str++;
+		while (*str && *str != '$')
+			str++;
+		tmp = ft_substr(str, 0, str - start);
+		start = str;
+		if (tmp && ft_strnstr(tmp, "$", ft_strlen(tmp)))
+			tmp = expand_env(ms, cmd, tmp);
+		else if (tmp && cmd->quote != NO_QUOTE)
+			tmp = trim_quote_cmd(cmd, tmp);
+		if (old)
+			tmp = ft_strjoin(old, tmp);
+		old = ft_strdup(tmp);
+		free(tmp);
+		str++;
 	}
-	free(*original);
-	cmd->str = ft_strdup(tmp);
-	free(tmp);
-	free(split);
+	return (old);
 }
 
-static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original)
+char	*trim_quote_cmd(t_cmdlist *cmd, char *tmp)
+{
+	char	*result;
+
+	if (cmd->quote == END_S_QUOTE)
+	{
+		result = strtrim_cmd(tmp, '\'');
+	}
+	else if (cmd->quote == END_D_QUOTE)
+	{
+		result = strtrim_cmd(tmp, '\"');
+	}
+	return (result);
+}
+
+char	*strtrim_cmd(char *str, char c)
 {
 	char	**split;
 	char	*tmp;
@@ -64,9 +68,9 @@ static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original)
 	size_t	i;
 
 	i = 1;
-	split = make_split_cmd(cmd, c, original);
+	split = split_cmd(str, c);
 	if (!split || !split[0])
-		return ;
+		return (NULL);
 	tmp = ft_strdup(split[0]);
 	free(split[0]);
 	while (split[i] && split[i][0] != '\0')
@@ -78,24 +82,42 @@ static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original)
 		free(split[i]);
 		i++;
 	}
-	free(*original);
-	cmd->str = ft_strdup(tmp);
-	free(tmp);
 	free(split);
+	return (tmp);
 }
 
-static char	**make_split_cmd(t_cmdlist *cmd, char c, char **original)
+static char	**split_cmd(char *tmp, char c)
 {
 	char	**split;
 
-	split = ft_split(cmd->str, c);
+	split = ft_split(tmp, c);
 	if (!split || !split[0])
 	{
 		free(split[0]);
 		free(split);
-		free(*original);
-		cmd->str = NULL;
 		return (NULL);
 	}
 	return (split);
+}
+
+static bool	is_quoted_cmd(t_cmdlist *cmd, char c)
+{
+	if (c == '\'' && cmd->quote == S_QUOTE)
+		cmd->quote = END_S_QUOTE;
+	else if (c == '\"' && cmd->quote == D_QUOTE)
+		cmd->quote = END_D_QUOTE;
+	else if (c == '\'' && (cmd->quote == NO_QUOTE || \
+		cmd->quote == END_S_QUOTE || cmd->quote == END_D_QUOTE))
+		cmd->quote = S_QUOTE;
+	else if (c == '\"' && (cmd->quote == NO_QUOTE || \
+		cmd->quote == END_S_QUOTE || cmd->quote == END_D_QUOTE))
+		cmd->quote = D_QUOTE;
+	else if (c != '\'' && c != '\"' && \
+		(cmd->quote == END_S_QUOTE || cmd->quote == END_D_QUOTE))
+		cmd->quote = NO_QUOTE;
+	if (cmd->quote == S_QUOTE || cmd->quote == D_QUOTE || \
+		cmd->quote == END_S_QUOTE || cmd->quote == END_D_QUOTE)
+		return (true);
+	else
+		return (false);
 }

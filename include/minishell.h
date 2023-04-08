@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/08 15:42:33 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/08 18:28:12 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,12 +171,12 @@ void		check_redtype(t_minishell *ms, char *str);
 
 //expansion.c
 int			expansion(t_minishell *ms);
-char		*expand_env(t_minishell *ms, char *tmp);
+char		*expand_env(t_minishell *ms, t_cmdlist *cmd, char *str);
 char		*joinstr(t_minishell *ms, char **split, char **tmp);
 
 //expand_cmd_utils.c
-void		trim_quote_cmd(t_cmdlist *cmd, char c, char **original);
-void		assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **original);
+char		*trim_quote_cmd(t_cmdlist *cmd, char *tmp);
+char		*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *str);
 
 //expand_red_utils.c
 void		trim_quote_red(t_redlist *red, char c, char **original);

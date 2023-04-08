@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 14:18:29 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/08 18:29:35 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,16 @@ int	expansion(t_minishell *ms)
 	return (EXIT_SUCCESS);
 }
 
-void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
+static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd)
 {
-	char	*original;
-	char	*copy;
+	char	*expanded;
 	char	*tmp;
 
 	(void)ms;
-	original = cmd->str;
-	tmp = ft_strdup(cmd->str);
-	copy = tmp;
-	while (*tmp)
-	{
-		trim_quote_cmd(cmd, *tmp, &original);
-		tmp++;
-	}
-	free(copy);
-	original = cmd->str;
-	assign_value_cmd (ms, cmd, &original);
+	expanded = assign_value_cmd (ms, cmd, cmd->str);
+	free(cmd->str);
+	cmd->str = ft_strdup(expanded);
+	free(expanded);
 }
 
 static int	expand_red(t_minishell *ms, t_redlist *red)
@@ -83,31 +75,40 @@ static int	expand_red(t_minishell *ms, t_redlist *red)
 	return (error_expandedred(red, original));
 }
 
-char	*expand_env(t_minishell *ms, char *tmp)
+char	*expand_env(t_minishell *ms, t_cmdlist *cmd, char *str)
 {
-	t_envlist	*startenv;
+	t_envlist	*tmpenv;
 	char		*result;
+	char		*start;
+	char		*tmp;
+	char		*old;
 
-	startenv = ms->env;
-	ms->env = ms->env->next;
-	while (tmp && ms->env)
+	tmpenv = tmpenv->next;
+	if (*str == '\'' || *str == '\"')
+		str = trim_quote_cmd(cmd, str);
+	while (*str)
 	{
-		if (!(ft_strncmp(tmp, "?", ft_strlen(tmp))))
+		if (*str == '$' && cmd->quote != END_S_QUOTE)
 		{
-			result = ft_itoa(g_status);
-			ms->env = startenv;
-			return (result);
+			str++;
+			if (!(ft_strncmp(str, "?", ft_strlen(str))))
+			{
+				result = ft_itoa(g_status);
+				str++;
+			}
+			while (tmpenv)
+			{
+				if (!(ft_strncmp(tmpenv->key, str, ft_strlen(str))))
+				{
+					result = ft_strdup(tmpenv->value);
+					str += ft_strlen(tmpenv->key);
+				}
+				tmpenv = tmpenv->next;
+			}
 		}
-		else if (!(ft_strncmp(ms->env->key, tmp, ft_strlen(tmp))))
-		{
-			result = ft_strdup(ms->env->value);
-			ms->env = startenv;
-			return (result);
-		}
-		ms->env = ms->env->next;
+		str++;
 	}
-	ms->env = startenv;
-	return (NULL);
+	return (result);
 }
 
 char	*joinstr(t_minishell *ms, char **split, char **tmp)
