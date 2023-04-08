@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:29:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/05 10:21:01 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:29:38 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,26 @@ void	waitchild_handler(int signum)
 	g_status = EXIT_ERROR + signum;
 }
 
-void	assign_dfl_handler(int signum, t_minishell *ms)
+void	assign_dfl_handler(int signum)
 {
 	struct sigaction	sa;
 
 	if (sigemptyset(&sa.sa_mask) < 0)
-		exit_error(ms, "sigemptyset");
+		exit_error("sigemptyset");
 	sa.sa_handler = SIG_DFL;
 	sa.sa_flags = 0;
 	if (sigaction(signum, &sa, NULL) < 0)
-		exit_error(ms, "sigaction");
+		exit_error("sigaction");
 }
 
-void	assign_ign_handler(int signum, t_minishell *ms)
+void	assign_ign_handler(int signum)
 {
 	struct sigaction	sa;
 
 	if (sigemptyset(&sa.sa_mask) < 0)
-		exit_error(ms, "sigemptyset");
+		exit_error("sigemptyset");
 	sa.sa_handler = SIG_IGN;
 	sa.sa_flags = 0;
 	if (sigaction(signum, &sa, NULL) < 0)
-		exit_error(ms, "sigaction");
+		exit_error("sigaction");
 }

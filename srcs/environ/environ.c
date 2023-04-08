@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/31 11:27:53 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:24:03 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	convert_to_envlist(t_minishell *ms, char *env_str)
 	{
 		key = ft_substr(env_str, 0, equal_ptr - env_str);
 		if (!key)
-			exit_error(ms, "malloc");
+			exit_error("malloc");
 		value = ft_strdup(equal_ptr + 1);
 		if (!value)
-			exit_error(ms, "malloc");
+			exit_error("malloc");
 		add_envlist(ms, key, value);
 	}
 }
@@ -41,7 +41,7 @@ void	init_env(t_minishell *ms)
 	i = 0;
 	ms->env = (t_envlist *)malloc(sizeof(t_envlist));
 	if (!ms->env)
-		exit_error (ms, "malloc");
+		exit_error ("malloc");
 	ms->env->key = NULL;
 	ms->env->value = NULL;
 	ms->env->next = NULL;

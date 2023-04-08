@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/04/01 07:56:30 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 13:42:47 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_env(t_minishell *ms, size_t argc)
 
 	if (argc > 1)
 	{
-		other_error(ms, "env", "too many arguments", 1);
+		other_error("env", "too many arguments", 1);
 		return (EXIT_FAILURE);
 	}
 	tmp_env = ms->env;

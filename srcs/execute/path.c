@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 12:03:03 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:22:01 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*search_path(t_minishell *ms, char *file)
 		{
 			res = ft_strdup(path[i]);
 			if (!res)
-				exit_error(ms, "malloc");
+				exit_error("malloc");
 			free_path(path);
 			return (res);
 		}

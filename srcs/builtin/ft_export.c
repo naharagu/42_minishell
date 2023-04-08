@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/03/28 22:47:08 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:22:34 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	print_all_env(t_minishell *ms)
 	return ;
 }
 
-static void	split_at_equal(t_minishell *ms, char *arg, char **key, char **value)
+static void	split_at_equal(char *arg, char **key, char **value)
 {
 	char	*equal_ptr;
 
@@ -37,19 +37,19 @@ static void	split_at_equal(t_minishell *ms, char *arg, char **key, char **value)
 	{
 		*key = ft_strdup(arg);
 		if (!*key)
-			exit_error(ms, "malloc");
+			exit_error("malloc");
 		*value = NULL;
 	}
 	else
 	{
 		*key = ft_substr(arg, 0, equal_ptr - arg);
 		if (!*key)
-			exit_error(ms, "malloc");
+			exit_error("malloc");
 		*value = ft_strdup(equal_ptr + 1);
 		if (!*value)
 		{
 			free(*key);
-			exit_error(ms, "malloc");
+			exit_error("malloc");
 		}
 	}
 }
@@ -72,7 +72,7 @@ static int	export_arg(t_minishell *ms, char *arg)
 	char		*key;
 	char		*value;
 
-	split_at_equal(ms, arg, &key, &value);
+	split_at_equal(arg, &key, &value);
 	if (!is_valid_env_key((key)))
 	{
 		free(key);

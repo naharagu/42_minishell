@@ -6,16 +6,16 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/31 12:50:35 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/07 14:05:31 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	check_execlist(t_minishell *ms);
+static int	check_execlist(t_minishell *ms);
 static void	copy_cmd_red_list(t_minishell *ms, char *str);
 
-void	parser(t_minishell *ms)
+int	parser(t_minishell *ms)
 {
 	t_mslist	*start;
 	t_mslist	*first;
@@ -38,33 +38,35 @@ void	parser(t_minishell *ms)
 	}
 	add_execlist(ms, first, ms->cmd_size);
 	ms->list = start;
-	error_parser_mslist(ms);
-	check_execlist(ms);
+	if (errror_parser_mslist(ms) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	return (check_execlist(ms));
 }
 
-static void	check_execlist(t_minishell *ms)
+static int	check_execlist(t_minishell *ms)
 {
-	t_execlist	*startexec;
+	t_execlist	*tmp_exec;
 	char		*upchar;
 	size_t		i;
 
-	startexec = ms->exec;
-	while (ms->exec)
+	tmp_exec = ms->exec;
+	while (tmp_exec)
 	{
 		i = 0;
-		while (ms->exec->cmdline[i])
+		while (tmp_exec->cmdline[i])
 		{
-			check_redtype(ms, ms->exec->cmdline[i]);
-			upchar = toupper_char(ms->exec->cmdline[i]);
+			check_redtype(ms, tmp_exec->cmdline[i]);
+			upchar = toupper_char(tmp_exec->cmdline[i]);
 			check_cmdtype(ms, upchar);
 			free(upchar);
-			copy_cmd_red_list(ms, ms->exec->cmdline[i]);
+			copy_cmd_red_list(ms, tmp_exec->cmdline[i]);
 			i++;
 		}
-		error_parser_execlist(ms);
-		ms->exec = ms->exec->next;
+		if (error_parser_execlist(ms) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+		tmp_exec = tmp_exec->next;
 	}
-	ms->exec = startexec;
+	return (EXIT_SUCCESS);
 }
 
 static void	copy_cmd_red_list(t_minishell *ms, char *str)

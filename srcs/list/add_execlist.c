@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_execlist.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:45:49 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/18 19:06:50 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/07 14:29:02 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	add_execlist(t_minishell *ms, t_mslist	*first, size_t num)
 {
 	t_execlist	*tmp;
 
-	tmp = exec_lstnew(ms, first, num);
+	tmp = exec_lstnew(first, num);
 	exec_lstadd_back(&ms->exec, tmp);
 }
 

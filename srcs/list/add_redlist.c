@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_redlist.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 15:35:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 14:44:30 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/07 14:26:49 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ void	add_redlist(t_minishell *ms, char *str)
 {
 	t_redlist	*tmp;
 
-	tmp = red_lstnew(ms, str);
+	tmp = red_lstnew(str);
 	red_lstadd_back(&ms->exec->red, tmp);
 }
 
-t_redlist	*red_lstnew(t_minishell *ms, char *str)
+t_redlist	*red_lstnew(char *str)
 {
 	t_redlist	*red;
 
 	red = (t_redlist *)malloc(sizeof(t_redlist) * 1);
 	if (!red)
-		exit_error (ms, "malloc");
+		exit_error ("malloc");
 	if (str)
 		red->str = ft_strdup(str);
 	red->quote = NO_QUOTE;
