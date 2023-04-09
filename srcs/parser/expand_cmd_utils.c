@@ -6,14 +6,15 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/09 15:28:01 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/09 19:18:19 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 volatile sig_atomic_t	g_status;
-static char	*trim_quote_cmd(t_cmdlist *cmd, char *str, int c);
+static char	*trim_quote_cmd(char *str, int c);
+static char	*get_newstr(t_minishell *ms, t_cmdlist *cmd, char *str);
 
 char	*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 {
@@ -24,7 +25,7 @@ char	*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 	if (!(ft_strncmp("", str, ft_strlen(str))))
 		return ("");
 	if (*str == '\'' || *str == '\"')
-		str = trim_quote_cmd(cmd, str, *str);
+		str = trim_quote_cmd(str, *str);
 	if (ft_strnstr(str, "$", ft_strlen(str)))
 		new = expand_env_cmd(ms, cmd, str);
 	// else if (cmd->quote == END_S_QUOTE)
@@ -36,14 +37,13 @@ char	*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 	return (new);
 }
 
-static char	*trim_quote_cmd(t_cmdlist *cmd, char *str, int c)
+static char	*trim_quote_cmd(char *str, int c)
 {
 	char	**split;
 	char	*tmp;
 	char	*old;
 	size_t	i;
 
-	(void)cmd;
 	i = 1;
 	split = ft_split(str, c);
 	if (!split)
@@ -68,15 +68,11 @@ static char	*trim_quote_cmd(t_cmdlist *cmd, char *str, int c)
 
 char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 {
-	t_envlist	*tmpenv;
 	char		*start;
 	char		*tmp;
 	char		*old;
 	char		*new;
 
-	old = NULL;
-	new = NULL;
-	tmpenv = ms->env->next;
 	while (*str)
 	{
 		start = str;
@@ -87,31 +83,34 @@ char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 		while (*str && *str != '$' && *str != '\'' && *str != '\"')
 			str++;
 		tmp = ft_substr(start, 0, str - start);
-		printf("2tmp= %s\n", tmp);//
+		printf("tmp= %s\n", tmp);//
 		start = str;
-		if (*tmp == '$' && cmd->quote != END_S_QUOTE && ft_strlen(tmp) > 1)
-		{
-			tmp++;
-			printf("3tmp= %s\n", tmp);//
-			if (!(ft_strncmp(tmp, "?", ft_strlen(tmp))))
-				new = ft_itoa(g_status);
-			while (tmpenv)
-			{
-				if (!(ft_strncmp(tmpenv->key, tmp, ft_strlen(tmp))))
-				{
-					new = ft_strdup(tmpenv->value);
-					break ;
-				}
-				tmpenv = tmpenv->next;
-			}
-			if (!new)
-				new = ft_strdup("");
-			tmp--;
-		}
+		new = get_newstr(ms, cmd, tmp);
 		new = ft_strjoin(old, new);
 		old = ft_strdup(new);
 		free(tmp);
 		free(new);
 	}
 	return (old);
+}
+
+static char	*get_newstr(t_minishell *ms, t_cmdlist *cmd, char *str)
+{
+	t_envlist	*tmpenv;
+
+	tmpenv = ms->env->next;
+	if (*str == '$' && cmd->quote != END_S_QUOTE && ft_strlen(str) > 1)
+	{
+		str++;
+		if (!(ft_strncmp(str, "?", ft_strlen(str))))
+			return (ft_itoa(g_status));
+		while (tmpenv)
+		{
+			if (!ft_strncmp(tmpenv->key, str, ft_strlen(str)))
+				return (ft_strdup(tmpenv->value));
+			tmpenv = tmpenv->next;
+		}
+		return (NULL);
+	}
+	return (NULL);
 }
