@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/09 19:18:19 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/09 19:26:52 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 	char		*old;
 	char		*new;
 
+	old = NULL;
 	while (*str)
 	{
 		start = str;
@@ -86,8 +87,11 @@ char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 		printf("tmp= %s\n", tmp);//
 		start = str;
 		new = get_newstr(ms, cmd, tmp);
-		new = ft_strjoin(old, new);
+		printf("new= %s\n", new);//
+		if (old)
+			new = ft_strjoin(old, new);
 		old = ft_strdup(new);
+		printf("old= %s\n", old);//
 		free(tmp);
 		free(new);
 	}
