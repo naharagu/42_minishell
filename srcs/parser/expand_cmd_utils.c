@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/09 19:26:52 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/09 21:00:55 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char	*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 {
 	char	*new;
 
+	new = NULL;
 	if (!str)
 		return (NULL);
 	if (!(ft_strncmp("", str, ft_strlen(str))))
@@ -74,17 +75,18 @@ char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 	char		*new;
 
 	old = NULL;
+	printf("str= %s\n", str);//
 	while (*str)
 	{
 		start = str;
 		if (*str == '$')
 			str++;
-		while (*str && *str == '\'' && *str == '\"')
+		while (*str && (*str == '\'' || *str == '\"'))
 			str++;
 		while (*str && *str != '$' && *str != '\'' && *str != '\"')
 			str++;
 		tmp = ft_substr(start, 0, str - start);
-		printf("tmp= %s\n", tmp);//
+		printf("1tmp= %s\n", tmp);//
 		start = str;
 		new = get_newstr(ms, cmd, tmp);
 		printf("new= %s\n", new);//
@@ -102,12 +104,14 @@ static char	*get_newstr(t_minishell *ms, t_cmdlist *cmd, char *str)
 {
 	t_envlist	*tmpenv;
 
-	tmpenv = ms->env->next;
-	if (*str == '$' && cmd->quote != END_S_QUOTE && ft_strlen(str) > 1)
+	if (*str != '$' || cmd->quote == END_S_QUOTE)
+		return (ft_strdup(str));
+	else if (*str == '$' && cmd->quote != END_S_QUOTE && ft_strlen(str) > 1)
 	{
 		str++;
 		if (!(ft_strncmp(str, "?", ft_strlen(str))))
 			return (ft_itoa(g_status));
+		tmpenv = ms->env->next;
 		while (tmpenv)
 		{
 			if (!ft_strncmp(tmpenv->key, str, ft_strlen(str)))
@@ -116,5 +120,5 @@ static char	*get_newstr(t_minishell *ms, t_cmdlist *cmd, char *str)
 		}
 		return (NULL);
 	}
-	return (NULL);
+	return (ft_strdup(str));
 }
