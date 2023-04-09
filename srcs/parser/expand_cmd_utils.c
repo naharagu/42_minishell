@@ -6,61 +6,37 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/08 18:25:23 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/09 13:58:10 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static char	*trim_quote_cmd(t_cmdlist *cmd, char *tmp);
 static bool	is_quoted_cmd(t_cmdlist *cmd, char c);
-static void	ms_strtrim_cmd(t_cmdlist *cmd, char c, char **original);
-static char	**make_split_cmd(t_cmdlist *cmd, char c, char **original);
 
 char	*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 {
-	char	*start;
-	char	*tmp;
-	char	*old;
+	char	*new;
 
-	old = NULL;
-	while (*str)
-	{
-		start = str;
-		while (*str && is_quoted_cmd(cmd, *str))
-			str++;
-		while (*str && *str != '$')
-			str++;
-		tmp = ft_substr(str, 0, str - start);
-		start = str;
-		if (tmp && ft_strnstr(tmp, "$", ft_strlen(tmp)))
-			tmp = expand_env(ms, cmd, tmp);
-		else if (tmp && cmd->quote != NO_QUOTE)
-			tmp = trim_quote_cmd(cmd, tmp);
-		if (old)
-			tmp = ft_strjoin(old, tmp);
-		old = ft_strdup(tmp);
-		free(tmp);
-		str++;
-	}
-	return (old);
+	if (!str)
+		return (NULL);
+	if (!(ft_strncmp("", str, ft_strlen(str))))
+		return ("");
+	if (*str == '\'' || *str == '\"')
+		str = trim_quote_cmd(cmd, str, *str);
+	if (ft_strnstr(str, "$", ft_strlen(str)))
+		new = expand_env_cmd(ms, cmd, str);
+	// else if (cmd->quote == END_S_QUOTE)
+	// 	new = trim_quote_cmd(cmd, str, '\'');
+	// else if (cmd->quote == END_D_QUOTE)
+	// 	new = trim_quote_cmd(cmd, str, '\"');
+	else
+		new = ft_strdup(str);
+	return (new);
 }
 
-char	*trim_quote_cmd(t_cmdlist *cmd, char *tmp)
-{
-	char	*result;
-
-	if (cmd->quote == END_S_QUOTE)
-	{
-		result = strtrim_cmd(tmp, '\'');
-	}
-	else if (cmd->quote == END_D_QUOTE)
-	{
-		result = strtrim_cmd(tmp, '\"');
-	}
-	return (result);
-}
-
-char	*strtrim_cmd(char *str, char c)
+static char	*trim_quote_cmd(t_cmdlist *cmd, char *str, int c)
 {
 	char	**split;
 	char	*tmp;
@@ -68,36 +44,25 @@ char	*strtrim_cmd(char *str, char c)
 	size_t	i;
 
 	i = 1;
-	split = split_cmd(str, c);
-	if (!split || !split[0])
+	split = ft_split(str, c);
+	if (!split)
 		return (NULL);
+	if (!split[0])
+	{
+		free(split);
+		return (NULL);
+	}
 	tmp = ft_strdup(split[0]);
 	free(split[0]);
 	while (split[i] && split[i][0] != '\0')
 	{
-		old = ft_strdup(tmp);
-		free(tmp);
+		old = tmp;
 		tmp = ft_strjoin(old, split[i]);
-		free(old);
 		free(split[i]);
 		i++;
 	}
 	free(split);
 	return (tmp);
-}
-
-static char	**split_cmd(char *tmp, char c)
-{
-	char	**split;
-
-	split = ft_split(tmp, c);
-	if (!split || !split[0])
-	{
-		free(split[0]);
-		free(split);
-		return (NULL);
-	}
-	return (split);
 }
 
 static bool	is_quoted_cmd(t_cmdlist *cmd, char c)
