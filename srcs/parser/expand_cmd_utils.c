@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/09 21:00:55 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/09 23:54:43 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,6 @@ char	*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 		str = trim_quote_cmd(str, *str);
 	if (ft_strnstr(str, "$", ft_strlen(str)))
 		new = expand_env_cmd(ms, cmd, str);
-	// else if (cmd->quote == END_S_QUOTE)
-	// 	new = trim_quote_cmd(cmd, str, '\'');
-	// else if (cmd->quote == END_D_QUOTE)
-	// 	new = trim_quote_cmd(cmd, str, '\"');
 	else
 		new = ft_strdup(str);
 	return (new);
@@ -73,9 +69,10 @@ char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 	char		*tmp;
 	char		*old;
 	char		*new;
+	char		*result;
 
 	old = NULL;
-	printf("str= %s\n", str);//
+	//printf("str= %s\n", str);//
 	while (*str)
 	{
 		start = str;
@@ -86,16 +83,24 @@ char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 		while (*str && *str != '$' && *str != '\'' && *str != '\"')
 			str++;
 		tmp = ft_substr(start, 0, str - start);
-		printf("1tmp= %s\n", tmp);//
+		//printf("1tmp= %s\n", tmp);//
 		start = str;
 		new = get_newstr(ms, cmd, tmp);
-		printf("new= %s\n", new);//
-		if (old)
-			new = ft_strjoin(old, new);
-		old = ft_strdup(new);
-		printf("old= %s\n", old);//
 		free(tmp);
-		free(new);
+		//printf("new= %s\n", new);//
+		if (old)
+		{
+			result = ft_strjoin(old, new);
+			free(old);
+			free(new);
+			old = result;
+		}
+		else if (!old)
+		{
+			old = ft_strdup(new);
+			printf("old= %s\n", old);//
+			free(new);
+		}
 	}
 	return (old);
 }
