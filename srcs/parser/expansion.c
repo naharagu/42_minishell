@@ -6,15 +6,15 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/09 13:54:35 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/09 14:51:23 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_status;
 static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str);
 //static int	expand_red(t_minishell *ms, t_redlist *red);
+static bool	is_quoted_cmd(t_cmdlist *cmd, char c);
 
 int	expansion(t_minishell *ms)
 {
@@ -57,20 +57,19 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str)
 			str++;
 		if (*str == '$')
 			str++;
-		while (*str && *str != '\0' && *str != '$')
+		while (*str && *str != '$')
 			str++;
 		tmp = ft_substr(start, 0, str - start);
 		start = str;
 		//printf("tmp= %s\n", tmp);//
 		new = assign_value_cmd (ms, cmd, tmp);
 		new = ft_strjoin(old, new);
-		old = new;
+		old = ft_strdup(new);
 		free(tmp);
 		free(new);
 	}
 	free(cmd->str);
-	cmd->str = ft_strdup(old);
-	free(old);
+	cmd->str = old;
 }
 
 // static int	expand_red(t_minishell *ms, t_redlist *red)
@@ -93,37 +92,6 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str)
 // 	return (error_expandedred(red, original));
 // }
 
-char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
-{
-	t_envlist	*tmpenv;
-	char		*result;
-
-	tmpenv = ms->env->next;
-	while (*str)
-	{
-		if (*str == '$' && cmd->quote != END_S_QUOTE)
-		{
-			str++;
-			if (!(ft_strncmp(str, "?", ft_strlen(str))))
-			{
-				result = ft_itoa(g_status);
-				str++;
-			}
-			while (tmpenv)
-			{
-				if (!(ft_strncmp(tmpenv->key, str, ft_strlen(str))))
-				{
-					result = ft_strdup(tmpenv->value);
-					str += ft_strlen(tmpenv->key);
-				}
-				tmpenv = tmpenv->next;
-			}
-		}
-		str++;
-	}
-	return (result);
-}
-
 // char	*joinstr(t_minishell *ms, char **split, char **tmp)
 // {
 // 	char	*old;
@@ -138,3 +106,25 @@ char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 // 	free(*split);
 // 	return (*tmp);
 // }
+
+static bool	is_quoted_cmd(t_cmdlist *cmd, char c)
+{
+	if (c == '\'' && cmd->quote == S_QUOTE)
+		cmd->quote = END_S_QUOTE;
+	else if (c == '\"' && cmd->quote == D_QUOTE)
+		cmd->quote = END_D_QUOTE;
+	else if (c == '\'' && (cmd->quote == NO_QUOTE || \
+		cmd->quote == END_S_QUOTE || cmd->quote == END_D_QUOTE))
+		cmd->quote = S_QUOTE;
+	else if (c == '\"' && (cmd->quote == NO_QUOTE || \
+		cmd->quote == END_S_QUOTE || cmd->quote == END_D_QUOTE))
+		cmd->quote = D_QUOTE;
+	else if (c != '\'' && c != '\"' && \
+		(cmd->quote == END_S_QUOTE || cmd->quote == END_D_QUOTE))
+		cmd->quote = NO_QUOTE;
+	if (cmd->quote == S_QUOTE || cmd->quote == D_QUOTE || \
+		cmd->quote == END_S_QUOTE || cmd->quote == END_D_QUOTE)
+		return (true);
+	else
+		return (false);
+}
