@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 12:10:39 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/10 17:01:44 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ char	*toupper_char(char *str)
 	return (start);
 }
 
-void	check_pipe(t_minishell *ms, char *str)
-{
-	if (!(ft_strncmp("|", str, ft_strlen(str))))
-		ms->list->pipe = PIPE;
-	else if (!(ft_strncmp(";", str, ft_strlen(str))))
-		ms->list->pipe = SEMICOLON;
-}
+// void	check_pipe(t_minishell *ms, char *str)
+// {
+// 	if (!(ft_strncmp("|", str, ft_strlen(str))))
+// 		ms->list->pipe = PIPE;
+// 	else if (!(ft_strncmp(";", str, ft_strlen(str))))
+// 		ms->list->pipe = SEMICOLON;
+// }
 
 void	clear_ms(t_minishell *ms)
 {

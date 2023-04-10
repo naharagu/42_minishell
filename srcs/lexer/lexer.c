@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/08 15:02:15 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 15:43:35 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,14 @@ int	lexer(t_minishell *ms)
 			tmp++;
 		while (*tmp && !(is_space(*tmp)) && !(is_metachara(*tmp)))
 			tmp++;
-		if (*tmp && is_metachara(*tmp))
-			tmp++;
 		add_mslist(ms, start, tmp);
+		start = tmp;
+		if (*tmp && is_metachara(*tmp))
+		{
+			tmp++;
+			add_mslist(ms, start, tmp);
+			start = tmp;
+		}
 		while (*tmp && is_space(*tmp))
 			tmp++;
 	}

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 15:27:04 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 18:14:29 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,28 @@ static void	copy_cmd_red_list(t_minishell *ms, char *str);
 
 int	parser(t_minishell *ms)
 {
-	t_mslist	*start;
+	t_mslist	*tmplist;
 	t_mslist	*first;
 
-	start = ms->list;
-	first = ms->list;
-	ms->cmd_size = 0;
-	while (ms->list)
+	tmplist = ms->list;
+	while (tmplist)
 	{
-		check_pipe(ms, ms->list->str);
-		if (ms->list->pipe != NO_PIPE)
+		ms->cmd_size = 0;
+		first = tmplist;
+		while (tmplist->str && (ft_strncmp("|", tmplist->str, \
+			ft_strlen(tmplist->str))))
 		{
-			add_execlist(ms, first, ms->cmd_size);
-			first = ms->list->next;
-			ms->cmd_size = 0;
-		}
-		else
+			if (!tmplist->next)
+			{
+				ms->cmd_size++;
+				break ;
+			}
+			tmplist = tmplist->next;
 			ms->cmd_size++;
-		ms->list = ms->list->next;
+		}
+		add_execlist(ms, first, ms->cmd_size);
+		tmplist = tmplist->next;
 	}
-	add_execlist(ms, first, ms->cmd_size);
-	ms->list = start;
 	if (errror_parser_mslist(ms) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (check_execlist(ms));
@@ -45,27 +46,29 @@ int	parser(t_minishell *ms)
 
 static int	check_execlist(t_minishell *ms)
 {
-	t_execlist	*tmp_exec;
+	t_execlist	*startexec;
 	char		*upchar;
 	size_t		i;
 
-	tmp_exec = ms->exec;
-	while (tmp_exec)
+	startexec = ms->exec;
+	while (ms->exec)
 	{
 		i = 0;
-		while (tmp_exec->cmdline[i])
+		while (ms->exec->cmdline[i])
 		{
-			check_redtype(ms, tmp_exec->cmdline[i]);
-			upchar = toupper_char(tmp_exec->cmdline[i]);
+			printf("cmdline[%zu]: %s\n", i, ms->exec->cmdline[i]);//
+			check_redtype(ms, ms->exec->cmdline[i]);
+			upchar = toupper_char(ms->exec->cmdline[i]);
 			check_cmdtype(ms, upchar);
 			free(upchar);
-			copy_cmd_red_list(ms, tmp_exec->cmdline[i]);
+			copy_cmd_red_list(ms, ms->exec->cmdline[i]);
 			i++;
 		}
 		if (error_parser_execlist(ms) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
-		tmp_exec = tmp_exec->next;
+		ms->exec = ms->exec->next;
 	}
+	ms->exec = startexec;
 	return (EXIT_SUCCESS);
 }
 
