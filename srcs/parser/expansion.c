@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 11:43:46 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 12:04:43 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str);
 //static int	expand_red(t_minishell *ms, t_redlist *red);
+static char	*get_old(char **new, char **old);
 static bool	is_quoted_cmd(t_cmdlist *cmd, char c);
 
 int	expansion(t_minishell *ms)
@@ -49,7 +50,6 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str)
 	char	*tmp;
 	char	*old;
 	char	*new;
-	char	*result;
 
 	old = NULL;
 	while (*str)
@@ -65,21 +65,26 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str)
 		start = str;
 		new = assign_value_cmd (ms, cmd, tmp);
 		free(tmp);
-		if (!old)
-		{
-			old = ft_strdup(new);
-			free(new);
-		}
-		else if (old)
-		{
-			result = ft_strjoin(old, new);
-			free(old);
-			free(new);
-			old = result;
-		}
+		old = get_old(&new, &old);
 	}
 	free(cmd->str);
 	cmd->str = old;
+}
+
+static char	*get_old(char **new, char **old)
+{
+	char	*result;
+
+	result = NULL;
+	if (!(*old))
+		result = ft_strdup(*new);
+	else if (old)
+	{
+		result = ft_strjoin(*old, *new);
+		free(*old);
+	}
+	free(*new);
+	return (result);
 }
 
 // static int	expand_red(t_minishell *ms, t_redlist *red)
