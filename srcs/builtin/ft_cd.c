@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 15:54:26 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 13:42:32 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/10 12:34:22 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ static char	*get_newdir(t_minishell *ms, size_t argc, char **argv)
 	{
 		newdir = get_value_from_key(ms, "HOME");
 		if (!newdir)
+		{
 			other_error("cd", "HOME not set", EXIT_FAILURE);
-		return (NULL);
+			return (NULL);
+		}
 	}
 	else
 		newdir = argv[1];
