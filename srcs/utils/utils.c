@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 17:01:44 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 21:22:02 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,23 @@ char	*toupper_char(char *str)
 	return (start);
 }
 
-// void	check_pipe(t_minishell *ms, char *str)
-// {
-// 	if (!(ft_strncmp("|", str, ft_strlen(str))))
-// 		ms->list->pipe = PIPE;
-// 	else if (!(ft_strncmp(";", str, ft_strlen(str))))
-// 		ms->list->pipe = SEMICOLON;
-// }
-
 void	clear_ms(t_minishell *ms)
 {
 	ms->line = NULL;
 	ms->quote = NO_QUOTE;
 	ms_lstclear(&ms->list);
 	exec_lstclear(&ms->exec);
+}
+
+char	*get_errchar(size_t count_in, size_t count_out)
+{
+	if (count_in > 3 && count_out > 0)
+		return ("<>");
+	else if (count_in > 3)
+		return ("<");
+	else if (count_out > 3 || (count_in > 1 && count_out > 1))
+		return (">>");
+	else if (count_out > 2 || (count_in > 1 && count_out > 0))
+		return (">");
+	return (NULL);
 }

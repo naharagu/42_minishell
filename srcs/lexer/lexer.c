@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 15:43:35 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 21:46:24 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,32 @@ void	add_mslist(t_minishell *ms, char *start, char *line);
 
 int	lexer(t_minishell *ms)
 {
-	char		*tmp;
-	char		*start;
+	char	*tmp;
+	char	*start;
+	char	chara;
 
 	tmp = ms->line;
 	while (*tmp)
 	{
 		start = tmp;
+		while (*tmp && !(is_space(*tmp)) && !(is_metachara(*tmp)) \
+			&& *tmp != '\'' && *tmp != '\"' && *tmp != '=')
+			tmp++;
+		if (*tmp == '=')
+			tmp++;
 		while (*tmp && is_quoted(*tmp, ms))
 			tmp++;
-		while (*tmp && !(is_space(*tmp)) && !(is_metachara(*tmp)))
+		while (*tmp && !(is_space(*tmp)) && !(is_metachara(*tmp)) \
+			&& *tmp != '\'' && *tmp != '\"')
 			tmp++;
 		add_mslist(ms, start, tmp);
 		start = tmp;
 		if (*tmp && is_metachara(*tmp))
 		{
+			chara = *tmp;
 			tmp++;
+			if (chara == *tmp)
+				tmp++;
 			add_mslist(ms, start, tmp);
 			start = tmp;
 		}

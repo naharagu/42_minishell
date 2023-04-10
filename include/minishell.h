@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 16:13:21 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 21:16:08 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,8 +199,8 @@ int			run_heredoc(char *delimiter, t_redlist *red, t_minishell *ms);
 //utils.c
 void		init_ms(t_minishell *ms);
 char		*toupper_char(char *str);
-void		check_pipe(t_minishell *ms, char *str);
 void		clear_ms(t_minishell *ms);
+char		*get_errchar(size_t count_in, size_t count_out);
 
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);
@@ -249,11 +249,6 @@ void		exit_error_with_status(char *location, char *message, int status);
 int			syntax_error(char *location, int status);
 int			other_error(char *location, char *msg, int status);
 
-//print_list.c (for test)
-void		print_mslist(t_minishell *ms);
-void		print_cmdline(t_minishell *ms);
-void		print_execlist(t_minishell *ms);
-
 //create_array.c
 char		**create_env_array(t_envlist *env);
 char		**create_args_array(t_execlist *exec);
@@ -294,8 +289,7 @@ char		*get_value_from_key(t_minishell *ms, char *key);
 int			update_env_value(t_minishell *ms, char *arg);
 char		*create_str_from_envlist(t_envlist *env);
 
-
-//print_list.c
+//print_list.c (for test)
 void		print_mslist(t_minishell *ms);
 void		print_cmdline(t_minishell *ms);
 void		print_execlist(t_minishell *ms);

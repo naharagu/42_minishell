@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/08 15:35:00 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 21:21:58 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,18 @@ int	errror_parser_mslist(t_minishell *ms)
 	return (EXIT_SUCCESS);
 }
 
-char	*get_errchar(size_t count_in, size_t count_out)
+size_t	count_redirection(char *str, char c)
 {
-	if (count_in > 3 && count_out > 0)
-		return ("<>");
-	else if (count_in > 3)
-		return ("<");
-	else if (count_out > 3 || (count_in > 1 && count_out > 1))
-		return (">>");
-	else if (count_out > 2 || (count_in > 1 && count_out > 0))
-		return (">");
-	return (NULL);
+	size_t	count;
+
+	count = 0;
+	while (*str)
+	{
+		if (*str == c)
+			count++;
+		str++;
+	}
+	return (count);
 }
 
 int	error_parser_execlist(t_minishell *ms)
@@ -68,9 +69,9 @@ int	error_parser_execlist(t_minishell *ms)
 	while (tmp_red)
 	{
 		if (ft_strnstr(tmp_red->str, "<", ft_strlen(tmp_red->str)))
-			count_in++;
+			count_in += count_redirection(tmp_red->str, '<');
 		if (ft_strnstr(tmp_red->str, ">", ft_strlen(tmp_red->str)))
-			count_out++;
+			count_out += count_redirection(tmp_red->str, '>');
 		if (ft_strnstr(tmp_red->str, ">", ft_strlen(tmp_red->str)) \
 			&& !(tmp_red->next))
 			return (syntax_error("newline", 258));
