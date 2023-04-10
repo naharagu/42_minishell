@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 18:15:52 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 12:05:30 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 volatile sig_atomic_t	g_status;
 static void	minishell(t_minishell *ms);
-static void	prompt_helper(t_minishell *ms, char *line);
+static void	prompt_helper(t_minishell *ms);
 
 int	main(void)
 {
@@ -39,28 +39,28 @@ static void	minishell(t_minishell *ms)
 		if (*line)
 			add_history(line);
 		ms->line = line;
-		prompt_helper(ms, line);
+		prompt_helper(ms);
+		free(line);
 		clear_ms(ms);
 	}
 	env_lstclear(&ms->env);
 	exit(g_status);
 }
 
-static void	prompt_helper(t_minishell *ms, char *line)
+static void	prompt_helper(t_minishell *ms)
 {
 	if (lexer(ms) == EXIT_FAILURE)
 		return ;
-	//print_mslist(ms);//
+	// print_mslist(ms);//
 	if (parser(ms) == EXIT_FAILURE)
 		return ;
-	//print_cmdline(ms);
+	// print_cmdline(ms);
 	//print_execlist(ms);//
 	if (expansion(ms) == EXIT_FAILURE)
 		return ;
-	//print_execlist(ms);//
+	// print_execlist(ms);//
 	if (prepare_redirect(ms) == EXIT_FAILURE)
 		return ;
 	g_status = execute(ms);
-	free(line);
 	return ;
 }

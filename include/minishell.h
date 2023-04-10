@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 16:13:21 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 12:12:02 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ typedef enum e_cmd
 	EXPORT_CMD,
 	UNSET_CMD,
 	ENV_CMD,
-	EXIT_CMD,
-	OTHER_CMD
+	EXIT_CMD
 }	t_cmd;
 
 typedef enum e_exec
