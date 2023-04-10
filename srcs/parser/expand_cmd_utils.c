@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 13:29:15 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 13:34:02 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ char	*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **tmp)
 		return (ft_strdup(""));
 	if (ft_strnstr(str, "$", ft_strlen(str)) && (*str == '\'' || *str == '\"'))
 	{
-		tmp = trim_quote_cmd(str, *str);
-		new = expand_env_cmd(ms, cmd, tmp);
-		free (tmp);
+		trim = trim_quote_cmd(str, *str);
+		new = expand_env_cmd(ms, cmd, trim);
+		free (trim);
 	}
 	else if (ft_strnstr(str, "$", ft_strlen(str)))
 		new = expand_env_cmd(ms, cmd, str);
