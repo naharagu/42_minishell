@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:53:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/04/08 15:44:50 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 12:59:03 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,7 @@ int	execute(t_minishell *ms)
 
 	if (ms->exec->cmd == NULL)
 		return (1);
-	if (ms->exec->cmdtype != NO_CMD && ms->exec->next == NULL \
-		&& ms->exec->cmdtype != OTHER_CMD)
+	if (ms->exec->cmdtype != NO_CMD && ms->exec->next == NULL)
 		status = execute_parent_process(ms);
 	else
 	{

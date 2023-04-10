@@ -6,20 +6,20 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 18:24:24 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/08 15:54:47 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 12:59:12 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_othercmd(char *str)
-{
-	if (ft_strnstr(str, "LS", ft_strlen(str)) \
-	|| ft_strnstr(str, "PWD", ft_strlen(str)) \
-	|| ft_strnstr(str, "CAT", ft_strlen(str)))
-		return (true);
-	return (false);
-}
+// bool	is_othercmd(char *str)
+// {
+// 	if (ft_strnstr(str, "LS", ft_strlen(str)) \
+// 	|| ft_strnstr(str, "PWD", ft_strlen(str)) \
+// 	|| ft_strnstr(str, "CAT", ft_strlen(str)))
+// 		return (true);
+// 	return (false);
+// }
 
 void	check_cmdtype(t_minishell *ms, char *str)
 {
@@ -40,8 +40,8 @@ void	check_cmdtype(t_minishell *ms, char *str)
 		ms->exec->cmdtype = ENV_CMD;
 	else if (len == 4 && !(ft_strncmp("EXIT", str, len)))
 		ms->exec->cmdtype = EXIT_CMD;
-	else if (is_othercmd(str))
-		ms->exec->cmdtype = OTHER_CMD;
+	// else if (is_othercmd(str))
+	// 	ms->exec->cmdtype = OTHER_CMD;
 }
 
 void	check_redtype(t_minishell *ms, char *str)

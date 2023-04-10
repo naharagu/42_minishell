@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 12:44:46 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 13:26:50 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,23 @@ static char	*trim_quote_red(char *str, int c);
 static char	*expand_env_red(t_minishell *ms, t_redlist *red, char *str);
 static char	*get_newstr(t_minishell *ms, t_redlist *red, char *str);
 
-char	*assign_value_red(t_minishell *ms, t_redlist *red, char *str)
+char	*assign_value_red(t_minishell *ms, t_redlist *red, char **tmp)
 {
 	char	*new;
-	char	*tmp;
+	char	*trim;
+	char	*str;
 
 	new = NULL;
-	tmp = NULL;
+	trim = NULL;
+	str = *tmp;
 	if (!(ft_strncmp("\"\"", str, ft_strlen(str))) \
 		|| !(ft_strncmp("\'\'", str, ft_strlen(str))))
 		return (ft_strdup(""));
 	if (ft_strnstr(str, "$", ft_strlen(str)) && (*str == '\'' || *str == '\"'))
 	{
-		tmp = trim_quote_red(str, *str);
-		new = expand_env_red(ms, red, tmp);
-		free (tmp);
+		trim = trim_quote_red(str, *str);
+		new = expand_env_red(ms, red, trim);
+		free (trim);
 	}
 	else if (ft_strnstr(str, "$", ft_strlen(str)))
 		new = expand_env_red(ms, red, str);
@@ -39,6 +41,7 @@ char	*assign_value_red(t_minishell *ms, t_redlist *red, char *str)
 		new = trim_quote_red(str, *str);
 	else
 		new = ft_strdup(str);
+	free(*tmp);
 	return (new);
 }
 
