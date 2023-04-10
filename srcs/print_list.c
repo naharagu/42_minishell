@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 16:05:41 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/04 15:26:26 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 17:37:35 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,7 @@ void	print_execlist(t_minishell *ms)
 		// 		ms->env = ms->env->next;
 		// 		continue ;
 		// 	}
-		// 	printf("[exec:%zu]KEY[%zu]= %s(%zu) VALUE[%zu]= %s(%zu)\n", \
-		// 	j, i, ms->env->key, ft_strlen(ms->env->key), \
-		// 	i, ms->env->value, ft_strlen(ms->env->value));
+		// 	printf("[exec:%zu]KEY[%zu]= %s(%zu) VALUE[%zu]= %s(%zu)\n", j, i, ms->env->key, ft_strlen(ms->env->key), i, ms->env->value, ft_strlen(ms->env->value));
 		// 	ms->env = ms->env->next;
 		// 	i++;
 		// }
