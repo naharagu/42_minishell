@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:09:56 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 15:18:56 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/10 15:32:59 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_exit(int argc, char **argv)
 		normal_exit(g_status);
 	if (argc > 2)
 	{
-		other_error("exit", "too many arguments", EXIT_FAILURE);
+		other_error("exit", "too many arguments", 255);
 		return (EXIT_FAILURE);
 	}
 	g_status = ft_atoi(argv[1]);
