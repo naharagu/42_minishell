@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 13:12:16 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 21:56:26 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,18 +96,3 @@ static int	expand_red(t_minishell *ms, t_redlist *red, char *str)
 	red->str = old;
 	return (error_expandedred(red, original));
 }
-
-// char	*joinstr(t_minishell *ms, char **split, char **tmp)
-// {
-// 	char	*old;
-// 	char	*new;
-
-// 	old = ft_strdup(*tmp);
-// 	free(*tmp);
-// 	new = expand_env_cmd(ms, ms->exec->cmd,*tmp);
-// 	*tmp = ft_strjoin(old, new);
-// 	free(old);
-// 	free(new);
-// 	free(*split);
-// 	return (*tmp);
-// }

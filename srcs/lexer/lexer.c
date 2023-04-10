@@ -6,19 +6,19 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 21:46:24 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 22:08:14 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_mslist(t_minishell *ms, char *start, char *line);
+static void		add_mslist(t_minishell *ms, char *start, char *line);
+static int		count_metachara(t_minishell *ms, char *start, char *tmp);
 
 int	lexer(t_minishell *ms)
 {
 	char	*tmp;
 	char	*start;
-	char	chara;
 
 	tmp = ms->line;
 	while (*tmp)
@@ -36,22 +36,14 @@ int	lexer(t_minishell *ms)
 			tmp++;
 		add_mslist(ms, start, tmp);
 		start = tmp;
-		if (*tmp && is_metachara(*tmp))
-		{
-			chara = *tmp;
-			tmp++;
-			if (chara == *tmp)
-				tmp++;
-			add_mslist(ms, start, tmp);
-			start = tmp;
-		}
+		tmp += count_metachara(ms, start, tmp);
 		while (*tmp && is_space(*tmp))
 			tmp++;
 	}
 	return (error_lexer(ms));
 }
 
-void	add_mslist(t_minishell *ms, char *start, char *line)
+static void	add_mslist(t_minishell *ms, char *start, char *line)
 {
 	t_mslist	*tmp;
 	size_t		len;
@@ -62,4 +54,27 @@ void	add_mslist(t_minishell *ms, char *start, char *line)
 		tmp = ms_lstnew(len, start);
 		ms_lstadd_back(&ms->list, tmp);
 	}
+}
+
+static int	count_metachara(t_minishell *ms, char *start, char *tmp)
+{
+	char	chara;
+	int		count;
+
+	count = 0;
+	if (*tmp && is_metachara(*tmp))
+	{
+		chara = *tmp;
+		tmp++;
+		count++;
+		if (*tmp == chara)
+		{
+			tmp++;
+			count++;
+		}
+		add_mslist(ms, start, tmp);
+		return (count);
+	}
+	else
+		return (0);
 }
