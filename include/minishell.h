@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 22:28:56 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 22:52:04 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ typedef enum e_cmd
 	EXPORT_CMD,
 	UNSET_CMD,
 	ENV_CMD,
-	EXIT_CMD,
-	OTHER_CMD
+	EXIT_CMD
 }	t_cmd;
 
 typedef enum e_exec
