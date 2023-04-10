@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 21:16:08 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 22:28:56 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,10 +179,10 @@ char		*get_old(char **new, char **old);
 void		free_split(char **split);
 
 //expand_cmd_utils.c
-char		*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char **tmp);
+char		*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *tmp);
 
 //expand_red_utils.c
-char		*assign_value_red(t_minishell *ms, t_redlist *red, char **tmp);
+char		*assign_value_red(t_minishell *ms, t_redlist *red, char *tmp);
 
 //lexer_in_parser.c
 char		**lexer_cmd(t_cmdlist *cmd, char **original);

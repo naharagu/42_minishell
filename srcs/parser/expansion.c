@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 21:56:26 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 22:33:51 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,18 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str)
 			str++;
 		tmp = ft_substr(start, 0, str - start);
 		start = str;
-		new = assign_value_cmd (ms, cmd, &tmp);
+		new = assign_value_cmd (ms, cmd, tmp);
+		free (tmp);
 		old = get_old(&new, &old);
 	}
 	free(cmd->str);
 	cmd->str = old;
+}
+
+static void	set_redstr(t_redlist *red, char **old)
+{
+	free(red->str);
+	red->str = *old;
 }
 
 static int	expand_red(t_minishell *ms, t_redlist *red, char *str)
@@ -89,10 +96,12 @@ static int	expand_red(t_minishell *ms, t_redlist *red, char *str)
 			str++;
 		tmp = ft_substr(start, 0, str - start);
 		start = str;
-		new = assign_value_red (ms, red, &tmp);
+		new = assign_value_red (ms, red, tmp);
+		free (tmp);
 		old = get_old(&new, &old);
 	}
-	free(red->str);
-	red->str = old;
+	set_redstr(red, &old);
+	// free(red->str);
+	// red->str = old;
 	return (error_expandedred(red, original));
 }

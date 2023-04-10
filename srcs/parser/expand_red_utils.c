@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 13:26:50 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 22:35:21 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*trim_quote_red(char *str, int c);
 static char	*expand_env_red(t_minishell *ms, t_redlist *red, char *str);
 static char	*get_newstr(t_minishell *ms, t_redlist *red, char *str);
 
-char	*assign_value_red(t_minishell *ms, t_redlist *red, char **tmp)
+char	*assign_value_red(t_minishell *ms, t_redlist *red, char *tmp)
 {
 	char	*new;
 	char	*trim;
@@ -25,7 +25,7 @@ char	*assign_value_red(t_minishell *ms, t_redlist *red, char **tmp)
 
 	new = NULL;
 	trim = NULL;
-	str = *tmp;
+	str = tmp;
 	if (!(ft_strncmp("\"\"", str, ft_strlen(str))) \
 		|| !(ft_strncmp("\'\'", str, ft_strlen(str))))
 		return (ft_strdup(""));
@@ -41,7 +41,6 @@ char	*assign_value_red(t_minishell *ms, t_redlist *red, char **tmp)
 		new = trim_quote_red(str, *str);
 	else
 		new = ft_strdup(str);
-	free(*tmp);
 	return (new);
 }
 
