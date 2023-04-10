@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 12:18:55 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 12:45:14 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,14 +174,15 @@ int			expansion(t_minishell *ms);
 
 //expansion_utils.c
 bool		is_quoted_cmd(t_cmdlist *cmd, char c);
+bool		is_quoted_red(t_redlist *red, char c);
+char		*get_old(char **new, char **old);
 void		free_split(char **split);
 
 //expand_cmd_utils.c
 char		*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *str);
 
 //expand_red_utils.c
-void		trim_quote_red(t_redlist *red, char c, char **original);
-void		assign_value_red(t_minishell *ms, t_redlist *red, char **original);
+char		*assign_value_red(t_minishell *ms, t_redlist *red, char *str);
 
 //lexer_in_parser.c
 char		**lexer_cmd(t_cmdlist *cmd, char **original);

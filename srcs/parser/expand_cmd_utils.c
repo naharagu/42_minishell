@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 12:20:30 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 12:27:11 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ static char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 	char		*tmp;
 	char		*old;
 	char		*new;
-	char		*result;
 
 	old = NULL;
 	while (*str)
@@ -92,18 +91,7 @@ static char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 		start = str;
 		new = get_newstr(ms, cmd, tmp);
 		free(tmp);
-		if (!old)
-		{
-			old = ft_strdup(new);
-			free(new);
-		}
-		else if (old)
-		{
-			result = ft_strjoin(old, new);
-			free(old);
-			free(new);
-			old = result;
-		}
+		old = get_old(&new, &old);
 	}
 	return (old);
 }

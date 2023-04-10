@@ -6,96 +6,115 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/09 10:59:16 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 12:44:46 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// static void	ms_strtrim_red(t_redlist *red, char c, char **original);
-// static char	**make_split_red(t_redlist *red, char c, char **original);
+volatile sig_atomic_t	g_status;
+static char	*trim_quote_red(char *str, int c);
+static char	*expand_env_red(t_minishell *ms, t_redlist *red, char *str);
+static char	*get_newstr(t_minishell *ms, t_redlist *red, char *str);
 
-// void	trim_quote_red(t_redlist *red, char c, char **original)
-// {
-// 	if (c == '\'' && red->quote == NO_QUOTE)
-// 	{
-// 		red->quote = S_QUOTE;
-// 		ms_strtrim_red(red, '\'', original);
-// 	}
-// 	else if (c == '\"' && red->quote == NO_QUOTE)
-// 	{
-// 		red->quote = D_QUOTE;
-// 		ms_strtrim_red(red, '\"', original);
-// 	}
-// }
+char	*assign_value_red(t_minishell *ms, t_redlist *red, char *str)
+{
+	char	*new;
+	char	*tmp;
 
-// void	assign_value_red(t_minishell *ms, t_redlist *red, char **original)
-// {
-// 	char	**split;
-// 	char	*tmp;
-// 	size_t	i;
+	new = NULL;
+	tmp = NULL;
+	if (!(ft_strncmp("\"\"", str, ft_strlen(str))) \
+		|| !(ft_strncmp("\'\'", str, ft_strlen(str))))
+		return (ft_strdup(""));
+	if (ft_strnstr(str, "$", ft_strlen(str)) && (*str == '\'' || *str == '\"'))
+	{
+		tmp = trim_quote_red(str, *str);
+		new = expand_env_red(ms, red, tmp);
+		free (tmp);
+	}
+	else if (ft_strnstr(str, "$", ft_strlen(str)))
+		new = expand_env_red(ms, red, str);
+	else if (*str == '\'' || *str == '\"')
+		new = trim_quote_red(str, *str);
+	else
+		new = ft_strdup(str);
+	return (new);
+}
 
-// 	i = 1;
-// 	split = NULL;
-// 	tmp = NULL;
-// 	if (red->str && red->quote != S_QUOTE \
-// 		&& ft_strnstr(red->str, "$", ft_strlen(red->str)))
-// 		split = make_split_red(red, '$', original);
-// 	if (!split || !split[0])
-// 		return ;
-// 	tmp = expand_env(ms, split[0]);
-// 	free(split[0]);
-// 	while (split[i] && split[i][0] != '\0')
-// 	{
-// 		tmp = joinstr(ms, &split[i], &tmp);
-// 		i++;
-// 	}
-// 	free(*original);
-// 	red->str = ft_strdup(tmp);
-// 	free(tmp);
-// 	free(split);
-// }
+static char	*trim_quote_red(char *str, int c)
+{
+	char	**split;
+	char	*result;
+	char	*old;
+	size_t	i;
 
-// static void	ms_strtrim_red(t_redlist *red, char c, char **original)
-// {
-// 	char	**split;
-// 	char	*tmp;
-// 	char	*old;
-// 	size_t	i;
+	i = 1;
+	split = ft_split(str, c);
+	if (!split)
+		return (NULL);
+	if (!split[0])
+	{
+		free(split);
+		return (NULL);
+	}
+	old = ft_strdup(split[0]);
+	while (split[i] && split[i][0] != '\0')
+	{
+		result = ft_strjoin(old, split[i]);
+		free (old);
+		old = result;
+		i++;
+	}
+	free_split(split);
+	return (old);
+}
 
-// 	i = 1;
-// 	split = make_split_red(red, c, original);
-// 	if (!split || !split[0])
-// 		return ;
-// 	tmp = ft_strdup(split[0]);
-// 	free(split[0]);
-// 	while (split[i] && split[i][0] != '\0')
-// 	{
-// 		old = ft_strdup(tmp);
-// 		free(tmp);
-// 		tmp = ft_strjoin(old, split[i]);
-// 		free(old);
-// 		free(split[i]);
-// 		i++;
-// 	}
-// 	free(*original);
-// 	red->str = ft_strdup(tmp);
-// 	free(tmp);
-// 	free(split);
-// }
+static char	*expand_env_red(t_minishell *ms, t_redlist *red, char *str)
+{
+	char		*start;
+	char		*tmp;
+	char		*old;
+	char		*new;
 
-// static char	**make_split_red(t_redlist *red, char c, char **original)
-// {
-// 	char	**split;
+	old = NULL;
+	while (*str)
+	{
+		start = str;
+		if (*str == '$')
+			str++;
+		while (*str && (*str == '\'' || *str == '\"'))
+			str++;
+		while (*str && *str != '$' && *str != '\'' && *str != '\"')
+			str++;
+		tmp = ft_substr(start, 0, str - start);
+		start = str;
+		new = get_newstr(ms, red, tmp);
+		free(tmp);
+		old = get_old(&new, &old);
+	}
+	return (old);
+}
 
-// 	split = ft_split(red->str, c);
-// 	if (!split || !split[0])
-// 	{
-// 		free(split[0]);
-// 		free(split);
-// 		free(*original);
-// 		red->str = NULL;
-// 		return (NULL);
-// 	}
-// 	return (split);
-// }
+static char	*get_newstr(t_minishell *ms, t_redlist *red, char *str)
+{
+	t_envlist	*tmpenv;
+
+	if (*str != '$' || red->quote == END_S_QUOTE)
+		return (ft_strdup(str));
+	else if (*str == '$' && red->quote != END_S_QUOTE && ft_strlen(str) > 1)
+	{
+		str++;
+		if (!(ft_strncmp(str, "?", ft_strlen(str))))
+			return (ft_itoa(g_status));
+		tmpenv = ms->env->next;
+		while (tmpenv)
+		{
+			if (!ft_strncmp(tmpenv->key, str, ft_strlen(str)))
+				return (ft_strdup(tmpenv->value));
+			tmpenv = tmpenv->next;
+		}
+		return (ft_strdup(""));
+	}
+	return (ft_strdup(str));
+}
