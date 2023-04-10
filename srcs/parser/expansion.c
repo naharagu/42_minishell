@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 22:33:51 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 22:50:41 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str);
 static int	expand_red(t_minishell *ms, t_redlist *red, char *str);
+static void	set_redstr(t_redlist *red, char **old);
 
 int	expansion(t_minishell *ms)
 {
@@ -69,12 +70,6 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str)
 	cmd->str = old;
 }
 
-static void	set_redstr(t_redlist *red, char **old)
-{
-	free(red->str);
-	red->str = *old;
-}
-
 static int	expand_red(t_minishell *ms, t_redlist *red, char *str)
 {
 	char	*original;
@@ -101,7 +96,11 @@ static int	expand_red(t_minishell *ms, t_redlist *red, char *str)
 		old = get_old(&new, &old);
 	}
 	set_redstr(red, &old);
-	// free(red->str);
-	// red->str = old;
 	return (error_expandedred(red, original));
+}
+
+static void	set_redstr(t_redlist *red, char **old)
+{
+	free(red->str);
+	red->str = *old;
 }
