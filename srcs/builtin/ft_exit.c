@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:09:56 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 15:32:59 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 16:31:49 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,14 @@ int	ft_exit(int argc, char **argv)
 {
 	if (argc == 1)
 		normal_exit(g_status);
+	g_status = ft_atoi(argv[1]);
+	if (!is_numeric_argument(argv[1]))
+		numeric_error(argv[1], "numeric argument required", 255);
 	if (argc > 2)
 	{
 		other_error("exit", "too many arguments", 255);
 		return (EXIT_FAILURE);
 	}
-	g_status = ft_atoi(argv[1]);
-	if (is_numeric_argument(argv[1]))
-		normal_exit(g_status);
-	else
-		numeric_error(argv[1], "numeric argument required", 255);
+	normal_exit(g_status);
 	exit(255);
 }
