@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 10:38:30 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 11:43:46 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,17 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str)
 		while (*str && *str != '$')
 			str++;
 		tmp = ft_substr(start, 0, str - start);
-		//printf("tmp= %s\n", tmp);//delete later
 		start = str;
 		new = assign_value_cmd (ms, cmd, tmp);
-		//printf("new= %s\n", new);//delete later
 		free(tmp);
 		if (!old)
 		{
 			old = ft_strdup(new);
-			//printf("old= %s\n", old);//delete later
 			free(new);
 		}
 		else if (old)
 		{
 			result = ft_strjoin(old, new);
-			//printf("new= %s\n", new);//delete later
 			free(old);
 			free(new);
 			old = result;

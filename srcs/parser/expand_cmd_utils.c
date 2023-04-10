@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 11:12:52 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 11:46:18 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ char	*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 
 	new = NULL;
 	tmp = NULL;
-	if (!str)
-		return (NULL);
-	if (!(ft_strncmp("", str, ft_strlen(str))))
-		return ("");
+	printf("str = %s\n", str);//
+	if (!(ft_strncmp("\"\"", str, ft_strlen(str))) \
+		|| !(ft_strncmp("\'\'", str, ft_strlen(str))))
+		return (ft_strdup(""));
 	if (ft_strnstr(str, "$", ft_strlen(str)) && (*str == '\'' || *str == '\"'))
 	{
 		tmp = trim_quote_cmd(str, *str);
@@ -128,7 +128,7 @@ static char	*get_newstr(t_minishell *ms, t_cmdlist *cmd, char *str)
 				return (ft_strdup(tmpenv->value));
 			tmpenv = tmpenv->next;
 		}
-		return ("");
+		return (ft_strdup(""));
 	}
 	return (ft_strdup(str));
 }
