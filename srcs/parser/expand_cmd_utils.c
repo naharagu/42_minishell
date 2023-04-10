@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/09 23:54:43 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 09:29:42 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,25 +83,28 @@ char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 		while (*str && *str != '$' && *str != '\'' && *str != '\"')
 			str++;
 		tmp = ft_substr(start, 0, str - start);
-		//printf("1tmp= %s\n", tmp);//
+		printf("tmp= %s\n", tmp);//
 		start = str;
 		new = get_newstr(ms, cmd, tmp);
 		free(tmp);
-		//printf("new= %s\n", new);//
-		if (old)
+		printf("new= %s\n", new);//
+		if (!old)
+		{
+			old = ft_strdup(new);
+			printf("old1= %s\n", old);//
+			free(new);
+		}
+		else if (old)
 		{
 			result = ft_strjoin(old, new);
+			printf("result= %s\n", result);//
 			free(old);
 			free(new);
 			old = result;
-		}
-		else if (!old)
-		{
-			old = ft_strdup(new);
-			printf("old= %s\n", old);//
-			free(new);
+			printf("old2= %s\n", old);//
 		}
 	}
+	printf("old= %s\n", old);//
 	return (old);
 }
 

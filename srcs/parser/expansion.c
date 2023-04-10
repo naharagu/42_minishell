@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/09 23:51:47 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 10:06:25 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str)
 	char	*tmp;
 	char	*old;
 	char	*new;
+	char	*result;
 
 	old = NULL;
 	while (*str)
@@ -66,15 +67,20 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str)
 		new = assign_value_cmd (ms, cmd, tmp);
 		//printf("new= %s\n", new);//delete later
 		free(tmp);
-		if (old)
+		if (!old)
 		{
-			new = ft_strjoin(old, new);
+			old = ft_strdup(new);
+			//printf("old= %s\n", old);//delete later
+			free(new);
+		}
+		else if (old)
+		{
+			result = ft_strjoin(old, new);
 			//printf("new= %s\n", new);//delete later
 			free(old);
+			free(new);
+			old = result;
 		}
-		old = ft_strdup(new);
-		//printf("old= %s\n", old);//delete later
-		free(new);
 	}
 	free(cmd->str);
 	cmd->str = old;
