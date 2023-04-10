@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 11:48:24 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 12:20:30 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 volatile sig_atomic_t	g_status;
 static char	*trim_quote_cmd(char *str, int c);
+static char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str);
 static char	*get_newstr(t_minishell *ms, t_cmdlist *cmd, char *str);
 
 char	*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
@@ -58,20 +59,18 @@ static char	*trim_quote_cmd(char *str, int c)
 		return (NULL);
 	}
 	old = ft_strdup(split[0]);
-	free(split[0]);
 	while (split[i] && split[i][0] != '\0')
 	{
 		result = ft_strjoin(old, split[i]);
 		free (old);
-		free(split[i]);
 		old = result;
 		i++;
 	}
-	free(split);
+	free_split(split);
 	return (old);
 }
 
-char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
+static char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 {
 	char		*start;
 	char		*tmp;

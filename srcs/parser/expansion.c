@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 12:04:43 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 12:15:04 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str);
 //static int	expand_red(t_minishell *ms, t_redlist *red);
 static char	*get_old(char **new, char **old);
-static bool	is_quoted_cmd(t_cmdlist *cmd, char c);
 
 int	expansion(t_minishell *ms)
 {
@@ -121,25 +120,3 @@ static char	*get_old(char **new, char **old)
 // 	free(*split);
 // 	return (*tmp);
 // }
-
-static bool	is_quoted_cmd(t_cmdlist *cmd, char c)
-{
-	if (c == '\'' && cmd->quote == S_QUOTE)
-		cmd->quote = END_S_QUOTE;
-	else if (c == '\"' && cmd->quote == D_QUOTE)
-		cmd->quote = END_D_QUOTE;
-	else if (c == '\'' && (cmd->quote == NO_QUOTE || \
-		cmd->quote == END_S_QUOTE || cmd->quote == END_D_QUOTE))
-		cmd->quote = S_QUOTE;
-	else if (c == '\"' && (cmd->quote == NO_QUOTE || \
-		cmd->quote == END_S_QUOTE || cmd->quote == END_D_QUOTE))
-		cmd->quote = D_QUOTE;
-	else if (c != '\'' && c != '\"' && \
-		(cmd->quote == END_S_QUOTE || cmd->quote == END_D_QUOTE))
-		cmd->quote = NO_QUOTE;
-	if (cmd->quote == S_QUOTE || cmd->quote == D_QUOTE || \
-		cmd->quote == END_S_QUOTE || cmd->quote == END_D_QUOTE)
-		return (true);
-	else
-		return (false);
-}
