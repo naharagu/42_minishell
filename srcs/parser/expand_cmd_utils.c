@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 09:29:42 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/10 11:12:52 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,24 @@ static char	*get_newstr(t_minishell *ms, t_cmdlist *cmd, char *str);
 char	*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 {
 	char	*new;
+	char	*tmp;
 
 	new = NULL;
+	tmp = NULL;
 	if (!str)
 		return (NULL);
 	if (!(ft_strncmp("", str, ft_strlen(str))))
 		return ("");
-	if (*str == '\'' || *str == '\"')
-		str = trim_quote_cmd(str, *str);
-	if (ft_strnstr(str, "$", ft_strlen(str)))
+	if (ft_strnstr(str, "$", ft_strlen(str)) && (*str == '\'' || *str == '\"'))
+	{
+		tmp = trim_quote_cmd(str, *str);
+		new = expand_env_cmd(ms, cmd, tmp);
+		free (tmp);
+	}
+	else if (ft_strnstr(str, "$", ft_strlen(str)))
 		new = expand_env_cmd(ms, cmd, str);
+	else if (*str == '\'' || *str == '\"')
+		new = trim_quote_cmd(str, *str);
 	else
 		new = ft_strdup(str);
 	return (new);
@@ -37,7 +45,7 @@ char	*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 static char	*trim_quote_cmd(char *str, int c)
 {
 	char	**split;
-	char	*tmp;
+	char	*result;
 	char	*old;
 	size_t	i;
 
@@ -50,17 +58,18 @@ static char	*trim_quote_cmd(char *str, int c)
 		free(split);
 		return (NULL);
 	}
-	tmp = ft_strdup(split[0]);
+	old = ft_strdup(split[0]);
 	free(split[0]);
 	while (split[i] && split[i][0] != '\0')
 	{
-		old = tmp;
-		tmp = ft_strjoin(old, split[i]);
+		result = ft_strjoin(old, split[i]);
+		free (old);
 		free(split[i]);
+		old = result;
 		i++;
 	}
 	free(split);
-	return (tmp);
+	return (old);
 }
 
 char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
@@ -72,7 +81,6 @@ char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 	char		*result;
 
 	old = NULL;
-	//printf("str= %s\n", str);//
 	while (*str)
 	{
 		start = str;
@@ -83,28 +91,22 @@ char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 		while (*str && *str != '$' && *str != '\'' && *str != '\"')
 			str++;
 		tmp = ft_substr(start, 0, str - start);
-		printf("tmp= %s\n", tmp);//
 		start = str;
 		new = get_newstr(ms, cmd, tmp);
 		free(tmp);
-		printf("new= %s\n", new);//
 		if (!old)
 		{
 			old = ft_strdup(new);
-			printf("old1= %s\n", old);//
 			free(new);
 		}
 		else if (old)
 		{
 			result = ft_strjoin(old, new);
-			printf("result= %s\n", result);//
 			free(old);
 			free(new);
 			old = result;
-			printf("old2= %s\n", old);//
 		}
 	}
-	printf("old= %s\n", old);//
 	return (old);
 }
 
@@ -126,7 +128,7 @@ static char	*get_newstr(t_minishell *ms, t_cmdlist *cmd, char *str)
 				return (ft_strdup(tmpenv->value));
 			tmpenv = tmpenv->next;
 		}
-		return (NULL);
+		return ("");
 	}
 	return (ft_strdup(str));
 }
