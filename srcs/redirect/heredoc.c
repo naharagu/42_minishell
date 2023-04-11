@@ -6,13 +6,13 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:01:33 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 14:31:30 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/11 20:54:34 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern volatile sig_atomic_t	g_status;
+volatile sig_atomic_t	g_status;
 
 static void	heredoc_loop(int fd_heredoc[2], char *delimiter)
 {

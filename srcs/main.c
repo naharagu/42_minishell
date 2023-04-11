@@ -6,13 +6,13 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/11 08:43:53 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/11 20:55:01 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_status;
+extern volatile sig_atomic_t	g_status;
 static void	minishell(t_minishell *ms);
 static void	prompt_helper(t_minishell *ms);
 

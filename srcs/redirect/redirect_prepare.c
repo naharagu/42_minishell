@@ -6,13 +6,13 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 12:53:31 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/11 20:54:38 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern volatile sig_atomic_t	g_status;
+volatile sig_atomic_t	g_status;
 
 static int	open_redirect_file(t_redlist *red, t_minishell *ms)
 {
