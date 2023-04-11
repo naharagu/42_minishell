@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_cmd_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 22:35:18 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/11 21:23:01 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_status;
+extern volatile sig_atomic_t	g_status;
 static char	*trim_quote_cmd(char *str, int c);
 static char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str);
 static char	*get_newstr(t_minishell *ms, t_cmdlist *cmd, char *str);
