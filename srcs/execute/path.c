@@ -17,6 +17,8 @@ static void	free_path(char **path)
 	size_t	i;
 
 	i = 0;
+	if (!path)
+		return ;
 	while (path[i])
 	{
 		free(path[i]);
@@ -28,29 +30,29 @@ static void	free_path(char **path)
 char	*search_path(t_minishell *ms, char *file)
 {
 	char	**path;
-	char	*value;
+	char	*tmp;
 	char	*res;
 	size_t	i;
 
-	value = get_value_from_key(ms, "PATH");
-	path = ft_split(value, ':');
+	path = ft_split(get_value_from_key(ms, "PATH"), ':');
 	i = 0;
 	while (path && path[i])
 	{
-		path[i] = ft_strjoin(path[i], "/");
-		path[i] = ft_strjoin(path[i], file);
-		if (!(access(path[i], F_OK)))
+		tmp = ft_strjoin(path[i++], "/");
+		if (!tmp)
+			exit_error("malloc");
+		res = ft_strjoin(tmp, file);
+		free(tmp);
+		if (!res)
+			exit_error("malloc");
+		if (!(access(res, X_OK)))
 		{
-			res = ft_strdup(path[i]);
-			if (!res)
-				exit_error("malloc");
 			free_path(path);
 			return (res);
 		}
-		i++;
+		free(res);
 	}
-	if (path)
-		free_path(path);
+	free_path(path);
 	return (NULL);
 }
 
