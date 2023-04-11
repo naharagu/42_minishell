@@ -6,13 +6,11 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/14 14:09:56 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/11 20:54:22 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/11 21:01:35 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-volatile sig_atomic_t	g_status;
 
 static void	normal_exit(int status)
 {

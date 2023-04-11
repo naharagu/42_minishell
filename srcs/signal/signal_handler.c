@@ -6,13 +6,11 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 11:29:34 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/11 20:54:41 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/11 21:01:49 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-volatile sig_atomic_t	g_status;
 
 void	prompt_handler(int signum)
 {
