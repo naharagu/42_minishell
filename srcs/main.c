@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 17:14:56 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/11 10:05:27 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ static void	prompt_helper(t_minishell *ms)
 {
 	if (lexer(ms) == EXIT_FAILURE)
 		return ;
-	// print_mslist(ms);//
+	print_mslist(ms);//
 	if (parser(ms) == EXIT_FAILURE)
 		return ;
 	// print_cmdline(ms);
-	//print_execlist(ms);//
+	// print_execlist(ms);//
 	if (expansion(ms) == EXIT_FAILURE)
 		return ;
 	// print_execlist(ms);//

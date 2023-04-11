@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 22:52:04 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/11 10:13:44 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,10 +236,10 @@ void		add_envlist(t_minishell *ms, char *key, char *value);
 t_envlist	*env_lstnew(char *key, char *value);
 int			env_lstsize(t_envlist *lst);
 
-//error.c
+//check_error.c
 int			error_lexer(t_minishell *ms);
 int			errror_parser_mslist(t_minishell *ms);
-int			error_parser_execlist(t_minishell *ms);
+int			error_parser_execlist(t_minishell *ms, t_execlist *exec);
 int			error_expandedred(t_redlist *red, char *original);
 
 //print_error.c

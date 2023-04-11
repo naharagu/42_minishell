@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/11 09:32:35 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/11 10:12:45 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	check_execlist(t_minishell *ms)
 			copy_cmd_red_list(ms, ms->exec->cmdline[i]);
 			i++;
 		}
-		if (error_parser_execlist(ms) == EXIT_FAILURE)
+		if (error_parser_execlist(ms, ms->exec) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		ms->exec = ms->exec->next;
 	}

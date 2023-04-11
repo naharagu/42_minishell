@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 21:21:58 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/11 10:26:14 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,46 +40,29 @@ int	errror_parser_mslist(t_minishell *ms)
 	return (EXIT_SUCCESS);
 }
 
-size_t	count_redirection(char *str, char c)
-{
-	size_t	count;
-
-	count = 0;
-	while (*str)
-	{
-		if (*str == c)
-			count++;
-		str++;
-	}
-	return (count);
-}
-
-int	error_parser_execlist(t_minishell *ms)
+int	error_parser_execlist(t_minishell *ms, t_execlist *exec)
 {
 	t_redlist	*tmp_red;
-	size_t		count_out;
-	size_t		count_in;
-	char		*err;
 
-	if (ms->exec->redtype == NO_REDIRECT)
+	(void)ms;
+	if (exec->redtype == NO_REDIRECT)
 		return (EXIT_SUCCESS);
-	tmp_red = ms->exec->red;
-	count_out = 0;
-	count_in = 0;
+	tmp_red = exec->red;
 	while (tmp_red)
 	{
-		if (ft_strnstr(tmp_red->str, "<", ft_strlen(tmp_red->str)))
-			count_in += count_redirection(tmp_red->str, '<');
-		if (ft_strnstr(tmp_red->str, ">", ft_strlen(tmp_red->str)))
-			count_out += count_redirection(tmp_red->str, '>');
+		if (ft_strnstr(tmp_red->str, ">>>>", ft_strlen(tmp_red->str)))
+			syntax_error(">>", 1);
+		else if (ft_strnstr(tmp_red->str, ">>>", ft_strlen(tmp_red->str)))
+			syntax_error(">", 1);
+		else if (ft_strnstr(tmp_red->str, "<<<<>", ft_strlen(tmp_red->str)))
+			syntax_error("<>", 1);
+		else if (ft_strnstr(tmp_red->str, "<<<<", ft_strlen(tmp_red->str)))
+			syntax_error("<", 1);
 		if (ft_strnstr(tmp_red->str, ">", ft_strlen(tmp_red->str)) \
 			&& !(tmp_red->next))
 			return (syntax_error("newline", 258));
 		tmp_red = tmp_red->next;
 	}
-	err = get_errchar(count_in, count_out);
-	if (err)
-		return (syntax_error(err, 1));
 	return (EXIT_SUCCESS);
 }
 
