@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 18:18:09 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/11 09:32:35 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ static int	check_execlist(t_minishell *ms)
 
 static void	copy_cmd_red_list(t_minishell *ms, char *str)
 {
+	char	*upchar;
+
+	upchar = toupper_char(str);
 	if (cmd_lstsize(ms->exec->cmd) == 0 && red_lstsize(ms->exec->red) == 0)
 	{
 		if (ms->exec->redtype != NO_REDIRECT)
@@ -88,9 +91,10 @@ static void	copy_cmd_red_list(t_minishell *ms, char *str)
 	else if (ms->exec->flag == RED_FIRST)
 	{
 		if (ms->exec->cmdtype != NO_CMD \
-		|| !(ft_strncmp("CAT", toupper_char(str), ft_strlen(str))))
+		|| !(ft_strncmp("CAT", upchar, ft_strlen(str))))
 			add_cmdlist(ms, str);
 		else if (ms->exec->cmdtype == NO_CMD)
 			add_redlist(ms, str);
 	}
+	free(upchar);
 }
