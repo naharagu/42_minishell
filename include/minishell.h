@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/11 10:13:44 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/12 09:02:32 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,8 +272,7 @@ int			ft_exit(int argc, char **argv);
 void		put_error_nonvalid_env(char *cmd, char *key);
 
 //path.c
-char		*search_path(t_minishell *ms, char *file);
-int			validate_path(char *path, t_execlist *exec);
+char 		*get_and_validate_path(char* path, t_minishell *ms, t_execlist *exec);
 
 //pipe.c
 void		setup_pipe(t_execlist *exec);
