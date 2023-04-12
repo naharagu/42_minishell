@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/12 15:50:36 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/12 17:35:13 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int			parser(t_minishell *ms);
 //check_type.c
 void		check_cmdtype(t_minishell *ms, char *str);
 void		check_redtype(t_minishell *ms, char *str);
-int			error_redirect(t_execlist *exec,char *cmdline);
+int			error_redirect(t_execlist *exec, char *cmdline);
 
 //expansion.c
 int			expansion(t_minishell *ms);
@@ -267,7 +267,8 @@ int			ft_exit(int argc, char **argv);
 void		put_error_nonvalid_env(char *cmd, char *key);
 
 //path.c
-char 		*get_and_validate_path(char* path, t_minishell *ms, t_execlist *exec);
+char		*get_and_validate_path(char *path, t_minishell *ms, \
+									t_execlist *exec);
 
 //pipe.c
 void		setup_pipe(t_execlist *exec);
