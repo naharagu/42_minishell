@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/27 16:12:02 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 14:28:46 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/12 10:05:23 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_execlist	*exec_lstnew(t_mslist *list, size_t num)
 
 	new = (t_execlist *)malloc(sizeof(t_execlist) * 1);
 	fill_cmdline(new, list, num);
-	new->flag = CMD_FIRST;
 	new->cmdtype = NO_CMD;
 	new->redtype = NO_REDIRECT;
 	new->cmd = NULL;

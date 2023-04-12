@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/11 10:12:45 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/12 10:19:53 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	check_execlist(t_minishell *ms);
-static void	copy_cmd_red_list(t_minishell *ms, char *str);
+static void	copy_cmd_red_list(t_minishell *ms, t_execlist *exec);
 
 int	parser(t_minishell *ms)
 {
@@ -25,8 +25,8 @@ int	parser(t_minishell *ms)
 	{
 		ms->cmd_size = 0;
 		first = tmplist;
-		while (tmplist->str && (ft_strncmp("|", tmplist->str, \
-			ft_strlen(tmplist->str))))
+		while (tmplist->str && (ft_strncmp("|", tmplist->str,
+					ft_strlen(tmplist->str))))
 		{
 			if (!tmplist->next)
 			{
@@ -47,7 +47,6 @@ int	parser(t_minishell *ms)
 static int	check_execlist(t_minishell *ms)
 {
 	t_execlist	*startexec;
-	char		*upchar;
 	size_t		i;
 
 	startexec = ms->exec;
@@ -57,44 +56,42 @@ static int	check_execlist(t_minishell *ms)
 		while (ms->exec->cmdline[i])
 		{
 			check_redtype(ms, ms->exec->cmdline[i]);
-			upchar = toupper_char(ms->exec->cmdline[i]);
-			check_cmdtype(ms, upchar);
-			free(upchar);
-			copy_cmd_red_list(ms, ms->exec->cmdline[i]);
+			check_cmdtype(ms, ms->exec->cmdline[i]);
 			i++;
 		}
+		copy_cmd_red_list(ms, ms->exec);
 		if (error_parser_execlist(ms, ms->exec) == EXIT_FAILURE)
+		{
+			ms->exec = startexec;
 			return (EXIT_FAILURE);
+		}
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;
 	return (EXIT_SUCCESS);
 }
 
-static void	copy_cmd_red_list(t_minishell *ms, char *str)
+static void	copy_cmd_red_list(t_minishell *ms, t_execlist *exec)
 {
-	char	*upchar;
+	size_t	i;
 
-	upchar = toupper_char(str);
-	if (cmd_lstsize(ms->exec->cmd) == 0 && red_lstsize(ms->exec->red) == 0)
+	i = 0;
+	while (exec->cmdline[i])
 	{
-		if (ms->exec->redtype != NO_REDIRECT)
-			ms->exec->flag = RED_FIRST;
+		if (ft_strcmp(exec->cmdline[i], ">>") == 0 || \
+			ft_strcmp(exec->cmdline[i], ">") == 0 || \
+			ft_strcmp(exec->cmdline[i], "<") == 0 || \
+			ft_strcmp(exec->cmdline[i], "<<") == 0)
+		{
+			add_redlist(ms, exec->cmdline[i]);
+			i++;
+			if (exec->cmdline[i])
+				add_redlist(ms, exec->cmdline[i]);
+			else
+				break ;
+		}
+		else
+			add_cmdlist(ms, exec->cmdline[i]);
+		i++;
 	}
-	if (ms->exec->flag != RED_FIRST)
-	{
-		if (ms->exec->redtype != NO_REDIRECT)
-			add_redlist(ms, str);
-		else if (ms->exec->redtype == NO_REDIRECT)
-			add_cmdlist(ms, str);
-	}
-	else if (ms->exec->flag == RED_FIRST)
-	{
-		if (ms->exec->cmdtype != NO_CMD \
-		|| !(ft_strncmp("CAT", upchar, ft_strlen(str))))
-			add_cmdlist(ms, str);
-		else if (ms->exec->cmdtype == NO_CMD)
-			add_redlist(ms, str);
-	}
-	free(upchar);
 }

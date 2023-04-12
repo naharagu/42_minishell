@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/11 21:01:26 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/12 21:45:28 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,6 @@ typedef enum e_cmd
 	EXIT_CMD
 }	t_cmd;
 
-typedef enum e_exec
-{
-	CMD_FIRST,
-	RED_FIRST
-}	t_exec;
-
 typedef struct s_mslist
 {
 	char				*str;
@@ -124,7 +118,6 @@ typedef struct s_execlist
 	char				**cmdline;
 	int					pipe_in[2];
 	int					pipe_out[2];
-	t_exec				flag;
 	t_cmd				cmdtype;
 	t_redirect			redtype;
 	t_cmdlist			*cmd;
@@ -273,8 +266,7 @@ int			ft_exit(int argc, char **argv);
 void		put_error_nonvalid_env(char *cmd, char *key);
 
 //path.c
-char		*search_path(t_minishell *ms, char *file);
-int			validate_path(char *path, t_execlist *exec);
+char 		*get_and_validate_path(char* path, t_minishell *ms, t_execlist *exec);
 
 //pipe.c
 void		setup_pipe(t_execlist *exec);
