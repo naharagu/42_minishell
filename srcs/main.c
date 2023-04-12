@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/12 10:17:28 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/12 10:27:53 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static void	minishell(t_minishell *ms)
 {
 	char	*line;
 
+	rl_outstream = stderr;//delete later
 	init_env(ms);
 	while (1)
 	{
@@ -103,7 +104,7 @@ static void	prompt_helper(t_minishell *ms)
 		return ;
 	if (prepare_redirect(ms) == EXIT_FAILURE)
 		return ;
-	print_execlist(ms);//
+	// print_execlist(ms);//
 	g_status = execute(ms);
 	return ;
 }
