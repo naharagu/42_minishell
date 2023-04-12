@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/12 21:45:28 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/12 15:50:36 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ int			parser(t_minishell *ms);
 //check_type.c
 void		check_cmdtype(t_minishell *ms, char *str);
 void		check_redtype(t_minishell *ms, char *str);
+int			error_redirect(t_execlist *exec,char *cmdline);
 
 //expansion.c
 int			expansion(t_minishell *ms);
