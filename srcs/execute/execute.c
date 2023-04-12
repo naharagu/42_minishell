@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:53:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/04/10 17:50:32 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/12 09:02:25 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ static void	execute_non_builtin(t_minishell *ms, t_execlist *exec)
 	env = create_env_array(ms->env);
 	args = create_args_array(exec);
 	argc = get_args_size(exec);
-	if (!(ft_strchr(path, '/')))
-		path = search_path(ms, path);
-	validate_path(path, exec);
+	path = get_and_validate_path(path, ms, exec);
 	execve(path, args, env);
 	if (exec->redtype != NO_REDIRECT)
 		reset_redirect(exec->red);
