@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/11 08:43:53 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/12 10:17:28 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,53 @@ int	main(void)
 
 	init_ms(&ms);
 	minishell(&ms);
+}
+
+
+void	print_execlist(t_minishell *ms)
+{
+	t_execlist	*startexec;
+	t_cmdlist	*startcmd;
+	t_redlist	*startred;
+	size_t		i;
+	size_t		j;
+
+	startexec = ms->exec;
+	printf("\x1b[32mexecsize= %d\n", exec_lstsize(ms->exec));
+	j = 0;
+	while (ms->exec)
+	{
+		startcmd = ms->exec->cmd;
+		startred = ms->exec->red;
+		i = 0;
+		printf("[exec:%zu]cmdtype= %d\n", j, ms->exec->cmdtype);
+		printf("[exec:%zu]redtype= %d\n", j, ms->exec->redtype);
+		printf("cmdsize= %d\n", cmd_lstsize(ms->exec->cmd));
+		while (ms->exec->cmd && ms->exec->cmd->str)
+		{
+			printf("[exec:%zu]cmd[%zu]= %s(%zu)\n", j, i, \
+				ms->exec->cmd->str, ft_strlen(ms->exec->cmd->str));
+			ms->exec->cmd = ms->exec->cmd->next;
+			i++;
+		}
+		i = 0;
+		printf("redsize= %d\n", red_lstsize(ms->exec->red));
+		while (ms->exec->red && ms->exec->red->str)
+		{
+			printf("[exec:%zu]red[%zu]= %s(%zu)\n", j, i, \
+				ms->exec->red->str, ft_strlen(ms->exec->red->str));
+			printf("redtype is %d\n", ms->exec->redtype);
+			ms->exec->red = ms->exec->red->next;
+			i++;
+		}
+		i = 0;
+		ms->exec->cmd = startcmd;
+		ms->exec->red = startred;
+		ms->exec = ms->exec->next;
+		j++;
+	}
+	ms->exec = startexec;
+	printf("\x1b[39m\n");
 }
 
 static void	minishell(t_minishell *ms)
@@ -56,6 +103,7 @@ static void	prompt_helper(t_minishell *ms)
 		return ;
 	if (prepare_redirect(ms) == EXIT_FAILURE)
 		return ;
+	print_execlist(ms);//
 	g_status = execute(ms);
 	return ;
 }

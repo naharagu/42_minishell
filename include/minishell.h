@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/12 09:02:32 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/12 10:05:13 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,6 @@ typedef enum e_cmd
 	EXIT_CMD
 }	t_cmd;
 
-typedef enum e_exec
-{
-	CMD_FIRST,
-	RED_FIRST
-}	t_exec;
-
 typedef struct s_mslist
 {
 	char				*str;
@@ -123,7 +117,6 @@ typedef struct s_execlist
 	char				**cmdline;
 	int					pipe_in[2];
 	int					pipe_out[2];
-	t_exec				flag;
 	t_cmd				cmdtype;
 	t_redirect			redtype;
 	t_cmdlist			*cmd;
