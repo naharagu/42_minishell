@@ -81,6 +81,9 @@ commands=(
 '' #empty
 ' ' #space
 '	' #tab
+
+#yokitaga
+"a echo B=b"
 )
 
 # Color codes
