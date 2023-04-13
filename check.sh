@@ -73,6 +73,7 @@ commands=(
 'echo $USER'
 'echo $USER$PATH'
 'echo "$USER  $PATH   "'
+'echo $"aaa"'
 
 #review
 '/bin/pwd'
