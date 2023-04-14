@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/14 11:47:46 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/14 11:50:51 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static char	*get_newstr(t_minishell *ms, t_redlist *red, char *str)
 	else if (*str == '$' && ft_strlen(str) > 1)
 		str++;
 	if (*str == '\'' || *str == '\"')
-		return (trim_quote_cmd(str, *str));
+		return (trim_quote_red(str, *str));
 	else if (red->quote != END_S_QUOTE)
 	{
 		if (!(ft_strncmp(str, "?", ft_strlen(str))))
