@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/12 09:09:33 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/14 11:47:46 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ char	*assign_value_red(t_minishell *ms, t_redlist *red, char *tmp)
 	if (ft_strnstr(str, "$", ft_strlen(str)) && (*str == '\'' || *str == '\"'))
 	{
 		trim = trim_quote_red(str, *str);
+		if (red->quote == END_S_QUOTE)
+			return (ft_strdup(trim));
 		new = expand_env_red(ms, red, trim);
 		free (trim);
 	}
@@ -83,11 +85,14 @@ static char	*expand_env_red(t_minishell *ms, t_redlist *red, char *str)
 	while (*str)
 	{
 		start = str;
-		if (*str == '$')
+		if (*str == '$' || is_space(*str))
 			str++;
 		while (*str && (*str == '\'' || *str == '\"'))
 			str++;
-		while (*str && *str != '$' && *str != '\'' && *str != '\"')
+		while (*str && *str != '$' && *str != '\'' && *str != '\"' \
+			&& !is_space(*str))
+			str++;
+		while (*str && (*str == '\'' || *str == '\"'))
 			str++;
 		tmp = ft_substr(start, 0, str - start);
 		start = str;
@@ -102,11 +107,14 @@ static char	*get_newstr(t_minishell *ms, t_redlist *red, char *str)
 {
 	t_envlist	*tmpenv;
 
-	if (*str != '$' || red->quote == END_S_QUOTE)
+	if (*str != '$' || is_space(*str) || (*str == '$' && ft_strlen(str) == 1))
 		return (ft_strdup(str));
-	else if (*str == '$' && red->quote != END_S_QUOTE && ft_strlen(str) > 1)
-	{
+	else if (*str == '$' && ft_strlen(str) > 1)
 		str++;
+	if (*str == '\'' || *str == '\"')
+		return (trim_quote_cmd(str, *str));
+	else if (red->quote != END_S_QUOTE)
+	{
 		if (!(ft_strncmp(str, "?", ft_strlen(str))))
 			return (ft_itoa(g_status));
 		tmpenv = ms->env->next;

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:01:38 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/14 10:35:20 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/14 11:43:34 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_mslist	*ms_lstnew(size_t len, char *str)
 		new->str[j] = str[j];
 		j++;
 	}
-	printf("str: %s\n", new->str);//debug
 	new->pipe = NO_PIPE;
 	new->next = NULL;
 	return (new);
