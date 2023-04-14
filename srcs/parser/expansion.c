@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/14 11:43:48 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/14 16:37:54 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str)
 			str++;
 		if (*str == '$')
 			str++;
-		while (*str && *str != '$')
+		while (*str && *str != '$' && *str != '\'' && *str != '\"')
 			str++;
 		tmp = ft_substr(start, 0, str - start);
 		start = str;
@@ -87,7 +87,7 @@ static int	expand_red(t_minishell *ms, t_redlist *red, char *str)
 			str++;
 		if (*str == '$')
 			str++;
-		while (*str && *str != '$')
+		while (*str && *str != '$' && *str != '\'' && *str != '\"')
 			str++;
 		tmp = ft_substr(start, 0, str - start);
 		start = str;
