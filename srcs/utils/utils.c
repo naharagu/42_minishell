@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 13:16:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/12 21:46:43 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/14 14:31:22 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,13 @@ char	*get_errchar(size_t count_in, size_t count_out)
 	else if (count_out > 2 || (count_in > 1 && count_out > 0))
 		return (">");
 	return (NULL);
+}
+
+void	safe_close(int fd)
+{
+	if (fd < 0)
+		return ;
+	if (close(fd) < 0)
+		exit_error("close");
+	return ;
 }

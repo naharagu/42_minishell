@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/03/28 21:19:44 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/14 14:32:25 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	stash_fd(int fd_target)
 	while (is_valid_fd(fd_stashed))
 		fd_stashed++;
 	fd_stashed = dup2(fd_target, fd_stashed);
-	close(fd_target);
+	safe_close(fd_target);
 	return (fd_stashed);
 }
 
@@ -54,8 +54,8 @@ void	reset_redirect(t_redlist *red)
 {
 	if (red->next->next)
 		reset_redirect(red->next->next);
-	close(red->fd_file);
-	close(red->fd_target);
+	safe_close(red->fd_file);
+	safe_close(red->fd_target);
 	dup2(red->fd_stashed, red->fd_target);
 	return ;
 }
