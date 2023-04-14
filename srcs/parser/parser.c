@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/12 10:19:53 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/12 15:52:59 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ static int	check_execlist(t_minishell *ms)
 		{
 			check_redtype(ms, ms->exec->cmdline[i]);
 			check_cmdtype(ms, ms->exec->cmdline[i]);
+			if (error_redirect(ms->exec, ms->exec->cmdline[i]) == EXIT_FAILURE)
+			{
+				ms->exec = startexec;
+				return (EXIT_FAILURE);
+			}
 			i++;
 		}
 		copy_cmd_red_list(ms, ms->exec);
-		if (error_parser_execlist(ms, ms->exec) == EXIT_FAILURE)
-		{
-			ms->exec = startexec;
-			return (EXIT_FAILURE);
-		}
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;

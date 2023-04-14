@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/12 21:48:37 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/14 10:12:20 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	main(void)
 {
 	t_minishell	ms;
 
+	rl_outstream = stderr;//delete later
 	init_ms(&ms);
 	minishell(&ms);
 }
-
 
 void	print_execlist(t_minishell *ms)
 {
@@ -75,7 +75,6 @@ static void	minishell(t_minishell *ms)
 {
 	char	*line;
 
-	rl_outstream = stderr;//delete later
 	init_env(ms);
 	while (1)
 	{
@@ -104,7 +103,6 @@ static void	prompt_helper(t_minishell *ms)
 		return ;
 	if (prepare_redirect(ms) == EXIT_FAILURE)
 		return ;
-	// print_execlist(ms);//
 	g_status = execute(ms);
 	return ;
 }

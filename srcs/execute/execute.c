@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:53:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/04/12 09:02:25 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/13 19:14:41 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	execute(t_minishell *ms)
 	if (ms->exec->cmd == NULL)
 		return (1);
 	if (ms->exec->cmdtype != NO_CMD && ms->exec->next == NULL)
-		status = execute_parent_process(ms);
+		status = execute_builtin(ms, ms->exec);
 	else
 	{
 		last_pid = execute_child_process(ms, ms->exec);
