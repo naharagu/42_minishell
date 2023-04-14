@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/12 09:07:33 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/14 11:42:29 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ char	*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *tmp)
 	if (ft_strnstr(str, "$", ft_strlen(str)) && (*str == '\'' || *str == '\"'))
 	{
 		trim = trim_quote_cmd(str, *str);
+		if (cmd->quote == END_S_QUOTE)
+			return (ft_strdup(trim));
 		new = expand_env_cmd(ms, cmd, trim);
 		free (trim);
 	}
@@ -83,13 +85,17 @@ static char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 	while (*str)
 	{
 		start = str;
-		if (*str == '$')
+		if (*str == '$' || is_space(*str))
 			str++;
 		while (*str && (*str == '\'' || *str == '\"'))
 			str++;
-		while (*str && *str != '$' && *str != '\'' && *str != '\"')
+		while (*str && *str != '$' && *str != '\'' && *str != '\"' \
+			&& !(is_space(*str)))
+			str++;
+		while (*str && (*str == '\'' || *str == '\"'))
 			str++;
 		tmp = ft_substr(start, 0, str - start);
+		printf("2tmp= %s(%zu)\n", tmp, ft_strlen(tmp));//debug
 		start = str;
 		new = get_newstr(ms, cmd, tmp);
 		free(tmp);
@@ -102,11 +108,14 @@ static char	*get_newstr(t_minishell *ms, t_cmdlist *cmd, char *str)
 {
 	t_envlist	*tmpenv;
 
-	if (*str != '$' || cmd->quote == END_S_QUOTE)
+	if (*str != '$' || is_space(*str) || (*str == '$' && ft_strlen(str) == 1))
 		return (ft_strdup(str));
-	else if (*str == '$' && cmd->quote != END_S_QUOTE && ft_strlen(str) > 1)
-	{
+	else if (*str == '$' && ft_strlen(str) > 1)
 		str++;
+	if (*str == '\'' || *str == '\"')
+		return (trim_quote_cmd(str, *str));
+	else if (cmd->quote != END_S_QUOTE)
+	{
 		if (!(ft_strncmp(str, "?", ft_strlen(str))))
 			return (ft_itoa(g_status));
 		tmpenv = ms->env->next;
