@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 16:59:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/12 09:05:12 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/14 12:27:39 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*search_path(t_minishell *ms, char *file)
 		free(tmp);
 		if (!res)
 			exit_error("malloc");
-		if (access(res, X_OK) == 0)
+		if (access(res, F_OK) == 0)
 		{
 			free_path(path);
 			return (res);
@@ -65,10 +65,10 @@ static int	validate_path(char *path, t_execlist *exec)
 	else
 		location = exec->cmd->str;
 	if (!path)
-		exit_error_with_status(location, "No such file or directory", \
+		exit_error_with_status(location, "command not found", \
 				NOT_FOUND);
 	if (access(path, F_OK) < 0)
-		exit_error_with_status(location, "command not found", NOT_FOUND);
+		exit_error_with_status(location, "", NOT_FOUND);
 	if (access(path, X_OK) < 0)
 		exit_error_with_status(location, "permission denied", NOT_EXECUTABLE);
 	return (EXIT_SUCCESS);
@@ -76,6 +76,10 @@ static int	validate_path(char *path, t_execlist *exec)
 
 char	*get_and_validate_path(char *path, t_minishell *ms, t_execlist *exec)
 {
+	if (!path)
+		exit_error_with_status("", "command not found", NOT_FOUND);
+	if (*path == '\0')
+		exit_error_with_status("", "command not found", NOT_FOUND);
 	if (!(ft_strchr(path, '/')))
 		path = search_path(ms, path);
 	else
