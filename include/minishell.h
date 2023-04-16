@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/14 14:31:45 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/16 09:06:13 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,19 +165,22 @@ int			error_redirect(t_execlist *exec, char *cmdline);
 
 //expansion.c
 int			expansion(t_minishell *ms);
+char		*get_old(char **new, char **old);
+char		*get_env(t_minishell *ms, char *str);
 
 //expansion_utils.c
 bool		is_quoted_cmd(t_cmdlist *cmd, char c);
 bool		is_quoted_red(t_redlist *red, char c);
-char		*get_old(char **new, char **old);
+int			quotedstr(char *str);
+char		*trim_quote(char *str, int c);
 void		free_split(char **split);
 void		safe_close(int fd);
 
 //expand_cmd_utils.c
-char		*assign_value_cmd(t_minishell *ms, t_cmdlist *cmd, char *tmp);
+void		expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str);
 
 //expand_red_utils.c
-char		*assign_value_red(t_minishell *ms, t_redlist *red, char *tmp);
+int			expand_red(t_minishell *ms, t_redlist *red, char *str);
 
 //lexer_in_parser.c
 char		**lexer_cmd(t_cmdlist *cmd, char **original);

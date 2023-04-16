@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 12:13:46 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/10 12:32:29 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/16 09:05:02 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,46 @@ bool	is_quoted_red(t_redlist *red, char c)
 		return (false);
 }
 
-char	*get_old(char **new, char **old)
+int	quotedstr(char *str)
 {
-	char	*result;
+	char	*start;
 
-	result = NULL;
-	if (!(*old))
-		result = ft_strdup(*new);
-	else if (old)
+	start = str;
+	while (*str && (*str == '\'' || *str == '\"'))
+		str++;
+	while (*str && (*str != '\'' || *str != '\"'))
+		str++;
+	while (*str && (*str == '\'' || *str == '\"'))
+		str++;
+	return (str - start);
+}
+
+char	*trim_quote(char *str, int c)
+{
+	char	**split;
+	char	*result;
+	char	*old;
+	size_t	i;
+
+	i = 1;
+	split = ft_split(str, c);
+	if (!split)
+		return (NULL);
+	if (!split[0])
 	{
-		result = ft_strjoin(*old, *new);
-		free(*old);
+		free(split);
+		return (NULL);
 	}
-	free(*new);
-	return (result);
+	old = ft_strdup(split[0]);
+	while (split[i] && split[i][0] != '\0')
+	{
+		result = ft_strjoin(old, split[i]);
+		free (old);
+		old = result;
+		i++;
+	}
+	free_split(split);
+	return (old);
 }
 
 void	free_split(char **split)

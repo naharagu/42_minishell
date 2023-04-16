@@ -6,15 +6,11 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/14 16:37:54 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/16 10:32:21 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str);
-static int	expand_red(t_minishell *ms, t_redlist *red, char *str);
-static void	set_redstr(t_redlist *red, char **old);
 
 int	expansion(t_minishell *ms)
 {
@@ -43,64 +39,36 @@ int	expansion(t_minishell *ms)
 	return (EXIT_SUCCESS);
 }
 
-static void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str)
+char	*get_old(char **new, char **old)
 {
-	char	*start;
-	char	*tmp;
-	char	*old;
-	char	*new;
+	char	*result;
 
-	old = NULL;
-	while (*str)
+	result = NULL;
+	if (!(*old))
+		result = ft_strdup(*new);
+	else if (old)
 	{
-		start = str;
-		while (*str && is_quoted_cmd(cmd, *str))
-			str++;
-		if (*str == '$')
-			str++;
-		while (*str && *str != '$' && *str != '\'' && *str != '\"')
-			str++;
-		tmp = ft_substr(start, 0, str - start);
-		start = str;
-		new = assign_value_cmd (ms, cmd, tmp);
-		free (tmp);
-		old = get_old(&new, &old);
+		result = ft_strjoin(*old, *new);
+		free(*old);
 	}
-	free(cmd->str);
-	cmd->str = old;
+	free(*new);
+	return (result);
 }
 
-static int	expand_red(t_minishell *ms, t_redlist *red, char *str)
+char	*get_env(t_minishell *ms, char *str)
 {
-	char	*original;
-	char	*start;
-	char	*tmp;
-	char	*old;
-	char	*new;
+	t_envlist	*tmpenv;
 
-	original = str;
-	old = NULL;
-	while (*str)
+	if (*str == '$' && ft_strlen(str) > 1)
+		str++;
+	if (!(ft_strncmp(str, "?", ft_strlen(str))))
+		return (ft_itoa(g_status));
+	tmpenv = ms->env->next;
+	while (tmpenv)
 	{
-		start = str;
-		while (*str && is_quoted_red(red, *str))
-			str++;
-		if (*str == '$')
-			str++;
-		while (*str && *str != '$' && *str != '\'' && *str != '\"')
-			str++;
-		tmp = ft_substr(start, 0, str - start);
-		start = str;
-		new = assign_value_red (ms, red, tmp);
-		free (tmp);
-		old = get_old(&new, &old);
+		if (!ft_strncmp(tmpenv->key, str, ft_strlen(str)))
+			return (ft_strdup(tmpenv->value));
+		tmpenv = tmpenv->next;
 	}
-	set_redstr(red, &old);
-	return (error_expandedred(red, original));
-}
-
-static void	set_redstr(t_redlist *red, char **old)
-{
-	free(red->str);
-	red->str = *old;
+	return (ft_strdup(""));
 }
