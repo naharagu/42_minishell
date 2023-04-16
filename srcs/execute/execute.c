@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:53:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/04/14 12:25:14 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/16 09:17:23 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void	execute_non_builtin(t_minishell *ms, t_execlist *exec)
 	if (exec->redtype != NO_REDIRECT)
 		reset_redirect(exec->red);
 	free_arg_array(argc, args);
-	printf("path: %s\n", path);
 	exit_error("execve");
 }
 
