@@ -6,14 +6,13 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/16 10:10:54 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/16 10:43:50 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-extern volatile sig_atomic_t	g_status;
-static void	set_redstr(t_redlist *red, char **old);
+static int	skip_str(t_redlist *red, char *str);
 static char	*assign_value_red(t_minishell *ms, t_redlist *red, char *tmp);
 static char	*expand_env_red(t_minishell *ms, t_redlist *red, char *str);
 static char	*get_newstr_red(t_minishell *ms, t_redlist *red, char *str);
@@ -31,28 +30,31 @@ int	expand_red(t_minishell *ms, t_redlist *red, char *str)
 	while (*str)
 	{
 		start = str;
-		if (*str && *str == '$')
-			str++;
-		while (*str && is_quoted_red(red, *str))
-			str++;
-		if (*str && *str == '$')
-			str++;
-		while (*str && *str != '$' && *str != '\'' && *str != '\"')
-			str++;
+		str += skip_str(red, str);
 		tmp = ft_substr(start, 0, str - start);
-		start = str;
 		new = assign_value_red (ms, red, tmp);
 		free (tmp);
 		old = get_old(&new, &old);
 	}
-	set_redstr(red, &old);
+	free(red->str);
+	red->str = old;
 	return (error_expandedred(red, original));
 }
 
-static void	set_redstr(t_redlist *red, char **old)
+static int	skip_str(t_redlist *red, char *str)
 {
-	free(red->str);
-	red->str = *old;
+	char	*start;
+
+	start = str;
+	if (*str && *str == '$')
+		str++;
+	while (*str && is_quoted_red(red, *str))
+		str++;
+	if (*str && *str == '$')
+		str++;
+	while (*str && *str != '$' && *str != '\'' && *str != '\"')
+		str++;
+	return (str - start);
 }
 
 static char	*assign_value_red(t_minishell *ms, t_redlist *red, char *tmp)
@@ -103,7 +105,6 @@ static char	*expand_env_red(t_minishell *ms, t_redlist *red, char *str)
 			&& *str != '\'' && *str != '\"')
 			str++;
 		tmp = ft_substr(start, 0, str - start);
-		start = str;
 		new = get_newstr_red(ms, red, tmp);
 		free(tmp);
 		old = get_old(&new, &old);
