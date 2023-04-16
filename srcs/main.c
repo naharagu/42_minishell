@@ -6,13 +6,12 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/14 16:39:02 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/16 10:27:41 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_status;
 static void	minishell(t_minishell *ms);
 static void	prompt_helper(t_minishell *ms);
 
