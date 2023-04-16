@@ -40,8 +40,8 @@ commands=(
 'cat <hoge'
 
 ## Appending Redirected output
-"'pwd >>pwd.txt' 'pwd.txt'"
-"pwd >>pwd.txt \n pwd >>pwd.txt | cat pwd.txt"
+"pwd >pwd.txt"
+"pwd >>pwd.txt | cat pwd.txt"
 
 # # Here Document
 # "cat <<EOF\nhello\nworld\nEOF'"
@@ -81,6 +81,12 @@ commands=(
 
 #yokitaga
 "a echo B=b"
+
+#mocha
+'cat < in > /dev/stdout | cat < in'
+
+'export PATH=$PWD:/bin:/usr/bin/:/usr/local/bin'
+'export | grep PATH'
 )
 
 # Color codes
