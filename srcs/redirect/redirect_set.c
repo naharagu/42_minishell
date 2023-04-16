@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/14 14:32:25 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/16 10:01:34 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	reset_redirect(t_redlist *red)
 	if (red->next->next)
 		reset_redirect(red->next->next);
 	safe_close(red->fd_file);
-	safe_close(red->fd_target);
 	dup2(red->fd_stashed, red->fd_target);
+	safe_close(red->fd_stashed);
 	return ;
 }

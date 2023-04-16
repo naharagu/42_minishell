@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/24 22:04:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/04/16 09:20:24 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/16 10:03:05 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	execute_builtin(t_minishell *ms, t_execlist *exec)
 	argc = get_args_size(exec);
 	argv = create_args_array(exec);
 	status = execute_builtin_helper(ms, argc, argv);
-	if (exec->redtype != NO_REDIRECT && !exec->next)
+	if (exec->redtype != NO_REDIRECT)
 		reset_redirect(ms->exec->red);
 	free_arg_array(argc, argv);
 	return (status);
