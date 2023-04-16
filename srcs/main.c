@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/16 10:10:35 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/16 17:00:12 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	main(void)
 {
 	t_minishell	ms;
 
+	rl_outstream = stderr;//delete later
 	init_ms(&ms);
 	minishell(&ms);
 }
