@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/16 09:40:18 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/16 10:17:14 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,15 @@ void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str)
 	while (*str)
 	{
 		start = str;
-		while (*str && *str != '$' && *str != '\'' && *str != '\"')
-			str++;
-		while (*str && *str == '$')
+		if (*str && *str == '$')
 			str++;
 		while (*str && is_quoted_cmd(cmd, *str))
 			str++;
+		if (*str && *str == '$')
+			str++;
+		while (*str && *str != '$' && *str != '\'' && *str != '\"')
+			str++;
 		tmp = ft_substr(start, 0, str - start);
-		printf("tmp1: %s\n", tmp);//
 		start = str;
 		new = assign_value_cmd (ms, cmd, tmp);
 		free (tmp);
@@ -93,7 +94,6 @@ static char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 			&& *str != '\'' && *str != '\"')
 			str++;
 		tmp = ft_substr(start, 0, str - start);
-		printf("tmp2: %s\n", tmp);//
 		start = str;
 		new = get_newstr_cmd(ms, cmd, tmp);
 		free(tmp);

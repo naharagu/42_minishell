@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/16 09:50:16 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/16 10:10:54 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ int	expand_red(t_minishell *ms, t_redlist *red, char *str)
 	while (*str)
 	{
 		start = str;
-		while (*str && *str != '$' && *str != '\'' && *str != '\"')
-			str++;
-		while (*str == '$')
+		if (*str && *str == '$')
 			str++;
 		while (*str && is_quoted_red(red, *str))
+			str++;
+		if (*str && *str == '$')
+			str++;
+		while (*str && *str != '$' && *str != '\'' && *str != '\"')
 			str++;
 		tmp = ft_substr(start, 0, str - start);
 		start = str;
