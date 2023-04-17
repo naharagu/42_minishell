@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/16 10:32:21 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/17 15:20:43 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ int	expansion(t_minishell *ms)
 		tmp_red = tmp_exec->red;
 		while (tmp_red)
 		{
-			if (expand_red(ms, tmp_red, tmp_red->str) == EXIT_FAILURE)
+			if (!(ft_strncmp("<<", tmp_red->str, ft_strlen(tmp_red->str))))
+				tmp_red = tmp_red->next;
+			else if (expand_red(ms, tmp_red, tmp_red->str) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
 			tmp_red = tmp_red->next;
 		}
@@ -71,4 +73,45 @@ char	*get_env(t_minishell *ms, char *str)
 		tmpenv = tmpenv->next;
 	}
 	return (ft_strdup(""));
+}
+
+char	*trim_quote(char *str, int c)
+{
+	char	**split;
+	char	*result;
+	char	*old;
+	size_t	i;
+
+	i = 1;
+	split = ft_split(str, c);
+	if (!split)
+		return (NULL);
+	if (!split[0])
+	{
+		free(split);
+		return (NULL);
+	}
+	old = ft_strdup(split[0]);
+	while (split[i] && split[i][0] != '\0')
+	{
+		result = ft_strjoin(old, split[i]);
+		free (old);
+		old = result;
+		i++;
+	}
+	free_split(split);
+	return (old);
+}
+
+void	free_split(char **split)
+{
+	size_t	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }
