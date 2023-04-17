@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/17 11:29:59 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/17 12:10:28 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,32 @@ char	*get_env(t_minishell *ms, char *str)
 		tmpenv = tmpenv->next;
 	}
 	return (ft_strdup(""));
+}
+
+char	*trim_quote(char *str, int c)
+{
+	char	**split;
+	char	*result;
+	char	*old;
+	size_t	i;
+
+	i = 1;
+	split = ft_split(str, c);
+	if (!split)
+		return (NULL);
+	if (!split[0])
+	{
+		free(split);
+		return (NULL);
+	}
+	old = ft_strdup(split[0]);
+	while (split[i] && split[i][0] != '\0')
+	{
+		result = ft_strjoin(old, split[i]);
+		free (old);
+		old = result;
+		i++;
+	}
+	free_split(split);
+	return (old);
 }

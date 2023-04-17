@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/16 09:06:13 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/17 12:14:30 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,14 +167,14 @@ int			error_redirect(t_execlist *exec, char *cmdline);
 int			expansion(t_minishell *ms);
 char		*get_old(char **new, char **old);
 char		*get_env(t_minishell *ms, char *str);
+char		*trim_quote(char *str, int c);
 
 //expansion_utils.c
 bool		is_quoted_cmd(t_cmdlist *cmd, char c);
 bool		is_quoted_red(t_redlist *red, char c);
 int			quotedstr(char *str);
-char		*trim_quote(char *str, int c);
+bool		is_upperchar(char c);
 void		free_split(char **split);
-void		safe_close(int fd);
 
 //expand_cmd_utils.c
 void		expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str);
@@ -199,6 +199,7 @@ void		init_ms(t_minishell *ms);
 char		*toupper_char(char *str);
 void		clear_ms(t_minishell *ms);
 char		*get_errchar(size_t count_in, size_t count_out);
+void		safe_close(int fd);
 
 //mslist.c
 t_mslist	*ms_lstnew(size_t len, char *str);

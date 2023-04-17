@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 12:13:46 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/16 09:05:02 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/17 12:15:35 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,32 +70,12 @@ int	quotedstr(char *str)
 	return (str - start);
 }
 
-char	*trim_quote(char *str, int c)
+bool	is_upperchar(char c)
 {
-	char	**split;
-	char	*result;
-	char	*old;
-	size_t	i;
-
-	i = 1;
-	split = ft_split(str, c);
-	if (!split)
-		return (NULL);
-	if (!split[0])
-	{
-		free(split);
-		return (NULL);
-	}
-	old = ft_strdup(split[0]);
-	while (split[i] && split[i][0] != '\0')
-	{
-		result = ft_strjoin(old, split[i]);
-		free (old);
-		old = result;
-		i++;
-	}
-	free_split(split);
-	return (old);
+	if ((c >= 'A' && c <= 'Z') || c == '_')
+		return (true);
+	else
+		return (false);
 }
 
 void	free_split(char **split)
