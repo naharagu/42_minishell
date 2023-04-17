@@ -53,8 +53,6 @@ int	execute_builtin(t_minishell *ms, t_execlist *exec)
 	argc = get_args_size(exec);
 	argv = create_args_array(exec);
 	status = execute_builtin_helper(ms, argc, argv);
-	if (exec->redtype != NO_REDIRECT)
-		reset_redirect(exec->red);
 	free_arg_array(argc, argv);
 	return (status);
 }

@@ -94,10 +94,15 @@ int	execute(t_minishell *ms)
 	int		status;
 	pid_t	last_pid;
 
+	
 	if (ms->exec->cmd == NULL)
 		return (1);
 	if (ms->exec->cmdtype != NO_CMD && ms->exec->next == NULL)
+	{
 		status = execute_builtin(ms, ms->exec);
+		if (ms->exec->redtype != NO_REDIRECT)
+			reset_redirect(ms->exec->red);
+	}
 	else
 	{
 		last_pid = execute_child_process(ms, ms->exec);
