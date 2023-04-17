@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/17 15:20:43 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/17 22:38:52 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,13 @@ int	expansion(t_minishell *ms)
 		while (tmp_red)
 		{
 			if (!(ft_strncmp("<<", tmp_red->str, ft_strlen(tmp_red->str))))
+			{
 				tmp_red = tmp_red->next;
+				continue ;
+			}
 			else if (expand_red(ms, tmp_red, tmp_red->str) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
+			printf("tmp_red->str = %p\n", tmp_red);
 			tmp_red = tmp_red->next;
 		}
 		tmp_exec = tmp_exec->next;

@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/17 18:08:49 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/17 22:47:11 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,12 +143,15 @@ static void	prompt_helper(t_minishell *ms)
 {
 	if (lexer(ms) == EXIT_FAILURE)
 		return ;
+	// print_execlist(ms);//delete later
 	if (parser(ms) == EXIT_FAILURE)
 		return ;
-	// print_execlist(ms);
+	// printf("after lexer\n");
+	// print_execlist(ms);//delete later
 	if (expansion(ms) == EXIT_FAILURE)
 		return ;
-	// print_execlist(ms);//delete later
+	printf("after expansion\n");
+	print_execlist(ms);//delete later
 	if (prepare_redirect(ms) == EXIT_FAILURE)
 		return ;
 	// printf("after redirect\n");
