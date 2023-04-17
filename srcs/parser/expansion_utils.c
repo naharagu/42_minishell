@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 12:13:46 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/17 12:15:35 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/17 16:04:18 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,30 @@ bool	is_upperchar(char c)
 		return (false);
 }
 
-void	free_split(char **split)
+int	split_str(char *str)
 {
-	size_t	i;
+	char		*start;
 
-	i = 0;
-	while (split[i])
+	start = str;
+	if (is_space(*str) || *str == '=' || *str == '\'' || *str == '\"')
 	{
-		free(split[i]);
-		i++;
+		str++;
+		return (str - start);
 	}
-	free(split);
+	if (*str == '$')
+	{
+		str++;
+		if (*str == '\'' || *str == '\"')
+			str += quotedstr(str);
+	}
+	if (is_upperchar(*str))
+	{
+		while (*str && is_upperchar(*str))
+			str++;
+		return (str - start);
+	}
+	while (*str && *str != '$' && !(is_space(*str)) \
+		&& *str != '\'' && *str != '\"' && *str != '=')
+		str++;
+	return (str - start);
 }

@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/17 13:08:43 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/17 16:08:22 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str)
 		while (*str && *str != '$' && *str != '\'' && *str != '\"')
 			str++;
 		tmp = ft_substr(start, 0, str - start);
-		printf("1tmp= %s\n", tmp);//")
+		// printf("1tmp= %s\n", tmp);//")
 		new = assign_value_cmd (ms, cmd, tmp);
 		free (tmp);
 		old = get_old(&new, &old);
@@ -85,31 +85,11 @@ static char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 	while (*str)
 	{
 		start = str;
-		while (*str && *str == '$')
-			str++;
-		if (*str == '\'' || *str == '\"')
-			str += quotedstr(str);
-		else if (is_space(*str) || *str == '=')
-		{
-			str++;
-			tmp = ft_substr(start, 0, str - start);
-		}
-		else if (is_upperchar(*str))
-		{
-			while (*str && is_upperchar(*str))
-				str++;
-			tmp = ft_substr(start, 0, str - start);
-		}
-		else
-		{
-			while (*str && *str != '$' && !(is_space(*str)) \
-				&& *str != '\'' && *str != '\"' && *str != '=')
-				str++;
-			tmp = ft_substr(start, 0, str - start);
-		}
-		printf("2tmp= %s\n", tmp);//")
+		str += split_str(str);
+		tmp = ft_substr(start, 0, str - start);
+		// printf("2tmp= %s\n", tmp);//")
 		new = get_newstr_cmd(ms, cmd, tmp);
-		printf("new= %s\n", new);//")
+		// printf("new= %s\n", new);//")
 		free(tmp);
 		old = get_old(&new, &old);
 	}
@@ -118,21 +98,8 @@ static char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 
 static char	*get_newstr_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 {
-	char	*new;
-	char	*trim;
 
-	if (is_space(*str) || *str == '=' || (*str == '$' && ft_strlen(str) == 1))
-		return (ft_strdup(str));
-	if ((*str == '\'' || *str == '\"') && ft_strnstr(str, "$", ft_strlen(str)))
-	{
-		trim = trim_quote(str, *str);
-		if (cmd->quote == END_S_QUOTE)
-			return (trim);
-		new = get_env(ms, trim);
-		free (trim);
-		return (new);
-	}
-	else if (*str == '$' && ft_strlen(str) > 1)
+	if (*str == '$' && ft_strlen(str) > 1)
 	{
 		str++;
 		if (*str == '\'' || *str == '\"')

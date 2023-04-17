@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/17 12:14:30 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/17 15:21:48 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,13 +168,14 @@ int			expansion(t_minishell *ms);
 char		*get_old(char **new, char **old);
 char		*get_env(t_minishell *ms, char *str);
 char		*trim_quote(char *str, int c);
+void		free_split(char **split);
 
 //expansion_utils.c
 bool		is_quoted_cmd(t_cmdlist *cmd, char c);
 bool		is_quoted_red(t_redlist *red, char c);
 int			quotedstr(char *str);
 bool		is_upperchar(char c);
-void		free_split(char **split);
+int			split_str(char *str);
 
 //expand_cmd_utils.c
 void		expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str);

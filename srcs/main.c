@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/17 11:36:51 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/17 15:33:34 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(void)
 {
 	t_minishell	ms;
 
+	rl_outstream = stderr;//delete later
 	init_ms(&ms);
 	minishell(&ms);
 }
@@ -100,7 +101,7 @@ static void	prompt_helper(t_minishell *ms)
 		return ;
 	if (expansion(ms) == EXIT_FAILURE)
 		return ;
-	print_execlist(ms);//delete later
+	// print_execlist(ms);//delete later
 	if (prepare_redirect(ms) == EXIT_FAILURE)
 		return ;
 	g_status = execute(ms);

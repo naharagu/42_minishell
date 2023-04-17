@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/17 12:10:28 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/17 15:20:43 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,4 +101,17 @@ char	*trim_quote(char *str, int c)
 	}
 	free_split(split);
 	return (old);
+}
+
+void	free_split(char **split)
+{
+	size_t	i;
+
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
 }

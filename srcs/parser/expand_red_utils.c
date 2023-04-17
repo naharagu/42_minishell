@@ -6,13 +6,13 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/17 11:31:36 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/17 16:09:05 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	skip_str(t_redlist *red, char *str);
+static int	skip_str_red(t_redlist *red, char *str);
 static char	*assign_value_red(t_minishell *ms, t_redlist *red, char *tmp);
 static char	*expand_env_red(t_minishell *ms, t_redlist *red, char *str);
 static char	*get_newstr_red(t_minishell *ms, t_redlist *red, char *str);
@@ -30,7 +30,7 @@ int	expand_red(t_minishell *ms, t_redlist *red, char *str)
 	while (*str)
 	{
 		start = str;
-		str += skip_str(red, str);
+		str += skip_str_red(red, str);
 		tmp = ft_substr(start, 0, str - start);
 		new = assign_value_red (ms, red, tmp);
 		free (tmp);
@@ -41,7 +41,7 @@ int	expand_red(t_minishell *ms, t_redlist *red, char *str)
 	return (error_expandedred(red, original));
 }
 
-static int	skip_str(t_redlist *red, char *str)
+static int	skip_str_red(t_redlist *red, char *str)
 {
 	char	*start;
 
@@ -97,13 +97,7 @@ static char	*expand_env_red(t_minishell *ms, t_redlist *red, char *str)
 	while (*str)
 	{
 		start = str;
-		if (*str == '$' || is_space(*str))
-			str++;
-		if (*str && (*str == '\'' || *str == '\"'))
-			str += quotedstr(str);
-		while (*str && *str != '$' && !is_space(*str) \
-			&& *str != '\'' && *str != '\"')
-			str++;
+		str += split_str(str);
 		tmp = ft_substr(start, 0, str - start);
 		new = get_newstr_red(ms, red, tmp);
 		free(tmp);
@@ -114,21 +108,7 @@ static char	*expand_env_red(t_minishell *ms, t_redlist *red, char *str)
 
 static char	*get_newstr_red(t_minishell *ms, t_redlist *red, char *str)
 {
-	char	*new;
-	char	*trim;
-
-	if (is_space(*str) || (*str == '$' && ft_strlen(str) == 1))
-		return (ft_strdup(str));
-	if ((*str == '\'' || *str == '\"') && ft_strnstr(str, "$", ft_strlen(str)))
-	{
-		trim = trim_quote(str, *str);
-		if (red->quote == END_S_QUOTE)
-			return (trim);
-		new = get_env(ms, trim);
-		free (trim);
-		return (new);
-	}
-	else if (*str == '$' && ft_strlen(str) > 1)
+	if (*str == '$' && ft_strlen(str) > 1)
 	{
 		str++;
 		if (*str == '\'' || *str == '\"')
