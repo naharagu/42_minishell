@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:38:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/16 10:43:50 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/17 11:31:36 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,6 @@ static char	*get_newstr_red(t_minishell *ms, t_redlist *red, char *str)
 
 	if (is_space(*str) || (*str == '$' && ft_strlen(str) == 1))
 		return (ft_strdup(str));
-	else if (*str == '$' && ft_strlen(str) > 1)
-		str++;
 	if ((*str == '\'' || *str == '\"') && ft_strnstr(str, "$", ft_strlen(str)))
 	{
 		trim = trim_quote(str, *str);
