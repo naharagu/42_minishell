@@ -78,6 +78,7 @@ commands=(
 '' #empty
 ' ' #space
 '	' #tab
+'echo a >'
 
 #yokitaga
 "a echo B=b"
@@ -85,6 +86,7 @@ commands=(
 #mocha
 'cat < in > /dev/stdout | cat < in'
 
+#$PATH
 'export PATH=$PWD:/bin:/usr/bin/:/usr/local/bin'
 'export | grep PATH'
 )
