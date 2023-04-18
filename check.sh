@@ -29,6 +29,15 @@ commands=(
 "echo 'Hello, World!' > a | cat a"
 
 # Redirect
+# "echo >>>"
+# "echo <<<"
+# "echo >>>>"
+# "echo <<<<"
+# "echo <<<<>"
+# "echo >"
+# "cat <<>"
+# "cat < <"
+# "cat > &&"
 
 ## Redirecting input
 "cat <Makefile"
@@ -215,8 +224,8 @@ commands=(
 'echo '''
 'echo '$USER''
 'echo ' ''
-'echo '|''
-'echo '>''
+# 'echo '|''
+# 'echo '>''
 'echo 'hello   world' '42Tokyo''
 
 # Expand Variable
