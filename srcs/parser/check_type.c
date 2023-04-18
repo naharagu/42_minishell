@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 18:24:24 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/12 15:54:19 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/18 09:06:26 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,12 @@ int	error_redirect(t_execlist *exec, char *cmdline)
 		syntax_error(">>", 1);
 	else if (ft_strnstr(cmdline, ">>>", ft_strlen(cmdline)))
 		syntax_error(">", 1);
+	else if (ft_strnstr(cmdline, "<<<<", ft_strlen(cmdline)))
+		syntax_error("<<", 1);
+	else if (ft_strnstr(cmdline, "<<<", ft_strlen(cmdline)))
+		syntax_error("<", 1);
 	else if (ft_strnstr(cmdline, "<<<<>", ft_strlen(cmdline)))
 		syntax_error("<>", 1);
-	else if (ft_strnstr(cmdline, "<<<<", ft_strlen(cmdline)))
-		syntax_error("<", 1);
 	else
 		return (EXIT_SUCCESS);
 	return (EXIT_FAILURE);
