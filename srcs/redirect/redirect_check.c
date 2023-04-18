@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 11:28:40 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/07 13:31:35 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/18 09:07:16 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	assign_redtype(t_redlist *red)
 {
 	if (red->str == NULL)
-		return (syntax_error("redirect", SYNTAX_ERROR));
+		return (syntax_error("newline", SYNTAX_ERROR));
 	if (ft_strnstr(red->str, ">>", ft_strlen(red->str)))
 	{
 		red->type = APPEND;
@@ -37,7 +37,7 @@ static int	assign_redtype(t_redlist *red)
 		red->fd_target = STDIN_FILENO;
 	}
 	else
-		return (syntax_error("redirect", SYNTAX_ERROR));
+		return (syntax_error("newline", SYNTAX_ERROR));
 	return (EXIT_SUCCESS);
 }
 
@@ -49,12 +49,12 @@ static int	validate_redirect(t_redlist *red)
 	while (tmp_red)
 	{
 		if (tmp_red->next == NULL)
-			return (syntax_error("redirect", SYNTAX_ERROR));
+			return (syntax_error("newline", SYNTAX_ERROR));
 		if (assign_redtype(tmp_red) == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		tmp_red = tmp_red->next;
 		if (tmp_red->str == NULL)
-			return (syntax_error("redirect", SYNTAX_ERROR));
+			return (syntax_error("newline", SYNTAX_ERROR));
 		tmp_red = tmp_red->next;
 	}
 	return (EXIT_SUCCESS);
