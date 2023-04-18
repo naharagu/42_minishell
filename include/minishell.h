@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
+/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/18 22:07:06 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/18 21:39:06 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,6 +270,7 @@ int			ft_unset(t_minishell *ms, size_t argc, char **argv);
 int			ft_env(t_minishell *ms, size_t argc);
 int			ft_exit(int argc, char **argv);
 void		put_error_nonvalid_env(char *cmd, char *key);
+void		print_env(char *key, char *value, bool is_export);
 
 //path.c
 char		*get_and_validate_path(char *path, t_minishell *ms, \

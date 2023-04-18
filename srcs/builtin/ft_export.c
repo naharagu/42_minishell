@@ -6,7 +6,7 @@
 /*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:40:44 by naharagu          #+#    #+#             */
-/*   Updated: 2023/04/07 14:22:34 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/18 21:39:59 by naharagu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	print_all_env(t_minishell *ms)
 		if (!tmp_env->key || !tmp_env->value)
 			;
 		else
-			printf("declare -x %s=\"%s\"\n", tmp_env->key, tmp_env->value);
+			print_env(tmp_env->key, tmp_env->value, true);
 		tmp_env = tmp_env->next;
 	}
 	return ;
