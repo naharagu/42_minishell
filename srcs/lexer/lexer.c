@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 09:59:13 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/11 10:07:07 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/18 18:21:43 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ static int	count_metachara(t_minishell *ms, char *start, char *tmp)
 		chara = *tmp;
 		tmp++;
 		count++;
-		while (*tmp == chara)
+		while (*tmp == chara \
+		|| (*tmp == '<' && chara == '>') || (*tmp == '>' && chara == '<'))
 		{
 			tmp++;
 			count++;

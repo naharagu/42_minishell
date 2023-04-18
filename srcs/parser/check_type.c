@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_type.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 18:24:24 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/18 09:15:18 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/19 00:00:11 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ void	check_redtype(t_minishell *ms, char *str)
 {
 	if (*str != '\'' && *str != '\"')
 	{
-		if (ft_strnstr(str, ">>", ft_strlen(str)))
+		if (!(ft_strncmp(">>", str, ft_strlen(str))))
 			ms->exec->redtype = APPEND;
-		else if (ft_strnstr(str, ">", ft_strlen(str)) \
+		else if (!(ft_strncmp(">", str, ft_strlen(str))) \
 			&& ms->exec->redtype != APPEND)
 			ms->exec->redtype = OUTPUT;
-		else if (ft_strnstr(str, "<<", ft_strlen(str)))
+		else if (!(ft_strncmp("<<", str, ft_strlen(str))))
 			ms->exec->redtype = HERE_DOC;
-		else if (ft_strnstr(str, "<", ft_strlen(str)) \
+		else if (!(ft_strncmp("<", str, ft_strlen(str))) \
 			&& ms->exec->redtype != HERE_DOC)
 			ms->exec->redtype = INPUT;
 	}
@@ -61,6 +61,12 @@ int	error_redirect(t_execlist *exec, char *cmdline)
 		syntax_error(">>", 1);
 	else if (ft_strnstr(cmdline, ">>>", ft_strlen(cmdline)))
 		syntax_error(">", 1);
+	else if (ft_strnstr(cmdline, "<<<<>", ft_strlen(cmdline)))
+		syntax_error("<>", 1);
+	else if (ft_strnstr(cmdline, "<>", ft_strlen(cmdline)))
+		syntax_error(">", 1);
+	else if (ft_strnstr(cmdline, "><", ft_strlen(cmdline)))
+		syntax_error("<", 1);
 	else if (ft_strnstr(cmdline, "<<<<", ft_strlen(cmdline)))
 		syntax_error("<<", 1);
 	else if (ft_strnstr(cmdline, "<<<", ft_strlen(cmdline)))

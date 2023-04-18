@@ -6,14 +6,14 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/18 10:39:45 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/18 23:50:03 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static int	check_execlist(t_minishell *ms);
-static void	copy_cmd_red_list(t_minishell *ms, t_execlist *exec);
+static int	copy_cmd_red_list(t_minishell *ms, t_execlist *exec);
 
 int	parser(t_minishell *ms)
 {
@@ -64,32 +64,39 @@ static int	check_execlist(t_minishell *ms)
 			}
 			i++;
 		}
-		copy_cmd_red_list(ms, ms->exec);
+		if (copy_cmd_red_list(ms, ms->exec) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 		ms->exec = ms->exec->next;
 	}
 	ms->exec = startexec;
 	return (EXIT_SUCCESS);
 }
 
-static void	copy_cmd_red_list(t_minishell *ms, t_execlist *exec)
+static int	copy_cmd_red_list(t_minishell *ms, t_execlist *exec)
 {
 	size_t	i;
 
 	i = 0;
 	while (exec->cmdline[i])
 	{
-		if (ft_strnstr(exec->cmdline[i], ">", ft_strlen(exec->cmdline[i])) \
-			|| ft_strnstr(exec->cmdline[i], "<", ft_strlen(exec->cmdline[i])))
+		if (*exec->cmdline[i] != '\'' && *exec->cmdline[i] != '\"' && \
+			(ft_strnstr(exec->cmdline[i], ">", ft_strlen(exec->cmdline[i])) \
+			|| ft_strnstr(exec->cmdline[i], "<", ft_strlen(exec->cmdline[i]))))
 		{
 			add_redlist(ms, exec->cmdline[i]);
 			i++;
 			if (exec->cmdline[i])
+			{
 				add_redlist(ms, exec->cmdline[i]);
+				if (is_metachara(exec->cmdline[i][0]))
+					return (syntax_error(exec->cmdline[i], 258));
+			}
 			else
-				break ;
+				return (syntax_error("newline", 258));
 		}
 		else
 			add_cmdlist(ms, exec->cmdline[i]);
 		i++;
 	}
+	return (EXIT_SUCCESS);
 }
