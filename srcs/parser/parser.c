@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 10:01:50 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/12 15:52:59 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/18 10:39:45 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,8 @@ static void	copy_cmd_red_list(t_minishell *ms, t_execlist *exec)
 	i = 0;
 	while (exec->cmdline[i])
 	{
-		if (ft_strcmp(exec->cmdline[i], ">>") == 0 || \
-			ft_strcmp(exec->cmdline[i], ">") == 0 || \
-			ft_strcmp(exec->cmdline[i], "<") == 0 || \
-			ft_strcmp(exec->cmdline[i], "<<") == 0)
+		if (ft_strnstr(exec->cmdline[i], ">", ft_strlen(exec->cmdline[i])) \
+			|| ft_strnstr(exec->cmdline[i], "<", ft_strlen(exec->cmdline[i])))
 		{
 			add_redlist(ms, exec->cmdline[i]);
 			i++;

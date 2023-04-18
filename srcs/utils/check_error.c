@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 16:32:54 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/14 10:17:40 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/18 10:54:42 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	error_parser_execlist(t_minishell *ms, t_execlist *exec)
 			syntax_error("<>", 1);
 		else if (ft_strnstr(tmp_red->str, "<<<<", ft_strlen(tmp_red->str)))
 			syntax_error("<", 1);
-		if (ft_strnstr(tmp_red->str, ">", ft_strlen(tmp_red->str)) \
+		if ((ft_strnstr(tmp_red->str, ">", ft_strlen(tmp_red->str)) \
+			|| ft_strnstr(tmp_red->str, "<", ft_strlen(tmp_red->str))) \
 			&& !(tmp_red->next))
 			return (syntax_error("newline", 258));
 		tmp_red = tmp_red->next;
