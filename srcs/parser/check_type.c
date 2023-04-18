@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 18:24:24 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/18 17:33:10 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/18 18:23:58 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,16 @@ void	check_redtype(t_minishell *ms, char *str)
 
 int	error_redirect(t_execlist *exec, char *cmdline)
 {
-	if (exec->redtype == NO_REDIRECT)
-		return (EXIT_SUCCESS);
 	if (ft_strnstr(cmdline, ">>>>", ft_strlen(cmdline)))
 		syntax_error(">>", 1);
 	else if (ft_strnstr(cmdline, ">>>", ft_strlen(cmdline)))
 		syntax_error(">", 1);
 	else if (ft_strnstr(cmdline, "<<<<>", ft_strlen(cmdline)))
 		syntax_error("<>", 1);
+	else if (ft_strnstr(cmdline, "<>", ft_strlen(cmdline)))
+		syntax_error(">", 1);
+	else if (ft_strnstr(cmdline, "><", ft_strlen(cmdline)))
+		syntax_error("<", 1);
 	else if (ft_strnstr(cmdline, "<<<<", ft_strlen(cmdline)))
 		syntax_error("<", 1);
 	else
