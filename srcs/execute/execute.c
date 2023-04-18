@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naharagu <naharagu@student.42tokyo.jp>     +#+  +:+       +#+        */
+/*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 17:53:43 by naharagu          #+#    #+#             */
-/*   Updated: 2023/04/16 09:17:23 by naharagu         ###   ########.fr       */
+/*   Updated: 2023/04/18 12:46:55 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	execute(t_minishell *ms)
 	int		status;
 	pid_t	last_pid;
 
-	
 	if (ms->exec->cmd == NULL)
 		return (1);
 	if (ms->exec->cmdtype != NO_CMD && ms->exec->next == NULL)

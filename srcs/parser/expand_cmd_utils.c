@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/18 11:11:28 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/18 12:47:42 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ static char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 
 static char	*get_newstr_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 {
-
 	if (*str == '$' && ft_strlen(str) > 1)
 	{
 		str++;

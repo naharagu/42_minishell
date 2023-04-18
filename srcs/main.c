@@ -6,13 +6,12 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/18 10:52:53 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/18 12:48:00 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_status;
 static void	minishell(t_minishell *ms);
 static void	prompt_helper(t_minishell *ms);
 
@@ -20,7 +19,6 @@ int	main(void)
 {
 	t_minishell	ms;
 
-	rl_outstream = stderr;//delete later
 	rl_outstream = stderr;//delete later
 	init_ms(&ms);
 	minishell(&ms);
