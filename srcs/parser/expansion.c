@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:16:37 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/18 10:52:00 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/18 17:41:12 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	expansion(t_minishell *ms)
 		tmp_red = tmp_exec->red;
 		while (tmp_red)
 		{
-			if (!(ft_strncmp("<<", tmp_red->str, 2)) && tmp_red->next)
-				tmp_red = tmp_red->next;
-			else if (expand_red(ms, tmp_red, tmp_red->str) == EXIT_FAILURE)
+			if (!(ft_strncmp("<<", tmp_red->str, ft_strlen(tmp_red->str))))
+				break ;
+			if (expand_red(ms, tmp_red, tmp_red->str) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
 			tmp_red = tmp_red->next;
 		}
