@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:36:16 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/17 16:08:22 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/18 11:11:28 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	expand_cmd( t_minishell *ms, t_cmdlist *cmd, char *str)
 		while (*str && *str != '$' && *str != '\'' && *str != '\"')
 			str++;
 		tmp = ft_substr(start, 0, str - start);
-		// printf("1tmp= %s\n", tmp);//")
 		new = assign_value_cmd (ms, cmd, tmp);
 		free (tmp);
 		old = get_old(&new, &old);
@@ -87,9 +86,7 @@ static char	*expand_env_cmd(t_minishell *ms, t_cmdlist *cmd, char *str)
 		start = str;
 		str += split_str(str);
 		tmp = ft_substr(start, 0, str - start);
-		// printf("2tmp= %s\n", tmp);//")
 		new = get_newstr_cmd(ms, cmd, tmp);
-		// printf("new= %s\n", new);//")
 		free(tmp);
 		old = get_old(&new, &old);
 	}
