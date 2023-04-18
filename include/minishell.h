@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:54:12 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/17 15:21:48 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/18 22:07:06 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,6 @@ int			env_lstsize(t_envlist *lst);
 //check_error.c
 int			error_lexer(t_minishell *ms);
 int			errror_parser_mslist(t_minishell *ms);
-int			error_parser_execlist(t_minishell *ms, t_execlist *exec);
 int			error_expandedred(t_redlist *red, char *original);
 
 //print_error.c

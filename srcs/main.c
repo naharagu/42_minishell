@@ -6,7 +6,7 @@
 /*   By: shimakaori <shimakaori@student.42tokyo.jp> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 16:53:39 by shimakaori        #+#    #+#             */
-/*   Updated: 2023/04/18 17:16:42 by shimakaori       ###   ########.fr       */
+/*   Updated: 2023/04/18 22:04:15 by shimakaori       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,11 @@ static void	prompt_helper(t_minishell *ms)
 	if (parser(ms) == EXIT_FAILURE)
 		return ;
 	// printf("after lexer\n");
-	print_execlist(ms);//delete later
+	// print_execlist(ms);//delete later
 	if (expansion(ms) == EXIT_FAILURE)
 		return ;
 	// printf("after expansion\n");
-	print_execlist(ms);//delete later
+	// print_execlist(ms);//delete later
 	if (prepare_redirect(ms) == EXIT_FAILURE)
 		return ;
 	// printf("after redirect\n");
